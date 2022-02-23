@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 public class WorkspaceJoinVO {
 	private String id;
-	private String workspace_id;
+	private int workspace_id;
 	private String permissions;
 }

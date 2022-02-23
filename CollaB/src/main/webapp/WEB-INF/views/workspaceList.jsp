@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,7 +55,7 @@
     #createboardBtn,#createWK{
       width: 100%;
     }
-    .dropdown-item{
+    .dropdown-item, .workspace, .board{
       cursor: pointer;
     }
     .modal_close_btn:hover{
@@ -196,6 +197,7 @@
         </li>
       </ul>
     </nav>
+    
     <!-- Main Content -->
     <div class="main-content" >
       <!-- 보드바디 -->
@@ -221,39 +223,205 @@
                     <h4>Your workspaces</h4>
                   </div>
                   <!--여기서부터-->
-                  <div class="ml-5 mr-5 mt-5 mb-5" style="position: relative;">
+                  <c:forEach items="${workspaces}" var="workspace">
+                  	<div class="ml-5 mr-5 mt-5 mb-5 workspace" style="position: relative;">
                     <div class="row ml-5 mr-5">
                       <div class="card col-lg-5 " >
                         <div class="row col-rg mr-2 mt-1 d-flex justify-content-between" 
                              style="text-align: right; display: table-cell;">
-                          <span class="ml-4" style="font-weight: bold;">WORKSPACE NAME</span>
+                          <span class="ml-4" style="font-weight: bold;">${workspace.workspace_title}</span>
                         </div>
                         <div class="row card-header">
                         </div>
                       </div>
                       <!-- 버튼클릭시 해당 워크스페이스의 보드목록 출력, 클래스명 up에서 down으로 변경-->
-                      <button class="btn mt-5 ml-2 mb-1">Boards&nbsp;&nbsp;<i class="fa fa-chevron-up"></i></button>
+                      <button class="btn mt-5 ml-2 mb-1" onclick="showBoards">Boards&nbsp;&nbsp;<i class="fa fa-chevron-up"></i></button>
                     </div>
                     <!-- 버튼클릭시 해당 워크스페이스의 보드목록 출력됨 -->
                     <div class="boardList" style="visibilty:hidden;">
                       <div class="ml-5 mr-5" style="position: relative; background-color: rgb(251, 251, 255);">
                         <div class="row mr-5 ml-5">
-                          <!--여기서부터-->
-                          <div class="col-12 col-md-6 col-lg-3 mt-4">
-                            <div class="card board" >
-                              <div class="row col-rg mr-2 mt-1 d-flex justify-content-between" 
-                                   style="text-align: right; display: table-cell;">
-                                <span class="ml-4" style="font-weight: bold;">BOARD NAME</span>
-                              </div>
-                              <div class="row card-header">
-                              </div>
-                            </div>
-                          </div>
-                          <!--여기까지가 하나의 보드-->
-                        </div>
+              			<!--여기서부터-->
+						<c:forEach items="${boards}" var="board">
+							<!-- 해당워크스페이스의 보드인지 확인 -->
+							<c:if test="${workspace.workspace_id eq board.workspace_id}">
+								<!-- 보드색깔지정 : 색깔없음 -->
+								<c:if test="${board.board_thema == ''}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="background-color:rgb(245,245,245);">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												 color:rgb(245,245,245);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : red -->
+								<c:if test="${board.board_thema == 'red'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="background-color:rgb(247, 123, 123);">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												 color:white;">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : orange -->
+								<c:if test="${board.board_thema == 'orange'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="background-color:rgb(252, 187, 127);">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:white;">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : yellow -->
+								<c:if test="${board.board_thema == 'yellow'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="background-color:rgb(255, 245, 157);">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:rgb(247, 123, 123);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : green -->
+								<c:if test="${board.board_thema == 'green'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="background-color:rgb(86, 161, 111);">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:white;">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : skyblue -->
+								<c:if test="${board.board_thema == 'skyblue'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="background-color:rgb(123, 243, 247);">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:white;">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : blue -->
+								<c:if test="${board.board_thema == 'blue'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="background-color:rgb(121, 162, 250);">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:rgb(123, 243, 247);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : darkblue -->
+								<c:if test="${board.board_thema == 'darkblue'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="background-color:rgb(123, 125, 247);">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:rgb(255, 245, 157);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : purple -->
+								<c:if test="${board.board_thema == 'purple'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="background-color:rgb(171, 127, 252);">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:rgb(250, 167, 243);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : pink -->
+								<c:if test="${board.board_thema == 'pink'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="background-color:rgb(250, 167, 243);">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:rgb(171, 127, 252);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : gray -->
+								<c:if test="${board.board_thema == 'gray'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="background-color:rgb(184, 184, 184);">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:rgb(247, 123, 123);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : darkgray -->
+								<c:if test="${board.board_thema == 'darkgray'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="background-color:rgb(116, 115, 115);">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:rgb(252, 187, 127);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : black -->
+								<c:if test="${board.board_thema == 'black'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="background-color:rgb(12, 12, 12);">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:white;">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+							</c:if>
+						</c:forEach>
+						<!--여기까지가 하나의 보드-->
+					</div>
                       </div>
                     </div>
                   </div>
+                  </c:forEach>
                   <!--여기까지 하나의 워크스페이스-->
                 </div>
               </div>

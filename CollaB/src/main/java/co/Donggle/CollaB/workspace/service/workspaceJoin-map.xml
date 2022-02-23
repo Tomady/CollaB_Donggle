@@ -3,13 +3,25 @@
 <mapper namespace="co.Donggle.CollaB.workspace.service.WorkspaceJoinMapper">
 	
 	<select id="workspaceJoinList"
-	resultType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO"
+	resultType="co.Donggle.CollaB.workspace.service.WorkspaceVO"
 	parameterType="string">
-		SELECT * FROM WORKSPACE_JOIN WHERE ID = #{userID}
+		SELECT DISTINCT A.* 
+		FROM WORKSPACE A JOIN WORKSPACE_JOIN B 
+		ON (A.ID = B.ID) 
+		WHERE B.ID = #{userID}
 	</select>
 	
 	<select id="workspaceJoinCount"
 	resultType="int" parameterType="string">
 		SELECT COUNT(*) FROM WORKSPACE_JOIN WHERE ID = #{userID}
 	</select>
+	
+	<insert id="workspaceJoinInsert"
+	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO">
+		<selectKey keyProperty="workspace_id" resultType="int" order="BEFORE">
+			SELECT MAX(WORKSPACE_ID) FROM WORKSPACE
+		</selectKey>
+		INSERT INTO WORKSPACE_JOIN
+		VALUES(#{id}, #{workspace_id}, #{permissions})
+	</insert>
 </mapper>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinMapper;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinVO;
+import co.Donggle.CollaB.workspace.service.WorkspaceVO;
 
 @Repository("workspaceJoinDao")
 public class WorkspaceJoinServiceImpl implements WorkspaceJoinService {
@@ -15,7 +16,7 @@ public class WorkspaceJoinServiceImpl implements WorkspaceJoinService {
 	private WorkspaceJoinMapper map;
 	
 	@Override
-	public List<WorkspaceJoinVO> workspaceJoinList(String id) {
+	public List<WorkspaceVO> workspaceJoinList(String id) {
 		return map.workspaceJoinList(id);
 	}
 
