@@ -40,8 +40,4 @@ public class HomeController {
 	public String soyeon() {
 		return "soyeon/soyeon";
 	}
-	@RequestMapping("/eunji")
-	public String eunji() {
-		return "eunji/eunji";
-	}
 }

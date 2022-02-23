@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.Donggle.CollaB.workspace.service.WorkspaceMapper">
+	<insert id="workspaceInsert"
+	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceVO">
+		<selectKey keyProperty="workspace_id" order="BEFORE" resultType="int">
+			SELECT MAX(WORKSPACE_ID)+1 FROM WORKSPACE
+		</selectKey>
+		INSERT INTO WORKSPACE(WORKSPACE_ID, WORKSPACE_TITLE, ID, WORKSPACE_CREATE_DATE)
+		VALUES(#{workspace_id},#{workspace_title},#{id},sysdate)
+	</insert>
+</mapper>

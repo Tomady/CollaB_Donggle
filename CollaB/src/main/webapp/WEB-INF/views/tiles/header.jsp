@@ -10,10 +10,10 @@
     .mainheaderBackground{background-color: rgb(199, 174, 247);}
     /*3.페이지바디배경색*/
     body{background-color: rgb(204, 195, 226); overflow: scroll;}
-    #my_modal{
+    #create_board{
       display: none;
       width: 30%;
-      height: 80%;
+      height: 70%;
       padding: 20px 60px;
       background-color: #fefefe;
       border: 1px solid #888;
@@ -28,7 +28,7 @@
       border: 1px solid #888;
       border-radius: 4px;
     }
-    #my_modal .modal_close_btn {
+    #create_board .modal_close_btn {
         position: absolute;
         top: 10px;
         right: 10px;
@@ -104,7 +104,7 @@
         
         <ul class="navbar-nav navbar-right">
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+            <img alt="image" src="resources/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
             <div class="d-sm-none d-lg-inline-block">Hi, Circle</div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
@@ -145,7 +145,7 @@
       <!-- 워크스페이스생성 모달창 of end -->
 
       <!-- create board 모달창 -->
-      <div id="my_modal">
+      <div id="create_board">
         <div class="card" >
           <div id="modal-header" class="card-header">
             <h4>Create board</h4>
@@ -153,7 +153,7 @@
           <div class="card-body">
             <div class="row form-group mt-3">
               <label>Background</label>
-              <div id="bkcolor" class="row ml-4 mt-2 mb-2">
+              <div id="bkcolor" class="row ml-5 mt-2 mb-2">
                 <div class="d-flex">
                   <span id="red" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(247, 123, 123); margin-left: 5%;"></span>
                   <span id="orange" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(252, 187, 127); margin-left: 5%;"></span>

@@ -62,6 +62,24 @@ function createWK(){
     console.log("새로만들워크스페이스이름 : "+wkspaceName);
     //사용자가 만든 워크스페이스 이름으로 워크스페이스 생성 후,
     //해당 워크스페이스의 boards페이지로 이동하기
+	$.ajax({
+		url : "AjaxCreateWorkspace",
+		data : {
+			wkspaceName : wkspaceName
+		},
+		type : "POST",
+		dataType : "text",
+		success : function(data){
+			if(data == "YES"){
+				console.log("워크스페이스 생성 성공");
+			}else if(data == "NO"){
+				console.log("워크스페이스 생성 실패");
+			}
+		},
+		error : function(){
+			console.log("AjaxCreateWorkspace 아작스 실패");
+		}
+	})
 }
 
 //워크스페이스 모달 닫기버튼처리 ================================
@@ -84,7 +102,7 @@ function modal(id) {
     var modal = document.getElementById(id);
 
     //boardBackground color
-    modal.querySelector('#bkcolor').onclick=function(){
+    modal.querySelector("#bkcolor").onclick=function(){
         let background = document.querySelector("#modal-board-background");
         if(event.target.nodeName == "SPAN"){
             let color = String(event.target.id);
@@ -137,10 +155,10 @@ function createBoard(){
 //보드생성 모달 속 닫기 버튼 처리 ================================
 function closeModal(){
     document.querySelector("#modal-back").remove();
-    document.querySelector("#my_modal").style.display="none";
+    document.querySelector("#create_board").style.display="none";
 }
 
 //보드 만드는 모달 띄우기 ================================
 function create_boardModal(){
-    modal('my_modal');
+    modal('create_board');
 }
