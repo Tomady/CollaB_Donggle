@@ -1,4 +1,4 @@
-package co.Donggle.CollaB.card.service;
+package co.Donggle.CollaB.calendar.service;
 
 import java.sql.Date;
 
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CardVO {
+public class calendarVO {
 	
 	private int card_id;
 	private String card_title;

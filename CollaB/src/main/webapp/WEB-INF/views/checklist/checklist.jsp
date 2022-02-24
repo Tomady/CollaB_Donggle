@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -148,6 +149,8 @@
           <!-- 보드바디 -->
 
           <div id="boardDetailBODY" class="section-body">
+          <!-- 체크리스트 리스트 -->
+          <c:forEach items="${checklist }" var="checklist" varStatus="status">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -170,7 +173,9 @@
                         </div>    
                     </div>
                     <div>
+                    	<!-- 아이템 리스트 -->
                         <table class="table">
+                        	<c:forEach items="${itemlist }" var="iteminfo" varStatus="status">
                             <tr>
                                 <th>
                                     <div class="custom-checkbox custom-control">
@@ -179,60 +184,18 @@
                                     </div>
                                 </th>
                                 <td class="task-td">
-                                    <a id="tasklist">할 일 1</a>
+                                    <a id="tasklist"><c:out value="${itemlist.item_title }"></c:out></a>
                                     <div id="moditask">
                                       <input type="text" class="form-control mt-3" placeholder="내용을 입력해주세요" value="할 일 1">
                                       <div class="row m-1 mt-3">
-                                          <button class="btn btn-primary">Save</button>
+                                          <button class="btn btn-primary" onclick="">Save</button>
                                           <button class="btn btn-primary ml-2" id="closemodiitem">Close</button>
                                       </div>
                                     </div>
                                 </td>
                                 <td class="xtd"><a href="#" class="btn btn-icon icon-left"><i class="fas fa-times"></i></a></td>
                             </tr>
-                            <tr>
-                                <th>
-                                    <div class="custom-checkbox custom-control">
-                                        <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-2" name="chkList" onclick="getCheckCnt()">
-                                        <label for="checkbox-2" class="custom-control-label">&nbsp;</label>
-                                    </div>
-                                </th>
-                                <td class="task-td">
-                                  <a id="tasklist2">할 일 2</a>
-                                  <div id="moditask2">
-                                    <input type="text" class="form-control mt-3" placeholder="내용을 입력해주세요" value="할 일 2">
-                                    <div class="row m-1 mt-3">
-                                        <button class="btn btn-primary">Save</button>
-                                        <button class="btn btn-primary ml-2" id="closemodiitem2">Close</button>
-                                    </div>
-                                  </div>
-                              </td>
-                                <td class="xtd"><a href="#" class="btn btn-icon icon-left"><i class="fas fa-times"></i></a></td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <div class="custom-checkbox custom-control">
-                                        <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-3" name="chkList" onclick="getCheckCnt()"> 
-                                        <label for="checkbox-3" class="custom-control-label">&nbsp;</label>
-                                    </div>
-                                </th>
-                                <td class="task-td">
-                                  <a id="tasklist">할 일 3</a>
-                                </td>
-                                <td class="xtd"><a href="#" class="btn btn-icon icon-left"><i class="fas fa-times"></i></a></td>
-                            </tr>
-                            <tr>
-                              <th>
-                                  <div class="custom-checkbox custom-control">
-                                      <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-4" name="chkList" onclick="getCheckCnt()"> 
-                                      <label for="checkbox-4" class="custom-control-label">&nbsp;</label>
-                                  </div>
-                              </th>
-                              <td class="task-td">
-                                <a id="tasklist">할 일 4</a>
-                              </td>
-                              <td class="xtd"><a href="#" class="btn btn-icon icon-left"><i class="fas fa-times"></i></a></td>
-                          </tr>
+                            </c:forEach>
                         </table>
                     </div>
                     <button class="btn btn-primary" id="additem">Add an item</button>
@@ -245,6 +208,7 @@
                     </div>              
                 </div>
             </div>
+          </c:forEach>
           </div>
             
         </section>
@@ -301,7 +265,6 @@
       $(document).ready(function(){
           $('#additemdiv').hide();
           $('#moditask').hide();
-          $('#moditask2').hide();
       })
 
       $('#additem').click(function(){
@@ -324,17 +287,8 @@
         $('#tasklist').show();
       })
 
-      $('#tasklist2').click(function() {
-        $('#moditask2').show();
-        $('#tasklist2').hide();
-      })
 
-      $('#closemodiitem2').click(function(){
-        $('#moditask2').hide();
-        $('#tasklist2').show();
-      })
-
-      $(document).ready(function(){
+/*    $(document).ready(function(){
         $(".custom-control-input").change(function(){
             if($(".custom-control-input").is(":checked")){ // 체크
                $("#tasklist").css("text-decoration", "line-through");
@@ -342,7 +296,7 @@
                $("#tasklist").css("text-decoration", "none")
             }
           });
-      });
+      }); */
 
       // 달성률 계산하기
       function getCheckCnt(){

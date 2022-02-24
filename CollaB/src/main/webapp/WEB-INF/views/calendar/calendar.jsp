@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
-<%@page import="co.Donggle.CollaB.card.service.CardVO"%>
+<%@page import="co.Donggle.CollaB.calendar.service.calendarVO"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -227,7 +227,7 @@
 			initialView : 'dayGridMonth',
 			nowIndicator: true,
 			headerToolbar : {
-	        	left: 'prev, next today',
+	        	left: 'prev,next today',
 	            center : 'title',
 	            end : 'dayGridMonth,dayGridWeek,dayGridDay'
 	            },
@@ -235,11 +235,17 @@
 	        editable: true,
 	        selectable: true,
 	        selectMirror: true,
+	        eventResize : function(info){
+	        	updateDate(info);
+	        },
+	        eventDrop: function(info){
+	        	updateDate(info);	
+	        },
 	        dayMaxEvents: true, // allow "more" link when too many events
 			events : [ 
-	    	    <%List<CardVO> calendarList = (List<CardVO>) request.getAttribute("calendarList");%>
+	    	    <%List<calendarVO> calendarList = (List<calendarVO>) request.getAttribute("calendarList");%>
 	            <%if (calendarList != null) {%>
-	            <%for (CardVO vo : calendarList) {%>
+	            <%for (calendarVO vo : calendarList) {%>
 	            {
 	            	title : '<%=vo.getCard_title()%>',
 	                start : '<%=vo.getCard_start_date()%>',
@@ -254,6 +260,30 @@
 			});
 
 
+      // 날짜 변경
+      function updateDate(info) {
+    	  
+    	  var data = {
+    			  card_start_date: info.event.start,
+    			  card_end_date: info.event.end
+    	  }
+    	  console.log(data);
+    	  
+    	  $.ajax({
+    		  url : '/CollaB/dateUpdate.do',
+    		  headers: {'Content-Type': 'application/json'},
+    		  type : 'POST',
+    		  data : JSON.stringify(data),
+    		  dataType : 'text',
+    		  success : function(data) {
+    			  console.log(data);
+    			  alert("일정변경을 성공했습니다.");
+    		  },
+    		  error : function(request, status, error) {
+    			  alert("code : " + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
+    		  }
+    	  });
+      }
       
       
 	  // 모달
