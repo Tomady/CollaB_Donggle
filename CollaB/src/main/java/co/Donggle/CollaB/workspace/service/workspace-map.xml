@@ -10,4 +10,11 @@
 		INSERT INTO WORKSPACE(WORKSPACE_ID, WORKSPACE_TITLE, ID, WORKSPACE_CREATE_DATE)
 		VALUES(#{workspace_id},#{workspace_title},#{id},sysdate)
 	</insert>
+	
+	<update id="workspaceRename"
+	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceVO">
+		UPDATE WORKSPACE 
+		SET WORKSPACE_TITLE = #{workspace_title} 
+		WHERE  WORKSPACE_ID = #{workspace_id}
+	</update>
 </mapper>

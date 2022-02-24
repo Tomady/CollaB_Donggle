@@ -18,4 +18,24 @@ public class BoardServiceImpl implements BoardService {
 		return map.boardList(id);
 	}
 
+	@Override
+	public List<BoardVO> boardsList(BoardVO vo) {
+		return map.boardsList(vo);
+	}
+
+	@Override
+	public int boardRename(BoardVO vo) {
+		return map.boardRename(vo);
+	}
+
+	@Override
+	public int boardJoinDelete(BoardVO vo) {
+		return map.boardJoinDelete(vo);
+	}
+
+	@Override
+	public BoardVO selectBoardStar(BoardVO vo) {
+		return map.selectBoardStar(vo);
+	}
+
 }

@@ -44,6 +44,7 @@ public class WorkspaceController {
 		
 		return returnPage;
 	}
+	
 	//워크스페이스 생성 모달-create버튼 클릭-워크스페이스 만들기
 	@ResponseBody
 	@RequestMapping("/AjaxCreateWorkspace")
@@ -72,6 +73,26 @@ public class WorkspaceController {
 			}
 		}else if (n == 0) {
 			result = "NO";			
+		}
+		
+		return result;
+	}
+	
+	//워크스페이스 이름 변경
+	@ResponseBody
+	@RequestMapping("/AjaxWorkspaceRename")
+	public String AjaxWorkspaceRename(@RequestParam("newWSName") String newWSName,
+									  @RequestParam("wkid") int wkid,
+									  Model model) {
+		String result = "";
+		WorkspaceVO vo = new WorkspaceVO();
+		vo.setWorkspace_title(newWSName);
+		vo.setWorkspace_id(wkid);
+		int n = workspaceDao.workspaceRename(vo);
+		if(n > 0) {
+			result = "YES";
+		}else if(n == 0) {
+			result = "NO";
 		}
 		
 		return result;

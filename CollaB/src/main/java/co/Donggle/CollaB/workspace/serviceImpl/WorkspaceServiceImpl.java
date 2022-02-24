@@ -17,4 +17,9 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 		return map.workspaceInsert(vo);
 	}
 
+	@Override
+	public int workspaceRename(WorkspaceVO vo) {
+		return map.workspaceRename(vo);
+	}
+
 }

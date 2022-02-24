@@ -3,6 +3,7 @@ document.getElementById("WsName").onclick=function(){ workspaceRename() };
 
 function workspaceRename(){
     let appendTarget = event.target.parentElement;
+	let wkid = event.target.getAttribute("data-wkid");
     event.target.remove();
     // let target = event.target;
     // target.innerHTML="";
@@ -24,17 +25,33 @@ function workspaceRename(){
                 WsRename.setAttribute("placeholder","Please name it.");
                 WsRename.focus();
             }else{
-                document.querySelector("#WsRename").remove();
-                let newName = document.createElement("h3");
-                newName.setAttribute("class","mt-4");
-                newName.setAttribute("id","WsName");
-                newName.onclick=function(){
-                    workspaceRename();
-                }
-                newName.innerHTML=newWSName;
-                document.querySelector(".workspaceNAME").append(newName);
-                //target.innerHTML=newWSName;
-                // ajax로 워크스페이스 이름변경해주기
+				$.ajax({
+					url : "AjaxWorkspaceRename",
+					data : {
+						newWSName : newWSName,
+						wkid : wkid
+					},
+					type : "POST",
+					dataType : "text",
+					success : function(data){
+						console.log("이름변경성공?"+data);
+						document.querySelector("#WsRename").remove();
+						changeWKIMG(newWSName);
+		                let newName = document.createElement("h3");
+		                newName.setAttribute("class","mt-4");
+		                newName.setAttribute("id","WsName");
+		                newName.onclick=function(){
+		                    workspaceRename();
+		                }
+		                newName.innerHTML=newWSName;
+		                document.querySelector(".workspaceNAME").append(newName);
+					},
+					error: function(){
+						console.log("AjaxWorkspaceRename 아작스 실패");
+					}
+				})
+                
+				
             }
         }
     });
@@ -42,11 +59,98 @@ function workspaceRename(){
     document.getElementById("WsRename").focus();
 }
 
+function changeWKIMG(newWKname){
+	let name = newWKname.substring(0, 1);
+	let img = document.querySelector(".wkimg");
+	if(name == 'a' || name == 'A'){
+		img.setAttribute("src","resources/img/a.jpg")
+	}else if(name == 'b' || name == 'B'){
+		img.setAttribute("src","resources/img/b.jpg")
+	}else if(name == 'c' || name == 'C'){
+		img.setAttribute("src","resources/img/c.jpg")
+	}else if(name == 'd' || name == 'D'){
+		img.setAttribute("src","resources/img/d.jpg")
+	}else if(name == 'e' || name == 'E'){
+		img.setAttribute("src","resources/img/e.jpg")
+	}else if(name == 'f' || name == 'F'){
+		img.setAttribute("src","resources/img/f.jpg")
+	}else if(name == 'g' || name == 'G'){
+		img.setAttribute("src","resources/img/g.jpg")
+	}else if(name == 'h' || name == 'H'){
+		img.setAttribute("src","resources/img/h.jpg")
+	}else if(name == 'i' || name == 'I'){
+		img.setAttribute("src","resources/img/i.jpg")
+	}else if(name == 'j' || name == 'J'){
+		img.setAttribute("src","resources/img/j.jpg")
+	}else if(name == 'k' || name == 'K'){
+		img.setAttribute("src","resources/img/k.jpg")
+	}else if(name == 'l' || name == 'L'){
+		img.setAttribute("src","resources/img/l.jpg")
+	}else if(name == 'm' || name == 'M'){
+		img.setAttribute("src","resources/img/m.jpg")
+	}else if(name == 'n' || name == 'N'){
+		img.setAttribute("src","resources/img/n.jpg")
+	}else if(name == 'o' || name == 'O'){
+		img.setAttribute("src","resources/img/o.jpg")
+	}else if(name == 'p' || name == 'P'){
+		img.setAttribute("src","resources/img/p.jpg")
+	}else if(name == 'q' || name == 'Q'){
+		img.setAttribute("src","resources/img/q.jpg")
+	}else if(name == 'r' || name == 'R'){
+		img.setAttribute("src","resources/img/r.jpg")
+	}else if(name == 's' || name == 'S'){
+		img.setAttribute("src","resources/img/s.jpg")
+	}else if(name == 't' || name == 'T'){
+		img.setAttribute("src","resources/img/t.jpg")
+	}else if(name == 'u' || name == 'U'){
+		img.setAttribute("src","resources/img/u.jpg")
+	}else if(name == 'v' || name == 'V'){
+		img.setAttribute("src","resources/img/v.jpg")
+	}else if(name == 'w' || name == 'W'){
+		img.setAttribute("src","resources/img/w.jpg")
+	}else if(name == 'x' || name == 'X'){
+		img.setAttribute("src","resources/img/x.jpg")
+	}else if(name == 'y' || name == 'Y'){
+		img.setAttribute("src","resources/img/y.jpg")
+	}else if(name == 'z' || name == 'Z'){
+		img.setAttribute("src","resources/img/z.jpg")
+	}else if(name == '0'){
+		img.setAttribute("src","resources/img/0.jpg")
+	}else if(name == '1'){
+		img.setAttribute("src","resources/img/1.jpg")
+	}else if(name == '2'){
+		img.setAttribute("src","resources/img/2.jpg")
+	}else if(name == '3'){
+		img.setAttribute("src","resources/img/3.jpg")
+	}else if(name == '4'){
+		img.setAttribute("src","resources/img/4.jpg")
+	}else if(name == '5'){
+		img.setAttribute("src","resources/img/5.jpg")
+	}else if(name == '6'){
+		img.setAttribute("src","resources/img/6.jpg")
+	}else if(name == '7'){
+		img.setAttribute("src","resources/img/7.jpg")
+	}else if(name == '8'){
+		img.setAttribute("src","resources/img/8.jpg")
+	}else if(name == '9'){
+		img.setAttribute("src","resources/img/9.jpg")
+	}
+}
+
 //==============================보드검색기능=======================
 function searchBoard(){
-    let board = searchBOARDNAME.value; //사용자 입력값
-    //해당 워크스페이스에 입력값과 동일한 문자열 가진 보드 조회,
-    //리스트 뿌려주기. LIKE문 써서 가져오면 될듯.
+    let searchVal = searchBOARDNAME.value; //사용자 입력값
+	searchBOARDNAME.value="";
+	
+	const boards = document.querySelectorAll(".boardDIV");
+	boards.forEach((board) => {
+		board.style.display = "block";
+	})
+	boards.forEach((board) => {
+		if(board.getAttribute("data-name") != searchVal){
+			board.style.display = "none";
+		}
+	})
 }
 
 //=======================================================보드생성 질문&답변=======================================================
@@ -90,10 +194,31 @@ function boardRename(){
 }
 
 //=======================================================보드 삭제=======================================================
-function boardDelete(){
+function boardDelete(boardID,workID){
     let target = event.target.parentElement.parentElement.parentElement;
-    target.remove();
-    //ajax로 db에 해당보드삭제해주기
+	let answer = confirm("선택한 보드를 탈퇴하시겠습니까?");
+	if(answer){
+		$.ajax({
+			url : "AjaxBoardJoinDelete",
+			data : {
+				workID : workID,
+				boardID : boardID
+			},
+			type : "POST",
+			dataType : "text",
+			success : function(data){
+				if(data == "YES"){
+					console.log("보드가입 탈퇴 성공?"+data);
+					target.remove();
+				}else if(data == "NO"){
+					console.log("보드가입 탈퇴 성공?"+data);
+				}
+			},
+			error : function(){
+				console.log("AjaxBoardJoinDelete 실패");
+			}
+		})
+	}
 }
 
 //=======================================================보드생성모달창 속 create 버튼 처리=======================================================

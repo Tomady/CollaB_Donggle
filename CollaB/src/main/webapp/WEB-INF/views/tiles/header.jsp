@@ -9,7 +9,7 @@
     /*2.메인헤더배경색*/
     .mainheaderBackground{background-color: rgb(199, 174, 247);}
     /*3.페이지바디배경색*/
-    body{background-color: rgb(204, 195, 226); overflow: scroll;}
+    .pagebodybackground{background-color: rgb(204, 195, 226); overflow: scroll;}
     #create_board{
       display: none;
       width: 30%;
@@ -57,7 +57,7 @@
     }    
   </style>
 </head>
-<body>
+<body class="pagebodybackground">
 	<div id="app">
     <div class="main-wrapper">
       <div class="navbar-bg mainheaderBackground"></div>
