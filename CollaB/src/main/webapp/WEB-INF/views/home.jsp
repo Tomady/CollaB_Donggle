@@ -5,8 +5,7 @@
 <title>Home</title>
 </head>
 <body>
-	<p>${uInfo.id }</p>
-	<h1>Hello world!</h1>
-	<P>The time on the server is ${serverTime}.</P>
+	INDEX
+	<button onclick="location.href='WorkspaceList'">eunji</button>
 </body>
 </html>
