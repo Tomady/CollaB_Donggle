@@ -1,4 +1,4 @@
-//=======================================================워크스페이스 이름변경=======================================================
+//워크스페이스 이름변경
 document.getElementById("WsName").onclick=function(){
     let target = event.target;
     target.innerHTML="";
@@ -29,7 +29,7 @@ document.getElementById("WsName").onclick=function(){
     document.getElementById("WsRename").focus();
 }
 
-//=======================================================보드 이름변경=======================================================
+//보드 이름변경
 document.getElementById("BorName").onclick=function(){
     let target = event.target;
     target.innerHTML="";
@@ -65,7 +65,7 @@ function enterkey(){
    
 }
 
-//=======================================================즐겨찾기 버튼 클릭 했을 때=======================================================
+//즐겨찾기 버튼 클릭 했을 때
 document.getElementById("addstar").onclick=function(){
     // 1. <button> 클릭시
     if(event.target.nodeName == "BUTTON"){ 
@@ -104,18 +104,30 @@ function removeStar(){
 
 }
 
-//=======================================================보드테마변경 함수=======================================================
-//디비에 저장되어 있는 값으로 보드 그려줄때
-window.onload = function(){
-    //모델에다 싣고 온 값 중, 보드색상 컬럼값 조회
-    //boardColorFnc(data.board_color);
-    //이런식으로 함수 실행해주기
-}
-
 //사용자가 테마색상 선택 시, 선택한 값으로 보드테마 변경
 function changeBoardColor(color){
-    //여기서 아작스로 디비값 먼저 바꿔주고 아작스 성공하면 boardColorFnc()함수 실행해주기
-    boardColorFnc(color)
+let boardId = document.querySelector("#BorName").getAttribute("data-boardid");
+    $.ajax({
+    	url : "AjaxChangeBoardThema",
+    	type : "POST",
+    	data : {
+    		thema : color,
+    		boardId : boardId
+    	},
+    	dataType : "text",
+    	success : function(data){
+    		if(data == "YES"){
+    			console.log("보드테마변경성공?"+data);
+    			boardColorFnc(color);
+    		}else if(data == "NO"){
+    			console.log("보드테마변경성공?"+data);
+    		}
+    	},
+    	error : function(){
+    		console.log("board-header.js에 AjaxChangeBoardThema 실패");
+    	}
+    })
+    
 }
 
 function boardColorFnc(color){
@@ -245,7 +257,7 @@ function boardColorFnc(color){
     }
 }
 
-//=======================================================보드 멤버추가=======================================================
+//보드 멤버추가
 function showInvite(){
     document.querySelector(".showInvite").style.display="block";
 }

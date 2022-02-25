@@ -1,6 +1,5 @@
-//=======================================================워크스페이스 이름 변경=======================================================
+//워크스페이스 이름 변경
 document.getElementById("WsName").onclick=function(){ workspaceRename() };
-
 function workspaceRename(){
     let appendTarget = event.target.parentElement;
 	let wkid = event.target.getAttribute("data-wkid");
@@ -45,6 +44,7 @@ function workspaceRename(){
 		                }
 		                newName.innerHTML=newWSName;
 		                document.querySelector(".workspaceNAME").append(newName);
+						document.querySelector(".sidebar_wkname").textContent=newWSName;
 					},
 					error: function(){
 						console.log("AjaxWorkspaceRename 아작스 실패");
@@ -58,86 +58,123 @@ function workspaceRename(){
     appendTarget.append(WsRename);
     document.getElementById("WsRename").focus();
 }
-
+//워크스페이스 이미지
 function changeWKIMG(newWKname){
 	let name = newWKname.substring(0, 1);
 	let img = document.querySelector(".wkimg");
+	let img2 = document.querySelector(".wkimg-body");
 	if(name == 'a' || name == 'A'){
-		img.setAttribute("src","resources/img/a.jpg")
+		img.setAttribute("src","resources/img/a.jpg");
+		img2.setAttribute("src","resources/img/a.jpg");
 	}else if(name == 'b' || name == 'B'){
-		img.setAttribute("src","resources/img/b.jpg")
+		img.setAttribute("src","resources/img/b.jpg");
+		img2.setAttribute("src","resources/img/b.jpg");
 	}else if(name == 'c' || name == 'C'){
-		img.setAttribute("src","resources/img/c.jpg")
+		img.setAttribute("src","resources/img/c.jpg");
+		img2.setAttribute("src","resources/img/c.jpg");
 	}else if(name == 'd' || name == 'D'){
-		img.setAttribute("src","resources/img/d.jpg")
+		img.setAttribute("src","resources/img/d.jpg");
+		img2.setAttribute("src","resources/img/d.jpg");
 	}else if(name == 'e' || name == 'E'){
-		img.setAttribute("src","resources/img/e.jpg")
+		img.setAttribute("src","resources/img/e.jpg");
+		img2.setAttribute("src","resources/img/e.jpg");
 	}else if(name == 'f' || name == 'F'){
-		img.setAttribute("src","resources/img/f.jpg")
+		img.setAttribute("src","resources/img/f.jpg");
+		img2.setAttribute("src","resources/img/f.jpg");
 	}else if(name == 'g' || name == 'G'){
-		img.setAttribute("src","resources/img/g.jpg")
+		img.setAttribute("src","resources/img/g.jpg");
+		img2.setAttribute("src","resources/img/g.jpg");
 	}else if(name == 'h' || name == 'H'){
-		img.setAttribute("src","resources/img/h.jpg")
+		img.setAttribute("src","resources/img/h.jpg");
+		img2.setAttribute("src","resources/img/h.jpg");
 	}else if(name == 'i' || name == 'I'){
-		img.setAttribute("src","resources/img/i.jpg")
+		img.setAttribute("src","resources/img/i.jpg");
+		img2.setAttribute("src","resources/img/i.jpg");
 	}else if(name == 'j' || name == 'J'){
-		img.setAttribute("src","resources/img/j.jpg")
+		img.setAttribute("src","resources/img/j.jpg");
+		img2.setAttribute("src","resources/img/j.jpg");
 	}else if(name == 'k' || name == 'K'){
-		img.setAttribute("src","resources/img/k.jpg")
+		img.setAttribute("src","resources/img/k.jpg");
+		img2.setAttribute("src","resources/img/k.jpg");
 	}else if(name == 'l' || name == 'L'){
-		img.setAttribute("src","resources/img/l.jpg")
+		img.setAttribute("src","resources/img/l.jpg");
+		img2.setAttribute("src","resources/img/l.jpg");
 	}else if(name == 'm' || name == 'M'){
-		img.setAttribute("src","resources/img/m.jpg")
+		img.setAttribute("src","resources/img/m.jpg");
+		img2.setAttribute("src","resources/img/m.jpg");
 	}else if(name == 'n' || name == 'N'){
-		img.setAttribute("src","resources/img/n.jpg")
+		img.setAttribute("src","resources/img/n.jpg");
+		img2.setAttribute("src","resources/img/n.jpg");
 	}else if(name == 'o' || name == 'O'){
-		img.setAttribute("src","resources/img/o.jpg")
+		img.setAttribute("src","resources/img/o.jpg");
+		img2.setAttribute("src","resources/img/o.jpg");
 	}else if(name == 'p' || name == 'P'){
-		img.setAttribute("src","resources/img/p.jpg")
+		img.setAttribute("src","resources/img/p.jpg");
+		img2.setAttribute("src","resources/img/p.jpg");
 	}else if(name == 'q' || name == 'Q'){
-		img.setAttribute("src","resources/img/q.jpg")
+		img.setAttribute("src","resources/img/q.jpg");
+		img2.setAttribute("src","resources/img/q.jpg");
 	}else if(name == 'r' || name == 'R'){
-		img.setAttribute("src","resources/img/r.jpg")
+		img.setAttribute("src","resources/img/r.jpg");
+		img2.setAttribute("src","resources/img/r.jpg");
 	}else if(name == 's' || name == 'S'){
-		img.setAttribute("src","resources/img/s.jpg")
+		img.setAttribute("src","resources/img/s.jpg");
+		img2.setAttribute("src","resources/img/s.jpg");
 	}else if(name == 't' || name == 'T'){
-		img.setAttribute("src","resources/img/t.jpg")
+		img.setAttribute("src","resources/img/t.jpg");
+		img2.setAttribute("src","resources/img/t.jpg");
 	}else if(name == 'u' || name == 'U'){
-		img.setAttribute("src","resources/img/u.jpg")
+		img.setAttribute("src","resources/img/u.jpg");
+		img2.setAttribute("src","resources/img/u.jpg");
 	}else if(name == 'v' || name == 'V'){
-		img.setAttribute("src","resources/img/v.jpg")
+		img.setAttribute("src","resources/img/v.jpg");
+		img2.setAttribute("src","resources/img/v.jpg");
 	}else if(name == 'w' || name == 'W'){
-		img.setAttribute("src","resources/img/w.jpg")
+		img.setAttribute("src","resources/img/w.jpg");
+		img2.setAttribute("src","resources/img/w.jpg");
 	}else if(name == 'x' || name == 'X'){
-		img.setAttribute("src","resources/img/x.jpg")
+		img.setAttribute("src","resources/img/x.jpg");
+		img2.setAttribute("src","resources/img/x.jpg");
 	}else if(name == 'y' || name == 'Y'){
-		img.setAttribute("src","resources/img/y.jpg")
+		img.setAttribute("src","resources/img/y.jpg");
+		img2.setAttribute("src","resources/img/y.jpg");
 	}else if(name == 'z' || name == 'Z'){
-		img.setAttribute("src","resources/img/z.jpg")
+		img.setAttribute("src","resources/img/z.jpg");
+		img2.setAttribute("src","resources/img/z.jpg");
 	}else if(name == '0'){
-		img.setAttribute("src","resources/img/0.jpg")
+		img.setAttribute("src","resources/img/0.jpg");
+		img2.setAttribute("src","resources/img/0.jpg");
 	}else if(name == '1'){
-		img.setAttribute("src","resources/img/1.jpg")
+		img.setAttribute("src","resources/img/1.jpg");
+		img2.setAttribute("src","resources/img/1.jpg");
 	}else if(name == '2'){
-		img.setAttribute("src","resources/img/2.jpg")
+		img.setAttribute("src","resources/img/2.jpg");
+		img2.setAttribute("src","resources/img/2.jpg");
 	}else if(name == '3'){
-		img.setAttribute("src","resources/img/3.jpg")
+		img.setAttribute("src","resources/img/3.jpg");
+		img2.setAttribute("src","resources/img/3.jpg");
 	}else if(name == '4'){
-		img.setAttribute("src","resources/img/4.jpg")
+		img.setAttribute("src","resources/img/4.jpg");
+		img2.setAttribute("src","resources/img/4.jpg");
 	}else if(name == '5'){
-		img.setAttribute("src","resources/img/5.jpg")
+		img.setAttribute("src","resources/img/5.jpg");
+		img2.setAttribute("src","resources/img/5.jpg");
 	}else if(name == '6'){
-		img.setAttribute("src","resources/img/6.jpg")
+		img.setAttribute("src","resources/img/6.jpg");
+		img2.setAttribute("src","resources/img/6.jpg");
 	}else if(name == '7'){
-		img.setAttribute("src","resources/img/7.jpg")
+		img.setAttribute("src","resources/img/7.jpg");
+		img2.setAttribute("src","resources/img/7.jpg");
 	}else if(name == '8'){
-		img.setAttribute("src","resources/img/8.jpg")
+		img.setAttribute("src","resources/img/8.jpg");
+		img2.setAttribute("src","resources/img/8.jpg");
 	}else if(name == '9'){
-		img.setAttribute("src","resources/img/9.jpg")
+		img.setAttribute("src","resources/img/9.jpg");
+		img2.setAttribute("src","resources/img/9.jpg");
 	}
 }
 
-//==============================보드검색기능=======================
+//보드검색기능
 function searchBoard(){
     let searchVal = searchBOARDNAME.value; //사용자 입력값
 	searchBOARDNAME.value="";
@@ -153,7 +190,7 @@ function searchBoard(){
 	})
 }
 
-//=======================================================보드생성 질문&답변=======================================================
+//보드생성 질문&답변
 question.onmouseover = function(){
     question.style.color = "black";
     answer.style.display = "block";
@@ -161,64 +198,6 @@ question.onmouseover = function(){
 question.onmouseout = function(){
     question.style.color = "gray";
     answer.style.display = "none";
-}
-
-//=======================================================보드 rename=======================================================
-function boardRename(){
-    let target = event.target;
-    target.innerHTML = "";
-
-    let input = document.createElement("input");
-    input.style.width = "200px";
-    input.style.height = "20px";
-    input.setAttribute("type","text");
-    input.setAttribute("id","boardNewName");
-    input.setAttribute("name","boardNewName");
-    input.addEventListener("keyup",function(){
-        if (window.event.keyCode == 13) {
-            // 엔터키가 눌렸을 때
-            let newBName = document.querySelector("#boardNewName").value;
-            if(newBName == ""){
-                input.style.border="2px solid red";
-                input.setAttribute("placeholder","Please name it.");
-                input.focus();
-            }else{
-                document.querySelector("#boardNewName").remove();
-                target.innerHTML=newBName;
-                // ajax로 보드 이름변경해주기
-            }
-        }
-    });
-    target.append(input);
-    document.getElementById("boardNewName").focus();
-}
-
-//=======================================================보드 삭제=======================================================
-function boardDelete(boardID,workID){
-    let target = event.target.parentElement.parentElement.parentElement;
-	let answer = confirm("선택한 보드를 탈퇴하시겠습니까?");
-	if(answer){
-		$.ajax({
-			url : "AjaxBoardJoinDelete",
-			data : {
-				workID : workID,
-				boardID : boardID
-			},
-			type : "POST",
-			dataType : "text",
-			success : function(data){
-				if(data == "YES"){
-					console.log("보드가입 탈퇴 성공?"+data);
-					target.remove();
-				}else if(data == "NO"){
-					console.log("보드가입 탈퇴 성공?"+data);
-				}
-			},
-			error : function(){
-				console.log("AjaxBoardJoinDelete 실패");
-			}
-		})
-	}
 }
 
 //=======================================================보드생성모달창 속 create 버튼 처리=======================================================

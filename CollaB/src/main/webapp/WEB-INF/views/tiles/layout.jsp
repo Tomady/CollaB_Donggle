@@ -12,9 +12,6 @@
 <!-- General CSS Files -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
-
-<!-- CSS Libraries -->
-<link rel="stylesheet" href='<c:url value="/resources/node_modules/chocolat/dist/css/chocolat.css"></c:url>'>
 <!-- Template CSS -->
 <link rel="stylesheet" href='<c:url value="/resources/assets/css/style.css"></c:url>'>
 <link rel="stylesheet" href='<c:url value="/resources/assets/css/components.css"></c:url>'>

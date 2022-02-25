@@ -7,7 +7,7 @@
 	parameterType="string">
 		SELECT DISTINCT A.* 
 		FROM WORKSPACE A JOIN WORKSPACE_JOIN B 
-		ON (A.ID = B.ID) 
+		ON (A.WORKSPACE_ID = B.WORKSPACE_ID) 
 		WHERE B.ID = #{userID}
 	</select>
 	
@@ -24,4 +24,13 @@
 		INSERT INTO WORKSPACE_JOIN
 		VALUES(#{id}, #{workspace_id}, #{permissions})
 	</insert>
+	
+	<select id="workspaceTotalMember"
+	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO"
+	resultType="co.Donggle.CollaB.user.service.UserVO">
+		SELECT A.* 
+		FROM USER_INFO A JOIN WORKSPACE_JOIN B
+		ON (A.ID = B.ID)
+		WHERE B.WORKSPACE_ID = #{workspace_id}
+	</select>
 </mapper>

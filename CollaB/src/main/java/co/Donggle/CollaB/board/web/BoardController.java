@@ -1,5 +1,8 @@
 package co.Donggle.CollaB.board.web;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,18 +14,58 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.Donggle.CollaB.board.service.BoardService;
 import co.Donggle.CollaB.board.service.BoardVO;
+import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
+import co.Donggle.CollaB.workspace.service.WorkspaceService;
+import co.Donggle.CollaB.workspace.service.WorkspaceVO;
 
 @Controller
 public class BoardController {
 	@Autowired BoardService boardDao;
+	@Autowired WorkspaceService workspaceDao;
+	@Autowired WorkspaceJoinService workspaceJoinDao;
+	
+	//보드 테마 변경
+	@ResponseBody
+	@RequestMapping("/AjaxChangeBoardThema")
+	public String AjaxChangeBoardThema(@RequestParam("thema")String thema,
+									   @RequestParam("boardId") int boardId) {
+		String result = "";
+		BoardVO vo = new BoardVO();
+		vo.setBoard_id(boardId);
+		vo.setBoard_thema(thema);
+		int n = boardDao.changeBoardThema(vo);
+		if(n > 0) {
+			result = "YES";
+		}else if(n == 0) {
+			result = "NO";
+		}
+		
+		return result;
+	}
+	
+	//보드 이름 변경
+	@ResponseBody
+	@RequestMapping("/AjaxBoardRename")
+	public String AjaxBoardRename(@RequestParam("boardId") int boardId,
+								@RequestParam("newname") String boardName) {
+		String result = "";
+		BoardVO vo = new BoardVO();
+		vo.setBoard_id(boardId);
+		vo.setBoard_Title(boardName);
+		
+		int n = boardDao.boardRename(vo);
+		if(n > 0) {
+			result = "YES";
+		}else if(n == 0) {
+			result = "NO";
+		}
+		
+		return result;
+	}
 	
 	//하나의 보드 클릭시 해당 보드 상세페이지로 이동
-	@RequestMapping("/goBoardDetails")
-	public String goBoardDetails(@RequestParam("boardId") int bId,
-								 @RequestParam("boardName") String bName,
-								 @RequestParam("boardThema") String bThema,
-								 @RequestParam("WkId") int wId,
-								 @RequestParam("WkName") String wName,
+	@RequestMapping("/boardDetail")
+	public String goBoardDetails(@RequestParam("boardID") int bId,
 								 Model model,
 								 HttpSession session) {
 		//String userId = (String)session.getAttribute("id");
@@ -31,83 +74,42 @@ public class BoardController {
 		BoardVO vo = new BoardVO();
 		vo.setId(userId);
 		vo.setBoard_id(bId);
-		model.addAttribute("boardStar",boardDao.selectBoardStar(vo));
-		model.addAttribute("boardName",bName);
-		model.addAttribute("workspaceId",wId);
-		model.addAttribute("workspaceName",wName);
-		
-		if(bThema=="red"){
-			model.addAttribute("boardHeaderColor","rgb(247,123,123)");
-			model.addAttribute("mainHeaderColor","rgb(252,205,205)");
-			model.addAttribute("pageBody","rgb(252, 162, 162)");
-	    }else if(bThema=="orange"){
-	    	model.addAttribute("boardHeaderColor","rgb(252,187,127)");
-			model.addAttribute("mainHeaderColor","rgb(255, 205, 158)");
-			model.addAttribute("pageBody","rgb(247,217,189)");
-	    }else if(bThema=="yellow"){
-	    	model.addAttribute("boardHeaderColor","rgb(253, 207, 80)");
-			model.addAttribute("mainHeaderColor","rgb(255,242,130)");
-			model.addAttribute("pageBody","rgb(248,244,204)");
-	    }else if(bThema=="green"){
-	    	model.addAttribute("boardHeaderColor","rgb(86,161,111)");
-			model.addAttribute("mainHeaderColor","rgb(164,230,186)");
-			model.addAttribute("pageBody","rgb(218,247,228)");
-	    }else if(bThema=="skyblue"){
-	    	model.addAttribute("boardHeaderColor","rgb(100,240,245)");
-			model.addAttribute("mainHeaderColor","rgb(68, 209, 228)");
-			model.addAttribute("pageBody","rgb(203, 248, 250)");
-	    }else if(bThema=="blue"){
-	    	model.addAttribute("boardHeaderColor","rgb(121,162,250)");
-			model.addAttribute("mainHeaderColor","rgb(168, 195, 252)");
-			model.addAttribute("pageBody","rgb(209, 231, 241)");
-	    }else if(bThema=="darkblue"){
-	    	model.addAttribute("boardHeaderColor","rgb(123,125,247)");
-			model.addAttribute("mainHeaderColor","rgb(168,169,238)");
-			model.addAttribute("pageBody","rgb(192, 193, 250)");
-	    }else if(bThema=="purple"){
-	    	model.addAttribute("boardHeaderColor","rgb(171,127,252)");
-			model.addAttribute("mainHeaderColor","rgb(199, 174, 247)");
-			model.addAttribute("pageBody","rgb(204, 195, 226)");
-	    }else if(bThema=="pink"){
-	    	model.addAttribute("boardHeaderColor","rgb(250,167,243)");
-			model.addAttribute("mainHeaderColor","rgb(243,183,238)");
-			model.addAttribute("pageBody","rgb(248,233,247)");
-	    }else if(bThema=="gray"){
-	    	model.addAttribute("boardHeaderColor","rgb(184,184,184)");
-			model.addAttribute("mainHeaderColor","rgb(124,124,124)");
-			model.addAttribute("pageBody","rgb(241,241,241)");
-	    }else if(bThema=="darkgray"){
-	     	model.addAttribute("boardHeaderColor","rgb(116,115,115)");
-			model.addAttribute("mainHeaderColor","rgb(83,83,83)");
-			model.addAttribute("pageBody","rgb(119,116,116)");
-	    }else if(bThema=="black"){
-	    	model.addAttribute("boardHeaderColor","rgb(73,73,73)");
-			model.addAttribute("mainHeaderColor","rgb(43,43,43)");
-			model.addAttribute("pageBody","rgb(12,12,12)");
-	    }else if(bThema=="base"){
-	    	model.addAttribute("boardHeaderColor","#6553C1");
-			model.addAttribute("mainHeaderColor","#9F90D9");
-			model.addAttribute("pageBody","#ECE9FE");
-	    }
-
+		//사이드바때문에 goBoards랑 보내주는 명 같아야함
+		model.addAttribute("workspace",boardDao.selectBoard(vo)); //워크스페이스ID,워크스페이스이름,보드이름,보드테마
+		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(userId)); //사용자가 가지고 있는 모든 워크스페이스
+		//사이드바에 포함안되는 내용
+		model.addAttribute("boardStar",boardDao.selectBoardStar(vo)); //즐겨찾기 유무
+		model.addAttribute("boardID",bId);//해당보드 아이디
 		return "board/board_details";
 	}
 	
-	//사용자가 워크스페이스 클릭시 해당 워크스페이스의 boards페이지로 이동
-	@RequestMapping("/goBoards")
-	public String goBoards(@RequestParam("wkid") int wkid,
-						   @RequestParam("wkname") String wkname,
-						   HttpSession session,
-						   Model model) {
+	//boards페이지 그려줄 때 바로 실행될 함수
+	//해당 워크스페이스에서 사용자가 초대된 보드목록 뿌려주기
+	@ResponseBody
+	@RequestMapping("/AjaxBoardList")
+	public List<BoardVO> AjaxBoardList(@RequestParam("workspaceID") int wkid){
 		//String userId = (String)session.getAttribute("id");
 		String userId = "user1";
 		
 		BoardVO vo = new BoardVO();
 		vo.setWorkspace_id(wkid);
 		vo.setId(userId);
-		model.addAttribute("wkid",wkid);
-		model.addAttribute("wkname",wkname);
-		model.addAttribute("boards",boardDao.boardsList(vo));
+		
+		return boardDao.boardsList(vo);//사용자가 가지고 있는 모든 보드
+	}
+	
+	//사용자가 워크스페이스 클릭시 해당 워크스페이스의 boards페이지로 이동
+	@RequestMapping("/goBoards")
+	public String goBoards(HttpServletRequest hsrq,
+					 	   HttpSession session,
+						   Model model) {
+		//String userId = (String)session.getAttribute("id");
+		String userId = "user1";
+		WorkspaceVO wvo = new WorkspaceVO();
+		wvo.setWorkspace_id(Integer.parseInt(hsrq.getParameter("wkId")));
+		//사이드바때문에 boardDetail랑 보내주는 명 같아야함
+		model.addAttribute("workspace",workspaceDao.searchWorkspace(wvo)); //워크스페이스ID,생성자아이디,생성일자,워크스페이스이름
+		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(userId)); //사용자가 가지고 있는 모든 워크스페이스
 		
 		return "board/boards";
 	}

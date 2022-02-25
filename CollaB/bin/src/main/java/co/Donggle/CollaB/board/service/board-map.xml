@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.Donggle.CollaB.board.service.BoardMapper">
+	<select id="boardList" parameterType="string"
+	resultType="co.Donggle.CollaB.board.service.BoardVO">
+		SELECT DISTINCT W.*, B.BOARD_ID, B.BOARD_TITLE, B.BOARD_THEMA
+		FROM WORKSPACE W, WORKSPACE_JOIN C, BOARD B, BOARD_JOIN D
+		WHERE W.ID = C.ID
+		AND W.WORKSPACE_ID = B.WORKSPACE_ID
+		AND B.BOARD_ID = D.BOARD_ID
+		AND D.ID = #{id}
+	</select>
+	
+	<select id="boardsList"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO"
+	resultType="co.Donggle.CollaB.board.service.BoardVO">
+		SELECT DISTINCT A.* 
+		FROM BOARD A JOIN BOARD_JOIN B
+		ON (A.WORKSPACE_ID = B.WORKSPACE_ID)
+		WHERE A.WORKSPACE_ID = #{workspace_id}
+		AND B.ID = #{id}
+	</select>
+	
+	<update id="boardRename"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO">
+		
+	</update>
+	
+	<delete id="boardJoinDelete"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO">
+		DELETE BOARD_JOIN 
+		WHERE BOARD_ID = #{board_id} 
+		AND ID = #{id} 
+		AND WORKSPACE_ID = #{workspace_id} 
+	</delete>
+	
+	<select id="selectBoardStar"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO"
+	resultType="co.Donggle.CollaB.board.service.BoardVO">
+		SELECT * FROM BOARD_STAR 
+		WHERE BOARD_ID = #{board_id} AND USER_ID = #{id}
+	</select>
+</mapper>

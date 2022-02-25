@@ -17,4 +17,11 @@
 		SET WORKSPACE_TITLE = #{workspace_title} 
 		WHERE  WORKSPACE_ID = #{workspace_id}
 	</update>
+	
+	<select id="searchWorkspace"
+	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceVO"
+	resultType="co.Donggle.CollaB.workspace.service.WorkspaceVO">
+		SELECT * FROM WORKSPACE WHERE WORKSPACE_ID = #{workspace_id}
+	</select>
+	
 </mapper>
