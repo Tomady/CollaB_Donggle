@@ -12,7 +12,7 @@ select * from card where card_id = #{card_id}
 
 <update id="updateCalendar" parameterType="co.Donggle.CollaB.calendar.service.calendarVO">
 update card set card_start_date = #{card_start_date}, card_end_date = #{card_end_date}
-where card_id = #{card_id}
+where card_id = 1
 </update>
 
 </mapper>

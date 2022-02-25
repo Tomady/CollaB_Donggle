@@ -2,24 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.Donggle.CollaB.checklist.service.itemInfoMapper">
 
-	<select id="itemList" resultType="co.Donggle.CollaB.checklist.service.itemInfoVO">
-	select * from item_info
+	<select id="itemList" resultType="co.Donggle.CollaB.checklist.service.itemInfoVO" parameterType="co.Donggle.CollaB.checklist.service.itemInfoVO">
+		select * from item_info
+		<!-- 체크리스트아이디 조건 추가하기 -->
 	</select>
 	
 	<insert id="additem" parameterType="co.Donggle.CollaB.checklist.service.itemInfoVO">
-	
+		<selectKey keyProperty="item_id" resultType="int" order="BEFORE">
+		SELECT NVL(MAX(item_id), 0)+1 AS item_id FROM item_info
+		</selectKey>
+		INSERT INTO item_info (item_id, item_title, item_status, checklist_id)
+		VALUES (#{item_id}, #{item_title}, 'N', #{checklist_id})
 	</insert>
 	
-	<update id="modifyitem">
+	<update id="modifyitem" parameterType="co.Donggle.CollaB.checklist.service.itemInfoVO">
 	
 	</update>
 	
-	<update id="modifyitemyn">
+	<update id="modifyitemyn" parameterType="co.Donggle.CollaB.checklist.service.itemInfoVO">
 	
 	</update>
 	
-	<delete id="deleteitem">
-	
+	<delete id="deleteitem" parameterType="co.Donggle.CollaB.checklist.service.itemInfoVO">
+		DELETE FROM item_info
+		WHERE item_id = #{item_id}
 	</delete>
 
 </mapper>
