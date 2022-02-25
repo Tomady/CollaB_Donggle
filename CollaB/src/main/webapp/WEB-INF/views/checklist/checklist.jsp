@@ -175,18 +175,18 @@
                     <div>
                     	<!-- 아이템 리스트 -->
                         <table class="table">
-                        	<c:forEach items="${itemlist }" var="iteminfo" varStatus="status">
+                        	<c:forEach items="${itemlist }" var="i" begin="0">
                             <tr>
                                 <th>
                                     <div class="custom-checkbox custom-control">
-                                        <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-1" name="chkList" onclick="getCheckCnt()">
-                                        <label for="checkbox-1" class="custom-control-label">&nbsp;</label>
+                                        <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-{i}" name="chkList" onclick="getCheckCnt()">
+                                        <label for="checkbox-{i}" class="custom-control-label">&nbsp;</label>
                                     </div>
                                 </th>
                                 <td class="task-td">
-                                    <a id="tasklist"><c:out value="${itemlist.item_title }"></c:out></a>
+                                    <a id="tasklist-{i}"><c:out value="${itemlist.item_title }"></c:out></a>
                                     <div id="moditask">
-                                      <input type="text" class="form-control mt-3" placeholder="내용을 입력해주세요" value="할 일 1">
+                                      <input type="text" class="form-control mt-3" placeholder="내용을 입력해주세요" value="">
                                       <div class="row m-1 mt-3">
                                           <button class="btn btn-primary" onclick="">Save</button>
                                           <button class="btn btn-primary ml-2" id="closemodiitem">Close</button>
