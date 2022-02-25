@@ -7,9 +7,9 @@ import lombok.Setter;
 @Setter
 public class checklistVO {
 	
-	private int item_id;
-	private String item_title;
-	private String item_status;
 	private int checklist_id;
+	private String checklist_title;
+	private int card_id;
+	private int issue_id;
 
 }

@@ -155,11 +155,11 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <h3><i class="fas fa-check"></i>&nbsp;&nbsp;Checklist</h3>    
+                            <h3><i class="fas fa-check"></i>&nbsp;&nbsp;<c:out value="${checklist.checklist_title }"/> </h3>    
                         </div>
                         <div class="col-md-8 d-flex justify-content-end">
                             <button class="btn btn-primary mr-2" id="addChkListBtn">Add a checklist</button>
-                            <button class="btn btn-primary">Delete</button>        
+                            <button class="btn btn-primary" id="deletechkBtn">Delete</button>        
                         </div>
                     </div>
                     <div class="row">
@@ -175,34 +175,29 @@
                     <div>
                     	<!-- 아이템 리스트 -->
                         <table class="table">
-                        	<c:forEach items="${itemlist }" var="i" begin="0">
+                        	<c:forEach items="${itemlist }" var="itemlist" varStatus="status">
                             <tr>
                                 <th>
-                                    <div class="custom-checkbox custom-control">
-                                        <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-{i}" name="chkList" onclick="getCheckCnt()">
-                                        <label for="checkbox-{i}" class="custom-control-label">&nbsp;</label>
-                                    </div>
+	                                <div class="custom-checkbox custom-control">
+	                                    <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-{i}" name="chkList" onclick="getCheckCnt()">
+	                                    <label for="checkbox-{i}" class="custom-control-label">&nbsp;</label>
+	                                </div>
                                 </th>
                                 <td class="task-td">
-                                    <a id="tasklist-{i}"><c:out value="${itemlist.item_title }"></c:out></a>
-                                    <div id="moditask">
-                                      <input type="text" class="form-control mt-3" placeholder="내용을 입력해주세요" value="">
-                                      <div class="row m-1 mt-3">
-                                          <button class="btn btn-primary" onclick="">Save</button>
-                                          <button class="btn btn-primary ml-2" id="closemodiitem">Close</button>
-                                      </div>
-                                    </div>
+                                    <a id="tasklist"><c:out value="${itemlist.item_title }"></c:out></a>
                                 </td>
-                                <td class="xtd"><a href="#" class="btn btn-icon icon-left"><i class="fas fa-times"></i></a></td>
+                                <td class="xtd"><a href="#" class="btn btn-icon icon-left" id="deleteItemA" onclick="location.href='/CollaB/itemdelete?item_id=${itemlist.item_id}'">
+                                	<i class="fas fa-times"></i></a>
+                                </td>
                             </tr>
                             </c:forEach>
                         </table>
                     </div>
                     <button class="btn btn-primary" id="additem">Add an item</button>
                     <div id="additemdiv">
-                        <input type="text" class="form-control mt-3" placeholder="내용을 입력해주세요">
+                        <input type="text" class="form-control mt-3" name="item_title" id="item_title" placeholder="내용을 입력해주세요">
                         <div class="row m-1 mt-3">
-                            <button class="btn btn-primary">Add</button>
+                            <button class="btn btn-primary" id="addItemBtn">Add</button>
                             <button class="btn btn-primary ml-2" id="closenewitem">Close</button>
                         </div>
                     </div>              
@@ -223,12 +218,12 @@
               <div class="modal-body">
                 <div class="form-group">
                   <label>Title</label>
-                  <input type="text" class="form-control">
+                  <input type="text" class="form-control" id="checklist_title" name="checklist_title">
                 </div>
               </div>
               <div class="modal-footer text-right">
                 <button type="button" class="btn btn-secondary" id="closeAddChk">Close</button>
-                <button type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-primary" id="insertChkListBtn">Save</button>
               </div>
             </div>
           </div>
@@ -286,6 +281,16 @@
         $('#moditask').hide();
         $('#tasklist').show();
       })
+      
+      $('#tasklist2').click(function() {
+        $('#moditask2').show();
+        $('#tasklist2').hide();
+      })
+
+      $('#closemodiitem2').click(function(){
+        $('#moditask2').hide();
+        $('#tasklist2').show();
+      })
 
 
 /*    $(document).ready(function(){
@@ -328,7 +333,93 @@
       $('#closeAddChk').on('click', function(){
         $('#addChkModal').modal('hide');
       })
+      
+      // 새 체크리스트 등록하기
+      $('#insertChkListBtn').click(function(){
+    	  event.stopPropagation();
+          event.preventDefault();
+    	  if($('#checklist_title').val().length==0){alert("내용을 입력하세요"); $('#checklist_title').focus(); return false; }
+    	  var data = { checklist_title : $('#checklist_title').val() }
+    	  console.log(data)
+    	  $.ajax({
+    		  url: '/CollaB/addchecklist',
+    		  data: data,
+    		  type: 'POST',
+    		  success: function(){
+    			  console.log('체크리스트 추가 성공');
+    			  location.href="/CollaB/checklist.do";
+    		  },
+    		  error: function(err){
+    			  console.log(err);
+    		  }
+    	  })
+      })
+      
+      // 새 아이템 등록하기
+      $('#addItemBtn').click(function(){
+        event.stopPropagation();
+        event.preventDefault();
+        if($('#item_title').val.length==0){alert("내용을 입력하세요"); $('#item_title').focus(); return false; }
+        var data = { item_title : $('#item_title').val() }
+    	 $.ajax({
+         url: '/CollaB/additem',
+         data: data,
+         type: 'POST',
+         success: function(){
+           console.log('아이템 추가 성공');
+           location.href="/CollaB/checklist.do";
+         },
+         error: function(request, status, error) {
+    			  alert("code : " + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
+         }
+       })
+      })
 
+      // 아이템 삭제하기
+/*    $('#deleteItemA').click(function(){
+        $.ajax({
+          url: '/CollaB/itemdelete?item_id='+item_id,
+          type: 'GET',
+          success: function(){
+            console.log('삭제 성공');
+            //location.href='/CollaB/checklist.do';
+          },
+          error: function(request, status, error){
+            alert("code : " + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
+          }
+        })
+      }) */
+
+      // 체크박스 상태 초기화
+      function initCheckBoxClickEvent() {
+        $("input[type='checkbox']").on('click', function() {
+          // 체크여부
+          let flag = $(this).prop("checked");
+          
+          let chkIndex = $(this).val();
+          let subType = document.getElementsByClassName("active")[0].value;
+          
+          $.ajax({
+            url: '/CollaB/',
+            method: 'GET',
+            async: true,
+            data: {
+              
+            },
+            success: function(data) {
+              if(flag) {
+                $(".list" + chkIndex).addClass('checked');
+              } else {
+                $(".list" + chkIndex).removeClass('checked');
+              }
+              
+            },
+            error: function(request, status, error) {
+                alert("code : " + request.status + "/n" + "message : " + request.responseText + "\n" + "error : " + error);
+            }
+          })
+        });
+      }
   </script>
 
 </body>
