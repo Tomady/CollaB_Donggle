@@ -16,14 +16,16 @@
 	resultType="co.Donggle.CollaB.board.service.BoardVO">
 		SELECT DISTINCT A.* 
 		FROM BOARD A JOIN BOARD_JOIN B
-		ON (A.WORKSPACE_ID = B.WORKSPACE_ID)
-		WHERE A.WORKSPACE_ID = #{workspace_id}
+		ON (A.board_id = B.board_id)
+		WHERE A.WORKSPACE_ID = #{workspace_id} 
 		AND B.ID = #{id}
 	</select>
 	
 	<update id="boardRename"
 	parameterType="co.Donggle.CollaB.board.service.BoardVO">
-		
+		UPDATE BOARD 
+		SET BOARD_TITLE = #{board_Title}
+		WHERE BOARD_ID = #{board_id}
 	</update>
 	
 	<delete id="boardJoinDelete"
@@ -40,4 +42,20 @@
 		SELECT * FROM BOARD_STAR 
 		WHERE BOARD_ID = #{board_id} AND USER_ID = #{id}
 	</select>
+	
+	<select id="selectBoard"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO"
+	resultType="co.Donggle.CollaB.board.service.BoardVO">
+		SELECT A.WORKSPACE_ID, A.WORKSPACE_TITLE, B.*
+        FROM WORKSPACE A JOIN BOARD B
+        ON ( A.WORKSPACE_ID = B.WORKSPACE_ID)
+        WHERE BOARD_ID = #{board_id} 
+	</select>
+	
+	<update id="changeBoardThema"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO">
+		UPDATE BOARD 
+		SET BOARD_THEMA = #{board_thema}
+		WHERE BOARD_ID = #{board_id}
+	</update>
 </mapper>

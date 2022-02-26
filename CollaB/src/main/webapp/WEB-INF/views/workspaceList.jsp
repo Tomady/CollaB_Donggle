@@ -225,17 +225,20 @@
                   <!--여기서부터-->
                   <c:forEach items="${workspaces}" var="workspace">
                   	<div class="ml-5 mr-5 mt-5 mb-5 workspace" style="position: relative;" data-name="${workspace.workspace_title}">
-                    <div class="row ml-5 mr-5">
-                      <div class="card col-lg-5" onclick="goBoards(${workspace.workspace_id},'${workspace.workspace_title}')" >
-                        <div class="row col-rg mr-2 mt-1 d-flex justify-content-between" 
-                             style="text-align: right; display: table-cell;">
-                          <span class="ml-4" style="font-weight: bold;">${workspace.workspace_title}</span>
-                        </div>
-                        <div class="row card-header">
-                        </div>
-                      </div>
-                      <!-- 버튼클릭시 해당 워크스페이스의 보드목록 출력, 클래스명 up에서 down으로 변경-->
-                      <button class="btn mt-5 ml-2 mb-1 fa fa-chevron-down" onclick="showBoards()">&nbsp;&nbsp;Boards</button>
+	            	<div class="row ml-5 mr-5">
+					<form action="goBoards" method="POST" class="card col-lg-5">
+						<input name="wkId" value="${workspace.workspace_id}" style="display: none;">
+						<input name="wkName" value="${workspace.workspace_title}" style="display: none;">
+						<button type="submit" class="btn" style="background-color:white;">
+						<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+							style="text-align: right; display: table-cell;">
+							<span class="ml-4" style="font-weight: bold;">${workspace.workspace_title}</span>
+						</div>
+						<div class="row card-header"></div>
+						</button>
+					</form>
+					<!-- 버튼클릭시 해당 워크스페이스의 보드목록 출력, 클래스명 up에서 down으로 변경-->
+                    <button class="btn mt-5 ml-2 mb-1 fa fa-chevron-down" onclick="showBoards()">&nbsp;&nbsp;Boards</button>                      	
                     </div>
                     <!-- 버튼클릭시 해당 워크스페이스의 보드목록 출력됨 -->
                     <div class="boardList" style="display: none;">

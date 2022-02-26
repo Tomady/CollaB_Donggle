@@ -1,5 +1,7 @@
 package co.Donggle.CollaB.workspace.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.Donggle.CollaB.board.service.BoardService;
+import co.Donggle.CollaB.user.service.UserVO;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinVO;
 import co.Donggle.CollaB.workspace.service.WorkspaceService;
@@ -20,6 +23,16 @@ public class WorkspaceController {
 	@Autowired WorkspaceJoinService workspaceJoinDao;
 	@Autowired WorkspaceService workspaceDao;
 	@Autowired BoardService boardDao;
+	
+	//보드상세페이지에서 해당 워크스페이스에 있는 모든 참여자 목록
+	@ResponseBody
+	@RequestMapping("/AjaxWorkspaceTotalMember")
+	public List<UserVO> AjaxWorkspaceTotalMember(@RequestParam("workspaceId")int wkID){
+		WorkspaceJoinVO vo = new WorkspaceJoinVO();
+		vo.setWorkspace_id(wkID);
+		
+		return workspaceJoinDao.workspaceTotalMember(vo);
+	}
 	
 	//로그인 후 바로 보이는 워크스페이스 목록 페이지
 	@RequestMapping("/WorkspaceList")

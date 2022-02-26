@@ -38,4 +38,14 @@ public class BoardServiceImpl implements BoardService {
 		return map.selectBoardStar(vo);
 	}
 
+	@Override
+	public BoardVO selectBoard(BoardVO vo) {
+		return map.selectBoard(vo);
+	}
+
+	@Override
+	public int changeBoardThema(BoardVO vo) {
+		return map.changeBoardThema(vo);
+	}
+
 }

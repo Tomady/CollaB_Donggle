@@ -22,6 +22,6 @@ function searchWorkspace(){
 	})
 }
 
-function goBoards(wkID,wkNAME){
-	location.href="goBoards?wkid="+wkID+"&wkname="+wkNAME;
+function goBoards(wkID){
+	location.href="goBoards?wkid="+wkID;
 }
