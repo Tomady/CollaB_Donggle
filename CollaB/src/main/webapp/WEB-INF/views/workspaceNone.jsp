@@ -9,9 +9,6 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
 
-<!-- CSS Libraries -->
-<link rel="stylesheet" href="resources/node_modules/chocolat/dist/css/chocolat.css">
-
 <!-- Template CSS -->
 <link rel="stylesheet" href="resources/assets/css/style.css">
 <link rel="stylesheet" href="resources/assets/css/components.css">
@@ -225,10 +222,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="resources/assets/js/stisla.js"></script>
-
-  <!-- JS Libraies -->
-  <script src="resources/node_modules/chocolat/dist/js/jquery.chocolat.min.js"></script>
-  <script src="resources/node_modules/jquery-ui-dist/jquery-ui.min.js"></script>
 
   <!-- Template JS File -->
   <script src="resources/assets/js/scripts.js"></script>

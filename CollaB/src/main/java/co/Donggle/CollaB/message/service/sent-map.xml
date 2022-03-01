@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.Donggle.CollaB.message.service.SentMapper">
+	<insert id="sentMsgInsert"
+	parameterType="co.Donggle.CollaB.message.service.SentVO">
+		<selectKey keyProperty="sent_id" resultType="int" order="BEFORE">
+			SELECT MAX(SENT_ID)+1 FROM SENT
+		</selectKey>
+		INSERT INTO SENT
+		VALUES(#{sent_id},#{id},SYSDATE,#{sent_title},
+		#{sent_contents},#{sent_to},#{sent_star})
+	</insert>
+	
+	<select id="sentMsgList"
+	parameterType="co.Donggle.CollaB.message.service.SentVO"
+	resultType="co.Donggle.CollaB.message.service.SentVO">
+		SELECT * FROM SENT 
+		WHERE ID = #{id}
+		ORDER BY SENT_DATE DESC
+	</select>
+	
+	<delete id="sentMsgDelete"
+	parameterType="co.Donggle.CollaB.message.service.SentVO">
+		DELETE SENT 
+		WHERE ID = #{id} 
+		AND SENT_ID = #{sent_id}
+	</delete>
+	
+	<select id="sentMsgSelect"
+	parameterType="co.Donggle.CollaB.message.service.SentVO"
+	resultType="co.Donggle.CollaB.message.service.SentVO">
+		SELECT * FROM SENT
+		WHERE SENT_ID = #{sent_id}
+	</select>
+	
+	<update id="sentMsgStar"
+	parameterType="co.Donggle.CollaB.message.service.SentVO">
+		UPDATE SENT
+		SET SENT_STAR = #{sent_star}
+		WHERE SENT_ID = #{sent_id}
+	</update>
+	
+	<select id="sentSearch_to"
+	parameterType="co.Donggle.CollaB.message.service.SentVO"
+	resultType="co.Donggle.CollaB.message.service.SentVO">
+		SELECT * FROM SENT
+		WHERE SENT_TO LIKE '%'||#{sent_to}||'%'
+		AND ID = #{id}
+	</select>
+	
+	<select id="sentSearch_title"
+	parameterType="co.Donggle.CollaB.message.service.SentVO"
+	resultType="co.Donggle.CollaB.message.service.SentVO">
+		SELECT * FROM SENT
+		WHERE SENT_TITLE LIKE '%'||#{sent_title}||'%'
+		AND ID = #{id}
+	</select>
+</mapper>

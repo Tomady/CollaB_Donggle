@@ -1,23 +1,10 @@
-// MENU 1. WORKSPACE
-//메인헤더에 있는 워크스페이스 클릭시, 사용자의 워크스페이스 목록 드롭DIV생성 
-//그중 하나 선택하면 해당 워크스페이스의 boards페이지로 이동하기
-function mainHeader_switchWork(id){
-    //넘어오는 값은 mainHeadWork+워크스페이스PK값 (예)mainHeadWork1
-    let workspaceID = id.slice(12);
-    console.log("이동할boards페이지의워크스페이스ID : "+workspaceID);
-    //워크스페이스 아이디로 해당 워크스페이스의 boards페이지로 보내기
-}
-
-// MENU 2. RECENT
-
-// MENU 3. CREATE
 //Element 에 style 한번에 오브젝트로 설정하는 함수 추가 
 Element.prototype.setStyle = function(styles) {
     for (var k in styles) this.style[k] = styles[k];
     return this;
 };
 
-// MENU 3-1. 워크스페이스 만드는 모달 
+//워크스페이스 만드는 모달 
 function wkModal(id){
     document.getElementById('modal-workspace-title').value = "";
 
@@ -56,9 +43,11 @@ function wkModal(id){
         webkitTransform: 'translate(-50%, -50%)'
     });
 }
+
 //워크스페이스생성 모달 속 CREATE버튼 처리 
 function createWK(){
     let wkspaceName = document.querySelector("#modal-workspace-title").value;
+    console.log("새로만들워크스페이스이름 : "+wkspaceName);
     //사용자가 만든 워크스페이스 이름으로 워크스페이스 생성 후,
     //해당 워크스페이스의 boards페이지로 이동하기
 	$.ajax({
@@ -71,7 +60,7 @@ function createWK(){
 		success : function(data){
 			if(data == "NO"){
 				console.log("워크스페이스 생성 실패");
-			}else{
+			}else {
 				console.log("워크스페이스 생성 성공");
 				closeWKModal();
 				location.href="Boards?wkid="+Number(data);
@@ -94,7 +83,7 @@ function create_workspaceModal(){
     wkModal('create_wk');
 }
 
-// MENU 3-2. 보드 만드는 모달 
+//보드 만드는 모달 
 function modal(id) { 
     document.getElementById('modal-board-background').value = "";
     document.getElementById('modal-board-title').value = "";

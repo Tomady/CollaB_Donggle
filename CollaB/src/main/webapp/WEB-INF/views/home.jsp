@@ -7,5 +7,6 @@
 <body>
 	INDEX
 	<button onclick="location.href='WorkspaceList'">eunji</button>
+	<button onclick="location.href='message_inbox'">MSG</button>
 </body>
 </html>
