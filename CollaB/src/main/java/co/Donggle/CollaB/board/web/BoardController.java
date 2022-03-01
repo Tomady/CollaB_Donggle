@@ -114,6 +114,22 @@ public class BoardController {
 		return "board/boards";
 	}
 	
+	//쪽지함 헤더 - Workspace - 특정워크스페이스클릭 - 해당워크스페이스 boards페이지로 이동
+	@RequestMapping("/Boards")
+	public String goBoards(@RequestParam("wkid") int wkid,
+					 	   HttpSession session,
+						   Model model) {
+		//String userId = (String)session.getAttribute("id");
+		String userId = "user1";
+		WorkspaceVO wvo = new WorkspaceVO();
+		wvo.setWorkspace_id(wkid);
+		//사이드바때문에 boardDetail랑 보내주는 명 같아야함
+		model.addAttribute("workspace",workspaceDao.searchWorkspace(wvo)); //워크스페이스ID,생성자아이디,생성일자,워크스페이스이름
+		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(userId)); //사용자가 가지고 있는 모든 워크스페이스
+		
+		return "board/boards";
+	}
+	
 	//보드가입탈퇴
 	@ResponseBody
 	@RequestMapping("/AjaxBoardJoinDelete")

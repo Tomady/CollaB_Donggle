@@ -24,6 +24,16 @@ public class WorkspaceController {
 	@Autowired WorkspaceService workspaceDao;
 	@Autowired BoardService boardDao;
 	
+	//새 쪽지쓰기에서 워크스페이스 하나 클릭시, 해당 워크스페이스 조인멤버출력
+	@ResponseBody
+	@RequestMapping("/AjaxWorkspaceJoinMembers")
+	public List<UserVO> AjaxWorkspaceJoinMembers(@RequestParam("workspaceID") int wkid){
+		WorkspaceJoinVO vo = new WorkspaceJoinVO();
+		vo.setWorkspace_id(wkid);
+		
+		return workspaceJoinDao.workspaceTotalMember(vo);
+	}
+	
 	//보드상세페이지에서 해당 워크스페이스에 있는 모든 참여자 목록
 	@ResponseBody
 	@RequestMapping("/AjaxWorkspaceTotalMember")
@@ -42,7 +52,7 @@ public class WorkspaceController {
 		String returnPage = "";
 		
 		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = "user111";
 		
 		int n = workspaceJoinDao.workspaceJoinCount(userId);
 		if (n > 0) {
@@ -80,7 +90,8 @@ public class WorkspaceController {
 		if(n > 0) {
 			int num = workspaceJoinDao.workspaceJoinInsert(wkJoinVo);
 			if(num > 0) {
-				result = "YES";				
+				int wkid = workspaceDao.selectWorkspaceMaxId();
+				result = Integer.toString(wkid);				
 			}else if(num == 0) {
 				result = "NO";
 			}

@@ -27,4 +27,9 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 		return map.searchWorkspace(vo);
 	}
 
+	@Override
+	public int selectWorkspaceMaxId() {
+		return map.selectWorkspaceMaxId();
+	}
+
 }
