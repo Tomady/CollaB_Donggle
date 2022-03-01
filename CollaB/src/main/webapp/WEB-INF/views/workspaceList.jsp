@@ -5,13 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 <title>Insert title here</title>
 <!-- General CSS Files -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
-
-<!-- CSS Libraries -->
-<link rel="stylesheet" href="resources/node_modules/chocolat/dist/css/chocolat.css">
 
 <!-- Template CSS -->
 <link rel="stylesheet" href="resources/assets/css/style.css">
@@ -118,7 +116,7 @@
               <span id="black" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(12, 12, 12); margin-left: 5%;"></span>
             </div>
           </div>
-          <input id="modal-board-background" type="text" class="form-control">
+          <input id="modal-board-background" type="text" class="form-control" readonly>
         </div>
         <div class="row form-group mt-3">
           <label>Board Title<span style="color: red;"> *</span></label>
@@ -127,8 +125,9 @@
         <div class="row form-group mt-3">
           <label>Workspace</label>
           <select class="form-control" id="select-workspace">
-            <option>Workspace 1</option>
-            <option>Workspace 2</option>
+	          <c:forEach items="${workspaces}" var="workspace">
+	          	<option value="${workspace.workspace_id}">${workspace.workspace_title}</option>
+	          </c:forEach>
           </select>
         </div>
         <div class="row buttons mt-3">
@@ -151,12 +150,13 @@
         <div class="btn-group">
           <button class="btn dropdown-toggle" type="button" style="background-color:transparent; color:white;"
           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Workspaces</button>
-          <div class="dropdown-menu">
+          <div class="dropdown-menu" style="height: 300px; overflow:scroll; overflow-x:hidden;">
             <div class="dropdown-title">Your Workspace 🎨</div>
             <!--사용자 워크스페이스 목록 뿌릴 때, id="mainHeadWork"+workspace.ID 지정해주기-->
-            <a class="dropdown-item" id="mainHeadWork1" onclick="mainHeader_switchWork(id)">workspace_1</a>
-            <a class="dropdown-item" id="mainHeadWork2" onclick="mainHeader_switchWork(id)">workspace_2</a>
-            <a class="dropdown-item" id="mainHeadWork3" onclick="mainHeader_switchWork(id)">workspace_3</a>
+            <c:forEach items="${workspaces}" var="workspace">
+            	<a class="dropdown-item" 
+            	onclick="location.href='Boards?wkid=${workspace.workspace_id}'">${workspace.workspace_title}</a>            
+            </c:forEach>
           </div>
         </div>
         <div class="btn-group">
@@ -226,21 +226,23 @@
                   <c:forEach items="${workspaces}" var="workspace">
                   	<div class="ml-5 mr-5 mt-5 mb-5 workspace" style="position: relative;" data-name="${workspace.workspace_title}">
 	            	<div class="row ml-5 mr-5">
-					<form action="goBoards" method="POST" class="card col-lg-5">
-						<input name="wkId" value="${workspace.workspace_id}" style="display: none;">
-						<input name="wkName" value="${workspace.workspace_title}" style="display: none;">
-						<button type="submit" class="btn" style="background-color:white;">
-						<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
-							style="text-align: right; display: table-cell;">
-							<span class="ml-4" style="font-weight: bold;">${workspace.workspace_title}</span>
+						<div class="col-lg-5 d-flex justify-content-between" style="background-color:rgb(251, 251, 255);">
+							<!-- 워크스페이스 하나 클릭시 boards페이지로 이동 -->
+							<div class="btn" style="width:90%; background-color:rgb(251, 251, 255);"
+							onclick="location.href='Boards?wkid=${workspace.workspace_id}'">
+							<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+								style="text-align: right; display: table-cell;">
+								<span class="ml-4 mt-1" style="font-weight: bold;">${workspace.workspace_title}</span>
+							</div>
+							<div class="row card-header"></div>
+							</div>
+							<!-- 워크스페이스 탈퇴버튼 -->
+							<div class="fa fa-times mt-3" onclick="workspaceJoinDelete(${workspace.workspace_id})"></div>
 						</div>
-						<div class="row card-header"></div>
-						</button>
-					</form>
-					<!-- 버튼클릭시 해당 워크스페이스의 보드목록 출력, 클래스명 up에서 down으로 변경-->
-                    <button class="btn mt-5 ml-2 mb-1 fa fa-chevron-down" onclick="showBoards()">&nbsp;&nbsp;Boards</button>                      	
+						<!-- 해당 워크스페이스의 보드목록 출력버튼-->
+                    	<button class="btn mt-5 ml-2 fa fa-chevron-down" onclick="showBoards()">&nbsp;&nbsp;Boards</button>
                     </div>
-                    <!-- 버튼클릭시 해당 워크스페이스의 보드목록 출력됨 -->
+                    <!-- Boards클릭시 해당 워크스페이스의 보드목록 출력됨 -->
                     <div class="boardList" style="display: none;">
                       <div class="ml-5 mr-5" style="position: relative; background-color: rgb(251, 251, 255);">
                         <div class="row mr-5 ml-5">
@@ -251,7 +253,8 @@
 								<!-- 보드색깔지정 : 색깔없음 -->
 								<c:if test="${board.board_thema == ''}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(245,245,245);">
+										<div class="card board" style="background-color:rgb(245,245,245);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
@@ -264,7 +267,8 @@
 								<!-- 보드색깔지정 : red -->
 								<c:if test="${board.board_thema == 'red'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(247, 123, 123);">
+										<div class="card board" style="background-color:rgb(247, 123, 123);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
@@ -277,7 +281,8 @@
 								<!-- 보드색깔지정 : orange -->
 								<c:if test="${board.board_thema == 'orange'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(252, 187, 127);">
+										<div class="card board" style="background-color:rgb(252, 187, 127);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
@@ -290,7 +295,8 @@
 								<!-- 보드색깔지정 : yellow -->
 								<c:if test="${board.board_thema == 'yellow'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(255, 245, 157);">
+										<div class="card board" style="background-color:rgb(255, 245, 157);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
@@ -303,7 +309,8 @@
 								<!-- 보드색깔지정 : green -->
 								<c:if test="${board.board_thema == 'green'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(86, 161, 111);">
+										<div class="card board" style="background-color:rgb(86, 161, 111);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
@@ -316,7 +323,8 @@
 								<!-- 보드색깔지정 : skyblue -->
 								<c:if test="${board.board_thema == 'skyblue'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(123, 243, 247);">
+										<div class="card board" style="background-color:rgb(123, 243, 247);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
@@ -329,7 +337,8 @@
 								<!-- 보드색깔지정 : blue -->
 								<c:if test="${board.board_thema == 'blue'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(121, 162, 250);">
+										<div class="card board" style="background-color:rgb(121, 162, 250);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
@@ -342,7 +351,8 @@
 								<!-- 보드색깔지정 : darkblue -->
 								<c:if test="${board.board_thema == 'darkblue'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(123, 125, 247);">
+										<div class="card board" style="background-color:rgb(123, 125, 247);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
@@ -355,7 +365,8 @@
 								<!-- 보드색깔지정 : purple -->
 								<c:if test="${board.board_thema == 'purple'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(171, 127, 252);">
+										<div class="card board" style="background-color:rgb(171, 127, 252);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
@@ -368,7 +379,8 @@
 								<!-- 보드색깔지정 : pink -->
 								<c:if test="${board.board_thema == 'pink'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(250, 167, 243);">
+										<div class="card board" style="background-color:rgb(250, 167, 243);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
@@ -381,7 +393,8 @@
 								<!-- 보드색깔지정 : gray -->
 								<c:if test="${board.board_thema == 'gray'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(184, 184, 184);">
+										<div class="card board" style="background-color:rgb(184, 184, 184);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
@@ -394,7 +407,8 @@
 								<!-- 보드색깔지정 : darkgray -->
 								<c:if test="${board.board_thema == 'darkgray'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(116, 115, 115);">
+										<div class="card board" style="background-color:rgb(116, 115, 115);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
@@ -407,7 +421,8 @@
 								<!-- 보드색깔지정 : black -->
 								<c:if test="${board.board_thema == 'black'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(12, 12, 12);">
+										<div class="card board" style="background-color:rgb(12, 12, 12);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
@@ -444,16 +459,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="resources/assets/js/stisla.js"></script>
 
-  <!-- JS Libraies -->
-  <script src="resources/node_modules/chocolat/dist/js/jquery.chocolat.min.js"></script>
-  <script src="resources/node_modules/jquery-ui-dist/jquery-ui.min.js"></script>
-
   <!-- Template JS File -->
   <script src="resources/assets/js/scripts.js"></script>
   <script src="resources/assets/js/custom.js"></script>
 
   <!-- 은지 코드 -->
-  <script src="resources/js/eunji/main_layout.js"></script>
-  <script src="resources/js/eunji/workspaceList.js"></script>
+  <script src="resources/js/workspace/workspaceList.js"></script>
 </body>
 </html>

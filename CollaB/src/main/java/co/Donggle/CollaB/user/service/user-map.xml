@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.Donggle.CollaB.user.service.UserMapper">
+	<select id="workspaceJoinMembers"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO"
+	resultType="co.Donggle.CollaB.user.service.UserVO">
+		SELECT A.*, B.PERMISSIONS
+		FROM USER_INFO A JOIN WORKSPACE_JOIN B
+		ON (A.ID = B.ID)
+		WHERE WORKSPACE_ID = (SELECT WORKSPACE_ID
+                              FROM BOARD
+                              WHERE BOARD_ID = #{board_id})
+	</select>
+	
+	<select id="boardJoinMembers"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO"
+	resultType="co.Donggle.CollaB.user.service.UserVO">
+		SELECT A.*, B.WORKSPACE_ID, B.BOARD_ID
+		FROM USER_INFO A JOIN BOARD_JOIN B
+		ON(A.ID = B.ID)
+		WHERE BOARD_ID = #{board_id}
+	</select>
+	
+	<select id="outsideBoardMembers"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO"
+	resultType="co.Donggle.CollaB.user.service.UserVO">
+		SELECT A.*
+		FROM USER_INFO A JOIN WORKSPACE_JOIN B
+		ON (A.ID = B.ID)
+		WHERE WORKSPACE_ID = (SELECT WORKSPACE_ID
+                              FROM BOARD
+                              WHERE BOARD_ID = #{board_id})
+        MINUS
+        SELECT A.*
+		FROM USER_INFO A JOIN BOARD_JOIN B
+		ON(A.ID = B.ID)
+		WHERE BOARD_ID = #{board_id}
+	</select>
+</mapper>

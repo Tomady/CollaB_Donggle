@@ -36,4 +36,9 @@ public class WorkspaceJoinServiceImpl implements WorkspaceJoinService {
 		return map.workspaceTotalMember(vo);
 	}
 
+	@Override
+	public int workspaceJoinDelete(WorkspaceJoinVO vo) {
+		return map.workspaceJoinDelete(vo);
+	}
+
 }

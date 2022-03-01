@@ -1,13 +1,7 @@
-<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="java.util.List"%>
-<%@page import="co.Donggle.CollaB.calendar.service.calendarVO"%>
-=======
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
 <%@ page import="java.util.List"%>
 <%@ page import="co.Donggle.CollaB.calendar.service.calendarVO"%>
->>>>>>> 3873b7fe2649beb6ed2cbf0cfb517e8d2e15969b
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -176,7 +170,7 @@
 
 							<!-- <c:forEach var="list" items="${List}" varStatus="status">
                         <option value="${list.id}">${list.title}</option>
-                      <c:forEach> -->
+                      </c:forEach> -->
 
 							<option>리스트1</option>
 							<option>리스트2</option>

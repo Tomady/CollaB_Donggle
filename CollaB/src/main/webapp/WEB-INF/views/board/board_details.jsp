@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,102 +15,91 @@
 //페이지 그려줄때 테마적용, 사이드바 워크스페이스 이미지적용
 document.addEventListener("DOMContentLoaded", function(){
 	let color = "${workspace.board_thema}";
-	boardColorFnc(color);
-	
 	let name = "${workspace.workspace_title}".substring(0, 1);
-	let img = document.querySelector(".wkimg");
-	if(name == 'a' || name == 'A'){
-		img.setAttribute("src","resources/img/a.jpg");
-	}else if(name == 'b' || name == 'B'){
-		img.setAttribute("src","resources/img/b.jpg");
-	}else if(name == 'c' || name == 'C'){
-		img.setAttribute("src","resources/img/c.jpg");
-	}else if(name == 'd' || name == 'D'){
-		img.setAttribute("src","resources/img/d.jpg");
-	}else if(name == 'e' || name == 'E'){
-		img.setAttribute("src","resources/img/e.jpg");
-	}else if(name == 'f' || name == 'F'){
-		img.setAttribute("src","resources/img/f.jpg");
-	}else if(name == 'g' || name == 'G'){
-		img.setAttribute("src","resources/img/g.jpg");
-	}else if(name == 'h' || name == 'H'){
-		img.setAttribute("src","resources/img/h.jpg");
-	}else if(name == 'i' || name == 'I'){
-		img.setAttribute("src","resources/img/i.jpg");
-	}else if(name == 'j' || name == 'J'){
-		img.setAttribute("src","resources/img/j.jpg");
-	}else if(name == 'k' || name == 'K'){
-		img.setAttribute("src","resources/img/k.jpg");
-	}else if(name == 'l' || name == 'L'){
-		img.setAttribute("src","resources/img/l.jpg");
-	}else if(name == 'm' || name == 'M'){
-		img.setAttribute("src","resources/img/m.jpg");
-	}else if(name == 'n' || name == 'N'){
-		img.setAttribute("src","resources/img/n.jpg");
-	}else if(name == 'o' || name == 'O'){
-		img.setAttribute("src","resources/img/o.jpg");
-	}else if(name == 'p' || name == 'P'){
-		img.setAttribute("src","resources/img/p.jpg");
-	}else if(name == 'q' || name == 'Q'){
-		img.setAttribute("src","resources/img/q.jpg");
-	}else if(name == 'r' || name == 'R'){
-		img.setAttribute("src","resources/img/r.jpg");
-	}else if(name == 's' || name == 'S'){
-		img.setAttribute("src","resources/img/s.jpg");
-	}else if(name == 't' || name == 'T'){
-		img.setAttribute("src","resources/img/t.jpg");
-	}else if(name == 'u' || name == 'U'){
-		img.setAttribute("src","resources/img/u.jpg");
-	}else if(name == 'v' || name == 'V'){
-		img.setAttribute("src","resources/img/v.jpg");
-	}else if(name == 'w' || name == 'W'){
-		img.setAttribute("src","resources/img/w.jpg");
-	}else if(name == 'x' || name == 'X'){
-		img.setAttribute("src","resources/img/x.jpg");
-	}else if(name == 'y' || name == 'Y'){
-		img.setAttribute("src","resources/img/y.jpg");
-	}else if(name == 'z' || name == 'Z'){
-		img.setAttribute("src","resources/img/z.jpg");
-	}else if(name == '0'){
-		img.setAttribute("src","resources/img/0.jpg");
-	}else if(name == '1'){
-		img.setAttribute("src","resources/img/1.jpg");
-	}else if(name == '2'){
-		img.setAttribute("src","resources/img/2.jpg");
-	}else if(name == '3'){
-		img.setAttribute("src","resources/img/3.jpg");
-	}else if(name == '4'){
-		img.setAttribute("src","resources/img/4.jpg");
-	}else if(name == '5'){
-		img.setAttribute("src","resources/img/5.jpg");
-	}else if(name == '6'){
-		img.setAttribute("src","resources/img/6.jpg");
-	}else if(name == '7'){
-		img.setAttribute("src","resources/img/7.jpg");
-	}else if(name == '8'){
-		img.setAttribute("src","resources/img/8.jpg");
-	}else if(name == '9'){
-		img.setAttribute("src","resources/img/9.jpg");
+	boardColorFnc(color);
+	changeWKIMG(name);
+	
+	//워크프페이스 프로필이미지
+	function changeWKIMG(newWKname){
+		let img = document.querySelector(".wkimg");
+		if(name == 'a' || name == 'A'){
+			img.setAttribute("src","resources/img/a.jpg");
+		}else if(name == 'b' || name == 'B'){
+			img.setAttribute("src","resources/img/b.jpg");
+		}else if(name == 'c' || name == 'C'){
+			img.setAttribute("src","resources/img/c.jpg");
+		}else if(name == 'd' || name == 'D'){
+			img.setAttribute("src","resources/img/d.jpg");
+		}else if(name == 'e' || name == 'E'){
+			img.setAttribute("src","resources/img/e.jpg");
+		}else if(name == 'f' || name == 'F'){
+			img.setAttribute("src","resources/img/f.jpg");
+		}else if(name == 'g' || name == 'G'){
+			img.setAttribute("src","resources/img/g.jpg");
+		}else if(name == 'h' || name == 'H'){
+			img.setAttribute("src","resources/img/h.jpg");
+		}else if(name == 'i' || name == 'I'){
+			img.setAttribute("src","resources/img/i.jpg");
+		}else if(name == 'j' || name == 'J'){
+			img.setAttribute("src","resources/img/j.jpg");
+		}else if(name == 'k' || name == 'K'){
+			img.setAttribute("src","resources/img/k.jpg");
+		}else if(name == 'l' || name == 'L'){
+			img.setAttribute("src","resources/img/l.jpg");
+		}else if(name == 'm' || name == 'M'){
+			img.setAttribute("src","resources/img/m.jpg");
+		}else if(name == 'n' || name == 'N'){
+			img.setAttribute("src","resources/img/n.jpg");
+		}else if(name == 'o' || name == 'O'){
+			img.setAttribute("src","resources/img/o.jpg");
+		}else if(name == 'p' || name == 'P'){
+			img.setAttribute("src","resources/img/p.jpg");
+		}else if(name == 'q' || name == 'Q'){
+			img.setAttribute("src","resources/img/q.jpg");
+		}else if(name == 'r' || name == 'R'){
+			img.setAttribute("src","resources/img/r.jpg");
+		}else if(name == 's' || name == 'S'){
+			img.setAttribute("src","resources/img/s.jpg");
+		}else if(name == 't' || name == 'T'){
+			img.setAttribute("src","resources/img/t.jpg");
+		}else if(name == 'u' || name == 'U'){
+			img.setAttribute("src","resources/img/u.jpg");
+		}else if(name == 'v' || name == 'V'){
+			img.setAttribute("src","resources/img/v.jpg");
+		}else if(name == 'w' || name == 'W'){
+			img.setAttribute("src","resources/img/w.jpg");
+		}else if(name == 'x' || name == 'X'){
+			img.setAttribute("src","resources/img/x.jpg");
+		}else if(name == 'y' || name == 'Y'){
+			img.setAttribute("src","resources/img/y.jpg");
+		}else if(name == 'z' || name == 'Z'){
+			img.setAttribute("src","resources/img/z.jpg");
+		}else if(name == '0'){
+			img.setAttribute("src","resources/img/0.jpg");
+		}else if(name == '1'){
+			img.setAttribute("src","resources/img/1.jpg");
+		}else if(name == '2'){
+			img.setAttribute("src","resources/img/2.jpg");
+		}else if(name == '3'){
+			img.setAttribute("src","resources/img/3.jpg");
+		}else if(name == '4'){
+			img.setAttribute("src","resources/img/4.jpg");
+		}else if(name == '5'){
+			img.setAttribute("src","resources/img/5.jpg");
+		}else if(name == '6'){
+			img.setAttribute("src","resources/img/6.jpg");
+		}else if(name == '7'){
+			img.setAttribute("src","resources/img/7.jpg");
+		}else if(name == '8'){
+			img.setAttribute("src","resources/img/8.jpg");
+		}else if(name == '9'){
+			img.setAttribute("src","resources/img/9.jpg");
+		}
 	}
 	
-	//해당 워크스페이스에 있는 모든 참여자 목록 가져오기
-	$.ajax({
-		url : "AjaxWorkspaceTotalMember",
-		type : "POST",
-		data : {
-			workspaceId : ${workspace.workspace_id}
-		},
-		dataType : "json",
-		success : function(datas){
-			console.log(datas);
-		},
-		error : function(){
-			console.log("보드상세 | AjaxWorkspaceTotalMember 실패");
-		}
-		
-	})
-});
+	//즐겨찾기 추가되어있는지 확인
 	
+});
 </script>
 </head>
 <body>
@@ -128,14 +118,14 @@ document.addEventListener("DOMContentLoaded", function(){
              <div class="dropdown-menu">
                <!-- 세션에다 닉네임 저장해주세여....부탁드려보자.... -->
                <div class="dropdown-title">Hi, [Nickname] ! 🤗<p>Where are you going ?</p></div>
-               <a class="dropdown-item" href="#">&nbsp;&nbsp;Board</a>
+               <a class="dropdown-item" href="boardDetail?boardID=${boardID}">&nbsp;&nbsp;Board</a>
                <a class="dropdown-item" href="#">&nbsp;&nbsp;TimeLine</a>
                <a class="dropdown-item" href="#">&nbsp;&nbsp;Calendar</a>
                <a class="dropdown-item" href="#">&nbsp;&nbsp;DashBoard</a>
                <!--<div class="dropdown-divider"></div> 구분선-->
              </div>
              &nbsp;&nbsp;
-             <button id="WsName" class="btn btn-secondary boardheaderbtn" type="button" title="workspace">
+             <button id="WsName" class="btn btn-secondary boardheaderbtn" type="button" title="workspace" data-wkId="${workspace.workspace_id}">
                ${workspace.workspace_title}
              </button>
              &nbsp;&nbsp;
@@ -143,9 +133,16 @@ document.addEventListener("DOMContentLoaded", function(){
                ${workspace.board_Title}
              </button>
              &nbsp;&nbsp;
-             <button id="addstar" class="btn btn-secondary boardheaderbtn" type="button">
-               <i id="star" class="fas fa-star"></i>
-             </button>
+             <c:if test="${starYesOrNo > 0}">
+             	<button id="addstar" class="btn btn-secondary boardheaderbtn" type="button" data-boardId="${boardID}">
+               		<i id="star" class="fas fa-star" style="color:yellow;" data-boardId="${boardID}"></i>
+             	</button>
+             </c:if>
+             <c:if test="${starYesOrNo == 0}">
+             	<button id="addstar" class="btn btn-secondary boardheaderbtn" type="button" data-boardId="${boardID}">
+               		<i id="star" class="fas fa-star" data-boardId="${boardID}"></i>
+             	</button>
+             </c:if>
              <div class="ml-1">
                <button class="btn btn-secondary dropdown-toggle boardheaderbtn" 
                type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Thema </button>
@@ -176,7 +173,6 @@ document.addEventListener("DOMContentLoaded", function(){
                  <div class="d-flex mt-3">
                    <span title="No Thema" class="dropdown-item default" style="background-color: #ECE9FE;" onclick="changeBoardColor('base')"></span>
                  </div>
-                 
                </div>
              </div>
              <div class="ml-1 dropdown">
@@ -185,19 +181,23 @@ document.addEventListener("DOMContentLoaded", function(){
                Invite
                </button>
                <div class="dropdown-menu showInvite" 
-               style="overflow: scroll; overflow-x: hidden; height: 300px; display:none;">
+               style="overflow: scroll; height: 300px; display:none;">
                  <span class="fa fa-times ml-2 mt-1" title="close" style="cursor:pointer;"
                  onclick="closeInvite()"></span>
                  <div class="dropdown-title">Your Partners 👫</div>
                  <div class="ml-1 mr-1 text-center Invite_selectMember"> <!--선택된 멤버들-->
-                   <span class="btn btn-light mr-1 ml-1 mt-1" style="visibility:hidden">김은지</span>
+                 	<c:forEach items="${boardJoinMembers}" var="boardmember">
+	                   <span class="btn btn-light mr-1 ml-1 mt-1">${boardmember.name}</span>						                 	
+                 	</c:forEach>
                  </div>
                  <div class="dropdown-divider"></div>
                  <div class="dropdown-title">Member List 🙌</div>
                  <div id="Invite_member"> 
-                   <!--워크스페이스에 있는 모든 참여자 목록 나오게끔 하기 => 같이 보드쓰자고 초대하기 -->
-                   <!--이미 초대된 멤버들은 input박스 생기면 안됨-->
-                   <a class="dropdown-item" href="#"><input type="checkbox" class="Invite_check" onclick="inviteBoard()" value="멤버PK" data-memName="박소연"> 박소연</a>
+                   <c:forEach items="${boardOthers}" var="workspaceMember">
+               			<a class="dropdown-item" href="#">
+                 		<input type="checkbox" class="Invite_check" onclick="inviteBoard()" value="${workspaceMember.id}" 
+                 		data-memName="${workspaceMember.name}"> ${workspaceMember.name}(${workspaceMember.email})</a>
+                   </c:forEach>
                  </div>
                </div>
              </div>
@@ -206,19 +206,11 @@ document.addEventListener("DOMContentLoaded", function(){
              <button class="btn btn-outline-secondary dropdown-toggle boardheaderFilter" 
              type="button" data-toggle="dropdown" aria-haspopup="true" 
              aria-expanded="false">Filter </button>
-             <div class="dropdown-menu dropdown-menu-right" style="overflow: scroll; overflow-x: hidden; height: 300px;">
+             <div class="dropdown-menu dropdown-menu-right" style="overflow: scroll; height: 300px;">
                <div class="dropdown-title Members">Your Partners 👫</div>
-               <a class="dropdown-item" href="#"><input type="checkbox">해당 보드에 있는</a>
-               <a class="dropdown-item" href="#"><input type="checkbox">모든 참여자목록ㄹㄹㄹㄹ</a>
-               <a class="dropdown-item" href="#"><input type="checkbox">해당 보드에 있는</a>
-               <a class="dropdown-item" href="#"><input type="checkbox">모든 참여자목록ㄹㄹㄹㄹ</a>
-               <a class="dropdown-item" href="#"><input type="checkbox">해당 보드에 있는</a>
-               <a class="dropdown-item" href="#"><input type="checkbox">모든 참여자목록ㄹㄹㄹㄹ</a>
-               <a class="dropdown-item" href="#"><input type="checkbox">해당 보드에 있는</a>
-               <a class="dropdown-item" href="#"><input type="checkbox">모든 참여자목록ㄹㄹㄹㄹ</a>
-               <a class="dropdown-item" href="#"><input type="checkbox">해당 보드에 있는</a>
-               <a class="dropdown-item" href="#"><input type="checkbox">모든 참여자목록ㄹㄹㄹㄹ</a>
-               <!--<div class="dropdown-divider"></div> 구분선-->
+               <c:forEach items="${boardJoinMembers}" var="boardmember">
+                 <a class="dropdown-item" href="#"><input type="checkbox"> ${boardmember.name}(${boardmember.email})</a>						                 	
+               </c:forEach>
              </div>
            </div>
            <!-- 보드헤더 끝 -->
@@ -444,7 +436,7 @@ document.addEventListener("DOMContentLoaded", function(){
  
  
 <!-- 은지 코드 -->
-<script src="resources/js/eunji/board-header.js"></script>
-<script src="resources/js/eunji/board-detail_body.js"></script>
+<script src="resources/js/board/board-header.js"></script>
+<script src="resources/js/board/board-detail_body.js"></script>
 </body>
 </html>

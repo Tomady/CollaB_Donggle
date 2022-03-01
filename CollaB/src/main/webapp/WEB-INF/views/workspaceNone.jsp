@@ -114,7 +114,7 @@
               <span id="black" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(12, 12, 12); margin-left: 5%;"></span>
             </div>
           </div>
-          <input id="modal-board-background" type="text" class="form-control">
+          <input id="modal-board-background" type="text" class="form-control" readonly>
         </div>
         <div class="row form-group mt-3">
           <label>Board Title<span style="color: red;"> *</span></label>
@@ -123,13 +123,12 @@
         <div class="row form-group mt-3">
           <label>Workspace</label>
           <select class="form-control" id="select-workspace">
-            <option>Workspace 1</option>
-            <option>Workspace 2</option>
+            <option>No Workspace</option>
           </select>
         </div>
         <div class="row buttons mt-3">
           <button class="mt-5 btn btn-icon icon-left btn-secondary" id="createboardBtn"
-          onclick="createBoard()">Create</button>
+          onclick="plzMakeWorkspace()">Create</button>
         </div>
       </div>
     </div>
@@ -150,9 +149,9 @@
           <div class="dropdown-menu">
             <div class="dropdown-title">Your Workspace 🎨</div>
             <!--사용자 워크스페이스 목록 뿌릴 때, id="mainHeadWork"+workspace.ID 지정해주기-->
-            <a class="dropdown-item" id="mainHeadWork1" onclick="mainHeader_switchWork(id)">workspace_1</a>
-            <a class="dropdown-item" id="mainHeadWork2" onclick="mainHeader_switchWork(id)">workspace_2</a>
-            <a class="dropdown-item" id="mainHeadWork3" onclick="mainHeader_switchWork(id)">workspace_3</a>
+            <a class="dropdown-item"></a>
+            <a class="dropdown-item text-center">No Workspace</a>
+            <a class="dropdown-item"></a>
           </div>
         </div>
         <div class="btn-group">
@@ -160,9 +159,9 @@
           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recent</button>
           <div class="dropdown-menu">
             <div class="dropdown-title">History 🎡</div>
-            <a class="dropdown-item" href="#">board_2</a>
-            <a class="dropdown-item" href="#">board_1</a>
-            <a class="dropdown-item" href="#">board_4</a>
+             <a class="dropdown-item"></a>
+            <a class="dropdown-item text-center">No Boards</a>
+            <a class="dropdown-item"></a>
           </div>
         </div>
         <div class="btn-group">
@@ -204,7 +203,9 @@
               <div class="card-body ml-5 mr-5" style="height: 100vh;">
                 <div class="col-lg-12 text-center">
                   <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-                  <h4>No Workspace<p id="Workspace_create" style="cursor: pointer;" onclick="create_workspaceModal()">Create your Workspace</p></h4>
+                  <h4>No Workspace
+                  	<p id="Workspace_create" style="cursor: pointer;" 
+                  	onclick="create_workspaceModal()">Create your Workspace🎨</p></h4>
                 </div>
               </div>
             </div>
@@ -228,7 +229,6 @@
   <script src="resources/assets/js/custom.js"></script>
 
   <!-- 은지 코드 -->
-  <script src="resources/js/eunji/main_layout.js"></script>
-  <script src="resources/js/eunji/workspaceList.js"></script>
+  <script src="resources/js/workspace/workspaceNone.js"></script>
 </body>
 </html>

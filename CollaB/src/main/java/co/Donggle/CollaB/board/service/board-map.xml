@@ -39,8 +39,37 @@
 	<select id="selectBoardStar"
 	parameterType="co.Donggle.CollaB.board.service.BoardVO"
 	resultType="co.Donggle.CollaB.board.service.BoardVO">
-		SELECT * FROM BOARD_STAR 
-		WHERE BOARD_ID = #{board_id} AND USER_ID = #{id}
+		SELECT C.*
+		FROM BOARD_JOIN A JOIN BOARD_STAR B
+		ON (A.BOARD_ID = B.BOARD_ID)
+		JOIN BOARD C
+		ON (A.BOARD_ID = C.BOARD_ID)
+		WHERE A.WORKSPACE_ID = #{workspace_id} 
+	</select>
+	
+	<select id="selectBoardNonStar"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO"
+	resultType="co.Donggle.CollaB.board.service.BoardVO">
+		SELECT A.*
+		FROM BOARD A JOIN BOARD_JOIN B
+		ON (A.BOARD_ID = B.BOARD_ID)
+		WHERE A.WORKSPACE_ID = #{workspace_id}
+		MINUS
+		SELECT C.*
+		FROM BOARD_JOIN A JOIN BOARD_STAR B
+		ON (A.BOARD_ID = B.BOARD_ID)
+		JOIN BOARD C
+		ON (A.BOARD_ID = C.BOARD_ID)
+		WHERE A.WORKSPACE_ID = #{workspace_id} 
+	</select>
+	
+	<select id="boardStarYesOrNo"
+	resultType="int"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO">
+		SELECT COUNT(*)
+		FROM BOARD_STAR
+		WHERE BOARD_ID = #{board_id} 
+		AND USER_ID = #{id}
 	</select>
 	
 	<select id="selectBoard"
@@ -58,4 +87,56 @@
 		SET BOARD_THEMA = #{board_thema}
 		WHERE BOARD_ID = #{board_id}
 	</update>
+	
+	<delete id="boardJoinDrop"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO">
+		DELETE BOARD_JOIN
+		WHERE ID = #{id}
+		AND WORKSPACE_ID = #{workspace_id} 
+	</delete>
+	
+	<insert id="createBoard"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO">
+		<selectKey keyProperty="board_id" order="BEFORE" resultType="int">
+			SELECT MAX(BOARD_ID)+1 FROM BOARD
+		</selectKey>
+		INSERT INTO BOARD
+		VALUES(#{board_id},#{board_Title},#{workspace_id},#{board_thema})
+	</insert>
+	
+	<insert id="insertBoardJoin"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO">
+		<selectKey keyProperty="board_id" order="BEFORE" resultType="int">
+			SELECT MAX(BOARD_ID) FROM BOARD
+		</selectKey>
+		INSERT INTO BOARD_JOIN
+		VALUES(#{id},#{workspace_id},#{board_id})
+	</insert>
+	
+	<select id="currentBoardSelect"
+	resultType="co.Donggle.CollaB.board.service.BoardVO">
+		SELECT * FROM BOARD
+		WHERE BOARD_ID = (SELECT MAX(BOARD_ID)
+                          FROM BOARD)
+	</select>
+	
+	<select id="boardWorkspaceID" resultType="int"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO">
+		SELECT WORKSPACE_ID 
+		FROM BOARD 
+		WHERE BOARD_ID = #{board_id}
+	</select>
+	
+	<insert id="boardAddStar"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO">
+		INSERT INTO BOARD_STAR
+		VALUES(#{board_id}, #{id})
+	</insert>
+	
+	<delete id="boardRemoveStar"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO">
+		DELETE BOARD_STAR
+		WHERE BOARD_ID = #{board_id}
+		AND USER_ID = #{id}
+	</delete>
 </mapper>
