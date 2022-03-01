@@ -50,7 +50,7 @@
               </a>
             </li>
             <li>
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="issueBoard.do">
                 <i class="fas fa-fire"></i>
                 <span>Issues</span>
               </a>
