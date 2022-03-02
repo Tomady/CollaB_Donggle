@@ -97,8 +97,90 @@ document.addEventListener("DOMContentLoaded", function(){
 		}
 	}
 	
-	//즐겨찾기 추가되어있는지 확인
-	
+	//카드 아이템 목록들 가져오기
+	let boardID = document.querySelector(".main-content").getAttribute("data-boardID");
+	$.ajax({
+		url : "AjaxTotalCards",
+		type : "POST",
+		data : {
+			boardID : boardID
+		},
+		dataType : "json",
+		success : function(cards){
+			console.log(cards);
+			//현재 보드에 있는 모든 카드목록(카드아이디목록)을 cardIds배열에다 담아준다.
+			const cardIds = new Array();
+			for(let i = 0; i<cards.length; i++){
+				cardIds[i] = cards[i].card_id;
+			}
+			//카드아이디목록 만큼 for문을 돌면서 카드아이템 유무 확인
+			for(let cardId of cardIds){
+				//체크리스트 있는지 확인
+				$.ajax({
+					url : "AjaxCardCheckListExist",
+					type : "POST",
+					data : {
+						cardId : cardId
+					},
+					dataType : "text",
+					success : function(data){
+						console.log(cardId+"번 카드는 체크리스트가 있다?"+data);
+						if(data == "YES"){
+							document.querySelector(".check"+cardId).style.color="tomato";
+						}
+					},
+					error : function(){
+						console.log("AjaxCardCheckListExist 카드-체크리스트유무확인실패")
+					}
+				})
+				//파일 있는지 확인
+				$.ajax({
+					url : "AjaxCardFileExist",
+					type : "POST",
+					data : {
+						cardId : cardId
+					},
+					dataType : "text",
+					success : function(data){
+						console.log(cardId+"번 카드는 첨부파일이 있다?"+data);
+						if(data == "YES"){
+							document.querySelector(".files"+cardId).style.color="tomato";
+						}
+					},
+					error : function(){
+						console.log("AjaxCardFileExist 카드-파일유무확인실패");
+					}
+				})
+				//매니저 있는지 확인
+				$.ajax({
+					url : "AjaxCardManager",
+					type : "POST",
+					data : {
+						cardId : cardId
+					},
+					dataType : "text", //프로필 이미지 경로 가져오기
+					success : function(data){
+						if(data != null){
+							console.log(cardId+"번 카드의 매니저 프로필 사진주소는=>"+data);
+							document.querySelector(".profimg"+cardId).setAttribute("src",data);
+						}else{
+							console.log(cardId+"번 카드의 매니저 프로필 사진주소는 없음");
+						}
+					},
+					error : function(){
+						console.log("AjaxCardManager 카드-매니저프로필가져오기실패");
+					}
+				})
+			}
+			
+				
+			
+		},
+		error : function(){
+			console.log("AjaxTotalCards 카드호출실패");
+		}
+		
+	})
 });
 </script>
 </head>
@@ -106,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <div id="app">
    <div class="main-wrapper">
      <!-- Main Content -->
-     <div class="main-content">
+     <div class="main-content" data-boardID="${boardID}">
        <section class="section">
          <!-- 보드헤더 -->
          <div class="section-header d-flex justify-content-between">
@@ -195,8 +277,9 @@ document.addEventListener("DOMContentLoaded", function(){
                  <div id="Invite_member"> 
                    <c:forEach items="${boardOthers}" var="workspaceMember">
                			<a class="dropdown-item" href="#">
-                 		<input type="checkbox" class="Invite_check" onclick="inviteBoard()" value="${workspaceMember.id}" 
-                 		data-memName="${workspaceMember.name}"> ${workspaceMember.name}(${workspaceMember.email})</a>
+                 		<input type="checkbox" class="Invite_check" onclick="inviteBoard()"
+                 		value="${workspaceMember.id}" data-memName="${workspaceMember.name}" 
+                 		data-workspaceID="${workspaceID}" data-boardID="${boardID}"> ${workspaceMember.name}(${workspaceMember.email})</a>
                    </c:forEach>
                  </div>
                </div>
@@ -206,7 +289,7 @@ document.addEventListener("DOMContentLoaded", function(){
              <button class="btn btn-outline-secondary dropdown-toggle boardheaderFilter" 
              type="button" data-toggle="dropdown" aria-haspopup="true" 
              aria-expanded="false">Filter </button>
-             <div class="dropdown-menu dropdown-menu-right" style="overflow: scroll; height: 300px;">
+             <div class="dropdown-menu dropdown-menu-right filtermenu" style="overflow: scroll; height: 300px;">
                <div class="dropdown-title Members">Your Partners 👫</div>
                <c:forEach items="${boardJoinMembers}" var="boardmember">
                  <a class="dropdown-item" href="#"><input type="checkbox"> ${boardmember.name}(${boardmember.email})</a>						                 	
@@ -219,7 +302,54 @@ document.addEventListener("DOMContentLoaded", function(){
          <!-- 보드바디 -->
          <div class="section-body">
            <div id="boardDetailBODY" class="row">
-             
+           <!-- 리스트 그려주자~! -->
+           <c:forEach items="${totalList}" var="list">
+           	<div class="col-12 col-sm-6 col-lg-2 listDIV" 
+           	data-listID="${list.list_id}" id="list${list.list_id}">
+               <div class="card">
+                 <div class="first card-header d-flex justify-content-between">
+                   <h4 class="listName" onclick="renameList(${list.list_id})">${list.list_title}</h4>
+                   <i class="fa fa-times col-rg" aria-hidden="true" 
+                   style="cursor:pointer;" onclick="deleteList(${list.list_id})"></i>
+                 </div>
+                 <div class="cardArea">
+                 <c:forEach items="${totalCard}" var="card">
+                 <c:if test="${card.list_id eq list.list_id}">
+                 	<div class="card card-${card.card_label} ml-2 mr-2"> <!--라벨표시-->
+                     <div class="card-header d-flex justify-content-between">
+                       <span class="cardName">${card.card_title}</span> <!--카드이름-->
+                       <i class="fa fa-times col-rg" aria-hidden="true"></i>
+                     </div>
+                     <div class="ml-2 mt-1 text-right card-owner" style="font-weight:bold;">
+                     <c:if test="${card.manager ne null}">
+                     	${card.manager}<img style="height: 20px; width: 20px;" 
+                       class="rounded-circle mr-1 ml-1 mb-1 profimg${card.card_id}">
+                     </c:if>
+                     </div>
+                     <div class="ml-3 card-option"> 
+                       <!--옵션표시(file,checklist,dates)-->
+                       <i class="fa fa-check-square check${card.card_id}" style="color:#e9ecef;"></i>
+                       <c:if test="${card.card_start_date eq null}">
+                       		<i class="fa fa-calendar ml-1 dates" style="color:#e9ecef;"></i>                       
+                       </c:if>
+                       <i class="fa fa-calendar ml-1 dates" style="color: tomato;"></i>  
+                       <i class="fa fa-paperclip ml-1 files${card.card_id}" style="color:#e9ecef;"></i>
+                     </div>
+                   </div>
+                 </c:if>
+                 </c:forEach>
+                   <div class="last card-header"> 
+                     <div class="addCardBtn">
+                       <h4 class="fas fa-plus" 
+                       onclick="nameCard(${list.list_id})">&nbsp;&nbsp;Add Card</h4>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </c:forEach>
+           
+             <!-- 아래부터는 리스트 모양 양식입니다. -->
              <!--5. 카드 여러개 추가한 리스트 : 완-->
              <div class="col-12 col-sm-6 col-lg-2" style="display: none;">
                <div class="card">
@@ -251,8 +381,8 @@ document.addEventListener("DOMContentLoaded", function(){
                      </div>
                      <div class="ml-3 card-option"> <!--옵션표시(file,checklist,dates)-->
                        <i class="fa fa-check-square check" style="color:rgb(59, 59, 59);"></i>
-                       <i class="fa fa-calendar ml-1 dates" style="color: rgb(59, 59, 59);;"></i>
-                       <i class="fa fa-paperclip ml-1 files" style="color: rgb(59, 59, 59);;"></i>
+                       <i class="fa fa-calendar ml-1 dates" style="color: rgb(59, 59, 59);"></i>
+                       <i class="fa fa-paperclip ml-1 files" style="color: rgb(59, 59, 59);"></i>
                      </div>
                    </div>
                    <!--===============여기까지가 하나의 카드!===============-->
@@ -421,7 +551,7 @@ document.addEventListener("DOMContentLoaded", function(){
              <div class="col-12 col-sm-6 col-lg-2" id="addList">
                <div class="card">
                  <div class="card-header">
-                   <div class="addListBtn" style="cursor:pointer;">
+                   <div class="addListBtn" style="cursor:pointer;" data-boardID="${boardID}">
                      <h4><i class="fas fa-plus"></i>&nbsp;&nbsp;Add List</h4>
                    </div>
                  </div>

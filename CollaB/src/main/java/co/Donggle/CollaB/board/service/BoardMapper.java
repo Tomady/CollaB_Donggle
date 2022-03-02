@@ -35,4 +35,6 @@ public interface BoardMapper {
 	int boardAddStar(BoardVO vo);
 	//보드 즐겨찾기 해제
 	int boardRemoveStar(BoardVO vo);
+	//보드 멤버추가
+	int addBoardJoinMember(BoardVO vo);
 }

@@ -93,4 +93,9 @@ public class BoardServiceImpl implements BoardService {
 		return map.boardRemoveStar(vo);
 	}
 
+	@Override
+	public int addBoardJoinMember(BoardVO vo) {
+		return map.addBoardJoinMember(vo);
+	}
+
 }

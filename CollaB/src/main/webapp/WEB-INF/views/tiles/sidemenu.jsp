@@ -65,15 +65,15 @@
             <li class="menu-header">Your Boards</li>
             <c:forEach items="${boardStar}" var="starBoard">
             	<li>
-            	  <a class="nav-link d-flex justify-content-between" href="boardDetail?boardID=${starBoard.board_id}">
-	                <span class="sidebar_board${board.board_id}">&nbsp;&nbsp;${starBoard.board_Title}</span>
-	                <span class="fas fa-star col-rg text-right" style="color:yellow;"></span>
+            	  <a class="nav-link d-flex justify-content-between sidebar_boardStar${starBoard.board_id}" href="boardDetail?boardID=${starBoard.board_id}">
+	                <span class="sidebar_board${starBoard.board_id}">&nbsp;&nbsp;${starBoard.board_Title}</span>
+	                <span class="sidebarstar${starBoard.board_id} fas fa-star col-rg text-right" style="color:yellow;"></span>
 	              </a>
             	</li>
             </c:forEach>
             <c:forEach items="${unStarBoards}" var="board">
 	            <li>
-	              <a class="nav-link d-flex justify-content-between" href="boardDetail?boardID=${board.board_id}">
+	              <a class="nav-link d-flex justify-content-between sidebar_boardStar${board.board_id}" href="boardDetail?boardID=${board.board_id}">
 	                <span class="sidebar_board${board.board_id}">&nbsp;&nbsp;${board.board_Title}</span>
 	              </a>
 	            </li>

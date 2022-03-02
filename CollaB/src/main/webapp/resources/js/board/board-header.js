@@ -180,30 +180,28 @@ document.getElementById("BorName").onclick=function(){
 //즐겨찾기 버튼 클릭 했을 때
 document.getElementById("addstar").onclick=function(){
 	let boardId = event.target.getAttribute("data-boardId");
-    // 1. <button> 클릭시
-    if(event.target.nodeName == "BUTTON"){ 
+    
+    if(event.target.nodeName == "BUTTON"){ // 1. <button> 클릭시
         let star = document.getElementById("star"); 
         
-        // 1-1. 이미 즐겨찾기 추가가 되어있을때
-        if(star.style.color == "yellow"){ 
-            addStar(boardId);
+        if(star.style.color == "yellow"){ // 1-1. 이미 즐겨찾기 추가가 되어있을때
+			removeStar(boardId);
             star.style.color="white";
-        // 1-2. 즐겨찾기 추가가 안되어있을경우
-        }else{ 
-            removeStar(boardId);
+        
+        }else{  // 1-2. 즐겨찾기 추가가 안되어있을경우
+			addStar(boardId);
             star.style.color="yellow";
         }
-    // 2. <i> 클릭시
-    }else{ 
+    
+    }else{ // 2. <i> 클릭시
         let star = event.target;
-
-        // 2-1. 이미 즐겨찾기 추가가 되어있을때
-        if(event.target.style.color == "yellow"){ 
-            addStar(boardId);
+       
+        if(event.target.style.color == "yellow"){  // 2-1. 이미 즐겨찾기 추가가 되어있을때
+			removeStar(boardId);
             star.style.color="white";
-        // 2-2. 즐겨찾기 추가가 안되어있을경우
-        }else{
-            removeStar(boardId);
+        
+        }else{ // 2-2. 즐겨찾기 추가가 안되어있을경우
+            addStar(boardId);
             star.style.color="yellow";
         }
     }
@@ -219,7 +217,13 @@ function addStar(boardId){
 		},
 		dataType : "text",
 		success : function(data){
-			console.log(data);
+			console.log("줄겨찾기추가 성공?"+data);
+			let span = document.createElement("span");
+			span.setAttribute("class","sidebarstar"+boardId+" fas fa-star col-rg text-right");
+			span.style.color="yellow";
+			
+			let a = document.querySelector(".sidebar_boardStar"+boardId);
+			a.append(span);
 		},
 		error : function(){
 			console.log("AjaxAddBoardStar 실패");
@@ -237,7 +241,9 @@ function removeStar(boardId){
 		},
 		dataType : "text",
 		success : function(data){
-			console.log(data);
+			console.log("즐겨찾기해제 성공?"+data);
+			let star = document.querySelector(".sidebarstar"+boardId);
+			star.remove();
 		},
 		error : function(){
 			console.log("AjaxRemoveBoardStar 실패");
@@ -398,27 +404,67 @@ function boardColorFnc(color){
     }
 }
 
-//보드 멤버추가
+//보드 멤버추가 div 열기
 function showInvite(){
     document.querySelector(".showInvite").style.display="block";
 }
+//보드 멤버추가 이벤트
 function inviteBoard(){
     let target = event.target; //체크박스
-    let member = target.value; //추가된 멤버의 아이디(PK)
-    let memberName = target.getAttribute('data-memName'); //추가된 멤버의 이름
-
+	let innerVal = event.target.parentElement.innerText; //멤버이름(멤버이메일)
+    let memberId = target.value; //추가된 멤버의 아이디(PK)
+    let memberName = target.getAttribute("data-memName"); //추가된 멤버의 이름
+	let workspaceId = target.getAttribute("data-workspaceID"); //해당 워크스페이스 아이디
+	let boardID = target.getAttribute("data-boardID"); //해당 보드 아이디
+	
     if(target.checked){ //체크시
         //아작스 사용해서 DB에다가도 넣어주기
-        target.parentElement.remove();
-        let selectMem = document.querySelector(".Invite_selectMember"); //여기다가 선택된 멤버들 넣기
-        
-        let span = document.createElement("span");
-        span.setAttribute("class","btn btn-light mr-1 ml-1 mt-1");
-        span.innerHTML=memberName;
+		$.ajax({
+			url : "AjaxAddBoardJoinMember",
+			type : "POST",
+			data : {
+				memberID : memberId,
+				workspaceID : workspaceId,
+				boardID : boardID
+			},
+			dataType : "text",
+			success : function(data){
+				if(data == "NO"){
+					console.log("멤버초대성공?"+data);
+				}else if(data == "YES"){
+					console.log("멤버초대성공?"+data);
+					//멤버초대div에서 초대된 멤버처리
+					target.parentElement.remove();
+			        let selectMem = document.querySelector(".Invite_selectMember"); //여기다가 선택된 멤버들 넣기
+			        
+			        let span = document.createElement("span");
+			        span.setAttribute("class","btn btn-light mr-1 ml-1 mt-1");
+			        span.innerHTML=memberName;
+			
+			        selectMem.append(span);
 
-        selectMem.append(span);
+					//필터div에서 초대된 멤버처리
+					let filter = document.querySelector(".filtermenu");
+					let a = document.createElement("a");
+					a.setAttribute("class","dropdown-item");
+					let input = document.createElement("input");
+					input.setAttribute("type","checkbox");
+					input.onclick
+					
+					a.append(input);
+					a.append(innerVal);
+					filter.append(a);
+				}
+			},
+			error : function(){
+				console.log("AjaxAddBoardJoinMember 실패");
+			}
+		})
+        
     }
 }
+
+//보드 멤버추가 div 닫기
 function closeInvite(){
     document.querySelector(".showInvite").style.display="none";
 }

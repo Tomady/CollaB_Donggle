@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.Donggle.CollaB.card.service.CardMapper">
+	<select id="cardCheckListExist" resultType="int"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT COUNT(*) 
+		FROM CHECKLIST 
+		WHERE CARD_ID = #{card_id}
+	</select>
+	
+	<select id="cardFileExist" resultType="int"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT COUNT(*) 
+		FROM FILE_INFO 
+		WHERE CARD_ID = #{card_id}
+	</select>
+	
+	<select id="cardManagerProfIMG" resultType="string"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT U.PROF_PIC
+		FROM USER_INFO U, CARD C
+		WHERE U.ID = C.MANAGER
+		AND CARD_ID = #{card_id}
+	</select>
+</mapper>
