@@ -132,7 +132,7 @@
             position: relative;
         }
         .body__top {
-            padding: 50px 50px 0px 50px;
+            padding: 20px 90px 0px 90px;
         }
         .body__top li {
             margin-bottom: 15px;
@@ -153,7 +153,7 @@
             background-color: white;
         }
         .form__input{
-            padding-left: 50px;
+            margin-left: 25%;
         }            
         #joinBtn{
             background-color: #9F90D9;
@@ -185,8 +185,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .modal{
-           
+        .modal{ 
             width: 500px; height: 500px;
             background: white;
             display: none;
@@ -196,7 +195,20 @@
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
         }
-            
+        .msgGrp{
+            margin-top: 5px;
+        }
+        input[type=text], input[type=password], input[type=email], input[type=tel]{
+            height: 25px;
+            width: 65%;
+            margin-top: 10px;
+        }
+        .formBox{
+            margin-bottom: 20px;
+        }
+        .label{
+			font-weight: bold;        
+        }
     </style>
 </head>
 
@@ -205,7 +217,7 @@
     <nav class="nav__wrap">
         <div class="nav__row">
             <div class="nav__homeLogo">
-                <a href="" style="font-size: 1.2rem;">CollabB</a>
+                <a href="" style="font-size: 1.2rem;">CollaB</a>
             </div>
             <ul class="nav__right">
                 <li><a href="#"><i class="fas fa-user"></i>Sign Up</a></li>
@@ -243,122 +255,179 @@
                         </ul>
                         
                         <div class="form__input">
-                            <form action="" method="post" name="joinForm"> 
-                                <table width="500" height="600" cellpadding="0" style="border-collapse:collapse; font-size:9pt;">
-                                    <tr class="register" height="30">
-                                        <td width="5%" align="center">*</td>
-                                        <td width="17%">아이디</td>
-                                        <td><input type="text" name="userId" />&nbsp;<button id="idCheck">ID 중복 체크</button></td>
-                                    </tr>
-                                    <tr height="7">
-                                        <td colspan="3"><hr /></td>
-                                    </tr>
-                                    <tr class="register" height="30">
-                                        <td width="5%" align="center">*</td>
-                                        <td width="17%">비밀번호</td>
-                                        <td><input type="password" name="pw" id="pw" onchange="isSame()" /></td>
-                                    </tr>
-                                    <tr height="7">
-                                        <td colspan="3"><hr /></td>
-                                    </tr>
-                                    <tr class="register" height="30">
-                                        <td width="5%" align="center">*</td>
-                                        <td width="17%">비밀번호 확인</td>
-                                        <td><input type="password" name="pwCheck" id="pwCheck" onchange="isSame()" />&nbsp;&nbsp;<span id="same"></span></td>
-                                    </tr>
-                                    <tr height="7">
-                                        <td colspan="3"><hr /></td>
-                                    </tr>
-                                    <tr class="register" height="30">
-                                        <td width="5%" align="center">*</td>
-                                        <td width="17%">이 름</td>
-                                        <td><input type="text" name="userName" /></td>
-                                    </tr>
-                                    <tr height="7">
-                                        <td colspan="3"><hr /></td>
-                                    </tr>
-                                    <tr class="register" height="30">
-                                        <td width="5%" align="center">*</td>
-                                        <td width="17%">닉네임</td>
-                                        <td><input type="text" name="nickname" /></td>
-                                    </tr>
-                                    <tr height="7">
-                                        <td colspan="3"><hr /></td>
-                                    </tr>
-                                    <tr class="register" height="30">
-                                        <td width="5%" align="center">*</td>
-                                        <td width="17%">회사명</td>
-                                        <td><input type="text" name="company" /></td>
-                                    </tr>
-                                    <tr height="7">
-                                        <td colspan="3"><hr /></td>
-                                    </tr>
-                                    <tr class="register" height="30">
-                                        <td width="5%" align="center">*</td>
-                                        <td width="17%">연락처</td>
-                                        <td><input type="tel" name="phone" /></td>
-                                    </tr>
-                                    <tr height="7">
-                                        <td colspan="3"><hr /></td>
-                                    </tr>
-                                    <tr class="register" height="30">
-                                        <td width="5%" align="center">*</td>
-                                        <td width="17%">이메일</td>
-                                        <td><input type="email" name="email" /></td>
-                                    </tr>
-                                    <tr height="7">
-                                        <td colspan="3"><hr /></td>
-                                    </tr>
-                                </table>
+                            <form id="joinForm" name="joinForm" method="post" onsubmit="formCheck()" action="userInsert.do"> 
+                                    <div class="formBox">
+                                        <div>
+                                            <span class="label">아이디</span>&nbsp;<span class="msgGrp" id="idMsg" style="font-size: 11px;">이메일 형식으로 입력해주세요. 😀</span>                                  
+                                        </div>
+                                        <input type="text" name="id" id="id" style="width: 50%;" required="required" >&nbsp;<button id="idCheck">중복확인</button>             
+                                    </div>
 
-                            </form>
+                                    <div class="formBox">
+                                        <div>
+                                            <span class="label">비밀번호</span>&nbsp;<span class="msgGrp" id="pwMsg" style="font-size: 11px;">영문 대소문자, 숫자, 특수기호 조합하여 10~20자 🔒</span>                                  
+                                        </div>
+                                        <input type="password" name="password" id="password" required="required">            
+                                    </div>
+                           
+                                    <div class="formBox">
+                                        <div>
+                                            <span class="label">비밀번호 확인</span>&nbsp;<span class="msgGrp" id="pwChkMsg" style="font-size: 11px;"></span>
+                                        </div>
+                                        <input type="password" name="pwCheck" id="pwCheck" required="required">
+                                    </div>
+                                   
+                                    <div class="formBox">
+                                        <div><span class="label">이 름</span></div>
+                                        <input type="text" name="name" id="name" required="required">
+                                    </div>
+                                    
+                                    <div class="formBox">
+                                        <div><span class="label">닉네임</span></div>
+                                        <input type="text" name="nickname" id="nickname" required="required">
+                                    </div>
+                                      
+                                    <div class="formBox">
+                                        <div><span class="label">회사명</span></div>
+                                        <input type="text" name="company" id="company" required="required">
+                                    </div>
+                                   
+                                    <div class="formBox">
+                                        <div><span class="label">연락처</span></div>
+                                        <input type="tel" name="tel" id="tel" required="required">
+                                    </div>
+                          
+                                    <div class="formBox">
+                                        <div><span class="label">이메일</span></div>
+                                        <input type="email" name="email" id="email" placeholder="아이디 혹은 비밀번호 찾기에 쓰일 이메일 입력" required="required">
+                                    </div>
+                                    <br>
+                                
                         </div> <!--end of form__input-->
                     </div>
-                    <div class="contents__footer"><button type="button" id="joinBtn">가입하기</button>
+                    <div class="contents__footer">
+                        <input type="submit" id="joinBtn" value="가입하기" >
+                    </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- 모달창 -->
-    <div class="modal" id="modal1">
-            모달 테스트 <br>
-            잘 나오나???
-            <button id="closeBtn">닫기</button>
-    </div>
-    <div class="modal" id="modal2">
-            모달 테스트222 <br>
-            잘 나오나???
-            <button id="closeBtn2">닫기</button> 
-    </div>
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   <script>
-    $(document).ready(function(){
-        $("#chk").on('change', function(){ 
-            if($(this).prop('checked')){
-                $("#modal1").fadeIn();
-            }
-        })
+
+<div class="modal" id="modal1">
+        모달 테스트 <br>
+        잘 나오나???
+        <button id="closeBtn">닫기</button>
+</div>
+<div class="modal" id="modal2">
+        모달 테스트222 <br>
+        잘 나오나???
+        <button id="closeBtn2">닫기</button> 
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+// 체크박스 모달
+$(document).ready(function(){
+    $("#chk").on('change', function(){ 
+        if($(this).prop('checked')){
+            $("#modal1").fadeIn();
+        }
     })
-    $(document).ready(function(){
-        $("#chk2").on('change', function(){ 
-            if($(this).prop('checked')){
-                $("#modal2").fadeIn();
-            }
-        })
+})
+$(document).ready(function(){
+    $("#chk2").on('change', function(){ 
+        if($(this).prop('checked')){
+            $("#modal2").fadeIn();
+        }
     })
+})
 
-    document.getElementById("closeBtn").onclick = function() {
-        $("#modal1").fadeOut();
-    };
-    document.getElementById("closeBtn2").onclick = function() {
-        $("#modal2").fadeOut();
-    };
+document.getElementById("closeBtn").onclick = function() {
+    $("#modal1").fadeOut();
+};
+document.getElementById("closeBtn2").onclick = function() {
+    $("#modal2").fadeOut();
+};
 
 
-   </script>
+
+
+/* 유효성 검사 자바스크립트 */
+let userid = document.getElementById('id');
+let pw = document.getElementById('password');
+let pwchk = document.getElementById('pwCheck');
+let name = document.getElementById('name');
+
+const emailReg =  /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+const pwReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{10,20}$/;
+
+// form submit 버튼 달-칵
+function formCheck(){
+	
+	if (!$("input:checked[id='chk']").is(":checked")){ 
+		alert("개인정보 수집 및 이용 동의를 확인해주세요.");
+		form.chk.focus();
+	}
+	if (!$("input:checked[id='chk2']").is(":checked")){ 
+		alert("이용약관 동의를 확인해주세요."); 
+		form.chk2.focus();
+	}
+    if(userid.value < 1){
+        alert('아이디를 입력해주세요.');
+        userid.value = '';
+        userid.focus();
+        return false;
+    }   
+    if(pw.value < 1){
+        alert('비밀번호를 입력해주세요.');
+        pw.value = '';
+        pw.focus();
+        return false;
+    }
+    if(pwchk.value < 1){
+        alert('비밀번호 확인을 입력해주세요.');
+        pwchk.value = '';
+        pwchk.focus();
+        return false;
+    }
+}
+
+// 아이디(이메일) 정규식 검사
+userid.onkeyup = () => {
+    if(!emailReg.test(event.target.value)){
+        document.getElementById('idMsg').innerText = "이메일 형식이 올바르지 않습니다. 😅";
+        document.getElementById('idMsg').style.color = 'red';
+        
+    }else{
+        document.getElementById('idMsg').innerText = "좋아요! 😊";
+        document.getElementById('idMsg').style.color = 'blue';
+    }
+}
+
+// 비밀번호 정규식 검사
+pw.onkeyup = () => {
+    if(!pwReg.test(event.target.value)){
+        document.getElementById('pwMsg').innerText = "영문 대소문자, 숫자, 특수기호 조합하여 10~20자 🔒";
+        document.getElementById('pwMsg').style.color = 'red';
+    }else{
+        document.getElementById('pwMsg').innerText = "완벽해요! 😁";
+        document.getElementById('pwMsg').style.color = 'blue'
+    }
+}
+
+// 비밀번호 일치 확인 검사
+pwchk.onkeyup = () =>{
+    if(pwchk.value < 1 || pw.value != pwchk.value){
+        document.getElementById('pwChkMsg').innerText = "비밀번호가 일치하지 않습니다. 😮";
+        document.getElementById('pwChkMsg').style.color = 'red';
+    }else{
+        document.getElementById('pwChkMsg').innerText = "딩동댕동~ 🤗";
+        document.getElementById('pwChkMsg').style.color = 'blue';
+    }
+}
+</script>
 </body>
-
 </html>
 
