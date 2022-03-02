@@ -13,4 +13,6 @@ public interface WorkspaceJoinService {
 	int workspaceJoinInsert(WorkspaceJoinVO vo);
 	//해당 워크스페이스에 있는 모든 멤버리스트
 	List<UserVO> workspaceTotalMember(WorkspaceJoinVO vo);
+	//워크스페이스 탈퇴
+	int workspaceJoinDelete(WorkspaceJoinVO vo);
 }

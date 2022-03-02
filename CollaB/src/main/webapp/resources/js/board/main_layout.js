@@ -1,23 +1,15 @@
-// MENU 1. WORKSPACE
-//메인헤더에 있는 워크스페이스 클릭시, 사용자의 워크스페이스 목록 드롭DIV생성 
-//그중 하나 선택하면 해당 워크스페이스의 boards페이지로 이동하기
-function mainHeader_switchWork(id){
-    //넘어오는 값은 mainHeadWork+워크스페이스PK값 (예)mainHeadWork1
-    let workspaceID = id.slice(12);
-    console.log("이동할boards페이지의워크스페이스ID : "+workspaceID);
-    //워크스페이스 아이디로 해당 워크스페이스의 boards페이지로 보내기
-}
-
-// MENU 2. RECENT
-
-// MENU 3. CREATE
 //Element 에 style 한번에 오브젝트로 설정하는 함수 추가 
 Element.prototype.setStyle = function(styles) {
     for (var k in styles) this.style[k] = styles[k];
     return this;
 };
 
-// MENU 3-1. 워크스페이스 만드는 모달 
+//워크스페이스 만드는 모달 띄우기 
+function create_workspaceModal(){
+    wkModal('create_wk');
+}
+
+//워크스페이스 만드는 모달 
 function wkModal(id){
     document.getElementById('modal-workspace-title').value = "";
 
@@ -56,6 +48,7 @@ function wkModal(id){
         webkitTransform: 'translate(-50%, -50%)'
     });
 }
+
 //워크스페이스생성 모달 속 CREATE버튼 처리 
 function createWK(){
     let wkspaceName = document.querySelector("#modal-workspace-title").value;
@@ -87,11 +80,6 @@ function createWK(){
 function closeWKModal(){
     document.querySelector("#modal-back").remove();
     document.querySelector("#create_wk").style.display="none";
-}
-
-//워크스페이스 만드는 모달 띄우기 
-function create_workspaceModal(){
-    wkModal('create_wk');
 }
 
 // MENU 3-2. 보드 만드는 모달 
@@ -147,10 +135,35 @@ function modal(id) {
 
 //보드생성 모달 속 CREATE버튼 처리 
 function createBoard(){
-    let workspaceID = document.querySelector("#select-workspace").value;
-    console.log("이동할 boards페이지의 워크스페이스ID : "+workspaceID)
-    //사용자가 선택한 컬러,제목,워크스페이스에 보드 만들어준 후
-    //해당 워크스페이스의 boards페이지로 이동하기
+	let boardThema = document.querySelector("#modal-board-background").value; //보드테마
+	let boardName = document.querySelector("#modal-board-title").value; //생성할 보드이름
+    let workspaceID = document.querySelector("#select-workspace").value; //이동할 boards페이지의 워크스페이스ID
+    
+    if(boardName == ""){
+		document.querySelector("#modal-board-title").focus();
+		document.querySelector("#modal-board-title").style.border = "1px solid red";
+		document.querySelector("#modal-board-title").placeholder = "required";
+	}else{
+	    //사용자가 선택한 컬러,제목,워크스페이스에 보드 만들어준 후
+	    //해당 보드의 상세페이지로 이동하기
+	    $.ajax({
+	    	url : "AjaxCreateNewBoard",
+	    	type : "POST",
+	    	data : {
+	    		boardThema : boardThema,
+	    		boardName : boardName,
+	    		workspaceID : workspaceID
+	    	},
+	    	dataType : "json",
+	    	success : function(data){
+	    		closeModal();
+	    		location.href="boardDetail?boardID="+data.board_id;
+	    	},
+	    	error : function(){
+	    		console.log("AjaxCreateNewBoard 실패");
+	    	}
+	    })
+	}
 }
 
 //보드생성 모달 속 닫기 버튼 처리 

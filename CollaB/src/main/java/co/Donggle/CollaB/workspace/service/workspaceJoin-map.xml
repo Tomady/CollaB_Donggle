@@ -33,4 +33,11 @@
 		ON (A.ID = B.ID)
 		WHERE B.WORKSPACE_ID = #{workspace_id}
 	</select>
+	
+	<delete id="workspaceJoinDelete"
+	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO">
+		DELETE WORKSPACE_JOIN
+		WHERE ID = #{id}
+		AND WORKSPACE_ID = #{workspace_id}
+	</delete>
 </mapper>

@@ -100,7 +100,6 @@
 					                input.setAttribute("placeholder","Please name it.");
 					                input.focus();
 					            }else{
-					            	
 					                document.querySelector("#boardNewName").remove();
 					                target.innerHTML=newBName;
 					                // ajax로 보드 이름변경해주기

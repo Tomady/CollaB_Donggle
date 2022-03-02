@@ -15,30 +15,24 @@
     }
 </style>
 </head>
-<body>
+<body style="overflow:scroll; overflow-x:hidden;">
 	<div id="app">
     <div class="main-wrapper">
       <!-- Main Sidebar -->
       <div class="main-sidebar">
         <aside id="sidebar-wrapper">
-          <div class="sidebar-brand">
-            <a href="#">Colla B</a>
+          <div class="sidebar-brand mt-4">
+            <a href="WorkspaceList">Colla B</a>
           </div>
           <ul class="sidebar-menu">
           	<li class="menu-header mt-4 mb-1">workspace</li>
             <li class="d-flex justify-content-between">
-	           	<table class="mb-1 ml-3" style="cursor:pointer;">
-	           		<tbody>
-	           			<tr>
-	           				<td><img class="img-fluid wkimg mr-1"></td>
-	           				<td><h4 class="sidebar_wkname">${workspace.workspace_title}</h4></td>
-	           			</tr>
-	           		</tbody>
-	           	</table>
+	           	<a class="nav-link"><img class="img-fluid wkimg mr-1">
+            	<span class="sidebar_workspace${workspace.workspace_id}">&nbsp;&nbsp;${workspace.workspace_title}</span></a>
             </li>
             <li class="menu-header">MENU</li>
             <li>
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="Boards?wkid=${workspace.workspace_id}">
                 <i class="fas fa-columns"></i>
                 <span>Boards</span>
               </a>
@@ -63,21 +57,27 @@
             </li>
             <li class="menu-header">Your Workspaces</li>
             <c:forEach items="${workspaceList}" var="workspace">
-            	<a class="nav-link" href="#">
-                	<span class="ml-3" style="color:black; font-size:17px;"> ${workspace.workspace_title}</span>
-              	</a>
+            	<li>
+            		<a class="nav-link" href="Boards?wkid=${workspace.workspace_id}">
+            		<span class="sidebar_workspace${workspace.workspace_id}">&nbsp;&nbsp;${workspace.workspace_title}</span></a>
+            	</li>
             </c:forEach>
             <li class="menu-header">Your Boards</li>
-            <li>
-              <a class="nav-link" href="#">
-                <span> [board 1]</span>
-              </a>
-            </li>
-            <li>
-              <a class="nav-link" href="#">
-                <span> [board 2]</span>
-              </a>
-            </li>
+            <c:forEach items="${boardStar}" var="starBoard">
+            	<li>
+            	  <a class="nav-link d-flex justify-content-between sidebar_boardStar${starBoard.board_id}" href="boardDetail?boardID=${starBoard.board_id}">
+	                <span class="sidebar_board${starBoard.board_id}">&nbsp;&nbsp;${starBoard.board_Title}</span>
+	                <span class="sidebarstar${starBoard.board_id} fas fa-star col-rg text-right" style="color:yellow;"></span>
+	              </a>
+            	</li>
+            </c:forEach>
+            <c:forEach items="${unStarBoards}" var="board">
+	            <li>
+	              <a class="nav-link d-flex justify-content-between sidebar_boardStar${board.board_id}" href="boardDetail?boardID=${board.board_id}">
+	                <span class="sidebar_board${board.board_id}">&nbsp;&nbsp;${board.board_Title}</span>
+	              </a>
+	            </li>
+            </c:forEach>
           </ul>
         </aside>
       </div>

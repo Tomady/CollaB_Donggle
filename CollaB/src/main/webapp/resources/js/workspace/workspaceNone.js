@@ -4,6 +4,11 @@ Element.prototype.setStyle = function(styles) {
     return this;
 };
 
+//워크스페이스 만드는 모달 띄우기 
+function create_workspaceModal(){
+    wkModal('create_wk');
+}
+
 //워크스페이스 만드는 모달 
 function wkModal(id){
     document.getElementById('modal-workspace-title').value = "";
@@ -47,7 +52,6 @@ function wkModal(id){
 //워크스페이스생성 모달 속 CREATE버튼 처리 
 function createWK(){
     let wkspaceName = document.querySelector("#modal-workspace-title").value;
-    console.log("새로만들워크스페이스이름 : "+wkspaceName);
     //사용자가 만든 워크스페이스 이름으로 워크스페이스 생성 후,
     //해당 워크스페이스의 boards페이지로 이동하기
 	$.ajax({
@@ -60,7 +64,7 @@ function createWK(){
 		success : function(data){
 			if(data == "NO"){
 				console.log("워크스페이스 생성 실패");
-			}else {
+			}else{
 				console.log("워크스페이스 생성 성공");
 				closeWKModal();
 				location.href="Boards?wkid="+Number(data);
@@ -78,13 +82,13 @@ function closeWKModal(){
     document.querySelector("#create_wk").style.display="none";
 }
 
-//워크스페이스 만드는 모달 띄우기 
-function create_workspaceModal(){
-    wkModal('create_wk');
+//보드 만드는 모달 띄우기 
+function create_boardModal(){
+    bdmodal('create_board');
 }
 
 //보드 만드는 모달 
-function modal(id) { 
+function bdmodal(id) { 
     document.getElementById('modal-board-background').value = "";
     document.getElementById('modal-board-title').value = "";
 
@@ -148,7 +152,10 @@ function closeModal(){
     document.querySelector("#create_board").style.display="none";
 }
 
-//보드 만드는 모달 띄우기 
-function create_boardModal(){
-    modal('create_board');
+//보드만들려고하면 워크스페이스부터 만들라고 alert창 띄우기
+function plzMakeWorkspace(){
+	alert("There is no workspace to store the board.\nPlease create a workspace.")
+	closeModal();
+	create_workspaceModal();
+	document.querySelector("#modal-workspace-title").focus();
 }
