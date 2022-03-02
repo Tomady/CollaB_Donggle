@@ -32,4 +32,17 @@ public class ListController {
 		listDao.insertList(vo);
 		return listDao.selectCurrentList();
 	}
+	
+	//리스트 이름 수정
+	@ResponseBody
+	@RequestMapping("/AjaxRenameList")
+	public String AjaxRenameList(@RequestParam("listId") int listId,
+								 @RequestParam("listName") String listName) {
+		ListVO vo = new ListVO();
+		vo.setList_title(listName);
+		vo.setList_id(listId);
+		int n = listDao.renameList(vo);
+		
+		return n > 0 ? "YES" : "NO";
+	}
 }

@@ -27,4 +27,14 @@ public class CardServiceImpl implements CardService {
 		return map.cardManagerProfIMG(vo);
 	}
 
+	@Override
+	public int createCard(CardVO vo) {
+		return map.createCard(vo);
+	}
+
+	@Override
+	public CardVO selectCurrentCard() {
+		return map.selectCurrentCard();
+	}
+
 }

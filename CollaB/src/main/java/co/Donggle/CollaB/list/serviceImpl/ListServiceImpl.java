@@ -35,4 +35,9 @@ public class ListServiceImpl implements ListService {
 		return map.selectTotalCard(vo);
 	}
 
+	@Override
+	public int renameList(ListVO vo) {
+		return map.renameList(vo);
+	}
+
 }

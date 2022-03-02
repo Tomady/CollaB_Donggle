@@ -22,4 +22,21 @@
 		WHERE U.ID = C.MANAGER
 		AND CARD_ID = #{card_id}
 	</select>
+	
+	<insert id="createCard"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		<selectKey keyProperty="card_id" resultType="int" order="BEFORE">
+			SELECT MAX(CARD_ID)+1 FROM CARD
+		</selectKey>
+		INSERT INTO CARD(CARD_ID, CARD_TITLE, LIST_ID)
+		VALUES(#{card_id},#{card_title},#{list_id})
+	</insert>
+	
+	<select id="selectCurrentCard"
+	resultType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT * 
+		FROM CARD
+		WHERE CARD_ID = (SELECT MAX(CARD_ID) 
+						 FROM CARD)
+	</select>
 </mapper>

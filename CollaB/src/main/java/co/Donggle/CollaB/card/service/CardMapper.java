@@ -7,5 +7,8 @@ public interface CardMapper {
 	int cardFileExist(CardVO vo);
 	//카드 매니저 프로필이미지경로
 	String cardManagerProfIMG(CardVO vo);
-	
+	//카드 추가
+	int createCard(CardVO vo);
+	//방금 만든 카드 조회
+	CardVO selectCurrentCard();
 }

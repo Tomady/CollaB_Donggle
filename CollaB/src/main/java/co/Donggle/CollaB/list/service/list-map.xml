@@ -35,4 +35,11 @@
 		WHERE A.BOARD_ID = #{board_id}
 		ORDER BY B.CARD_ID DESC
 	</select>
+	
+	<update id="renameList"
+	parameterType="co.Donggle.CollaB.list.service.ListVO">
+		UPDATE LIST 
+		SET LIST_TITLE = #{list_title}
+		WHERE LIST_ID = #{list_id}
+	</update>
 </mapper>

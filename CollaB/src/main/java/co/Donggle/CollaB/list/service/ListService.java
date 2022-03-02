@@ -11,4 +11,6 @@ public interface ListService {
 	List<ListVO> selectTotalList(ListVO vo);
 	//해당 보드의 카드 전부
 	List<ListVO> selectTotalCard(ListVO vo);
+	//리스트 이름변경
+	int renameList(ListVO vo);
 }

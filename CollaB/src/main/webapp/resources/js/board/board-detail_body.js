@@ -41,7 +41,7 @@ document.querySelector(".addListBtn").onclick=function(){
 					},
 					dataType : "json",
 					success : function(data){
-						console.log("방금 생성한 리스트");
+						console.log("방금 생성한 리스트",data);
 						createList(data);
 						createListDIV.remove(); //리스트 이름 설정하는 div없애기
 						addList.style.display="block"; //리스트 추가하는 div 다시 보이게하기
@@ -147,16 +147,37 @@ function renameList(listId){
                 newListName.focus();
             //값이 있다면
             }else{
-                document.querySelector("#newListName").remove(); //새로운 리스트 이름 입력했던 input태그 삭제
-				let h4 = document.createElement("h4");
-				h4.setAttribute("class","listName");
-				h4.innerHTML = listName;
-				let i = document.createElement("i");
-				i.setAttribute("class","fa fa-times col-rg");
-				i.setAttribute("aria-hidden","true");
-				
-				targetParent.append(h4);
-				targetParent.append(i);
+            	$.ajax({
+            		url : "AjaxRenameList",
+            		type : "POST",
+            		data : {
+            			listId : listId,
+            			listName : listName
+            		},
+            		dataType : "text",
+            		success : function(data){
+            			console.log("리스트이름수정성공?"+data);
+            			if(data == "YES"){
+	            			document.querySelector("#newListName").remove(); //새로운 리스트 이름 입력했던 input태그 삭제
+							let h4 = document.createElement("h4");
+							h4.setAttribute("class","listName");
+							h4.innerHTML = listName;
+							h4.onclick = function(){
+								renameList(listId);
+							}
+							let i = document.createElement("i");
+							i.setAttribute("class","fa fa-times col-rg");
+							i.setAttribute("aria-hidden","true");
+							i.style.cursor = "pointer";
+							
+							targetParent.append(h4);
+							targetParent.append(i);
+            			}
+            		},
+            		error : function(){
+            			console.log("AjaxRenameList");
+            		}
+            	})
             }
         }
     });
@@ -168,7 +189,7 @@ function renameList(listId){
 //====================리스트 삭제 함수====================
 //====================매개값으로 리스트 아이디 받기====================
 function deleteList(listId){
-	document.querySelector("#list"+listId).remove();
+	
 }
 
 //====================add card클릭시 실행될 함수(카드이름지정input그리기)====================
@@ -199,11 +220,22 @@ function nameCard(listId){
                 newCard.focus();
             //값이 있으면
             }else{
-                //같은 리스트 내에 동일한 카드 이름 있는지 조회
-                //let using = cardNameCheck(newCard);
-                //using이 "NO"면 해당 리스트에 같은 이름의 카드 있다고 생성불가 알림
-                //using이 "YES"면
                 //Ajax실행 => DB에 해당 카드 insert하기
+                $.ajax({
+                	url : "AjaxAddCard",
+                	type : "POST",
+                	data : {
+                		newCardName : newCardName,
+                		listId : listId
+                	},
+                	dataType : "json",
+                	success : function(data){
+                		console.log(data);
+                	},
+                	error : function(){
+                		console.log("AjaxAddCard 실패");
+                	}
+                }) 
                 //Ajax성공시,
                 //해당 리스트에 카드 추가(매개값은 방금생성한카드obj)
                 createCard(newCardName);
