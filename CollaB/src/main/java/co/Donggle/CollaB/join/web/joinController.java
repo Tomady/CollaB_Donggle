@@ -1,8 +1,9 @@
-package co.Donggle.CollaB.user.web;
+package co.Donggle.CollaB.join.web;
 
 
 
 import javax.servlet.http.HttpServletRequest;
+
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +11,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import co.Donggle.CollaB.user.service.UserMapper;
-import co.Donggle.CollaB.user.service.UserService;
+import co.Donggle.CollaB.join.service.JoinMapper;
 import co.Donggle.CollaB.user.service.UserVO;
 
 @Controller
-public class userJoinController {
+public class joinController {
 	
 	@Autowired
-	UserMapper userDao;
+	JoinMapper joinDao;
 	
 	// 회원가입 페이지로 이동
 	@RequestMapping("/joinForm.do")
@@ -38,10 +38,8 @@ public class userJoinController {
 		vo.setCompany(request.getParameter("company"));
 		vo.setTel(request.getParameter("tel"));
 		vo.setEmail(request.getParameter("email"));
-		
-		System.out.println(request.getParameter("id"));
-		
-		userDao.userJoin(vo);
+
+		joinDao.userJoin(vo);
 		
 		System.out.println("등록 완");
 		
