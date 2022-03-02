@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.Donggle.CollaB.user.service.UserMapper">
+
+	<insert id="userJoin" parameterType="co.Donggle.CollaB.user.service.UserVO">
+		INSERT INTO USER_INFO (ID, PASSWORD, NAME, NICKNAME, COMPANY, TEL, EMAIL)
+		VALUES (#{id}, #{password}, #{name}, #{nickname}, #{company}, #{tel}, #{email})
+	</insert>
+
+</mapper>
