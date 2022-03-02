@@ -40,4 +40,13 @@ public class HomeController {
 	public String soyeon() {
 		return "soyeon/soyeon";
 	}
+	
+	
+	
+	@RequestMapping("/index.do")
+	public String index() {
+		return "index";
+	}
+	
+
 }
