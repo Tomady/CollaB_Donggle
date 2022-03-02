@@ -24,7 +24,7 @@ public class GoogleLoginBO {
 	
 	
 	
-	// Google 로그인 URL 생성 로직
+
     public String googleInitUrl() {
         Map<String, Object> params = new HashMap<>();
         params.put("client_id", getGoogleClientId());
