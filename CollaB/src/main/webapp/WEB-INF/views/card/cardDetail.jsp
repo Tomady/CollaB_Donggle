@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,6 +26,93 @@
     .cardmenu{background-color: whitesmoke; border-radius: 10px;}
     .menu{font-size: medium; color: gray;}
 </style>
+<script type="text/javascript">
+//페이지 그려줌과 동시에 실행
+document.addEventListener("DOMContentLoaded", function(){
+	let color = "${workspace.board_thema}";
+	let name = "${workspace.workspace_title}".substring(0, 1);
+	boardColorFnc(color);
+	changeWKIMG(name);
+	
+	//워크프페이스 프로필이미지
+	function changeWKIMG(newWKname){
+		let img = document.querySelector(".wkimg");
+		if(name == 'a' || name == 'A'){
+			img.setAttribute("src","resources/img/a.jpg");
+		}else if(name == 'b' || name == 'B'){
+			img.setAttribute("src","resources/img/b.jpg");
+		}else if(name == 'c' || name == 'C'){
+			img.setAttribute("src","resources/img/c.jpg");
+		}else if(name == 'd' || name == 'D'){
+			img.setAttribute("src","resources/img/d.jpg");
+		}else if(name == 'e' || name == 'E'){
+			img.setAttribute("src","resources/img/e.jpg");
+		}else if(name == 'f' || name == 'F'){
+			img.setAttribute("src","resources/img/f.jpg");
+		}else if(name == 'g' || name == 'G'){
+			img.setAttribute("src","resources/img/g.jpg");
+		}else if(name == 'h' || name == 'H'){
+			img.setAttribute("src","resources/img/h.jpg");
+		}else if(name == 'i' || name == 'I'){
+			img.setAttribute("src","resources/img/i.jpg");
+		}else if(name == 'j' || name == 'J'){
+			img.setAttribute("src","resources/img/j.jpg");
+		}else if(name == 'k' || name == 'K'){
+			img.setAttribute("src","resources/img/k.jpg");
+		}else if(name == 'l' || name == 'L'){
+			img.setAttribute("src","resources/img/l.jpg");
+		}else if(name == 'm' || name == 'M'){
+			img.setAttribute("src","resources/img/m.jpg");
+		}else if(name == 'n' || name == 'N'){
+			img.setAttribute("src","resources/img/n.jpg");
+		}else if(name == 'o' || name == 'O'){
+			img.setAttribute("src","resources/img/o.jpg");
+		}else if(name == 'p' || name == 'P'){
+			img.setAttribute("src","resources/img/p.jpg");
+		}else if(name == 'q' || name == 'Q'){
+			img.setAttribute("src","resources/img/q.jpg");
+		}else if(name == 'r' || name == 'R'){
+			img.setAttribute("src","resources/img/r.jpg");
+		}else if(name == 's' || name == 'S'){
+			img.setAttribute("src","resources/img/s.jpg");
+		}else if(name == 't' || name == 'T'){
+			img.setAttribute("src","resources/img/t.jpg");
+		}else if(name == 'u' || name == 'U'){
+			img.setAttribute("src","resources/img/u.jpg");
+		}else if(name == 'v' || name == 'V'){
+			img.setAttribute("src","resources/img/v.jpg");
+		}else if(name == 'w' || name == 'W'){
+			img.setAttribute("src","resources/img/w.jpg");
+		}else if(name == 'x' || name == 'X'){
+			img.setAttribute("src","resources/img/x.jpg");
+		}else if(name == 'y' || name == 'Y'){
+			img.setAttribute("src","resources/img/y.jpg");
+		}else if(name == 'z' || name == 'Z'){
+			img.setAttribute("src","resources/img/z.jpg");
+		}else if(name == '0'){
+			img.setAttribute("src","resources/img/0.jpg");
+		}else if(name == '1'){
+			img.setAttribute("src","resources/img/1.jpg");
+		}else if(name == '2'){
+			img.setAttribute("src","resources/img/2.jpg");
+		}else if(name == '3'){
+			img.setAttribute("src","resources/img/3.jpg");
+		}else if(name == '4'){
+			img.setAttribute("src","resources/img/4.jpg");
+		}else if(name == '5'){
+			img.setAttribute("src","resources/img/5.jpg");
+		}else if(name == '6'){
+			img.setAttribute("src","resources/img/6.jpg");
+		}else if(name == '7'){
+			img.setAttribute("src","resources/img/7.jpg");
+		}else if(name == '8'){
+			img.setAttribute("src","resources/img/8.jpg");
+		}else if(name == '9'){
+			img.setAttribute("src","resources/img/9.jpg");
+		}
+	}
+})
+</script>
 </head>
 <body>
  <div id="app">
@@ -36,98 +124,23 @@
             <!--사용자가 선택한 리스트-->
             <div class="col-lg-2 cardDetail" style="background-color: rgb(252, 250, 250);">
               <div class="card.h-100">
-                <h4 class="listName mt-5 mb-4 ml-4">LIST NAME</h4>
+                <h4 class="listName mt-5 mb-4 ml-4">${listinfo.list_title}</h4> <!--리스트 이름 표시-->
                 <div class="cardArea">
-                  <div class="card card-light ml-2 mr-2"> <!--라벨표시-->
+                <!--해당 리스트안에 카드리스트-->
+                <c:forEach items="${samelistcards}" var="card">
+                  <div id="card${card.card_id}" style="cursor:pointer;"
+                   onclick="location.href='cardDetail?list=${card.list_id}&card=${card.card_id}'"
+                   class="card card-${card.card_label} ml-2 mr-2"> <!--라벨표시-->
                     <div class="card-header d-flex justify-content-between">
-                      <span class="cardName ml-0">CARD NAME</span> <!--카드이름-->
-                      <i class="fa fa-times col-rg" aria-hidden="true"></i>
+                      <span class="cardName ml-0">${card.card_title}</span> <!--카드이름-->
                     </div>
                     <div class="ml-3"> <!--옵션표시(file,checklist,dates)-->
-                      <i class="fa fa-check-square check" style="color:rgb(59, 59, 59);"></i>
-                      <i class="fa fa-calendar ml-1 dates" style="color: rgb(59, 59, 59);;"></i>
-                      <i class="fa fa-paperclip ml-1 files" style="color: rgb(59, 59, 59);;"></i>
+                      <i class="fa fa-check-square check${card.card_id}" style="color:#e9ecef;"></i>
+                      <i class="fa fa-calendar ml-1 dates${card.card_id}" style="color: #e9ecef;"></i>
+                      <i class="fa fa-paperclip ml-1 files${card.card_id}" style="color:#e9ecef;"></i>
                     </div>
                   </div>
-                  <!--===============여기서부터===============-->
-                  <div class="card card-primary ml-2 mr-2"> <!--라벨표시-->
-                    <div class="card-header d-flex justify-content-between">
-                      <span class="cardName ml-0">CARD NAME</span> <!--카드이름-->
-                      <i class="fa fa-times col-rg" aria-hidden="true"></i>
-                    </div>
-                    <div class="ml-3"> <!--옵션표시(file,checklist,dates)-->
-                      <i class="fa fa-check-square check" style="color:rgb(59, 59, 59);"></i>
-                      <i class="fa fa-calendar ml-1 dates" style="color: rgb(59, 59, 59);;"></i>
-                      <i class="fa fa-paperclip ml-1 files" style="color: rgb(59, 59, 59);;"></i>
-                    </div>
-                  </div>
-                  <!--===============여기까지가 하나의 카드!===============-->
-                  <div class="card card-secondary ml-2 mr-2"> <!--라벨표시-->
-                    <div class="card-header d-flex justify-content-between">
-                      <span class="cardName ml-0">CARD NAME</span> <!--카드이름-->
-                      <i class="fa fa-times col-rg" aria-hidden="true"></i>
-                    </div>
-                    <div class="ml-3"> <!--옵션표시(file,checklist,dates)-->
-                      <i class="fa fa-check-square check" style="color:rgb(59, 59, 59);"></i>
-                      <i class="fa fa-calendar ml-1 dates" style="color: rgb(59, 59, 59);;"></i>
-                      <i class="fa fa-paperclip ml-1 files" style="color: rgb(59, 59, 59);;"></i>
-                    </div>
-                  </div>
-                  <div class="card card-danger ml-2 mr-2"> <!--라벨표시-->
-                    <div class="card-header d-flex justify-content-between">
-                      <span class="cardName ml-0">CARD NAME</span> <!--카드이름-->
-                      <i class="fa fa-times col-rg" aria-hidden="true"></i>
-                    </div>
-                    <div class="ml-3"> <!--옵션표시(file,checklist,dates)-->
-                      <i class="fa fa-check-square check" style="color:rgb(59, 59, 59);"></i>
-                      <i class="fa fa-calendar ml-1 dates" style="color: rgb(59, 59, 59);;"></i>
-                      <i class="fa fa-paperclip ml-1 files" style="color: rgb(59, 59, 59);;"></i>
-                    </div>
-                  </div>
-                  <div class="card card-warning ml-2 mr-2"> <!--라벨표시-->
-                    <div class="card-header d-flex justify-content-between">
-                      <span class="cardName ml-0">CARD NAME</span> <!--카드이름-->
-                      <i class="fa fa-times col-rg" aria-hidden="true"></i>
-                    </div>
-                    <div class="ml-3"> <!--옵션표시(file,checklist,dates)-->
-                      <i class="fa fa-check-square check" style="color:rgb(59, 59, 59);"></i>
-                      <i class="fa fa-calendar ml-1 dates" style="color: rgb(59, 59, 59);;"></i>
-                      <i class="fa fa-paperclip ml-1 files" style="color: rgb(59, 59, 59);;"></i>
-                    </div>
-                  </div>
-                  <div class="card card-info ml-2 mr-2"> <!--라벨표시-->
-                    <div class="card-header d-flex justify-content-between">
-                      <span class="cardName ml-0">CARD NAME</span> <!--카드이름-->
-                      <i class="fa fa-times col-rg" aria-hidden="true"></i>
-                    </div>
-                    <div class="ml-3"> <!--옵션표시(file,checklist,dates)-->
-                      <i class="fa fa-check-square check" style="color:rgb(59, 59, 59);"></i>
-                      <i class="fa fa-calendar ml-1 dates" style="color: rgb(59, 59, 59);;"></i>
-                      <i class="fa fa-paperclip ml-1 files" style="color: rgb(59, 59, 59);;"></i>
-                    </div>
-                  </div>
-                  <div class="card card-success ml-2 mr-2"> <!--라벨표시-->
-                    <div class="card-header d-flex justify-content-between">
-                      <span class="cardName ml-0">CARD NAME</span> <!--카드이름-->
-                      <i class="fa fa-times col-rg" aria-hidden="true"></i>
-                    </div>
-                    <div class="ml-3"> <!--옵션표시(file,checklist,dates)-->
-                      <i class="fa fa-check-square check" style="color:rgb(59, 59, 59);"></i>
-                      <i class="fa fa-calendar ml-1 dates" style="color: rgb(59, 59, 59);;"></i>
-                      <i class="fa fa-paperclip ml-1 files" style="color: rgb(59, 59, 59);;"></i>
-                    </div>
-                  </div>
-                  <div class="card card-dark ml-2 mr-2"> <!--라벨표시-->
-                    <div class="card-header d-flex justify-content-between">
-                      <span class="cardName ml-0">CARD NAME</span> <!--카드이름-->
-                      <i class="fa fa-times col-rg" aria-hidden="true"></i>
-                    </div>
-                    <div class="ml-3"> <!--옵션표시(file,checklist,dates)-->
-                      <i class="fa fa-check-square check" style="color:rgb(59, 59, 59);"></i>
-                      <i class="fa fa-calendar ml-1 dates" style="color: rgb(59, 59, 59);;"></i>
-                      <i class="fa fa-paperclip ml-1 files" style="color: rgb(59, 59, 59);;"></i>
-                    </div>
-                  </div>
+                </c:forEach>
                 </div>
               </div>
             </div>
@@ -136,7 +149,8 @@
               <div class="row" style="float: right;">
                 <!--카드상세조회 닫기버튼-->
                 <h4 class="closeCardDetail mr-3 mt-3">
-                  <i class="fa fa-window-close" title="close_card" aria-hidden="true"></i>
+                  <i class="fa fa-window-close" title="close_card" aria-hidden="true"
+                  onclick=""></i>
                 </h4>
               </div>
               <div class="row">
@@ -298,7 +312,6 @@
                         </div>
                       </li>
                     </ul>
-                    
                   </div>
                 </div>
             </div>
@@ -308,5 +321,7 @@
       </div>
     </div>
   </div>
+ <!-- 은지 코드 -->
+ <script src="resources/js/card/card-details.js"></script>
 </body>
 </html>

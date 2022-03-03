@@ -108,4 +108,24 @@
 	parameterType="co.Donggle.CollaB.card.service.CardVO">
 		DELETE CARD WHERE CARD_ID = #{card_id}
 	</delete>
+	
+	<select id="selectCard"
+	parameterType="co.Donggle.CollaB.card.service.CardVO"
+	resultType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT * FROM CARD WHERE CARD_ID = #{card_id}
+	</select>
+	
+	<select id="selectCardList"
+	resultType="co.Donggle.CollaB.card.service.CardVO"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT * FROM CARD
+		WHERE LIST_ID = #{list_id}
+	</select>
+	
+	<select id="selectListinfo"
+	parameterType="co.Donggle.CollaB.card.service.CardVO"
+	resultType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT * FROM LIST
+        WHERE LIST_ID = #{list_id}
+	</select>
 </mapper>

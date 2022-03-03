@@ -97,15 +97,25 @@ public class CardController {
 		vo.setBoard_id(boardID);
 		int workspaceID = boardDao.boardWorkspaceID(vo); //해당 카드,리스트가 속한 보드의 워크스페이스 ID
 		vo.setWorkspace_id(workspaceID);
+		CardVO cardvo = new CardVO();
+		cardvo.setCard_id(cardId);
+		cardvo.setList_id(listId);
 		
 		//해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID - 사이드
-		model.addAttribute("workspace",boardDao.selectBoard(vo)); 
+		model.addAttribute("",boardDao.selectBoard(vo)); 
 		//사용자가 가지고 있는 모든 워크스페이스-워크스페이스ID,워크스페이스이름 - 사이드
 		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(userId));
 		//해당워크스페이스에서 즐겨찾기한 보드목록 - 사이드
 		model.addAttribute("boardStar",boardDao.selectBoardStar(vo));
 		//해당워크스페이스에서 즐겨찾기하지않은 보드목록 - 사이드
 		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(vo));
+		
+		//해당카드가 포함된 리스트에 모든 카드-카드이름,카드시작일,카드내용,카드종료일,카드라벨,카드관리자
+		model.addAttribute("samelistcards",cardDao.selectCardList(cardvo));
+		//해당카드정보-카드이름,카드시작일,리스트아이디,카드내용,카드종료일,카드라벨,관리자
+		model.addAttribute("cardinfo",cardDao.selectCard(cardvo));
+		//해당카드가 포함된 리스트정보
+		model.addAttribute("listinfo",cardDao.selectListinfo(cardvo));
 		
 		return "card/cardDetail";
 	}

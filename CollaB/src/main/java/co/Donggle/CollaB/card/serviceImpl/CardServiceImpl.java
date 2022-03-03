@@ -99,4 +99,18 @@ public class CardServiceImpl implements CardService {
 		return map.dropCard(vo);
 	}
 
+	@Override
+	public CardVO selectCard(CardVO vo) {
+		return map.selectCard(vo);
+	}
+
+	@Override
+	public List<CardVO> selectCardList(CardVO vo) {
+		return map.selectCardList(vo);
+	}
+
+	@Override
+	public CardVO selectListinfo(CardVO vo) {
+		return map.selectListinfo(vo);
+	}
 }

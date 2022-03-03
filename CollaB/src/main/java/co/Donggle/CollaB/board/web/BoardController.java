@@ -145,6 +145,7 @@ public class BoardController {
 		model.addAttribute("boardStar",boardDao.selectBoardStar(vo));
 		//해당워크스페이스에서 즐겨찾기하지않은 보드목록 - 사이드
 		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(vo));
+		
 		//해당보드를 즐겨찾기했는지 유무
 		model.addAttribute("starYesOrNo",boardDao.boardStarYesOrNo(vo));
 		//해당 보드의 아이디
