@@ -11,11 +11,9 @@
       background-color: rgb(224, 224, 224);
       cursor: pointer;
     }
-
     .card {
         width: 600px;
     }
-
     h3 {
         font-size: 20px;
         line-height: 28px;
@@ -23,15 +21,12 @@
         padding-right: 10px;
         margin-bottom: 0;
     }
-
     th {
         width: 50px;
     }
-
     .xtd {
         width: 50px;
     }
-
     .check::after {
       position: absolute;
       top: 0.25rem;
@@ -42,16 +37,12 @@
       content: "";
       background: no-repeat 50%/50% 50%;
   }
-
   .progress-bar {
     background-color: #6553C1;
   }
-
   .btn-primary {
     background-color: #6553C1;
   }
-
-
   </style>
 
   <!-- jQuery -->
@@ -178,13 +169,30 @@
                         	<c:forEach items="${itemlist }" var="itemlist" varStatus="status">
                             <tr>
                                 <th>
-	                                <div class="custom-checkbox custom-control">
-	                                    <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-{i}" name="chkList" onclick="getCheckCnt()">
-	                                    <label for="checkbox-{i}" class="custom-control-label">&nbsp;</label>
-	                                </div>
+	                                <c:choose>
+		                                <c:when test="${itemlist.item_status == 'Y' }">
+			                                <div class="custom-checkbox custom-control">
+			                                    <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-{i}" name="chkList" onclick="getCheckCnt()" checked="checked">
+			                                    <label for="checkbox-{i}" class="custom-control-label">&nbsp;</label>
+			                                </div>
+		                                </c:when>
+		                                <c:when test="${itemlist.item_status == 'N' }">
+		                                	<div class="custom-checkbox custom-control">
+			                                    <input type="checkbox" data-checkboxes="mygroup" class="custom-control-input" id="checkbox-{i}" name="chkList" onclick="getCheckCnt()">
+			                                    <label for="checkbox-{i}" class="custom-control-label">&nbsp;</label>
+			                                </div>
+		                                </c:when>
+		                            </c:choose>  
                                 </th>
                                 <td class="task-td">
                                     <a id="tasklist"><c:out value="${itemlist.item_title }"></c:out></a>
+                                    <div id="moditask">
+                                      <input type="text" class="form-control mt-3" placeholder="내용을 입력해주세요" value="${item_info.item_title }">
+                                      <div class="row m-1 mt-3">
+                                          <button class="btn btn-primary">Save</button>
+                                          <button class="btn btn-primary ml-2" id="closemodiitem">Close</button>
+                                      </div>
+                                    </div>
                                 </td>
                                 <td class="xtd"><a href="#" class="btn btn-icon icon-left" id="deleteItemA" onclick="location.href='/CollaB/itemdelete?item_id=${itemlist.item_id}'">
                                 	<i class="fas fa-times"></i></a>
@@ -256,43 +264,27 @@
   <!-- Page Specific JS File -->
 
   <script>
-
-      $(document).ready(function(){
+ /*     $(document).ready(function(){
           $('#additemdiv').hide();
           $('#moditask').hide();
       })
-
       $('#additem').click(function(){
           $('#additemdiv').show();
           $('#additem').hide();
       })
-
       $('#closenewitem').click(function(){
           $('#additemdiv').hide();
           $('#additem').show();
       })
-
       $('#tasklist').click(function() {
         $('#moditask').show();
         $('#tasklist').hide();
       })
-
       $('#closemodiitem').click(function(){
         $('#moditask').hide();
         $('#tasklist').show();
-      })
+      }) */
       
-      $('#tasklist2').click(function() {
-        $('#moditask2').show();
-        $('#tasklist2').hide();
-      })
-
-      $('#closemodiitem2').click(function(){
-        $('#moditask2').hide();
-        $('#tasklist2').show();
-      })
-
-
 /*    $(document).ready(function(){
         $(".custom-control-input").change(function(){
             if($(".custom-control-input").is(":checked")){ // 체크
@@ -302,12 +294,10 @@
             }
           });
       }); */
-
       // 달성률 계산하기
       function getCheckCnt(){
         // 전체 체크박스 개수
         var allcheck = $("input:checkbox[name=chkList]").length;
-
         // 선택된 목록 가져오기
         var checks = 'input[name="chkList"]:checked';
         var selectedElements = 
@@ -316,20 +306,16 @@
         // 선택된 목록의 개수 세기
         var selectedChecks =
             selectedElements.length;
-
         // 달성률
         var achiveRate = Math.floor((selectedChecks / allcheck)*100)+"%"
-
         // 출력
         document.getElementById('Rate').innerText
             = achiveRate;  
       }
-
       // 체크리스트 추가 모달
       $('#addChkListBtn').on('click', function(){
         $('#addChkModal').modal('show');
       })
-
       $('#closeAddChk').on('click', function(){
         $('#addChkModal').modal('hide');
       })
@@ -374,7 +360,6 @@
          }
        })
       })
-
       // 아이템 삭제하기
 /*    $('#deleteItemA').click(function(){
         $.ajax({
@@ -389,7 +374,6 @@
           }
         })
       }) */
-
       // 체크박스 상태 초기화
       function initCheckBoxClickEvent() {
         $("input[type='checkbox']").on('click', function() {
@@ -420,6 +404,8 @@
           })
         });
       }
+
+      
   </script>
 
 </body>

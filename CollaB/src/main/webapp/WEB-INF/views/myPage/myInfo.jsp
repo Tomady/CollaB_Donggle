@@ -44,59 +44,76 @@ th {
 					</div>
 					<div class="card-body">
 						<div class="div-table">
-							<table class="table table-bordered">
-								<tr>
-									<th>연락처</th>
-									<td>
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<div class="input-group-text">
-													<i class="fas fa-phone"></i>
+							<form action="/CollaB/myInfoUpdate" method="post" id="frm">
+								<table class="table table-bordered">
+									<tr>
+										<th>연락처</th>
+										<td>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<div class="input-group-text">
+														<i class="fas fa-phone"></i>
+													</div>
 												</div>
+												<input type="text" class="form-control phone-number"
+													id="tel" name="tel" value="${user_info.tel }">
 											</div>
-											<input type="text" class="form-control phone-number"
-												value="010-1111-1111">
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<th>이메일</th>
-									<td>
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<div class="input-group-text">
-													<i class="fas fa-envelope"></i>
+										</td>
+									</tr>
+									<tr>
+										<th>이메일</th>
+										<td>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<div class="input-group-text">
+														<i class="fas fa-envelope"></i>
+													</div>
 												</div>
+												<input type="text" class="form-control" id="email" name="email"
+													value="${user_info.email }">
 											</div>
-											<input type="text" class="form-control" value="ask@yedam.ac">
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<th>회사</th>
-									<td>
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<div class="input-group-text">
-													<i class="fas fa-laptop"></i>
+										</td>
+									</tr>
+									<tr>
+										<th>회사</th>
+										<td>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<div class="input-group-text">
+														<i class="fas fa-laptop"></i>
+													</div>
 												</div>
+												<input type="text" class="form-control phone-number"
+													id="company" name="company" value="${user_info.company }">
 											</div>
-											<input type="text" class="form-control phone-number"
-												value="예담">
-										</div>
-									</td>
-								</tr>
-							</table>
+										</td>
+									</tr>
+									<input type="hidden" id="id" name="id" value="${user_info.id }">
+								</table>
+							</form>
 						</div>
 					</div>
 					<div class="card-footer text-center">
-						<button class="btn btn-primary">적용하기</button>
+						<button class="btn btn-primary" onclick="userUpdate()">적용하기</button>
 					</div>
 				</div>
 			</div>
 
 		</section>
 	</div>
+	
+	<script>
+	
+		function userUpdate() {
+            if($('#tel').val().length==0){alert("연락처를 입력하세요"); $('#tel').focus(); return false; }
+            if($('#email').val().length==0){alert("이메일을 입력하세요"); $('#email').focus(); return false; }
+            if($('#company').val().length==0){alert("회사명을 입력하세요"); $('#company').focus(); return false; }
+
+            window.alert("수정을 완료했습니다.");
+            frm.submit();
+		}
+	
+	</script>
 
 </body>
 </html>
