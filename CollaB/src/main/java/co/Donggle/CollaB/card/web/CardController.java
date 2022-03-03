@@ -15,11 +15,14 @@ import co.Donggle.CollaB.board.service.BoardService;
 import co.Donggle.CollaB.board.service.BoardVO;
 import co.Donggle.CollaB.card.service.CardService;
 import co.Donggle.CollaB.card.service.CardVO;
+import co.Donggle.CollaB.list.service.ListService;
+import co.Donggle.CollaB.list.service.ListVO;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 
 @Controller
 public class CardController {
 	@Autowired CardService cardDao;
+	@Autowired ListService listDao;
 	@Autowired BoardService boardDao;
 	@Autowired WorkspaceJoinService workspaceJoinDao;
 	
@@ -78,18 +81,22 @@ public class CardController {
 	
 	//카드 상세조회
 	@RequestMapping("/cardDetail")
-	public String cardDetail(@RequestParam("board") int boardId,
-							 @RequestParam("list") int listId,
+	public String cardDetail(@RequestParam("list") int listId,
 							 @RequestParam("card") int cardId,
 							 HttpSession session,
 							 Model model) {
 		//String userId = (String)session.getAttribute("id");
 		String userId = "user1";
 		
+		ListVO listvo = new ListVO();
+		listvo.setList_id(listId);
+		int boardID = boardDao.selectBoardId(listvo); //해당 카드, 리스트가 속한 보드의 ID
+		
 		BoardVO vo = new BoardVO();
 		vo.setId(userId);
-		vo.setBoard_id(boardId);
-		int workspaceId = boardDao.boardWorkspaceID(vo); //해당보다의 워크스페이스아이디(사용안하면삭제)
+		vo.setBoard_id(boardID);
+		int workspaceID = boardDao.boardWorkspaceID(vo); //해당 카드,리스트가 속한 보드의 워크스페이스 ID
+		vo.setWorkspace_id(workspaceID);
 		
 		//해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID - 사이드
 		model.addAttribute("workspace",boardDao.selectBoard(vo)); 

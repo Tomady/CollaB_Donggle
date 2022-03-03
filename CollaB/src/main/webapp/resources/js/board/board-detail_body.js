@@ -274,9 +274,12 @@ function createCard(obj){
     let target = document.querySelector(".cardArea"+obj.list_id);
 
     let firstDIV = document.createElement("div");
-    firstDIV.setAttribute("class","card card-light ml-2 mr-2");
+    firstDIV.setAttribute("class","card card-"+obj.card_label+" ml-2 mr-2");
     firstDIV.style.cursor="pointer";
     firstDIV.setAttribute("id","card"+obj.card_id);
+    firstDIV.onclick = function(){
+    	location.href="cardDetail?list="+obj.list_id+"&card="+obj.card_id;
+    }
 
     let secDIV = document.createElement("div");
     secDIV.setAttribute("class","card-header d-flex justify-content-between");
@@ -291,17 +294,18 @@ function createCard(obj){
     })
     
     let fourDIV = document.createElement("div");
-    fourDIV.setAttribute("class","ml-2 text-right card-owner")
+    fourDIV.setAttribute("class","ml-2 mt-1 text-right card-owner");
+    fourDIV.style.fontWeight="bold";
     let thrDIV = document.createElement("div");
     thrDIV.setAttribute("class","ml-3 card-option");
     let check = document.createElement("i");
-    check.setAttribute("class","fa fa-check-square check");
+    check.setAttribute("class","fa fa-check-square check"+obj.card_id);
     check.style.color="#e9ecef";
     let dates = document.createElement("i");
-    dates.setAttribute("class","fa fa-calendar ml-2 dates");
+    dates.setAttribute("class","fa fa-calendar ml-1 dates"+obj.card_id);
     dates.style.color="#e9ecef";
     let files = document.createElement("i");
-    files.setAttribute("class","fa fa-paperclip ml-2 files");
+    files.setAttribute("class","fa fa-paperclip ml-2 files"+obj.card_id);
     files.style.color="#e9ecef";
 
     //만든거 조립해서 붙여주기

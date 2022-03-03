@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import co.Donggle.CollaB.board.service.BoardMapper;
 import co.Donggle.CollaB.board.service.BoardService;
 import co.Donggle.CollaB.board.service.BoardVO;
+import co.Donggle.CollaB.list.service.ListVO;
 
 @Repository("boardDao")
 public class BoardServiceImpl implements BoardService {
@@ -96,6 +97,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int addBoardJoinMember(BoardVO vo) {
 		return map.addBoardJoinMember(vo);
+	}
+
+	@Override
+	public int selectBoardId(ListVO vo) {
+		return map.selectBoardId(vo);
 	}
 
 }
