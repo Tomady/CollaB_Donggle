@@ -2,6 +2,8 @@ package co.Donggle.CollaB.board.service;
 
 import java.util.List;
 
+import co.Donggle.CollaB.list.service.ListVO;
+
 public interface BoardMapper {
 	//사용자가 갖고 있는 보드 전부
 	List<BoardVO> boardList(String id); 
@@ -37,4 +39,6 @@ public interface BoardMapper {
 	int boardRemoveStar(BoardVO vo);
 	//보드 멤버추가
 	int addBoardJoinMember(BoardVO vo);
+	//해당 리스트가 있는 보드 아이디
+	int selectBoardId(ListVO vo);
 }

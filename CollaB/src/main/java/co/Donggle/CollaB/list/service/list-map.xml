@@ -42,4 +42,18 @@
 		SET LIST_TITLE = #{list_title}
 		WHERE LIST_ID = #{list_id}
 	</update>
+
+	<select id="selectCardIds"
+	parameterType="co.Donggle.CollaB.list.service.ListVO"
+	resultType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT CARD_ID 
+		FROM CARD 
+		WHERE LIST_ID = #{list_id}
+	</select>
+	
+	<delete id="deleteList"
+	parameterType="co.Donggle.CollaB.list.service.ListVO">
+		DELETE LIST 
+		WHERE LIST_ID = #{list_id} 
+	</delete>
 </mapper>
