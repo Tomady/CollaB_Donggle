@@ -123,6 +123,18 @@
   </dependency>
   <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
 
+	<!-- mail -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+			<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>5.2.3.RELEASE</version>
+		</dependency>
+		<!-- mail -->
 		<!-- 제이슨 파싱 -->
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
