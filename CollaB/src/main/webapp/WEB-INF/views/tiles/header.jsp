@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,12 +74,13 @@
           <div class="btn-group">
             <button class="btn dropdown-toggle" type="button" style="background-color:transparent; color:white;"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Workspace</button>
-            <div class="dropdown-menu">
-              <div class="dropdown-title">Your Workspace 🎨</div>
+            <div class="dropdown-menu" style="height: 300px; overflow:scroll; overflow-x:hidden;">
+              <div class="dropdown-title">Your <p>Workspace 🎨</p></div>
               <!--사용자 워크스페이스 목록 뿌릴 때, id="mainHeadWork"+workspace.ID 지정해주기-->
-              <a class="dropdown-item" id="mainHeadWork1" onclick="mainHeader_switchWork(id)">workspace_1</a>
-              <a class="dropdown-item" id="mainHeadWork2" onclick="mainHeader_switchWork(id)">workspace_2</a>
-              <a class="dropdown-item" id="mainHeadWork3" onclick="mainHeader_switchWork(id)">workspace_3</a>
+              <c:forEach items="${workspaceList}" var="workspace">
+              	<a class="dropdown-item" id="mainHeadWork${workspace.workspace_id}" 
+	              onclick="location.href='Boards?wkid=${workspace.workspace_id}'">${workspace.workspace_title}</a>  
+              </c:forEach>
             </div>
           </div>
           <div class="btn-group">
@@ -144,57 +146,58 @@
       </div>
       <!-- 워크스페이스생성 모달창 of end -->
 
-      <!-- create board 모달창 -->
-      <div id="create_board">
-        <div class="card" >
-          <div id="modal-header" class="card-header">
-            <h4>Create board</h4>
-          </div>
-          <div class="card-body">
-            <div class="row form-group mt-3">
-              <label>Background</label>
-              <div id="bkcolor" class="row ml-5 mt-2 mb-2">
-                <div class="d-flex">
-                  <span id="red" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(247, 123, 123); margin-left: 5%;"></span>
-                  <span id="orange" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(252, 187, 127); margin-left: 5%;"></span>
-                  <span id="yellow" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(255, 245, 157); margin-left: 5%;"></span>
-                  <span id="green" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(86, 161, 111); margin-left: 5%;"></span>
-                  <span id="skyblue" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(123, 243, 247); margin-left: 5%;"></span>
-                  <span id="blue" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(121, 162, 250); margin-left: 5%;"></span>
-                </div>
-                <div class="d-flex mt-3">
-                  <span id="darkblue" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(123, 125, 247); margin-left: 5%;"></span>
-                  <span id="purple" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(171, 127, 252); margin-left: 5%;"></span>
-                  <span id="pink" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(250, 167, 243); margin-left: 5%;"></span>
-                  <span id="gray" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(184, 184, 184); margin-left: 5%;"></span>
-                  <span id="darkgray" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(116, 115, 115); margin-left: 5%;"></span>
-                  <span id="black" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(12, 12, 12); margin-left: 5%;"></span>
-                </div>
-              </div>
-              <input id="modal-board-background" type="text" class="form-control">
-            </div>
-            <div class="row form-group mt-3">
-              <label>Board Title<span style="color: red;"> *</span></label>
-              <input id="modal-board-title" type="text" class="form-control">
-            </div>
-            <div class="row form-group mt-3">
-              <label>Workspace</label>
-              <select class="form-control" id="select-workspace">
-                <option>Workspace 1</option>
-                <option>Workspace 2</option>
-              </select>
-            </div>
-            <div class="row buttons mt-3">
-              <button class="mt-5 btn btn-icon icon-left btn-secondary" id="createboardBtn"
-              onclick="createBoard()">Create</button>
-            </div>
-          </div>
-        </div>
-        <a class="modal_close_btn" onclick="closeModal()">
-          <i class="fa fa-times" aria-hidden="true"></i>
-        </a>
+    <!-- create board 모달창 -->
+  <div id="create_board">
+    <div class="card" >
+      <div id="modal-header" class="card-header">
+        <h4>Create board</h4>
       </div>
-      <!-- 보드생성 모달창 of end -->
+      <div class="card-body">
+        <div class="row form-group mt-3">
+          <label>Background</label>
+          <div id="bkcolor" class="row ml-4 mt-2 mb-2">
+            <div class="d-flex">
+              <span id="red" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(247, 123, 123); margin-left: 5%;"></span>
+              <span id="orange" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(252, 187, 127); margin-left: 5%;"></span>
+              <span id="yellow" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(255, 245, 157); margin-left: 5%;"></span>
+              <span id="green" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(86, 161, 111); margin-left: 5%;"></span>
+              <span id="skyblue" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(123, 243, 247); margin-left: 5%;"></span>
+              <span id="blue" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(121, 162, 250); margin-left: 5%;"></span>
+            </div>
+            <div class="d-flex mt-3">
+              <span id="darkblue" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(123, 125, 247); margin-left: 5%;"></span>
+              <span id="purple" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(171, 127, 252); margin-left: 5%;"></span>
+              <span id="pink" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(250, 167, 243); margin-left: 5%;"></span>
+              <span id="gray" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(184, 184, 184); margin-left: 5%;"></span>
+              <span id="darkgray" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(116, 115, 115); margin-left: 5%;"></span>
+              <span id="black" class="bkcolor dropdown-item" style="width: 3%; height: 50px; background-color: rgb(12, 12, 12); margin-left: 5%;"></span>
+            </div>
+          </div>
+          <input id="modal-board-background" type="text" class="form-control" readonly>
+        </div>
+        <div class="row form-group mt-3">
+          <label>Board Title<span style="color: red;"> *</span></label>
+          <input id="modal-board-title" type="text" class="form-control">
+        </div>
+        <div class="row form-group mt-3">
+          <label>Workspace</label>
+          <select class="form-control" id="select-workspace">
+	          <c:forEach items="${workspaceList}" var="workspace">
+	          	<option value="${workspace.workspace_id}">${workspace.workspace_title}</option>
+	          </c:forEach>
+          </select>
+        </div>
+        <div class="row buttons mt-3">
+          <button class="mt-5 btn btn-icon icon-left btn-secondary" id="createboardBtn"
+          onclick="createBoard()">Create</button>
+        </div>
+      </div>
+    </div>
+    <a class="modal_close_btn" onclick="closeModal()">
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </a>
+  </div>
+  <!-- 보드생성 모달창 of end -->
     </div>
   </div>
 </body>

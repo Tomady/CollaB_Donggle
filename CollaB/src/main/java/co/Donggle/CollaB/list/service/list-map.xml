@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.Donggle.CollaB.list.service.ListMapper">
+	
+	<insert id="insertList"
+	parameterType="co.Donggle.CollaB.list.service.ListVO">
+		<selectKey keyProperty="list_id" resultType="int" order="BEFORE">
+			SELECT MAX(LIST_ID)+1 FROM LIST
+		</selectKey>
+		INSERT INTO LIST
+		VALUES(#{list_id},#{list_title},#{board_id},#{id})
+	</insert>
+	
+	<select id="selectCurrentList"
+	resultType="co.Donggle.CollaB.list.service.ListVO">
+		SELECT * FROM LIST 
+		WHERE LIST_ID = (SELECT MAX(LIST_ID) 
+						 FROM LIST)
+	</select>
+	
+	<select id="selectTotalList"
+	parameterType="co.Donggle.CollaB.list.service.ListVO"
+	resultType="co.Donggle.CollaB.list.service.ListVO">
+		SELECT * FROM LIST 
+		WHERE BOARD_ID = #{board_id}
+		ORDER BY LIST_ID DESC
+	</select>
+	
+	<select id="selectTotalCard"
+	parameterType="co.Donggle.CollaB.list.service.ListVO"
+	resultType="co.Donggle.CollaB.list.service.ListVO">
+		SELECT A.LIST_TITLE, A.BOARD_ID, A.ID, B.*
+		FROM LIST A JOIN CARD B
+		ON ( A.LIST_ID = B.LIST_ID)
+		WHERE A.BOARD_ID = #{board_id}
+		ORDER BY B.CARD_ID DESC
+	</select>
+</mapper>

@@ -5,6 +5,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.List"%>
 <%@ page import="co.Donggle.CollaB.calendar.service.calendarVO"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -173,7 +174,7 @@
 
 							<!-- <c:forEach var="list" items="${List}" varStatus="status">
                         <option value="${list.id}">${list.title}</option>
-                      <c:forEach> -->
+                      </c:forEach> -->
 
 							<option>리스트1</option>
 							<option>리스트2</option>

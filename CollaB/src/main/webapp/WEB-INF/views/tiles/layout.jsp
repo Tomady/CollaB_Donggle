@@ -42,6 +42,6 @@
   <script src='<c:url value="/resources/assets/js/custom.js"></c:url>'></script>
 
   <!--은지코드-->
-  <script src='<c:url value="/resources/js/eunji/main_layout.js"></c:url>'></script>
+  <script src='<c:url value="/resources/js/board/main_layout.js"></c:url>'></script>
 </body>
 </html>

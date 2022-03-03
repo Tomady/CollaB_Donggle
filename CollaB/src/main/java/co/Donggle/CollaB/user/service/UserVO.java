@@ -15,4 +15,9 @@ public class UserVO {
 	private String tel;
 	private String company;
 	private String token;
+	
+	private String permissions;
+	private int workspace_id;
+	private int board_id;
+	
 }

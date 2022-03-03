@@ -31,26 +31,25 @@ document.querySelector(".addListBtn").onclick=function(){
                 document.querySelector(".newListName").focus();
             //값이 있으면
             }else{
-                // (1) 같은 보드 내에 동일한 리스트 이름 있는지 조회하는 함수 실행
-                // 매개값은 사용자가 입력한 리스트 이름, 리턴값은 사용여부
-                // let using = listnameCheck(newListName);
-                // 리턴값이 "YES"이면 사용가능, "NO"면 사용불가
-                // if(using == "NO"){ 
-                //  alert("사용불가능한 이름 => 이미 동일이름존재") 
-                // }else if(using =="YES"){
-                //  (2) [Ajax실행] DB에 사용자가 입력한 list이름으로 insert
-                //  (2-1) 아작스 결과값은 json형식으로 사용자가 방금 추가한 리스트 object받아오기
-                //  (3) [Ajax_success함수] 사용자가 입력한 이름으로 리스트 새로 그리기
-
-                //===============수정할부분임===============
-                createList(newListName);
-                // createList(data) 사용자가 방금 추가한 리스트 object받아와서 createList함수에 넘기기
-                
-                //  (4) [Ajax_success함수] 리스트 이름 설정하는 div는 없애기
-                createListDIV.remove();
-                //  (5) [Ajax_success함수] 리스트추가하는 div다시 보이게하기
-                addList.style.display="block";
-                // }
+				let boardID = document.querySelector(".addListBtn").getAttribute("data-boardID");
+				$.ajax({
+					url : "AjaxCreateList",
+					type : "POST",
+					data : {
+						listTitle : newListName,
+						boardID : boardID
+					},
+					dataType : "json",
+					success : function(data){
+						console.log("방금 생성한 리스트");
+						createList(data);
+						createListDIV.remove(); //리스트 이름 설정하는 div없애기
+						addList.style.display="block"; //리스트 추가하는 div 다시 보이게하기
+					},
+					error : function(){
+						console.log("AjaxCreateList 실패");
+					}
+				})
             }
         }
     })
@@ -63,20 +62,14 @@ document.querySelector(".addListBtn").onclick=function(){
 }
 
 //====================입력한 이름으로 리스트 그려주는 함수====================
-//====================매개값은 사용자가 입력한 리스트 object====================
-function createList(listName){
-//function createList(obj){ //사용자가 방금 만든 리스트 object가 매개값
+//사용자가 방금 만든 리스트 object가 매개값
+function createList(obj){
     let target = document.querySelector("#boardDetailBODY"); //여기다가 새 리스트 붙여주기
     
     let one = document.createElement("div");
-    one.setAttribute("class","col-12 col-sm-6 col-lg-2");
-
-    //===============수정할부분임===============
-    // [잊지마!] 리스트랑 카드랑 id가 같을 수도 있으니까 
-    // 엘리먼트에 리스트 또는 카드 id부여할때 
-    // list+data.listID 또는 card+data.cardID 이렇게 부여하자-!
-    one.setAttribute("id","list_1");
-    //one.setAttribute("id","list"+obj.listId);
+    one.setAttribute("class","col-12 col-sm-6 col-lg-2 listDIV");
+    one.setAttribute("data-listID",obj.list_id); //제일 바깥 DIV에다 list_id속성 부여
+	one.setAttribute("id","list"+obj.list_id); //제일 바깥 DIV의 id는 list(id)로 부여
 
     let two = document.createElement("div");
     two.setAttribute("class","card");
@@ -84,30 +77,17 @@ function createList(listName){
     three_a.setAttribute("class","first card-header d-flex justify-content-between");
     let three_a_a = document.createElement("h4");
     three_a_a.setAttribute("class","listName");
-
-    //===============수정할부분임===============
-    three_a_a.innerHTML=listName;
-    //three_a_a.innerHTML=obj.listName;
-    
-    //===============수정할부분임===============
-    // <h4>리스트 이름</h4> : 이름수정하는 onclick 이벤트 걸기
-    three_a_a.addEventListener("click",function(){
-        renameList();
-        //renameList(obj.listId); //매개값으로 리스트 아이디 보내기
+    three_a_a.innerHTML=obj.list_title;	  //리스트 이름
+    three_a_a.addEventListener("click",function(){ //리스트 이름 수정 클릭이벤트. renameList함수 매개값으로 list_id전달
+        renameList(obj.list_id);
     })
 
     let three_a_b = document.createElement("i");
     three_a_b.setAttribute("class","fa fa-times col-rg")
     three_a_b.setAttribute("aria-hidden","true");
     three_a_b.style.cursor="pointer";
-    three_a_b.addEventListener("click",function(){
-        //  리스트 삭제버튼
-        document.querySelector("#list_1").remove();
-        //  아작스로 리스트 삭제하기
-        // document.querySelector("list"+data.listId).remove();
-        // 리스트랑 카드랑 id가 같을 수도 있으니까 엘리먼트에
-        // 리스트 또는 카드 id부여할때 list+data.listID 또는 
-        // card+data.cardID 이렇게 부여하자-!
+    three_a_b.addEventListener("click",function(){ //리스트 삭제 클릭이벤트. deleteList함수 매개값으로 list_id전달
+		deleteList(obj.list_id);
     })
 
     let three_b = document.createElement("div");
@@ -118,12 +98,8 @@ function createList(listName){
     three_b_a_a.setAttribute("class","addCardBtn");
     let three_b_h4 = document.createElement("h4");
     three_b_h4.setAttribute("class","fas fa-plus");
-
-    //===============수정할부분임===============
-    // <h4> + Add Card </h4> : 카드추가하는 onclick 이벤트 걸기
-    three_b_h4.addEventListener("click",function(){
-        nameCard();
-        //nameCard(obj.listId); //매개값으로 리스트 아이디 보내기
+    three_b_h4.addEventListener("click",function(){ //카드추가하는 onclick 이벤트 걸기. 매개값으로 list_id전달
+        nameCard(obj.list_id); 
     });
 
     //만들어둔 요소들 조립해서 붙이기
@@ -144,14 +120,11 @@ function createList(listName){
 
 //====================리스트 이름 수정하는 함수 ====================
 //====================매개값으로 리스트 아이디 받기====================
-function renameList(){
-//===============수정할 부분임===============
-//function renameList(listId){
-    let target = event.target;
+function renameList(listId){
     let targetParent = event.target.parentElement; //여기다 input 붙이기
 
-    //우선 원래 리스트 이름 지워주고
-    target.innerHTML = ""; 
+    //우선 원래 리스트 이름이랑 리스트삭제버튼 지워주고
+	targetParent.innerHTML = "";
 
     //새로운 리스트 이름 입력할 input태그 만들어서 엔터키 이벤트 걸어주기(빈 값 못 넣게)
     let newListName = document.createElement("input");
@@ -174,19 +147,16 @@ function renameList(){
                 newListName.focus();
             //값이 있다면
             }else{
-                // (1) 같은 보드 내에 동일한 리스트 이름 있는지 조회하는 함수 실행
-                // 매개값은 사용자가 입력한 리스트 이름, 리턴값은 사용여부
-                // let using = listnameCheck(listName);
-                // 리턴값이 "YES"이면 사용가능, "NO"면 사용불가
-                // if(using == "NO"){ 
-                //  alert("사용불가능한 이름 => 이미 동일이름존재") 
-                // }else if(using =="YES"){
-                //  (2) [Ajax실행] DB에 사용자가 입력한 list이름으로 update
-                //  (3) [Ajax_suceess함수] 새로운 리스트 이름 입력할 input태그 삭제
-                document.querySelector("#newListName").remove();
-                //  (4) 사용자가 입력한 새로운 리스트 이름 화면에 그려주기
-                target.innerHTML=listName;
-                // }
+                document.querySelector("#newListName").remove(); //새로운 리스트 이름 입력했던 input태그 삭제
+				let h4 = document.createElement("h4");
+				h4.setAttribute("class","listName");
+				h4.innerHTML = listName;
+				let i = document.createElement("i");
+				i.setAttribute("class","fa fa-times col-rg");
+				i.setAttribute("aria-hidden","true");
+				
+				targetParent.append(h4);
+				targetParent.append(i);
             }
         }
     });
@@ -195,34 +165,15 @@ function renameList(){
 
 }
 
-//====================[Ajax]같은 보드 내에 동일한 리스트 이름 있는지 조회====================
-function listnameCheck(newListName){
-    // let result = "";
-    // $.ajax({
-    //     url : "",
-    //     data : {
-    //         newListName : newListName
-    //     },
-    //     dataType : "text", //동일이름 있으면 N, 없으면 Y
-    //     method : "POST",
-    //     suceess : function(data){
-    //         if(data == "Y"){
-    //             result = "YES";
-    //         }else if(data == "N"){
-    //             result = "NO";
-    //         }
-    //     },
-    //     error : function(){
-    //         alert("동일리스트이름체크 : 아작스실패");
-    //     }
-    // })
-    // return result; 
+//====================리스트 삭제 함수====================
+//====================매개값으로 리스트 아이디 받기====================
+function deleteList(listId){
+	document.querySelector("#list"+listId).remove();
 }
 
 //====================add card클릭시 실행될 함수(카드이름지정input그리기)====================
 //====================매개값으로 리스트 아이디 받기====================
-function nameCard(){
-//function nameCard(listName){
+function nameCard(listId){
     let target = event.target.closest(".cardArea"); //여기 뒤에다 input붙이기
 
     //새로운 카드 이름 입력할 input박스 생성
@@ -316,9 +267,4 @@ function createCard(cardname){
     firstDIV.append(thrDIV);
 
     target.prepend(firstDIV);
-}
-
-//====================[Ajax]같은 리스트 내에 동일한 카드 이름있는지 조회====================
-function cardNameCheck(cardName){
-    
 }

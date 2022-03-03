@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.Donggle.CollaB.board.service.BoardService;
+import co.Donggle.CollaB.board.service.BoardVO;
 import co.Donggle.CollaB.user.service.UserVO;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinVO;
@@ -23,16 +24,6 @@ public class WorkspaceController {
 	@Autowired WorkspaceJoinService workspaceJoinDao;
 	@Autowired WorkspaceService workspaceDao;
 	@Autowired BoardService boardDao;
-	
-	//보드상세페이지에서 해당 워크스페이스에 있는 모든 참여자 목록
-	@ResponseBody
-	@RequestMapping("/AjaxWorkspaceTotalMember")
-	public List<UserVO> AjaxWorkspaceTotalMember(@RequestParam("workspaceId")int wkID){
-		WorkspaceJoinVO vo = new WorkspaceJoinVO();
-		vo.setWorkspace_id(wkID);
-		
-		return workspaceJoinDao.workspaceTotalMember(vo);
-	}
 	
 	//로그인 후 바로 보이는 워크스페이스 목록 페이지
 	@RequestMapping("/WorkspaceList")
@@ -80,7 +71,8 @@ public class WorkspaceController {
 		if(n > 0) {
 			int num = workspaceJoinDao.workspaceJoinInsert(wkJoinVo);
 			if(num > 0) {
-				result = "YES";				
+				int wkid = workspaceDao.selectWorkspaceMaxId();
+				result = Integer.toString(wkid);				
 			}else if(num == 0) {
 				result = "NO";
 			}
@@ -105,6 +97,48 @@ public class WorkspaceController {
 		if(n > 0) {
 			result = "YES";
 		}else if(n == 0) {
+			result = "NO";
+		}
+		
+		return result;
+	}
+	
+	//새 쪽지쓰기에서 워크스페이스 하나 클릭시, 해당 워크스페이스 조인멤버출력
+	@ResponseBody
+	@RequestMapping("/AjaxWorkspaceJoinMembers")
+	public List<UserVO> AjaxWorkspaceJoinMembers(@RequestParam("workspaceID") int wkid){
+		WorkspaceJoinVO vo = new WorkspaceJoinVO();
+		vo.setWorkspace_id(wkid);
+		
+		return workspaceJoinDao.workspaceTotalMember(vo);
+	}
+	
+	//워크스페이스리스트페이지에서 워크스페이스 탈퇴, 해당워크스페이스의 보드도 탈퇴
+	@ResponseBody
+	@RequestMapping("/AjaxWorkspaceJoinDelete")
+	public String AjaxWorkspaceJoinDelete(@RequestParam("wkid") int wkid,
+										HttpSession session) {
+		String result = "";
+		//String userId = (String)session.getAttribute("id");
+		String userId = "user1";
+		
+		WorkspaceJoinVO wkjoin = new WorkspaceJoinVO();
+		BoardVO boardvo = new BoardVO();
+		
+		wkjoin.setId(userId);
+		wkjoin.setWorkspace_id(wkid);
+		boardvo.setId(userId);
+		boardvo.setWorkspace_id(wkid);
+		
+		int n = workspaceJoinDao.workspaceJoinDelete(wkjoin);
+		if(n > 0) {
+			int r = boardDao.boardJoinDrop(boardvo);
+			if(r > 0) {
+				result = "YES";
+			}else if(r == 0){
+				result = "NO";
+			}
+		}else if(n == 0){
 			result = "NO";
 		}
 		

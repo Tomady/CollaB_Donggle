@@ -24,4 +24,9 @@
 		SELECT * FROM WORKSPACE WHERE WORKSPACE_ID = #{workspace_id}
 	</select>
 	
+	<select id="selectWorkspaceMaxId"
+	resultType="int">
+		SELECT MAX(WORKSPACE_ID) FROM WORKSPACE
+	</select>
+	
 </mapper>

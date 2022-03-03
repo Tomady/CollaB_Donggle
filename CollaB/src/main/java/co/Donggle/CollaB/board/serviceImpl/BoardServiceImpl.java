@@ -34,7 +34,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardVO selectBoardStar(BoardVO vo) {
+	public List<BoardVO> selectBoardStar(BoardVO vo) {
 		return map.selectBoardStar(vo);
 	}
 
@@ -46,6 +46,56 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int changeBoardThema(BoardVO vo) {
 		return map.changeBoardThema(vo);
+	}
+
+	@Override
+	public int boardJoinDrop(BoardVO vo) {
+		return map.boardJoinDrop(vo);
+	}
+
+	@Override
+	public int createBoard(BoardVO vo) {
+		return map.createBoard(vo);
+	}
+
+	@Override
+	public int insertBoardJoin(BoardVO vo) {
+		return map.insertBoardJoin(vo);
+	}
+
+	@Override
+	public BoardVO currentBoardSelect() {
+		return map.currentBoardSelect();
+	}
+
+	@Override
+	public int boardWorkspaceID(BoardVO vo) {
+		return map.boardWorkspaceID(vo);
+	}
+
+	@Override
+	public List<BoardVO> selectBoardNonStar(BoardVO vo) {
+		return map.selectBoardNonStar(vo);
+	}
+
+	@Override
+	public int boardStarYesOrNo(BoardVO vo) {
+		return map.boardStarYesOrNo(vo);
+	}
+
+	@Override
+	public int boardAddStar(BoardVO vo) {
+		return map.boardAddStar(vo);
+	}
+
+	@Override
+	public int boardRemoveStar(BoardVO vo) {
+		return map.boardRemoveStar(vo);
+	}
+
+	@Override
+	public int addBoardJoinMember(BoardVO vo) {
+		return map.addBoardJoinMember(vo);
 	}
 
 }

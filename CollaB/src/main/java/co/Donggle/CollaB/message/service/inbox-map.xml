@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.Donggle.CollaB.message.service.InboxMapper">
+	<select id="inboxList"
+	parameterType="co.Donggle.CollaB.message.service.InboxVO"
+	resultType="co.Donggle.CollaB.message.service.InboxVO">
+		SELECT * FROM 
+		INBOX WHERE ID = #{id}
+		ORDER BY RECEIVE_DATE DESC
+	</select>
+	
+	<delete id="inboxMsgDelete"
+	parameterType="co.Donggle.CollaB.message.service.InboxVO">
+		DELETE INBOX 
+		WHERE ID = #{id} 
+		AND INBOX_ID = #{inbox_id}
+	</delete>
+	
+	<select id="unreadList"
+	parameterType="co.Donggle.CollaB.message.service.InboxVO"
+	resultType="co.Donggle.CollaB.message.service.InboxVO">
+		SELECT * 
+		FROM INBOX 
+		WHERE ID = #{id} 
+		AND RECEIVE_CONFIRM = 'N'
+		ORDER BY RECEIVE_DATE DESC
+	</select>
+	
+	<select id="inboxSelectMsg"
+	parameterType="co.Donggle.CollaB.message.service.InboxVO"
+	resultType="co.Donggle.CollaB.message.service.InboxVO">
+		SELECT * FROM INBOX 
+		WHERE INBOX_ID = #{inbox_id}
+	</select>
+	
+	<update id="starMsg"
+	parameterType="co.Donggle.CollaB.message.service.InboxVO">
+		UPDATE INBOX
+		SET RECEIVE_STAR = #{receive_star}
+		WHERE INBOX_ID = #{inbox_id}
+	</update>
+	
+	<update id="inboxMsgConfirm"
+	parameterType="co.Donggle.CollaB.message.service.InboxVO">
+		UPDATE INBOX
+		SET RECEIVE_CONFIRM = 'Y'
+		WHERE INBOX_ID = #{inbox_id}
+	</update>
+	
+	<insert id="inboxMsgInsert"
+	parameterType="co.Donggle.CollaB.message.service.InboxVO">
+	 <selectKey keyProperty="inbox_id" resultType="int" order="BEFORE">
+	 	SELECT MAX(INBOX_ID)+1 FROM INBOX
+	 </selectKey>
+	 	INSERT INTO INBOX
+	 	VALUES(#{inbox_id},#{id},SYSDATE,#{receive_title},#{receive_contents},
+	 	#{receive_from},#{receive_star},#{receive_confirm})
+	</insert>
+	
+	<select id="inboxUnreadMsg"
+	resultType="int"
+	parameterType="co.Donggle.CollaB.message.service.InboxVO">
+		SELECT COUNT(*) 
+		FROM INBOX 
+		WHERE RECEIVE_CONFIRM = 'N' 
+		AND ID = #{id}
+	</select>
+	
+	<select id="inboxStarList"
+	parameterType="co.Donggle.CollaB.message.service.InboxVO"
+	resultType="co.Donggle.CollaB.message.service.InboxVO">
+		SELECT * FROM INBOX 
+		WHERE RECEIVE_STAR = 'Y' AND ID = #{id}
+	</select>
+	
+	<select id="inboxSearch_writer"
+	parameterType="co.Donggle.CollaB.message.service.InboxVO"
+	resultType="co.Donggle.CollaB.message.service.InboxVO">
+		SELECT * FROM INBOX
+		WHERE RECEIVE_FROM LIKE '%'||#{receive_from}||'%' 
+		AND ID = #{id} 
+	</select>
+	
+	<select id="inboxSearch_title"
+	parameterType="co.Donggle.CollaB.message.service.InboxVO"
+	resultType="co.Donggle.CollaB.message.service.InboxVO">
+		SELECT * FROM INBOX
+		WHERE RECEIVE_TITLE LIKE '%'||#{receive_title}||'%'
+		AND ID = #{id}
+	</select>
+	
+	<select id="inboxStarSearch_writer"
+	parameterType="co.Donggle.CollaB.message.service.InboxVO"
+	resultType="co.Donggle.CollaB.message.service.InboxVO">
+		SELECT * FROM INBOX 
+		WHERE RECEIVE_STAR = 'Y' AND ID = #{id}
+		AND RECEIVE_FROM LIKE '%'||#{receive_from}||'%'
+	</select>
+	
+	<select id="inboxStarSearch_title"
+	parameterType="co.Donggle.CollaB.message.service.InboxVO"
+	resultType="co.Donggle.CollaB.message.service.InboxVO">
+		SELECT * FROM INBOX
+		WHERE RECEIVE_STAR = 'Y' AND ID = #{id}
+		AND RECEIVE_TITLE LIKE '%'||#{receive_title}||'%'
+	</select>
+</mapper>
