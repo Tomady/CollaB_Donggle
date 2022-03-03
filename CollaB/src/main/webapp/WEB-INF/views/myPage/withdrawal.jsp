@@ -15,7 +15,6 @@
       color: black;
     }
 </style>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
       <!-- Main Content -->
@@ -52,42 +51,11 @@
                 </div>
               </div>
               <div class="card-footer text-center">
-                <button class="btn btn-primary" id="withdrawBtn">확인</button>
+                <button class="btn btn-primary">확인</button>
               </div>
             </div>
           </div>
         </section>
       </div>
-      
-      <script>
-      // 탈퇴
-      $('#withdrawBtn').on('click', function(){
-    	  if(!$('#inlineCheckbox1').is(':checked')){
-    		  window.alert('탈퇴정책에 동의해주시기 바랍니다.');
-    		  return;
-    	  } else {
-          if(confirm("정말 탈퇴하시겠습니까?")){
-            //탈퇴
-            $.ajax({
-              url: '/CollaB/userDelete',
-              type: 'get',
-              success: function(data){
-              	console.log(data);
-              	if(data.trim() === 'Y'){
-              		alert("탈퇴가 완료되었습니다.")
-              		location.href="/CollaB/";
-              	} else if(data.trim() === 'F') {
-              		alert("에러가 발생하였습니다.")
-              	}
-              },
-              error: function(data){
-            	  console.log(data);
-              }
-            })
-          }
-        }
-      })
-      
-      </script>
 </body>
 </html>

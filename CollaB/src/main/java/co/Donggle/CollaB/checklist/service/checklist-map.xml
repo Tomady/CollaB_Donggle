@@ -4,7 +4,7 @@
 
 	<!-- 체크리스트 목록 -->
 	<select id="chklistAll" resultType="co.Donggle.CollaB.checklist.service.checklistVO">
-		SELECT DISTINCT chk.*, ca.card_id
+		SELECT DISTINCt chk.*, ca.card_id
 		FROM card ca, checklist chk
 		WHERE ca.card_id = chk.card_id
 	</select>

@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,8 +27,7 @@ public class checklistController {
 	
 	// 체크리스트 페이지
 	@RequestMapping("/checklist.do")
-	public String checklist(/*@Param("card_id") int card_id, */ Model model) {
-		checklistVO vo = new checklistVO();
+	public String checklist(Model model) {
 		
 		List<checklistVO> checklist = checklistDao.chklistAll();
 		List<itemInfoVO> itemlist = itemInfoDao.itemList();
