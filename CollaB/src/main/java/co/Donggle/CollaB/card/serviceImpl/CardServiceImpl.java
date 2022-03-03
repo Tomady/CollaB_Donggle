@@ -1,5 +1,7 @@
 package co.Donggle.CollaB.card.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -35,6 +37,66 @@ public class CardServiceImpl implements CardService {
 	@Override
 	public CardVO selectCurrentCard() {
 		return map.selectCurrentCard();
+	}
+
+	@Override
+	public List<CardVO> selectCommentIds(CardVO vo) {
+		return map.selectCommentIds(vo);
+	}
+
+	@Override
+	public List<CardVO> selectFileIds(CardVO vo) {
+		return map.selectFileIds(vo);
+	}
+
+	@Override
+	public List<CardVO> selectCheckListIds(CardVO vo) {
+		return map.selectCheckListIds(vo);
+	}
+
+	@Override
+	public int deleteCard(CardVO vo) {
+		return map.deleteCard(vo);
+	}
+
+	@Override
+	public int deleteCardComment(CardVO vo) {
+		return map.deleteCardComment(vo);
+	}
+
+	@Override
+	public int deleteCardCommentFile(CardVO vo) {
+		return map.deleteCardCommentFile(vo);
+	}
+
+	@Override
+	public int deleteCardCommentLike(CardVO vo) {
+		return map.deleteCardCommentLike(vo);
+	}
+
+	@Override
+	public int deleteCardFile(CardVO vo) {
+		return map.deleteCardFile(vo);
+	}
+
+	@Override
+	public int deleteCardFileHistory(CardVO vo) {
+		return map.deleteCardFileHistory(vo);
+	}
+
+	@Override
+	public int deleteCardCheckList(CardVO vo) {
+		return map.deleteCardCheckList(vo);
+	}
+
+	@Override
+	public int deleteCardCheckItems(CardVO vo) {
+		return map.deleteCardCheckItems(vo);
+	}
+
+	@Override
+	public int dropCard(CardVO vo) {
+		return map.dropCard(vo);
 	}
 
 }
