@@ -264,7 +264,7 @@
   <!-- Page Specific JS File -->
 
   <script>
-      $(document).ready(function(){
+ /*     $(document).ready(function(){
           $('#additemdiv').hide();
           $('#moditask').hide();
       })
@@ -283,7 +283,7 @@
       $('#closemodiitem').click(function(){
         $('#moditask').hide();
         $('#tasklist').show();
-      })
+      }) */
       
 /*    $(document).ready(function(){
         $(".custom-control-input").change(function(){
@@ -404,6 +404,8 @@
           })
         });
       }
+
+      
   </script>
 
 </body>
