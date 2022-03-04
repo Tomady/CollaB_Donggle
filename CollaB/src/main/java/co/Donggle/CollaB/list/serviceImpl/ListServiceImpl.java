@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import co.Donggle.CollaB.card.service.CardVO;
 import co.Donggle.CollaB.list.service.ListMapper;
 import co.Donggle.CollaB.list.service.ListService;
 import co.Donggle.CollaB.list.service.ListVO;
@@ -33,6 +34,21 @@ public class ListServiceImpl implements ListService {
 	@Override
 	public List<ListVO> selectTotalCard(ListVO vo) {
 		return map.selectTotalCard(vo);
+	}
+
+	@Override
+	public int renameList(ListVO vo) {
+		return map.renameList(vo);
+	}
+
+	@Override
+	public List<CardVO> selectCardIds(ListVO vo) {
+		return map.selectCardIds(vo);
+	}
+
+	@Override
+	public int deleteList(ListVO vo) {
+		return map.deleteList(vo);
 	}
 
 }

@@ -118,7 +118,47 @@
     }
     #bkcolor:hover{
     cursor: pointer;
-    }    
+    }
+    
+    /*페이징*/
+    .off-screen {
+      display: none;
+    }
+    #pagebtn {
+      width: 500px;
+      text-align: center;
+
+      margin: 0 auto;
+      margin-top : 70px;
+      height: 50px;
+      line-height: 60px;
+    }
+
+    #pagebtn a {
+      all: initial;
+      display: inline-block;
+      margin-right: 10px;
+      border-radius: 3px;
+      border: 1px solid #f9fafe;
+      font-family: Tahoma;
+      /*background: #f9fafe;*/
+      color: #000;
+      text-decoration: none;
+      height: 40px;
+      width: 40px;
+      text-align: center;
+      line-height: 40px;
+      transition: all .5s;
+    }
+
+    #pagebtn a:hover {
+      background-color: #6553C1;
+    }
+
+    #pagebtn a.active {
+      background: #6553C1;
+      color: #fff;
+    }
 </style>
 </head>
 
@@ -423,28 +463,8 @@
                         <button id="sentSearch" class="btn" type="button"><i class="fas fa-search"></i></button>
                       </div>
                     </div>
-                    <!--페이징처리-->
-                    <ul class="pagination col-rg mt-2">
-                      <li class="page-item mt-2">
-                        <span class="col-rg mt-2" style="font-size: 13px; color: cornflowerblue;">1 - 10</span>
-                        <span class="col-rg mt-2 ml-1 mr-1" style="font-size: 13px; color: cornflowerblue;">of</span>
-                        <span class="col-rg mt-2 mr-3" style="font-size: 13px; color: cornflowerblue;">total</span>
-                      </li>
-                      <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                          <span aria-hidden="true">&laquo;</span>
-                          <span class="sr-only">Previous</span>
-                        </a>
-                      </li>
-                      <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                          <span aria-hidden="true">&raquo;</span>
-                          <span class="sr-only">Next</span>
-                        </a>
-                      </li>
-                    </ul>
                   </div>
-                  <div class="card-body" style="height: 100vh;">
+                  <div class="card-body" style="height: 95vh;">
                     <!--메시지 삭제-->
                     <button id="sentMsgDelete" class="btn mb-2" type="button">
                       <a href="#" title="delete"><i class="fas fa-trash"></i></a>
@@ -454,7 +474,7 @@
                       <a href="#" title="refresh"><i class="fas fa-spinner" aria-hidden="true"></i></a>
                     </button>
                     <!--메시지 목록-->
-                    <table class="table table-hover" style="text-align: center;">
+                    <table id="sentMSGlist" class="table table-hover" style="text-align: center;">
                       <thead>
                         <tr>
                           <th scope="col" width="1%">
@@ -490,9 +510,88 @@
       </div>
     </div>
   </div>
+  <!--페이징처리-->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript">
+  var pagenumber = 10
+  var pageCount = 3
+  var currentPage = 1;
+
+  var tableEl = $('#sentMSGlist');
+  var tr = tableEl.find('tbody tr');
+  var trtotal = tr.length;
+
+  function page(pagenumber, pageCount, currentPage) {
+
+
+    if (trtotal == 0) return;
+    var pagetotal = Math.ceil(trtotal / pagenumber);
+    var pageGroup = Math.ceil(currentPage / pageCount);
+    var last = pageGroup * pageCount;
+    if (last > pagetotal) {
+      last = pagetotal;
+    }
+    var first;
+    if (last % pageCount == 0) {
+      first = last - (pageCount - 1);
+    } else {
+      first = last + 1 - last % pageCount
+    }
+    var next = last + 1;
+    var prev = first - 1;
+    $('#pagebtn').remove();
+    tableEl.after('<div id="pagebtn">');
+    if (prev > 0) {
+      $('<a href="#"></a>')
+        .attr('data', 'prev')
+        .html("<")
+        .appendTo('#pagebtn');
+    }
+
+    for (let i = first; i <= last; i++) {
+      $('<a href="#"></a>')
+        .attr('data', i)
+        .html(i)
+        .appendTo('#pagebtn');
+    }
+    if (last < pagetotal) {
+      $('<a href="#"></a>')
+        .attr('data', 'next')
+        .html(">")
+        .appendTo('#pagebtn');
+    }
+    var paginglink = $('#pagebtn a');
+    paginglink.removeClass('active');
+    $("[data=" + currentPage + "]").addClass("active")
+    var startval = (currentPage - 1) * pagenumber;
+    var endval = startval + pagenumber;
+
+    tr.css('opacity', '0.0')
+      .addClass('off-screen')
+      .slice(startval, endval)
+      .removeClass('off-screen')
+      .animate({
+        opacity: 1
+      }, 500);
+
+
+
+    paginglink.on('click', function (e) {
+      e.preventDefault();
+      var thisval = $(this);
+      var data = thisval.attr("data");
+      var selectedPage = thisval.text();
+      if (data == "next") selectedPage = next;
+      if (data == "prev") selectedPage = prev;
+
+      page(pagenumber, pageCount, selectedPage);
+
+    });
+  }
+  page(pagenumber, pageCount, currentPage);
+  </script>
 
   <!-- General JS Scripts -->
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>

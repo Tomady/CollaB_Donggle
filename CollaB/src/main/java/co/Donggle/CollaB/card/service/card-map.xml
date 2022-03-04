@@ -22,4 +22,110 @@
 		WHERE U.ID = C.MANAGER
 		AND CARD_ID = #{card_id}
 	</select>
+	
+	<insert id="createCard"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		<selectKey keyProperty="card_id" resultType="int" order="BEFORE">
+			SELECT MAX(CARD_ID)+1 FROM CARD
+		</selectKey>
+		INSERT INTO CARD(CARD_ID, CARD_TITLE, LIST_ID)
+		VALUES(#{card_id},#{card_title},#{list_id})
+	</insert>
+	
+	<select id="selectCurrentCard"
+	resultType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT * 
+		FROM CARD
+		WHERE CARD_ID = (SELECT MAX(CARD_ID) 
+						 FROM CARD)
+	</select>
+	
+	<select id="selectCommentIds"
+	parameterType="co.Donggle.CollaB.card.service.CardVO"
+	resultType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT COMMENT_ID 
+		FROM CARD_COMMENT 
+		WHERE CARD_ID = #{card_id}
+	</select>
+	
+	<select id="selectFileIds"
+	parameterType="co.Donggle.CollaB.card.service.CardVO"
+	resultType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT FILE_ID 
+		FROM FILE_INFO 
+		WHERE CARD_ID = #{card_id}
+	</select>
+	
+	<select id="selectCheckListIds"
+	parameterType="co.Donggle.CollaB.card.service.CardVO"
+	resultType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT CHECKLIST_ID 
+		FROM CHECKLIST 
+		WHERE CARD_ID = #{card_id}
+	</select>
+	
+	<delete id="deleteCard"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		DELETE CARD WHERE LIST_ID = #{list_id}
+	</delete>
+	
+	<delete id="deleteCardComment"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		DELETE CARD_COMMENT WHERE CARD_ID = #{card_id}
+	</delete>
+	
+	<delete id="deleteCardCommentFile"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		DELETE COMMENT_FILE_INFO WHERE COMMENT_ID = #{comment_id}
+	</delete>
+	
+	<delete id="deleteCardCommentLike"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		DELETE COMMENT_LIKE WHERE COMMENT_ID = #{comment_id}
+	</delete>
+	
+	<delete id="deleteCardFile"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		DELETE FILE_INFO WHERE CARD_ID = #{card_id}
+	</delete>
+	
+	<delete id="deleteCardFileHistory"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		DELETE FILE_HISTORY WHERE FILE_ID = #{file_id}
+	</delete>
+	
+	<delete id="deleteCardCheckList"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		DELETE CHECKLIST WHERE CARD_ID = #{card_id}
+	</delete>
+	
+	<delete id="deleteCardCheckItems"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		DELETE ITEM_INFO WHERE CHECKLIST_ID = #{checklist_id}
+	</delete>
+	
+	<delete id="dropCard"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		DELETE CARD WHERE CARD_ID = #{card_id}
+	</delete>
+	
+	<select id="selectCard"
+	parameterType="co.Donggle.CollaB.card.service.CardVO"
+	resultType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT * FROM CARD WHERE CARD_ID = #{card_id}
+	</select>
+	
+	<select id="selectCardList"
+	resultType="co.Donggle.CollaB.card.service.CardVO"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT * FROM CARD
+		WHERE LIST_ID = #{list_id}
+	</select>
+	
+	<select id="selectListinfo"
+	parameterType="co.Donggle.CollaB.card.service.CardVO"
+	resultType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT * FROM LIST
+        WHERE LIST_ID = #{list_id}
+	</select>
 </mapper>
