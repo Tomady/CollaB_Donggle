@@ -290,8 +290,8 @@
 
 				<ul class="find_wrap">
 					<li><a href="idFindMenu.do">아이디 찾기</a></li>
-					<li><a href="">비밀번호 찾기</a></li>
-					<li><a href="">회원가입</a></li>
+					<li><a href="passwordFindMenu.do">비밀번호 찾기</a></li>
+					<li><a href="joinForm.do">회원가입</a></li>
 				</ul>
 
 			</form>

@@ -23,4 +23,16 @@ public class LoginUserServiceImpl implements LoginUserService {
 		return map.idFindNameEmailChk(vo);
 	}
 
+	@Override
+	public UserVO idFindNameTelChk(UserVO vo) {
+		// TODO Auto-generated method stub
+		return map.idFindNameTelChk(vo);
+	}
+
+	@Override
+	public UserVO passwordFindIdChk(UserVO vo) {
+		// TODO Auto-generated method stub
+		return map.passwordFindIdChk(vo);
+	}
+
 }

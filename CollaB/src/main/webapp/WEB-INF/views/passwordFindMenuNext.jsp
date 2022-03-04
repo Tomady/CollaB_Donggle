@@ -1,18 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@800&display=swap" rel="stylesheet">
-    
-    <style type="text/css">
-       html,
+<style type="text/css">
+   html,
         body {
             margin: 0;
             padding: 0;
@@ -123,7 +118,7 @@
         }
 
         .container__top__2 i {
-            margin-right: 10px;
+            margin-right: 18px;
         }
 
         .container__top__3 {
@@ -150,12 +145,12 @@
 
         .container__mid__header li {
             margin-bottom: 10px;
-            font-size: 18px;
+            font-size: 16px;
             position: relative;
         }
 
         .container__mid__header li:first-child {
-            font-size: 20px;
+            font-size: 17px;
             font-weight: bold;
         }
 
@@ -178,6 +173,7 @@
 
         .container__mid__body li {
             margin-bottom: 50px;
+           
         }
 
         .container__mid__body li:last-child{
@@ -219,17 +215,19 @@
         .body__container__bot {
             height: 100px;
         }
-        
-        
-    </style>
+        .userTelNumb,
+        .userEmail{
+            margin-left: 15px;
+        }
+</style>
 </head>
 <body>
-    <nav class="nav">
+ <nav class="nav">
         <div class="navbar">
-            <div class="navbar__Left"><a href="index.do">CollaB</div></a>
+            <div class="navbar__Left"><a href="">CollaB</div></a>
             <ul class="navbar__right">
-                <li><a href="joinForm.do"><i class="fas fa-user"></i>Sign Up</a></li>
-                <li><a href="login.do"><i class="fas fa-unlock-alt"></i>Login</a></li>
+                <li><a href=""><i class="fas fa-user"></i>Sign Up</a></li>
+                <li><a href=""><i class="fas fa-unlock-alt"></i>Login</a></li>
             </ul>
         </div>
     </nav>
@@ -237,17 +235,16 @@
         <div class="wrap__body">
             <div class="wrap__body__container">
                 <div class="body__container__top">
-                    <div class="container__top__1"><a href="index.do">CollaB</a></div>
-                    <div class="container__top__2"><i class="far fa-address-card"></i>아이디 찾기 😍</div>
+                    <div class="container__top__1"><a href="">CollaB</a></div>
+                    <div class="container__top__2"><i class="fas fa-unlock-alt"></i>비밀번호 찾기 😍</div>
                     <div class="container__top__3">
-<!--                         <div><a href="">아이디찾기</a></div> -->
-<!--                         <div><a href="">비밀번호찾기</a></div> -->
+                        
                     </div>
                 </div>
                 <div class="body__container__mid">
                     <ul class="container__mid__header">
-                        <li>아이디를 모르시나요?</li>
-                        <li>아이디 찾기 방법 중 가능한 방법을 선택해 주세요.<span class="underline"></span></li>
+                        <li> <span>${name }</span>님, 인증 가능한 연락처를 선택한 후, 연락처 전체를 입력해 주세요.</li>
+                        <li>개인정보보호를 위해 연락처는 일부분만 보여드리며, *가 무작위로 표기됩니다.<span class="underline"></span></li>
 
                     </ul>
                     <ul class="container__mid__body">
@@ -258,16 +255,15 @@
                             </div>
                         </li>
                         <li class="" name="method_2"><span><input type="radio" name="find__radio">내 정보에 등록된 휴대폰으로
-                                찾기</span>
+                                찾기<span class="userEmail">${tel }</span></span>
                             <div>가입 시 등록하신 전화번호와 일치한 아이디를 찾습니다.
-                                <button type="button" onclick='location.href="idFindTel.do"'>다음단계</button>
+                                <button type="button" onclick="location.href='passwordFindTel.do'">다음단계</button>
                             </div>
                         </li>
                         <li class="" name="method_3"><span><input type="radio" name="find__radio">내 정보에 등록된 이메일로
-                                찾기</span>
+                                찾기<span class="userTelNumb">${email }</span></span>
                             <div>가입 시 등록하신 본인확인 이메일과 일치한 아이디를 찾습니다.
-                                <button type="button" onclick="location.href='idFindEmail.do'">다음단계</button>
-
+                                <button type="button" onclick="location.href='passwordFindEmail.do'">다음단계</button>
                             </div>
                         </li>
                     </ul>
@@ -276,30 +272,30 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="resources/js/jay/confirmForm.js"></script>
-    <script type="text/javascript">
-
-    $(".container__mid__body").on("click", function (e) {
-        // console.log($(e.target).prop('tagName'))
-        if ($(e.target).prop('tagName') == 'INPUT') {
-            let lis = $(".container__mid__body>li");
-            for(let i= 0; i<lis.length; i++ ){
-                if(i==$(e.target).parent().parent().index()){
-                    continue;
-                }
-                $(lis[i]).children("div").slideUp(200);
-                $(lis[i]).children("span").css("font-weight","normal")
-          
-            }
-            $(e.target).parent().next().slideDown(200);
-            $(e.target).parent().css("font-weight","bold")
-    
-
-        }
-    })
-</script>
-    
-  
+    <input type="hidden" id="userInfo" value="${userInfo }">
 </body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+$(".container__mid__body").on("click", function (e) {
+    // console.log($(e.target).prop('tagName'))
+    if ($(e.target).prop('tagName') == 'INPUT') {
+        let lis = $(".container__mid__body>li");
+        console.log(lis)
+        for(let i= 0; i<lis.length; i++ ){
+            if(i==$(e.target).parent().parent().index()){
+                continue;
+            }
+            console.log($(lis[i]))
+            $(lis[i]).children("div").slideUp(200);
+            $(lis[i]).children("span").css("font-weight","normal")
+      
+        }
+        $(e.target).parent().next().slideDown(200);
+        $(e.target).parent().css("font-weight","bold")
+
+
+    }
+})
+
+</script>
 </html>

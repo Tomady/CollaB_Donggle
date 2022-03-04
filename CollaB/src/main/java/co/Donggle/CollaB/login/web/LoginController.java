@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.MessagingException;
@@ -48,6 +49,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
+import co.Donggle.CollaB.login.service.Coolsms;
 import co.Donggle.CollaB.login.service.FacebookLoginBO;
 import co.Donggle.CollaB.login.service.GoogleLoginBO;
 import co.Donggle.CollaB.login.service.GoogleLoginRequest;
@@ -55,6 +57,7 @@ import co.Donggle.CollaB.login.service.GoogleLoginResponse;
 import co.Donggle.CollaB.login.service.KakaoLoginApiService;
 import co.Donggle.CollaB.login.service.LoginUserService;
 import co.Donggle.CollaB.login.service.NaverLoginBO;
+import co.Donggle.CollaB.login.service.SmsSendBO;
 import co.Donggle.CollaB.user.service.UserVO;
 
 @Controller
@@ -90,6 +93,8 @@ public class LoginController {
 	@Autowired
 	private JavaMailSender mail;
 
+	@Autowired
+	private SmsSendBO sendBO;
 	
 	@RequestMapping("/login.do")
 	public String login() {
@@ -331,7 +336,6 @@ public class LoginController {
 	public String ajaxNameEmailChk(UserVO vo) {
 		System.out.println("dfkdjfdk?");
 		vo = LoginUserDao.idFindNameEmailChk(vo);
-		System.out.println(vo);
 		if (vo == null) {
 			return "No";
 		} else {
@@ -376,5 +380,99 @@ public class LoginController {
 		
 		return "Yes";
 	}
+	
+	@RequestMapping("/ajaxIdFind.do")
+	@ResponseBody
+	public String ajaxIdFind(UserVO vo) {
+		vo = LoginUserDao.idFindNameEmailChk(vo);
+		System.out.println(vo.getId());
+		return vo.getId();
+	}
 
+	@RequestMapping("/passwordFindMenu.do")
+	public String passwordFindMenu() {
+		return "passwordFindMenu";
+	}
+	
+	@RequestMapping("/ajaxNameTelChk.do")
+	@ResponseBody
+	public String ajaxNameTelChk(UserVO vo) {
+		vo = LoginUserDao.idFindNameTelChk(vo);
+		if (vo == null) {
+			return "No";
+		} else {
+			return "Yes";
+		}
+	}
+	
+	@RequestMapping("/ajaxTelConfirm.do")
+	@ResponseBody
+	public String ajaxTelConfirm(int randomnum, UserVO vo) {
+		String result = sendBO.smsSend(vo.getTel(), randomnum);
+		System.out.println(result);
+		if(result == "Yes") {
+			return "Yes";
+		}else {
+			return "No";
+		}
+		
+	}
+	@RequestMapping("/ajaxIdTelFind.do")
+	@ResponseBody
+	public String ajaxIdTelFind(UserVO vo) {
+		vo = LoginUserDao.idFindNameTelChk(vo);
+		if(vo == null) {
+			return "No";
+		}else {
+			return vo.getId();
+		}
+	}
+	
+	@RequestMapping("/ajaxPasswordFindIdChk.do")
+	@ResponseBody
+	public String ajaxPasswordFindIdChk(UserVO vo) {
+		vo = LoginUserDao.passwordFindIdChk(vo);
+		
+		if(vo == null) {
+			return "No";
+		}else {
+			return vo.getId();
+		}
+	}
+	
+	@RequestMapping("/passwordFindMenuNext.do")
+	public String passwordFindMenuNext(UserVO vo, Model model) {
+		vo = LoginUserDao.passwordFindIdChk(vo);
+	
+		String tel = vo.getTel();
+		String email = vo.getEmail();
+		String telResult = "( +82 10 - "+tel.substring(4, 6) +"** - "+ tel.substring(9, 11)+"** )";
+		
+		String arrEmail[] = email.split("@");
+		String str = arrEmail[0];
+		String arr = "";
+		for(int i=0; i<str.length()-2; i++) {
+			arr += "*";
+		}
+		
+		String emailResult = "( "+arrEmail[0].substring(0,2) +arr+"@"+ arrEmail[1] + " )";
+		System.out.println("telResult : "+telResult);
+		System.out.println("emailResult : "+emailResult);
+	
+		model.addAttribute("name", vo.getName());
+		model.addAttribute("tel", telResult);
+		model.addAttribute("email", emailResult);
+		return "passwordFindMenuNext";
+	}
+	
+	@RequestMapping("/passwordFindTel.do")
+	public String passwordFindTel() {
+		return "passwordFindTel";
+	}
+	
+	@RequestMapping("/passwordFindEmail.do")
+	public String passwordFindEmail() {
+		return "passwordFindEmail";
+	}
+	
 }
