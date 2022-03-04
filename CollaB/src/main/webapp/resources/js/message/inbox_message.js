@@ -304,41 +304,42 @@ document.getElementById("inboxMsgDelete").onclick=function(){
     const checked = document.querySelectorAll("input[name='onemsg']:checked");
     if(checked.length == 0){
     	alert("삭제할 메시지를 선택해주세요.");
-    }
-    //체크된 메시지들의 메시지아이디(PK)값을 msgIds배열에다 담기
-    const msgIds = new Array();
-    for(var i=0; i < checked.length; i++){
-    	msgIds[i] = checked[i].getAttribute("id");
-    }
+    }else{
+		//체크된 메시지들의 메시지아이디(PK)값을 msgIds배열에다 담기
+	    const msgIds = new Array();
+	    for(var i=0; i < checked.length; i++){
+	    	msgIds[i] = checked[i].getAttribute("id");
+	    }
+	    $.ajax({
+	    	url : "AjaxInboxMsgDelete",
+	    	type : "POST",
+	    	data : {
+	    		inboxMsgID : msgIds
+	    	},
+	    	traditional : true,
+	    	dataType : "text",
+	    	success : function(data){
+	    		if(data == "YES"){
+	    			console.log("메시지삭제성공?"+data);
+	    			//화면에서도 메시지 없애주기
+					checked.forEach((checked) => {
+				        checked.parentElement.parentElement.remove();
+				        const checkboxes = document.querySelectorAll("input[name='onemsg']");
+				        //만약 전부 다 삭제했으면 allcheck박스 체크해제해주기
+				        if(checkboxes.length==0){
+				            document.querySelector("input[name='allcheck']").checked = false;
+				        }
+				    })
+	    		}else if(data == "NO"){
+	    			console.log("메시지삭제성공?"+data);
+	    		}
+	    	},
+	    	error : function(){
+	    		console.log("inbox메시지삭제이벤트 | AjaxInboxMsgDelete 실패");
+	    	}
+	    })
+	}
     
-    $.ajax({
-    	url : "AjaxInboxMsgDelete",
-    	type : "POST",
-    	data : {
-    		inboxMsgID : msgIds
-    	},
-    	traditional : true,
-    	dataType : "text",
-    	success : function(data){
-    		if(data == "YES"){
-    			console.log("메시지삭제성공?"+data);
-    			//화면에서도 메시지 없애주기
-				checked.forEach((checked) => {
-			        checked.parentElement.parentElement.remove();
-			        const checkboxes = document.querySelectorAll("input[name='onemsg']");
-			        //만약 전부 다 삭제했으면 allcheck박스 체크해제해주기
-			        if(checkboxes.length==0){
-			            document.querySelector("input[name='allcheck']").checked = false;
-			        }
-			    })
-    		}else if(data == "NO"){
-    			console.log("메시지삭제성공?"+data);
-    		}
-    	},
-    	error : function(){
-    		console.log("inbox메시지삭제이벤트 | AjaxInboxMsgDelete 실패");
-    	}
-    })
  }
 
 //체크박스 함수
@@ -361,43 +362,28 @@ function selectAll(selectAll){
         checkbox.checked = selectAll.checked;
     })
 }
- 
+
 //메시지조회 모달창 속 delete버튼 이벤트
 function deleteInboxMsg(msgIds){
-	    $.ajax({
-	    	url : "AjaxInboxMsgDelete",
-	    	type : "POST",
-	    	data : {
-	    		inboxMsgID : msgIds
-	    	},
-	    	traditional : true,
-	    	dataType : "text",
-	    	success : function(data){
-	    		if(data == "YES"){
-	    			console.log("메시지삭제성공?"+data);
-	    		}else if(data == "NO"){
-	    			console.log("메시지삭제성공?"+data);
-	    		}
-	    	},
-	    	error : function(){
-	    		console.log("inbox메시지삭제이벤트 | AjaxInboxMsgDelete 실패");
-	    	}
-	    })
-}
-
-//메시지조회 모달창 속 답장기능
-function replyFnc(from,title,date,id){
-	modal('my_modal');
-	//모달 속 내용 지워주기
-	document.querySelector("#modal-msg-dear").value = "";
-	document.querySelector("#modal-msg-title").value = "";
-	document.querySelector("#letterContents").value = "";
-	//새로운 값 넣기
-	document.querySelector("#modal-msg-dear").value = from;
-	document.querySelector("#modal-msg-title").value = "RE : "+title;
-	document.querySelector("#letterContents").value = "----------Original Message----------\nFrom : "+from+"\nTo : "+id+"\nTitle : "+title+"\nSent : "+date+"\n---------------------------------------\n";
-	document.querySelector("#letterContents").focus(); 
-	
+    $.ajax({
+    	url : "AjaxInboxMsgDelete",
+    	type : "POST",
+    	data : {
+    		inboxMsgID : msgIds
+    	},
+    	traditional : true,
+    	dataType : "text",
+    	success : function(data){
+    		if(data == "YES"){
+    			console.log("메시지삭제성공?"+data);
+    		}else if(data == "NO"){
+    			console.log("메시지삭제성공?"+data);
+    		}
+    	},
+    	error : function(){
+    		console.log("inbox메시지삭제이벤트 | AjaxInboxMsgDelete 실패");
+    	}
+    })
 }
 
 //메시지 조회 모달창 띄우기
@@ -432,7 +418,16 @@ function selectMSG(msgID){
 		    // 답장 버튼 처리
 		    modal.querySelector("#reply").onclick = function(){
 		    	closeModal();
-		    	replyFnc(data.receive_from,data.receive_title,writeDate,data.id);
+				newMsgSend('my_modal');
+				//모달 속 내용 지워주기
+				document.querySelector("#modal-msg-dear").value = "";
+				document.querySelector("#modal-msg-title").value = "";
+				document.querySelector("#letterContents").value = "";
+				//새로운 값 넣기
+				document.querySelector("#modal-msg-dear").value = data.receive_from;
+				document.querySelector("#modal-msg-title").value = "RE : "+data.receive_title;
+				document.querySelector("#letterContents").value = "----------Original Message----------\nFrom : "+data.receive_from+"\nTo : "+data.id+"\nTitle : "+data.receive_title+"\nSent : "+writeDate+"\n---------------------------------------\n";
+				document.querySelector("#letterContents").focus(); 
 		    }
 		    // 즐겨찾기 버튼 처리
 		    modal.querySelector("#star").onclick = function(){
@@ -493,8 +488,6 @@ function selectMSG(msgID){
 			console.log("AjaxSelectInboxMsg 메시지조회 실패");
 		}
 	})
-
-    
 }
 
 //Element 에 style 한번에 오브젝트로 설정하는 함수 추가

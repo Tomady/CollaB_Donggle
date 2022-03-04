@@ -162,7 +162,7 @@ document.getElementById("BorName").onclick=function(){
                 	type : "POST",
                 	success : function(data){
                 		console.log(data);
-                		document.querySelector("#BorRename").remove();
+                		document.querySelector("#BorRename").remove(); //이름적는input태그지워주고
                 		target.innerHTML=newBORName;
                 		document.querySelector(".sidebar_board"+data.board_id).innerHTML = "&nbsp;&nbsp;"+newBORName;
                 	},

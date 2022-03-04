@@ -385,21 +385,6 @@ function deleteInboxMsg(msgIds){
 	    })
 }
 
-//메시지조회 모달창 속 답장기능
-function replyFnc(from,title,date,id){
-	modal('my_modal');
-	//모달 속 내용 지워주기
-	document.querySelector("#modal-msg-dear").value = "";
-	document.querySelector("#modal-msg-title").value = "";
-	document.querySelector("#letterContents").value = "";
-	//새로운 값 넣기
-	document.querySelector("#modal-msg-dear").value = from;
-	document.querySelector("#modal-msg-title").value = "RE : "+title;
-	document.querySelector("#letterContents").value = "----------Original Message----------\nFrom : "+from+"\nTo : "+id+"\nTitle : "+title+"\nSent : "+date+"\n---------------------------------------\n";
-	document.querySelector("#letterContents").focus(); 
-	
-}
-
 //메시지 조회 모달창 띄우기
 function selectMSG(msgID){
 	$.ajax({
@@ -432,7 +417,16 @@ function selectMSG(msgID){
 		    // 답장 버튼 처리
 		    modal.querySelector("#reply").onclick = function(){
 		    	closeModal();
-		    	replyFnc(data.receive_from,data.receive_title,writeDate,data.id);
+				newMsgSend('my_modal');
+				//모달 속 내용 지워주기
+				document.querySelector("#modal-msg-dear").value = "";
+				document.querySelector("#modal-msg-title").value = "";
+				document.querySelector("#letterContents").value = "";
+				//새로운 값 넣기
+				document.querySelector("#modal-msg-dear").value = data.receive_from;
+				document.querySelector("#modal-msg-title").value = "RE : "+data.receive_title;
+				document.querySelector("#letterContents").value = "----------Original Message----------\nFrom : "+data.receive_from+"\nTo : "+data.id+"\nTitle : "+data.receive_title+"\nSent : "+writeDate+"\n---------------------------------------\n";
+				document.querySelector("#letterContents").focus(); 
 		    }
 		    // 즐겨찾기 버튼 처리
 		    modal.querySelector("#star").onclick = function(){
