@@ -104,17 +104,18 @@
                             <div class="card-header">
                               <h3 style="color: #6553C1;">이슈 수정</h3>
                             </div>
+                            <form id="frm" method="post">
                             <div class="card-body">
                               <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">제목</label>
                                 <div class="col-sm-12 col-md-7">
-                                  <input type="text" class="form-control">
+                                  <input type="text" class="form-control" value="${issue.issueTitle }">
                                 </div>
                               </div>
                               <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">카테고리</label>
                                 <div class="col-sm-12 col-md-7">
-                                  <select class="form-control selectric">
+                                  <select class="form-control selectric" value="${issue.issueCategory }">
                                     <option>Tech</option>
                                     <option>News</option>
                                     <option>Political</option>
@@ -124,7 +125,7 @@
                               <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">내용</label>
                                 <div class="col-sm-12 col-md-7">
-                                  <textarea style="width:inherit; background-color: #fdfdff; border-color: #e4e6fc;"></textarea>
+                                  <textarea style="width:inherit; background-color: #fdfdff; border-color: #e4e6fc;">${issue.issueContent }</textarea>
                                 </div>
                               </div>
                               <div class="form-group row mb-4">
@@ -146,6 +147,7 @@
                           <button class="btn btn-primary" id="insertBtn">수정</button>
                           <button class="btn btn-primary" id="cancelBtn">취소</button>
                         </div>
+                        </form>
                         <br><br>
                       </div>
                 </div>
@@ -206,6 +208,18 @@
  
 
     }
+    
+    // 수정, 취소 버튼 클릭 
+    $(function() {
+		$("#insertBtn").click(function() {
+			frm.action = "updateIssue.do";
+			frm.submit();
+		});
+		$("#cancelBtn").click(function() {
+			frm.action = "issueBoard.do";
+			frm.submit();
+		});
+	});
 </script>
 
 </body>
