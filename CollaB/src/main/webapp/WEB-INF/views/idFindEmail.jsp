@@ -556,12 +556,12 @@ to {
 	<nav class="nav">
 		<div class="navbar">
 			<div class="navbar__Left">
-				<a href="">CollaB
+				<a href="index.do">CollaB
 			</div>
 			</a>
 			<ul class="navbar__right">
-				<li><a href=""><i class="fas fa-user"></i>Sign Up</a></li>
-				<li><a href=""><i class="fas fa-unlock-alt"></i>Login</a></li>
+				<li><a href="joinForm.do"><i class="fas fa-user"></i>Sign Up</a></li>
+				<li><a href="login.do"><i class="fas fa-unlock-alt"></i>Login</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -570,7 +570,7 @@ to {
 			<div class="wrap__body__container">
 				<div class="body__container__top">
 					<div class="container__top__1">
-						<a href="">CollaB</a>
+						<a href="index.do">CollaB</a>
 					</div>
 					<div class="container__top__2">
 						<i class="far fa-address-card"></i>아이디 찾기 😍
@@ -643,7 +643,7 @@ to {
 				</div>
 				<div class="modal__body__content">
 					<div class="content__idInput">
-						<span> 아이디 : </span> ha3310@naver.com
+						<span> 아이디 : </span> <span id="resultId"></span>
 					</div>
 					<div class="content__date">
 <!-- 						<span>가입 : </span> 2006,05,10 -->
@@ -663,8 +663,29 @@ to {
 	<script src="resources/js/jay/confirmForm.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script>
+	
+	$('.footer__passwordFind').on('click', function(){
+		location.href="passwordFindMenu.do"
+	})
+	
 	function idFind(){
+		let name = $('#name').val()
+		let email = $('#email').val()
 		
+		$.ajax({
+			url : 'ajaxIdFind.do',
+			type : 'post',
+			dataType : 'text',
+			data : {
+				name : name,
+				email : email
+			},
+			success : function(data){
+				console.log(data)
+				$('#resultId').text(data);
+				modalPopupFn();
+			}
+		})
 	}
     
     function numConfirmFn(){
@@ -743,11 +764,7 @@ to {
     		success : function(data){
     			if(data=='Yes'){
     				ajaxEmailConfirm(name, email)
-    				swal({
-    	                icon: 'warning',
-    	                title: '',
-    	                text: '3분 이내로 인증번호(6자리)를 입력해 주세요.',
-    	            })
+    				
     			}else{
     				swal({
     	                icon: 'error',
@@ -779,6 +796,11 @@ to {
     		success : function(data){
     			if(data=='Yes'){
     				$('#confirmNumber').val(randomnum);
+    				swal({
+    	                icon: 'warning',
+    	                title: '',
+    	                text: '3분 이내로 인증번호(6자리)를 입력해 주세요.',
+    	            })
     				blockFn();
     		    	inputcountdownval();	
     			}
@@ -824,12 +846,12 @@ to {
     const cancelBtn = document.querySelector('.modal__footer__cancelBtn');
     const btnOpenPopup = document.querySelector('.btn-open-popup');
 
-    btnOpenPopup.addEventListener('click', () => {
-
-        modal.classList.toggle('show');
-        idFindModal_body.classList.add('bounceIn');
-      
-    });
+    
+    function modalPopupFn(){
+         idFindModal_body.classList.add('bounceIn');
+    	 modal.classList.toggle('show');
+    }
+  
 
     cancelBtn.addEventListener('click', (event) => {
       
@@ -851,8 +873,8 @@ to {
     }
 
     function inputcountdownval() {
-        let inputminval = 0;
-        let inputsecval = 30;
+        let inputminval = 3;
+        let inputsecval = 00;
         let duration = inputminval * 60 + inputsecval;
 
         countdownEl = document.querySelector('.countdown');

@@ -13,4 +13,15 @@
 		where name = #{name}
 		and email = #{email}
 	</select>
+	
+	<select id="idFindNameTelChk" resultType="co.Donggle.CollaB.user.service.UserVO">
+		select * from user_info
+		where name = #{name}
+		and tel = #{tel}
+	</select>
+	
+	<select id="passwordFindIdChk" resultType="co.Donggle.CollaB.user.service.UserVO">
+		select * from user_info
+		where id = #{id}
+	</select>
 </mapper>

@@ -5,13 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@800&display=swap" rel="stylesheet">
 <style type="text/css">
-   html,
+     html,
         body {
             margin: 0;
             padding: 0;
@@ -122,7 +117,7 @@
         }
 
         .container__top__2 i {
-            margin-right: 10px;
+            margin-right: 18px;
         }
 
         .container__top__3 {
@@ -241,10 +236,6 @@
             text-align: center;
             line-height: 35px;
             cursor: pointer;
-            	padding: 0;
-	box-sizing: inherit;
-	outline: none;
-	border: 1px solid #9F90D9;
         }
 
         .body__input li:last-child {
@@ -267,18 +258,16 @@
             line-height: 35px;
             text-align: center;
             line-height: 35px;
-            font-size: 15px;
+            font-size: 17px;
             font-weight: bold;
             color: #F6F6F6;
             cursor: pointer;
-            padding: 0;
-	box-sizing: inherit;
         }
 
 
         /* 아이디 찾기 모달 */
         .idFindModal {
-            
+
             justify-content: center;
             align-items: center;
             top: 0;
@@ -289,18 +278,18 @@
             display: none;
             background-color: rgba(0, 0, 0, 0.8);
             transition: .5s;
-          
-            
+
+
         }
 
         .idFindModal.show {
             display: flex;
-          
+
         }
 
         .idFindModal_body {
             width: 450px;
-            height: 300px;
+            height: 350px;
             border: none;
             text-align: center;
             background-color: #9F90D9;
@@ -412,12 +401,12 @@
         .modal__body {
             background-color: #F6F6F6;
             width: 100%;
-            height: 50%;
+            height: 60%;
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
             justify-content: center;
-            padding-top: 40px;
+
 
         }
 
@@ -444,23 +433,41 @@
         }
 
         .modal__body__content {
-            margin: 20px auto;
+            padding-top: 20px;
+
+
+        }
+
+        .password__inputBox {
             display: flex;
-            width: 80%;
-            height: 60px;
-            line-height: 60px;
             justify-content: center;
-
-
+            height: 30px;
+            align-items: center;
         }
 
-        .content__idInput {
+        .password__inputBox:first-child {
+            margin-bottom: 15px;
+        }
+
+        .inputText {
             margin-right: 10px;
+            width: 110px;
+            font-size: 14px;
         }
 
-        .modal__body__content span {
-            font-size: 16px;
-            font-weight: bold;
+        .password_input{
+            height: 30px;
+            line-height: 30px;
+            border: 2px solid #9F90D9;
+            border-radius: 10px;
+            width: 210px;
+        }
+        .password_input input{
+            outline: none;
+            border: none;
+            background: none;
+            margin-left: 8px;
+            width: 100%;
         }
 
         .modal__footer {
@@ -507,35 +514,15 @@
             background-color: #F6F6F6;
             border: none;
         }
-        
-        .swal-modal {
-	border-radius: 10px;
-}
-
-.swal-title {
-	
-}
-
-.swal-text {
-	text-align: center;
-}
-
-.swal-button {
-	background-color: #9F90D9;
-}
-
-.disabled {
-	cursor: default;
-}
 </style>
 </head>
 <body>
   <nav class="nav">
         <div class="navbar">
-            <div class="navbar__Left"><a href="index.do">CollaB</div></a>
+            <div class="navbar__Left"><a href="">CollaB</div></a>
             <ul class="navbar__right">
-                <li><a href="joinForm.do"><i class="fas fa-user"></i>Sign Up</a></li>
-                <li><a href="login.do"><i class="fas fa-unlock-alt"></i>Login</a></li>
+                <li><a href=""><i class="fas fa-user"></i>Sign Up</a></li>
+                <li><a href=""><i class="fas fa-unlock-alt"></i>Login</a></li>
             </ul>
         </div>
     </nav>
@@ -543,11 +530,10 @@
         <div class="wrap__body">
             <div class="wrap__body__container">
                 <div class="body__container__top">
-                    <div class="container__top__1"><a href="index.do">CollaB</a></div>
-                    <div class="container__top__2"><i class="far fa-address-card"></i>아이디 찾기 😍</div>
+                    <div class="container__top__1"><a href="">CollaB</a></div>
+                    <div class="container__top__2"><i class="fas fa-unlock-alt"></i>비밀번호 찾기 😍</div>
                     <div class="container__top__3">
-<!--                         <div><a href="">아이디찾기</a></div> -->
-<!--                         <div><a href="">비밀번호찾기</a></div> -->
+
                     </div>
                 </div>
                 <div class="body__container__mid">
@@ -563,29 +549,22 @@
                         <ul class="body__input">
                             <li>
                                 <div>이름</div>
-                                <div class="body__inputbox">
-                                <input type="text" id="name">
-                                </div>
+                                <div class="body__inputbox"><input type="text"></div>
                             </li>
                             <li>
                                 <div>전화번호</div>
-                                <div class="body__inputbox">
-                                <input type="text" id="tel">
-                                </div>
-                                <button type="button" class="body__inputBtn" id="confirmRequestBtn"
-                                 onclick="nameTelChkFn()">인증요청</button>
-
+                                <div class="body__inputbox"><input type="text"></div>
+                                <div class="body__inputBtn">인증요청</div>
                             </li>
                             <li>
                                 <div>인증번호</div>
-                                <div class="body__inputbox cnt disabled"><input id="inputNumb" type="text" disabled="disabled"><span class="countdown">03:00</span>
+                                <div class="body__inputbox"><input type="text"><span class="countdown">03:00</span>
                                 </div>
-                                <button type="button" class="body__inputBtn disabled" id="confirmBtn" disabled="disabled" onclick="numConfirmFn()">인증확인</button>
+                                <div class="body__inputBtn">인증확인</div>
                             </li>
                             <li>
                                 <div></div>
-                                <button type="button" class="submitBtn btn-open-popup disabled"
-                                id="idFindBtn" disabled="disabled" onclick="idFind()">아이디 찾기</button>
+                                <div class="submitBtn btn-open-popup">바밀번호 찾기</div>
                                 <div></div>
                             </li>
 
@@ -602,288 +581,105 @@
     <!-- 아이디 찾기 모달 -->
     <div class="idFindModal">
         <div class="idFindModal_body">
-            <div class="modal__header"><i class="far fa-address-card"></i>아이디 찾기 😍</div>
+            <div class="modal__header"><i class="fas fa-unlock-alt"></i>비밀번호 재설정 😍</div>
             <div class="modal__body">
                 <div class="modal__body__explain">
-                    고객님의 정보와 일치하는 아이디 입니다.
+                    하재의님, 새로운 비밀번호로 재설정해 주세요.
                     <span class="modal__underline"></span>
                 </div>
                 <div class="modal__body__content">
-                    <div class="content__idInput"><span> 아이디 : </span> <span id="resultId"></span> </div>
-                    <div class="content__date">
-<!--                     <span>가입 : </span> 2006,05,10 -->
+                    <div class="password__inputBox">
+                        <div class="inputText">비밀번호</div>
+                        <div class="password_input"><input type="text" placeholder="새 비밀번호를 입력해주세요."></div>
+                    </div>
+                    <div class="password__inputBox">
+                        <div class="inputText">비밀번호 확인</div>
+                        <div class="password_input"><input type="text" placeholder="새 비밀번호를 입력해주세요."></div>
                     </div>
                 </div>
             </div>
             <div class="modal__footer">
-                <div class="footer__passwordFind">비밀번호 찾기</div>
+                <div class="footer__passwordFind">비밀번호 변경</div>
                 <span class="Vertical__line"></span>
                 <div class="modal__footer__cancelBtn">창 닫기</div>
             </div>
         </div>
 
     </div>
-    	<input type="hidden" id="confirmNumber" value="">
-    		<script src="resources/js/jay/confirmForm.js"></script>
-      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script>
-    
- 
-	$('.footer__passwordFind').on('click', function(){
-		location.href="passwordFindMenu.do"
-	})
-	
-	function idFind(){
-		let name = $('#name').val()
-		let tel = $('#tel').val()
-		
-		$.ajax({
-			url : 'ajaxIdTelFind.do',
-			type : 'post',
-			dataType : 'text',
-			data : {
-				name : name,
-				tel : tel
-			},
-			success : function(data){
-				console.log(data)
-				$('#resultId').text(data);
-				modalPopupFn();
-			}
-		})
-	}
-    
-    function numConfirmFn(){
-    	let confirmInput = $('#inputNumb').val();
-    	let confirmNumber = $('#confirmNumber').val();
-    	if(confirmInput == ''){
-    		swal({
-                icon: 'warning',
-                title: '인증번호를 입력해 주세요.',
-                text: '',
-            })
-           
-            
-    	}
-    	if(confirmInput == confirmNumber){
-    		let idFindBtn = $('#idFindBtn');
-    		let confirmRequestBtn = $('#confirmRequestBtn')
-    		
-    		swal({
-                icon: 'success',
-                title: '인증완료\n\n아이디 찾기 버튼을 클릭해 주세요.',
-                text: '',
-            })
-            
-            noneFn()
-            confirmRequestBtn.attr('disabled', true);
-    		confirmRequestBtn.toggleClass('disabled')
-            idFindBtn.toggleClass('disabled')
-          	idFindBtn.attr('disabled', false);
-    	}else{
-    		swal({
-                icon: 'error',
-                title: '인증번호가 불일치 합니다.',
-                text: '',
-            })
-    	}
-    	
+</body>
+<script src="resources/js/jay/confirmForm.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+//아이디 찾기 모달 scr
+const body = document.querySelector('body');
+const modal = document.querySelector('.idFindModal');
+const idFindModal_body = document.querySelector('.idFindModal_body');
+const cancelBtn = document.querySelector('.modal__footer__cancelBtn');
+const btnOpenPopup = document.querySelector('.btn-open-popup');
+
+btnOpenPopup.addEventListener('click', () => {
+
+    modal.classList.toggle('show');
+    idFindModal_body.classList.add('bounceIn');
+
+});
+
+cancelBtn.addEventListener('click', (event) => {
+    if (event.target === cancelBtn) {
+        idFindModal_body.classList.remove('bounceIn')
+        idFindModal_body.classList.add('bounceOut');
+        setTimeout(function () {
+            idFindModal_body.classList.remove('bounceOut')
+            modal.classList.toggle('show');
+        }, 600)
+
+
+
     }
+});
 
-    function nameTelChkFn(){
-    	let name = $('#name').val()
-    	let tel = $('#tel').val()
-    	if(name == ''){
-    		swal({
-                icon: 'warning',
-                title: '이름을 입력해 주세요.',
-                text: '',
-            })
-           return;
-    	}else if(tel == ''){
-    		swal({
-                icon: 'warning',
-                title: '번호를 입력해 주세요.',
-                text: '',
-            })
-            return;
-    	}
-    	
-    	ajaxNameTelChk(name, tel);
-    	
-    }
-    
-    
-    function ajaxNameTelChk(name, tel){
-    	console.log(name)
-    	console.log(tel)
-    	
-    	$.ajax({
-    		url : 'ajaxNameTelChk.do',
-    		type : 'post',
-    		dataType: 'text',
-    		data : {
-    			name : name,
-    			tel : tel
-    		},
-    		success : function(data){
-    			if(data=='Yes'){
-    				ajaxTelConfirm(name, tel)
-    				
-    			}else{
-    				swal({
-    	                icon: 'error',
-    	                title: '',
-    	                text: '이름 또는 이메일을 확인해 주세요.\n일치하는 정보가 없습니다.',
-    	            })
-    			}
-    			
-    		},
-    		error : function(){
-    			
-    		}
-    	})
-    	
-    }
-    // 요기!
-    function ajaxTelConfirm(name, tel){
-    
-    	let randomnum = Math.floor(Math.random() * 1000000);
-    	
-    	$.ajax({
-    		url : 'ajaxTelConfirm.do',
-    		type : 'post',
-    		data : {
-    			randomnum : randomnum,
-    			name : name,
-    			tel : tel
-    		},
-    		success : function(data){
-    			if(data=='Yes'){
-    				$('#confirmNumber').val(randomnum);
-    				swal({
-    	                icon: 'warning',
-    	                title: '',
-    	                text: '3분 이내로 인증번호(6자리)를 입력해 주세요.',
-    	            })
-    				blockFn();
-    		    	inputcountdownval();	
-    		    	
-    			}
-    			
-    		},
-    		error : function(){
-    			console.log("error")
-    		}
-    	})
-    	
-    	
-    
-    }
-    
-    
-    function blockFn(){
-    	let inputBox = $('.cnt');
-    	let input = $('#inputNumb');
-    	let confirmBtn = $('#confirmBtn');
-    	input.attr('disabled', false)
-    	confirmBtn.attr('disabled', false)
-    	confirmBtn.removeClass('disabled')
-    	inputBox.removeClass('disabled')
-    
-    }
-    function noneFn(){
-     	let inputBox = $('.cnt');
-    	let input = $('#inputNumb');
-    	let confirmBtn = $('#confirmBtn');
-    	input.attr('disabled', true)
-    	confirmBtn.attr('disabled', true)
-    	confirmBtn.addClass('disabled')
-    	inputBox.addClass('disabled')
-    }
-    
+// 카운트 다운 src
+
+function timeformat(num) {
+    return num < 10 ? "0" + num : num;
+}
+
+function inputcountdownval() {
+    let inputminval = 3;
+    let inputsecval = 0;
+    let duration = inputminval * 60 + inputsecval;
+
+    countdownEl = document.querySelector('.countdown');
+    countdownEl.textContent = timeformat(inputminval) + ':' + timeformat(inputsecval);
+
+    startcountdown(--duration, countdownEl);
+}
+
+function startcountdown(duration, element) {
+
+    let secremaining = duration;
+    let min = 0;
+    let sec = 0;
+
+    let countinterval = setInterval(function () {
+        min = parseInt(secremaining / 60);
+        sec = parseInt(secremaining % 60);
 
 
- 
-    // 아이디 찾기 모달 scr
-    const body = document.querySelector('body');
-    const modal = document.querySelector('.idFindModal');
-    const idFindModal_body = document.querySelector('.idFindModal_body');
-    const cancelBtn = document.querySelector('.modal__footer__cancelBtn');
-    const btnOpenPopup = document.querySelector('.btn-open-popup');
+        countdownEl.textContent = timeformat(min) + ':' + timeformat(sec);
 
-    
-    function modalPopupFn(){
-         idFindModal_body.classList.add('bounceIn');
-    	 modal.classList.toggle('show');
-    }
-  
+        secremaining = secremaining - 1;
 
-    cancelBtn.addEventListener('click', (event) => {
-      
-            idFindModal_body.classList.remove('bounceIn')
-            idFindModal_body.classList.add('bounceOut');
-            setTimeout(function () {
-                idFindModal_body.classList.remove('bounceOut')
-                modal.classList.toggle('show');
-            }, 600)
+        if (secremaining < 0) {
+            clearInterval(countinterval);
+
+        }
+    }, 1000);
+}
 
 
-   
-    });
-    
-    
-    // 카운트 다운 src
 
-    function timeformat(num) {
-        return num < 10 ? "0" + num : num;
-    }
-
-    function inputcountdownval() {
-        let inputminval = 3;
-        let inputsecval = 00;
-        let duration = inputminval * 60 + inputsecval;
-
-        countdownEl = document.querySelector('.countdown');
-        countdownEl.textContent = timeformat(inputminval) + ':' + timeformat(inputsecval);
-
-        startcountdown(--duration, countdownEl);
-    }
-
-    function startcountdown(duration, element) {
-
-        let secremaining = duration;
-        let min = 0;
-        let sec = 0;
-
-        let countinterval = setInterval(function () {
-            min = parseInt(secremaining / 60);
-            sec = parseInt(secremaining % 60);
-
-
-            countdownEl.textContent = timeformat(min) + ':' + timeformat(sec);
-
-            secremaining = secremaining - 1;
-
-            if (secremaining < 0) {
-            	if($('#idFindBtn').attr('disabled') == 'disabled'){
-           		 swal({
-     	                icon: 'error',
-     	                title: '',
-     	                text: '입력시간이 초과 되었습니다.\n다시 요청 바랍니다.',
-     	            })
-
-           	}
-            	$('#confirmNumber').val('');
-           		noneFn();
-            	clearInterval(countinterval);
-
-            }
-        }, 1000);
-    }
-
-
+inputcountdownval();
 
 </script>
-</body>
 </html>
