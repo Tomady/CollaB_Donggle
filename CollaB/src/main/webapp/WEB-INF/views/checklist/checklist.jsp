@@ -140,6 +140,7 @@
           <!-- 보드바디 -->
 
           <div id="boardDetailBODY" class="section-body">
+          <button class="btn btn-primary mb-3" id="addChkListBtn">Add a checklist</button>
           <!-- 체크리스트 리스트 -->
           <c:forEach items="${checklist }" var="checklist" varStatus="status">
             <div class="card">
@@ -149,7 +150,6 @@
                             <h3><i class="fas fa-check"></i>&nbsp;&nbsp;<c:out value="${checklist.checklist_title }"/> </h3>    
                         </div>
                         <div class="col-md-8 d-flex justify-content-end">
-                            <button class="btn btn-primary mr-2" id="addChkListBtn">Add a checklist</button>
                             <button class="btn btn-primary" id="deletechkBtn">Delete</button>        
                         </div>
                     </div>
@@ -264,7 +264,7 @@
   <!-- Page Specific JS File -->
 
   <script>
- /*     $(document).ready(function(){
+      $(document).ready(function(){
           $('#additemdiv').hide();
           $('#moditask').hide();
       })
@@ -283,7 +283,7 @@
       $('#closemodiitem').click(function(){
         $('#moditask').hide();
         $('#tasklist').show();
-      }) */
+      }) 
       
 /*    $(document).ready(function(){
         $(".custom-control-input").change(function(){
@@ -294,6 +294,7 @@
             }
           });
       }); */
+
       // 달성률 계산하기
       function getCheckCnt(){
         // 전체 체크박스 개수
@@ -312,6 +313,7 @@
         document.getElementById('Rate').innerText
             = achiveRate;  
       }
+
       // 체크리스트 추가 모달
       $('#addChkListBtn').on('click', function(){
         $('#addChkModal').modal('show');
@@ -332,7 +334,6 @@
     		  data: data,
     		  type: 'POST',
     		  success: function(){
-    			  console.log('체크리스트 추가 성공');
     			  location.href="/CollaB/checklist.do";
     		  },
     		  error: function(err){
@@ -341,7 +342,7 @@
     	  })
       })
       
-      // 새 아이템 등록하기
+      // 새 아이템 등록 처리
       $('#addItemBtn').click(function(){
         event.stopPropagation();
         event.preventDefault();
@@ -360,51 +361,35 @@
          }
        })
       })
-      // 아이템 삭제하기
-/*    $('#deleteItemA').click(function(){
-        $.ajax({
-          url: '/CollaB/itemdelete?item_id='+item_id,
-          type: 'GET',
-          success: function(){
-            console.log('삭제 성공');
-            //location.href='/CollaB/checklist.do';
-          },
-          error: function(request, status, error){
-            alert("code : " + request.status + "\n" + "message : " + request.responseText + "\n" + "error : " + error);
-          }
-        })
-      }) */
-      // 체크박스 상태 초기화
-      function initCheckBoxClickEvent() {
-        $("input[type='checkbox']").on('click', function() {
-          // 체크여부
-          let flag = $(this).prop("checked");
-          
-          let chkIndex = $(this).val();
-          let subType = document.getElementsByClassName("active")[0].value;
-          
-          $.ajax({
-            url: '/CollaB/',
-            method: 'GET',
-            async: true,
-            data: {
-              
-            },
-            success: function(data) {
-              if(flag) {
-                $(".list" + chkIndex).addClass('checked');
-              } else {
-                $(".list" + chkIndex).removeClass('checked');
-              }
-              
-            },
-            error: function(request, status, error) {
-                alert("code : " + request.status + "/n" + "message : " + request.responseText + "\n" + "error : " + error);
-            }
-          })
-        });
+
+      // 새 체크리스트 생성
+      function newChkList(checklist) {
+        var card = document.createElement('div')
+        card.className = 'card';
+        var cardBody = document.createElement('div');
+        cardBody.className = 'card-body';
+        document.getElementById('boardDetailBODY').appendChild('card');
+        document.getElementsByClassName('card').appendChild('cardBody');
+
+        var h3 = document.createElement('h3');
+        var  progressBar = document.createElement('div');
+        progressBar.className = 'progress-bar'
+        h3.createTextNode();
+        document.getElementsByClassName('card-body').appendChild('h3');
+
+        var table = document.createElement('table');
+        table.className = 'table';
       }
 
+      // 새 아이템 생성
+      function newItem(){
+        // table, tr, th, td;
+        var tr = document.createElement('tr');
+        var th = document.createElement('th');
+        var td = document.createElement('td');
+        document.getElementsByClassName('table').appendChild('tr');
+
+      }
       
   </script>
 

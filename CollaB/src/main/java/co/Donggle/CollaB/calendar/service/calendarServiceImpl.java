@@ -31,4 +31,10 @@ public class calendarServiceImpl implements calendarService {
 		return calendarMapper.updateCalendar(vo);
 	}
 
+	@Override
+	public int calendarBoardId(calendarVO vo) {
+		
+		return calendarMapper.calendarBoardId(vo);
+	}
+
 }

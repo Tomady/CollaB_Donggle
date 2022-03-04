@@ -47,7 +47,7 @@
 						</h4>
 					</div>
 					<div class="card-body">
-						<form action="single-file" method="post" enctype="multipart/form-data" id="frm">
+						<form action="myProfileUpdate" method="post" enctype="multipart/form-data" id="proffrm">
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
@@ -61,7 +61,7 @@
 													<img src="${user_info.prof_pic }" alt="" class="profileImg my-2">
 												</c:when>
 											</c:choose>
-											<input type="file" name="prof_pic">
+											<input type="file" name="file" id="file">
 										</td>
 									</tr>
 									<tr>
@@ -89,12 +89,13 @@
 	
 	<script>
 		function updateProfile() {
-            if($('#name').val().length==0){alert("이름을 입력하세요"); $('#name').focus(); return false; }
-            if($('#nickname').val().length==0){alert("닉네임을 입력하세요"); $('#nickname').focus(); return false; }
+            if($('#name').val().length==0){alert("이름을 입력하세요."); $('#name').focus(); return false; }
+            if($('#nickname').val().length==0){alert("닉네임을 입력하세요."); $('#nickname').focus(); return false; }
             
-            //window.alert("수정이 완료되었습니다.");
-			//frm.submit();
+            window.alert("수정이 완료되었습니다.");
+            proffrm.submit();
 		}
+
 	</script>
 
 </body>

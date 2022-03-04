@@ -3,8 +3,10 @@
 <mapper namespace="co.Donggle.CollaB.checklist.service.itemInfoMapper">
 
 	<select id="itemList" resultType="co.Donggle.CollaB.checklist.service.itemInfoVO" parameterType="co.Donggle.CollaB.checklist.service.itemInfoVO">
-		select * from item_info
-		<!-- 체크리스트아이디 조건 추가하기 -->
+		SELECT C.CHECKLIST_ID, I.*
+		FROM CHECKLIST C, ITEM_INFO I
+		WHERE C.CHECKLIST_ID = I.CHECKLIST_ID
+		<!-- AND C.CARD_ID = #{card_id} -->
 	</select>
 	
 	<insert id="additem" parameterType="co.Donggle.CollaB.checklist.service.itemInfoVO">

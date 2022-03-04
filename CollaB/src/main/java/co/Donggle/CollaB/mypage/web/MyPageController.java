@@ -1,13 +1,20 @@
 package co.Donggle.CollaB.mypage.web;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import co.Donggle.CollaB.mypage.service.MyPageServiceImpl;
 import co.Donggle.CollaB.mypage.service.MyPageVO;
@@ -17,6 +24,9 @@ public class MyPageController {
 	
 	@Autowired
 	private MyPageServiceImpl MyPageDao;
+	
+	@Autowired
+	String saveDirectory;
 	
 		// 마이페이지 메인 페이지
 		@RequestMapping("/myPageMain")
@@ -39,9 +49,34 @@ public class MyPageController {
 		}
 		
 		// 마이페이지 프로필 수정 처리
-		@RequestMapping("/myProfileUpdate")
-		public String myProfileUpdate(MyPageVO vo) {
-			return "";
+		@PostMapping("/myProfileUpdate")
+		public String myProfileUpdate(MyPageVO vo, MultipartFile file) throws IOException {
+			
+			if(file != null && file.getSize() > 0) {
+				
+				String profPic = file.getOriginalFilename(); // 파일명
+				String saveProfPic = saveDirectory + UUID.randomUUID().toString(); // 물리파일명
+				saveProfPic = saveProfPic + profPic.substring(profPic.lastIndexOf("."));
+				File target = new File(saveDirectory, profPic);
+				vo.setProf_pic(saveProfPic);
+				
+				// 경로 생성
+				if(! new File(saveDirectory).exists()) { // 존재하지 않으면 true, 그 외는 false 
+					new File(saveDirectory).mkdir();
+				}
+				
+				// 파일 복사
+//				try {
+//					FileCopyUtils.copy(file.getBytes(), target); // 저장
+				file.transferTo(target);
+//				} catch(Exception e) {
+//					e.printStackTrace();
+//				}
+			}
+			
+			MyPageDao.updateProfile(vo); // 데이터 저장
+			return "redirect:myPageMain";
+			
 		}
 		
 		// 마이페이지 정보 수정 페이지
@@ -61,7 +96,7 @@ public class MyPageController {
 			if(r>0) {
 				return "redirect:myPageMain";
 			} else {
-				return "redirect:myInfoUpdate";
+				return "redirect:myInfo";
 			}			
 		}
 		
@@ -82,7 +117,7 @@ public class MyPageController {
 			if(r>0) {
 				return "redirect:myPageMain";
 			} else {
-				return "redirect:pwUpdate";
+				return "redirect:newPw";
 			}	
 		}
 		
