@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function(){
 					},
 					dataType : "text", //프로필 이미지 경로 가져오기
 					success : function(data){
-						if(data != null){
+						if(data != ""){
 							console.log(cardId+"번 카드의 매니저 프로필 사진주소는=>"+data);
 							document.querySelector(".profimg"+cardId).setAttribute("src",data);
 						}else{
@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function(){
                <div class="dropdown-title">Hi, [Nickname] ! 🤗<p>Where are you going ?</p></div>
                <a class="dropdown-item" href="boardDetail?boardID=${boardID}">&nbsp;&nbsp;Board</a>
                <a class="dropdown-item" href="#">&nbsp;&nbsp;TimeLine</a>
-               <a class="dropdown-item" href="#">&nbsp;&nbsp;Calendar</a>
+               <a class="dropdown-item" href="calendar.do?boardId=${boardID}">&nbsp;&nbsp;Calendar</a>
                <a class="dropdown-item" href="#">&nbsp;&nbsp;DashBoard</a>
                <!--<div class="dropdown-divider"></div> 구분선-->
              </div>
@@ -312,32 +312,37 @@ document.addEventListener("DOMContentLoaded", function(){
                    <i class="fa fa-times col-rg" aria-hidden="true" 
                    style="cursor:pointer;" onclick="deleteList(${list.list_id})"></i>
                  </div>
-                 <div class="cardArea">
-                 <c:forEach items="${totalCard}" var="card">
-                 <c:if test="${card.list_id eq list.list_id}">
-                 	<div class="card card-${card.card_label} ml-2 mr-2"> <!--라벨표시-->
-                     <div class="card-header d-flex justify-content-between">
-                       <span class="cardName">${card.card_title}</span> <!--카드이름-->
-                       <i class="fa fa-times col-rg" aria-hidden="true"></i>
-                     </div>
-                     <div class="ml-2 mt-1 text-right card-owner" style="font-weight:bold;">
-                     <c:if test="${card.manager ne null}">
-                     	${card.manager}<img style="height: 20px; width: 20px;" 
-                       class="rounded-circle mr-1 ml-1 mb-1 profimg${card.card_id}">
-                     </c:if>
-                     </div>
-                     <div class="ml-3 card-option"> 
-                       <!--옵션표시(file,checklist,dates)-->
-                       <i class="fa fa-check-square check${card.card_id}" style="color:#e9ecef;"></i>
-                       <c:if test="${card.card_start_date eq null}">
-                       		<i class="fa fa-calendar ml-1 dates" style="color:#e9ecef;"></i>                       
-                       </c:if>
-                       <i class="fa fa-calendar ml-1 dates" style="color: tomato;"></i>  
-                       <i class="fa fa-paperclip ml-1 files${card.card_id}" style="color:#e9ecef;"></i>
-                     </div>
-                   </div>
-                 </c:if>
-                 </c:forEach>
+                 <div class="cardArea${list.list_id}">
+                 <!-- 한 리스트 내 카드목록 -->
+	                 <c:forEach items="${totalCard}" var="card">
+	                 <c:if test="${card.list_id eq list.list_id}">
+	                 	<div id="card${card.card_id}" style="cursor:pointer;"
+	                 	onclick="location.href='cardDetail?list=${list.list_id}&card=${card.card_id}'"
+	                 	class="card card-${card.card_label} ml-2 mr-2" > <!--라벨표시-->
+	                     <div class="card-header d-flex justify-content-between">
+	                       <span class="cardName">${card.card_title}</span> <!--카드이름-->
+	                       <i class="fa fa-times col-rg" aria-hidden="true" onclick="deleteCard(${card.card_id})"></i>
+	                     </div>
+	                     <div class="ml-2 mt-1 text-right card-owner" style="font-weight:bold;">
+	                     <c:if test="${card.manager ne null}">
+	                     	${card.manager}<img style="height: 20px; width: 20px;" 
+	                       class="rounded-circle mr-1 ml-1 mb-1 profimg${card.card_id}">
+	                     </c:if>
+	                     </div>
+	                     <div class="ml-3 card-option"> 
+	                       <!--옵션표시(file,checklist,dates)-->
+	                       <i class="fa fa-check-square check${card.card_id}" style="color:#e9ecef;"></i>
+	                       <c:if test="${card.card_start_date eq null}">
+	                       	   <i class="fa fa-calendar ml-1 dates${card.card_id}" style="color:#e9ecef;"></i>                       
+	                       </c:if>
+	                       <c:if test="${card.card_start_date ne null}">
+		                       <i class="fa fa-calendar ml-1 dates${card.card_id}" style="color: tomato;"></i>  
+	                       </c:if>
+	                       <i class="fa fa-paperclip ml-1 files${card.card_id}" style="color:#e9ecef;"></i>
+	                     </div>
+	                   </div>
+	                 </c:if>
+	                 </c:forEach>
                    <div class="last card-header"> 
                      <div class="addCardBtn">
                        <h4 class="fas fa-plus" 

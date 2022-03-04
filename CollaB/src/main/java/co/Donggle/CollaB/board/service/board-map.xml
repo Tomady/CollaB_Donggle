@@ -143,4 +143,10 @@
 		INSERT INTO BOARD_JOIN
 		VALUES(#{id},#{workspace_id},#{board_id})
 	</insert>
+	
+	<select id="selectBoardId" resultType="int"
+	parameterType="co.Donggle.CollaB.list.service.ListVO">
+		SELECT BOARD_ID FROM LIST 
+		WHERE LIST_ID = #{list_id}
+	</select>
 </mapper>

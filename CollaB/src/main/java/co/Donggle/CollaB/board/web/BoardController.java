@@ -94,7 +94,7 @@ public class BoardController {
 		vo.setBoard_Title(boardName);
 		boardDao.boardRename(vo);
 			
-		return boardDao.currentBoardSelect();
+		return boardDao.selectBoard(vo);
 	}
 	
 	//보드가입탈퇴
@@ -137,14 +137,15 @@ public class BoardController {
 		ListVO listvo = new ListVO();
 		listvo.setBoard_id(bId);
 		
-		//해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID
+		//해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID - 사이드
 		model.addAttribute("workspace",boardDao.selectBoard(vo)); 
-		//사용자가 가지고 있는 모든 워크스페이스-워크스페이스ID,워크스페이스이름
+		//사용자가 가지고 있는 모든 워크스페이스-워크스페이스ID,워크스페이스이름 - 사이드
 		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(userId));
-		//해당워크스페이스에서 즐겨찾기한 보드목록
+		//해당워크스페이스에서 즐겨찾기한 보드목록 - 사이드
 		model.addAttribute("boardStar",boardDao.selectBoardStar(vo));
-		//해당워크스페이스에서 즐겨찾기하지않은 보드목록
+		//해당워크스페이스에서 즐겨찾기하지않은 보드목록 - 사이드
 		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(vo));
+		
 		//해당보드를 즐겨찾기했는지 유무
 		model.addAttribute("starYesOrNo",boardDao.boardStarYesOrNo(vo));
 		//해당 보드의 아이디
