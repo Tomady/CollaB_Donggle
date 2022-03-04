@@ -19,7 +19,7 @@
 	<insert id="workspaceJoinInsert"
 	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO">
 		<selectKey keyProperty="workspace_id" resultType="int" order="BEFORE">
-			SELECT MAX(WORKSPACE_ID) FROM WORKSPACE
+			SELECT NVL(MAX(WORKSPACE_ID),0) FROM WORKSPACE
 		</selectKey>
 		INSERT INTO WORKSPACE_JOIN
 		VALUES(#{id}, #{workspace_id}, #{permissions})

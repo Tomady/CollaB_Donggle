@@ -4,7 +4,7 @@
 	<insert id="sentMsgInsert"
 	parameterType="co.Donggle.CollaB.message.service.SentVO">
 		<selectKey keyProperty="sent_id" resultType="int" order="BEFORE">
-			SELECT MAX(SENT_ID)+1 FROM SENT
+			SELECT NVL(MAX(SENT_ID),0)+1 FROM SENT
 		</selectKey>
 		INSERT INTO SENT
 		VALUES(#{sent_id},#{id},SYSDATE,#{sent_title},

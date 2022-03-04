@@ -1,6 +1,8 @@
 package co.Donggle.CollaB.card.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -102,21 +104,88 @@ public class CardController {
 		cardvo.setList_id(listId);
 		
 		//해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID - 사이드
-		model.addAttribute("",boardDao.selectBoard(vo)); 
+		model.addAttribute("workspace",boardDao.selectBoard(vo)); 
 		//사용자가 가지고 있는 모든 워크스페이스-워크스페이스ID,워크스페이스이름 - 사이드
 		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(userId));
 		//해당워크스페이스에서 즐겨찾기한 보드목록 - 사이드
 		model.addAttribute("boardStar",boardDao.selectBoardStar(vo));
 		//해당워크스페이스에서 즐겨찾기하지않은 보드목록 - 사이드
 		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(vo));
-		
 		//해당카드가 포함된 리스트에 모든 카드-카드이름,카드시작일,카드내용,카드종료일,카드라벨,카드관리자
 		model.addAttribute("samelistcards",cardDao.selectCardList(cardvo));
+		
 		//해당카드정보-카드이름,카드시작일,리스트아이디,카드내용,카드종료일,카드라벨,관리자
 		model.addAttribute("cardinfo",cardDao.selectCard(cardvo));
 		//해당카드가 포함된 리스트정보
 		model.addAttribute("listinfo",cardDao.selectListinfo(cardvo));
 		
 		return "card/cardDetail";
+	}
+	
+	//카드상세조회시 바로실행 _ 리스트 내 카드들의 아이템 체크
+	@ResponseBody
+	@RequestMapping("/AjaxCardDetail_CardItemsCheck")
+	public Map<String,String> AjaxCardDetail_CardItemsCheck(@RequestParam("cardId") int cardId){
+		Map<String, String> cardItems = new HashMap<String, String>();		
+		CardVO cardvo = new CardVO();
+		cardvo.setCard_id(cardId);
+		
+		//관리자 있는지 체크 & 관리자 프로필이미지
+		cardItems.put("managerImg", cardDao.cardManagerProfIMG(cardvo));
+		
+		//체크리스트 있는지 체크. 있으면 YES, 없으면 NO
+		int checkExist = cardDao.cardCheckListExist(cardvo);
+		if(checkExist > 0) {
+			cardItems.put("checkList", "YES");
+		}else {
+			cardItems.put("checkList", "NO");
+		}
+		
+		//첨부파일 있는지 체크. 있으면 YES, 없으면 NO
+		int fileExist = cardDao.cardFileExist(cardvo);
+		if(fileExist > 0) {
+			cardItems.put("file", "YES");
+		}else {
+			cardItems.put("file", "NO");
+		}
+		
+		return cardItems;
+	}
+	
+	//카드상세조회시 바로실행 _ 선택된 카드의 정보
+	@ResponseBody
+	@RequestMapping("/AjaxCardDetail_SelectCardItems")
+	public CardVO AjaxCardDetail_SelectCardItems(@RequestParam("cardId") int cardId) {
+		CardVO cardvo = new CardVO();
+		cardvo.setCard_id(cardId);
+		
+		return cardvo;
+	}
+	
+	//카드라벨수정 _ 매개값으로 카드아이디, 카드라벨 받음
+	@ResponseBody
+	@RequestMapping("/AjaxCardLabelUpdate")
+	public CardVO AjaxCardLabelUpdate(CardVO cardvo) {
+		cardDao.cardLabelUpdate(cardvo);
+		
+		return cardDao.selectCard(cardvo);
+	}
+	
+	//카드일정등록&수정 _ 매개값으로 카드아이디, 카드시작일, 카드종료일 받음
+	@ResponseBody
+	@RequestMapping("/AjaxAddCardDates")
+	public String AjaxAddCardDates(CardVO cardvo) {
+		int n = cardDao.cardDatesUpdate(cardvo);
+		
+		return n > 0 ? "YES" : "NO";
+	}
+	
+	//카드일정삭제
+	@ResponseBody
+	@RequestMapping("/AjaxDeleteDates")
+	public String AjaxDeleteDates(CardVO cardvo) {
+		int n = cardDao.cardDatesDelete(cardvo);
+		
+		return n > 0 ? "YES" : "NO";
 	}
 }
