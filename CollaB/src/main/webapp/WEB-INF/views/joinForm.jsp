@@ -220,8 +220,8 @@
                 <a href="" style="font-size: 1.2rem;">CollaB</a>
             </div>
             <ul class="nav__right">
-                <li><a href="#"><i class="fas fa-user"></i>Sign Up</a></li>
-                <li><a href="#"><i class="fas fa-unlock-alt"></i>Login</a></li>
+                <li><a href="joinForm.do"><i class="fas fa-user"></i>Sign Up</a></li>
+                <li><a href="login.do"><i class="fas fa-unlock-alt"></i>Login</a></li>
             </ul>
         </div>
     </nav>

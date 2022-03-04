@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,6 +81,7 @@
               <h1>Workspace Name</h1>
             </div>
           </div>
+
           <div class="section-body">
             <div class="row mt-4">
               <div class="col-12">
@@ -91,20 +93,20 @@
                           <div class="profile-widget-items">
                             <div class="profile-widget-item">
                               <div class="profile-widget-item-label">카테고리</div>
-                              <div class="profile-widget-item-value">JAVA</div>
+                              <div class="profile-widget-item-value">${issue.issueCategory }</div>
                             </div>
                             <div class="profile-widget-item">
                               <div class="profile-widget-item-label">글제목</div>
-                              <div class="profile-widget-item-value">다씬 화면구현을 무시하지 마라!</div>
+                              <div class="profile-widget-item-value">${issue.issueTitle }</div>
                             </div>
                             <div class="profile-widget-item">
                               <div class="profile-widget-item-label">작성자</div>
-                              <div class="profile-widget-item-value">춘식</div>
+                              <div class="profile-widget-item-value">${issue.id }</div>
                             </div>
                           </div>
                         </div>
                         <div class="profile-widget-description pb-0">
-                          <div class="issue-content">이슈 글내용을 여기에 한 바가지 가지고 오면 되겠숩니다이~~~~~~ </div>
+                          <div class="issue-content">${issue.issueContent }</div>
                           <div id="accordion">
                             <div class="accordion">
                               <div class="accordion-header" role="button" data-toggle="collapse" data-target="#panel-body-1" >
@@ -151,6 +153,7 @@
                           </div>
                         </div>
                 </div>
+              
                 <!-- 댓글 -->
                 <div class="card-footer text-center pt-0">
                   <div class="form-group">
