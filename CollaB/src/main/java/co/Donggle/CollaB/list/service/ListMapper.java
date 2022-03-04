@@ -16,6 +16,7 @@ public interface ListMapper {
 	//리스트 이름변경
 	int renameList(ListVO vo);
 	
+	
 	//=====리스트 삭제=====
 	//해당 리스트 안에 들어있는 카드 아이디 목록 가져오기
 	List<CardVO> selectCardIds(ListVO vo);

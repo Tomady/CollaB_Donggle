@@ -26,7 +26,7 @@
 	<insert id="createCard"
 	parameterType="co.Donggle.CollaB.card.service.CardVO">
 		<selectKey keyProperty="card_id" resultType="int" order="BEFORE">
-			SELECT MAX(CARD_ID)+1 FROM CARD
+			SELECT NVL(MAX(CARD_ID),0)+1 FROM CARD
 		</selectKey>
 		INSERT INTO CARD(CARD_ID, CARD_TITLE, LIST_ID)
 		VALUES(#{card_id},#{card_title},#{list_id})
@@ -112,7 +112,8 @@
 	<select id="selectCard"
 	parameterType="co.Donggle.CollaB.card.service.CardVO"
 	resultType="co.Donggle.CollaB.card.service.CardVO">
-		SELECT * FROM CARD WHERE CARD_ID = #{card_id}
+		SELECT * FROM CARD
+        WHERE CARD_ID = #{card_id}
 	</select>
 	
 	<select id="selectCardList"
@@ -120,6 +121,7 @@
 	parameterType="co.Donggle.CollaB.card.service.CardVO">
 		SELECT * FROM CARD
 		WHERE LIST_ID = #{list_id}
+		ORDER BY CARD_ID DESC
 	</select>
 	
 	<select id="selectListinfo"
@@ -128,4 +130,28 @@
 		SELECT * FROM LIST
         WHERE LIST_ID = #{list_id}
 	</select>
+	
+	<update id="cardLabelUpdate"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		UPDATE CARD
+        SET  CARD_LABEL = #{card_label}
+        WHERE CARD_ID = #{card_id}
+	</update>
+	
+	<update id="cardDatesUpdate"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		UPDATE CARD
+		SET 
+		CARD_START_DATE = #{card_start_date},
+		CARD_END_DATE = #{card_end_date}
+		WHERE CARD_ID = #{card_id}
+	</update>
+	
+	<update id="cardDatesDelete">
+		UPDATE CARD
+		SET 
+		CARD_START_DATE = '',
+		CARD_END_DATE = ''
+		WHERE CARD_ID = #{card_id}
+	</update>
 </mapper>
