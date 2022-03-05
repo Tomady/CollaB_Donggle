@@ -19,6 +19,12 @@ public interface CardService {
 	List<CardVO> selectCardList(CardVO vo);
 	//카드상세조회-해당카드가 있는 리스트정보
 	CardVO selectListinfo(CardVO vo);
+	//카드 라벨수정
+	int cardLabelUpdate(CardVO vo);
+	//카드 일정등록&수정
+	int cardDatesUpdate(CardVO vo);
+	//카드 일정삭제
+	int cardDatesDelete(CardVO vo);
 	
 	//=====카드삭제===== 
 	//카드댓글아이디, 파일아이디, 체크리스트 아이디 필요

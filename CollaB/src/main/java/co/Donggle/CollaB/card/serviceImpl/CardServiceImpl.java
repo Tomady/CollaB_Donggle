@@ -113,4 +113,19 @@ public class CardServiceImpl implements CardService {
 	public CardVO selectListinfo(CardVO vo) {
 		return map.selectListinfo(vo);
 	}
+
+	@Override
+	public int cardLabelUpdate(CardVO vo) {
+		return map.cardLabelUpdate(vo);
+	}
+
+	@Override
+	public int cardDatesUpdate(CardVO vo) {
+		return map.cardDatesUpdate(vo);
+	}
+
+	@Override
+	public int cardDatesDelete(CardVO vo) {
+		return map.cardDatesDelete(vo);
+	}
 }

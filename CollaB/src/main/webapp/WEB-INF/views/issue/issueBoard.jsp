@@ -1,10 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>이슈게시판</title>
+<style>
+	#gogo{
+		cursor: pointer;
+	}
+</style>
 </head>
 <body style="background-color: #ECE9FE;">
   <!-- Main Content -->
@@ -26,7 +32,7 @@
 
                   <div class="card-body">
                     <div class="float-left">
-                      <a href="#" class="btn btn-icon icon-left btn-primary"
+                      <a href="goIssueInsert.do" class="btn btn-icon icon-left btn-primary"
                         style="background-color:#6553C1; box-shadow: 0 2px 6px #ECE9FE;"><i class="far fa-edit"></i>
                         이슈등록</a>
                     </div>
@@ -35,10 +41,10 @@
                     <div class="clearfix mb-3"></div>
 
                     <div class="table-responsive" style="text-align: center;">
+                   
                       <table class="table table-striped">
                         <thead>
                           <tr>
-
                             <th>글번호</th>
                             <th>상태</th>
                             <th>글제목</th>
@@ -47,16 +53,14 @@
                           </tr>
                         </thead>
                         <tbody>
+                         <c:forEach items="${issues }" var="issue">
                           <tr>
-                            <td>0
-                            </td>
+                            <td>${issue.issueId }</td>
                             <td>
-                              <div class="badge badge-success">DONE</div>
+                              <div class="badge badge-success">${issue.issueStatus }</div>
                             </td>
-                            <td>
-                              쪠 쒸프트키까 꼬짱났어요 꼬쳐쭈쎼요 ㅠㅠ
-                            </td>
-                            <td>카테고리1</td>
+                            <td id="gogo" onclick="location.href='issueDetail.do?issueId=${issue.issueId}'">${issue.issueTitle }</td>
+                            <td>${issue.issueCategory }</td>
                             <td>
                               <div class="progress mb-3">
                                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
@@ -64,436 +68,10 @@
                               </div>
                             </td>
                           </tr>
-                          <tr>
-
-                            <td>1
-                            </td>
-                            <td>
-                              <div class="badge badge-warning">DOING</div>
-                            </td>
-                            <td>
-                              알밤 바보 알밤바보 알밤 바 보 바 보 바 보
-                            </td>
-                            <td>카테고리2</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="25%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>2
-                            </td>
-                            <td>
-                              <div class="badge badge-danger">TO DO</div>
-                            </td>
-                            <td>
-                              자바 스프링 뷰 노드 다 안 됩니다 호호호호호
-                            </td>
-                            <td>카테고리3</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="50%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>3
-                            </td>
-                            <td>
-                              <div class="badge badge-danger">TO DO</div>
-                            </td>
-                            <td>
-                              피카츄 라이츄 파이리 꼬부기 버터풀 야도란 피죤스 또가스
-                            </td>
-                            <td>카테고리4</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="75%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>4
-                            </td>
-                            <td>
-                              <div class="badge badge-warning">DOING</div>
-                            </td>
-                            <td>
-                              집에 보내주세요 집에 가고 싶어요
-                            </td>
-                            <td>카테고리5</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="100%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>0
-                            </td>
-                            <td>
-                              <div class="badge badge-success">DONE</div>
-                            </td>
-                            <td>
-                              쪠 쒸프트키까 꼬짱났어요 꼬쳐쭈쎼요 ㅠㅠ
-                            </td>
-                            <td>카테고리1</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                                  aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>1
-                            </td>
-                            <td>
-                              <div class="badge badge-warning">DOING</div>
-                            </td>
-                            <td>
-                              알밤 바보 알밤바보 알밤 바 보 바 보 바 보
-                            </td>
-                            <td>카테고리2</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="25%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>2
-                            </td>
-                            <td>
-                              <div class="badge badge-danger">TO DO</div>
-                            </td>
-                            <td>
-                              자바 스프링 뷰 노드 다 안 됩니다 호호호호호
-                            </td>
-                            <td>카테고리3</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="50%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>3
-                            </td>
-                            <td>
-                              <div class="badge badge-danger">TO DO</div>
-                            </td>
-                            <td>
-                              피카츄 라이츄 파이리 꼬부기 버터풀 야도란 피죤스 또가스
-                            </td>
-                            <td>카테고리4</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="75%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>4
-                            </td>
-                            <td>
-                              <div class="badge badge-warning">DOING</div>
-                            </td>
-                            <td>
-                              집에 보내주세요 집에 가고 싶어요
-                            </td>
-                            <td>카테고리5</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="100%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>0
-                            </td>
-                            <td>
-                              <div class="badge badge-success">DONE</div>
-                            </td>
-                            <td>
-                              쪠 쒸프트키까 꼬짱났어요 꼬쳐쭈쎼요 ㅠㅠ
-                            </td>
-                            <td>카테고리1</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                                  aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>1
-                            </td>
-                            <td>
-                              <div class="badge badge-warning">DOING</div>
-                            </td>
-                            <td>
-                              알밤 바보 알밤바보 알밤 바 보 바 보 바 보
-                            </td>
-                            <td>카테고리2</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="25%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>2
-                            </td>
-                            <td>
-                              <div class="badge badge-danger">TO DO</div>
-                            </td>
-                            <td>
-                              자바 스프링 뷰 노드 다 안 됩니다 호호호호호
-                            </td>
-                            <td>카테고리3</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="50%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>3
-                            </td>
-                            <td>
-                              <div class="badge badge-danger">TO DO</div>
-                            </td>
-                            <td>
-                              피카츄 라이츄 파이리 꼬부기 버터풀 야도란 피죤스 또가스
-                            </td>
-                            <td>카테고리4</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="75%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>4
-                            </td>
-                            <td>
-                              <div class="badge badge-warning">DOING</div>
-                            </td>
-                            <td>
-                              집에 보내주세요 집에 가고 싶어요
-                            </td>
-                            <td>카테고리5</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="100%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>0
-                            </td>
-                            <td>
-                              <div class="badge badge-success">DONE</div>
-                            </td>
-                            <td>
-                              쪠 쒸프트키까 꼬짱났어요 꼬쳐쭈쎼요 ㅠㅠ
-                            </td>
-                            <td>카테고리1</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                                  aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>1
-                            </td>
-                            <td>
-                              <div class="badge badge-warning">DOING</div>
-                            </td>
-                            <td>
-                              알밤 바보 알밤바보 알밤 바 보 바 보 바 보
-                            </td>
-                            <td>카테고리2</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="25%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>2
-                            </td>
-                            <td>
-                              <div class="badge badge-danger">TO DO</div>
-                            </td>
-                            <td>
-                              자바 스프링 뷰 노드 다 안 됩니다 호호호호호
-                            </td>
-                            <td>카테고리3</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="50%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>3
-                            </td>
-                            <td>
-                              <div class="badge badge-danger">TO DO</div>
-                            </td>
-                            <td>
-                              피카츄 라이츄 파이리 꼬부기 버터풀 야도란 피죤스 또가스
-                            </td>
-                            <td>카테고리4</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="75%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>4
-                            </td>
-                            <td>
-                              <div class="badge badge-warning">DOING</div>
-                            </td>
-                            <td>
-                              집에 보내주세요 집에 가고 싶어요
-                            </td>
-                            <td>카테고리5</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="100%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>0
-                            </td>
-                            <td>
-                              <div class="badge badge-success">DONE</div>
-                            </td>
-                            <td>
-                              쪠 쒸프트키까 꼬짱났어요 꼬쳐쭈쎼요 ㅠㅠ
-                            </td>
-                            <td>카테고리1</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                                  aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>1
-                            </td>
-                            <td>
-                              <div class="badge badge-warning">DOING</div>
-                            </td>
-                            <td>
-                              알밤 바보 알밤바보 알밤 바 보 바 보 바 보
-                            </td>
-                            <td>카테고리2</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="25%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>2
-                            </td>
-                            <td>
-                              <div class="badge badge-danger">TO DO</div>
-                            </td>
-                            <td>
-                              자바 스프링 뷰 노드 다 안 됩니다 호호호호호
-                            </td>
-                            <td>카테고리3</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="50%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>3
-                            </td>
-                            <td>
-                              <div class="badge badge-danger">TO DO</div>
-                            </td>
-                            <td>
-                              피카츄 라이츄 파이리 꼬부기 버터풀 야도란 피죤스 또가스
-                            </td>
-                            <td>카테고리4</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="75%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-
-                            <td>4
-                            </td>
-                            <td>
-                              <div class="badge badge-warning">DOING</div>
-                            </td>
-                            <td>
-                              집에 보내주세요 집에 가고 싶어요
-                            </td>
-                            <td>카테고리5</td>
-                            <td>
-                              <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" data-width="100%" aria-valuenow="25"
-                                  aria-valuemin="0" aria-valuemax="100" style="background-color:#6553C1"></div>
-                              </div>
-                            </td>
-                          </tr>
+                          </c:forEach>
                         </tbody>
                       </table>
+                      
                     </div>
                     
                   </div>
@@ -505,7 +83,7 @@
       </div>
       
       
-      <!-- 페이징 처리 -->
+<!-- 페이징 처리 -->
       <style>
     .off-screen {
       display: none;

@@ -5,7 +5,7 @@
 	<insert id="insertList"
 	parameterType="co.Donggle.CollaB.list.service.ListVO">
 		<selectKey keyProperty="list_id" resultType="int" order="BEFORE">
-			SELECT MAX(LIST_ID)+1 FROM LIST
+			SELECT NVL(MAX(LIST_ID),0)+1 FROM LIST
 		</selectKey>
 		INSERT INTO LIST
 		VALUES(#{list_id},#{list_title},#{board_id},#{id})

@@ -50,7 +50,7 @@
 	<insert id="inboxMsgInsert"
 	parameterType="co.Donggle.CollaB.message.service.InboxVO">
 	 <selectKey keyProperty="inbox_id" resultType="int" order="BEFORE">
-	 	SELECT MAX(INBOX_ID)+1 FROM INBOX
+	 	SELECT NVL(MAX(INBOX_ID),0)+1 FROM INBOX
 	 </selectKey>
 	 	INSERT INTO INBOX
 	 	VALUES(#{inbox_id},#{id},SYSDATE,#{receive_title},#{receive_contents},

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.Donggle.CollaB.issue.service.IssueMapper">
+
+	<select id="issueList" resultType="co.Donggle.CollaB.issue.service.IssueVO">
+		SELECT * FROM ISSUE 
+	</select>
+	
+	<select id="issueSelect" resultType="co.Donggle.CollaB.issue.service.IssueVO">
+		SELECT * FROM ISSUE WHERE ISSUEID = #{issueId}
+	</select>
+
+	<insert id="insertIssue" parameterType="co.Donggle.CollaB.issue.service.IssueVO">
+		<selectKey keyProperty="issueid" resultType="int" order="BEFORE">
+			SELECT MAX(ISSUEID) + 1 AS ISSUEID FROM ISSUE
+		</selectKey>
+		INSERT INTO ISSUE 
+		VALUES (#{issueId}, #{issueTitle}, #{issueCategory}, #{issueContent}, 'TO DO', #{id}, sysdate)
+	</insert>
+	
+	<update id="updateIssue" parameterType="co.Donggle.CollaB.issue.service.IssueVO">
+		UPDATE ISSUE
+		SET ISSUETITLE = #{issueTitle}, ISSUECATEGORY = #{issueCategory}, ISSUECONTENT = #{issueContent}, ISSUESTATUS = #{issueStatus}
+		WHERE ISSUEID = #{issueId}
+	</update>
+	
+	<delete id="deleteIssue" parameterType="co.Donggle.CollaB.issue.service.IssueVO">
+		DELETE FROM ISSUE WHERE ISSUEID = #{issueId}
+	</delete>
+
+
+</mapper>

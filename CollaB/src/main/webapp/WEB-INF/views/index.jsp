@@ -409,7 +409,7 @@ body .options .option .label .info .sub {
 			<div class="logo">CollaB</div>
 			<ul>
 			<c:if test="${empty id }"><li><a href="login.do">로그인</a></li></c:if>
-			<c:if test="${empty id }"><li><a href="#">회원가입</a></li></c:if>
+			<c:if test="${empty id }"><li><a href="joinForm.do">회원가입</a></li></c:if>
 			<c:if test="${not empty id}"><li><a href="javascript:logout()">로그아웃</a></li></c:if>
 			<c:if test="${not empty id}"><li><a href="#">ㅇㅇ?</a></li></c:if>
 			</ul>

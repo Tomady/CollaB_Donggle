@@ -96,7 +96,7 @@
 	<insert id="createBoard"
 	parameterType="co.Donggle.CollaB.board.service.BoardVO">
 		<selectKey keyProperty="board_id" order="BEFORE" resultType="int">
-			SELECT MAX(BOARD_ID)+1 FROM BOARD
+			SELECT NVL(MAX(BOARD_ID),0)+1 FROM BOARD
 		</selectKey>
 		INSERT INTO BOARD
 		VALUES(#{board_id},#{board_Title},#{workspace_id},#{board_thema})
@@ -105,7 +105,7 @@
 	<insert id="insertBoardJoin"
 	parameterType="co.Donggle.CollaB.board.service.BoardVO">
 		<selectKey keyProperty="board_id" order="BEFORE" resultType="int">
-			SELECT MAX(BOARD_ID) FROM BOARD
+			SELECT NVL(MAX(BOARD_ID),0) FROM BOARD
 		</selectKey>
 		INSERT INTO BOARD_JOIN
 		VALUES(#{id},#{workspace_id},#{board_id})

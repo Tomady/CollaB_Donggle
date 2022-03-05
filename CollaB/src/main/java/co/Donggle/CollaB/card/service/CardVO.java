@@ -23,6 +23,10 @@ public class CardVO {
 	private int board_id;
 	private String id;
 	
+	//user
+	private String name;
+	private String prof_pic;
+	
 	// 카드삭제
 	// : 카드,카드댓글,댓글파일,댓글좋아요,첨부파일,첨부파일내역,체크리스트,체크리스트item 전부삭제
 	// => 카드댓글아이디, 파일아이디, 체크리스트 아이디 필요

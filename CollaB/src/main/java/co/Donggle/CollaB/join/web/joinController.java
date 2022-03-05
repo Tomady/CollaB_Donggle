@@ -2,9 +2,11 @@ package co.Donggle.CollaB.join.web;
 
 
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletRequest;
-
-
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +30,7 @@ public class joinController {
 	
 	// 회원가입 실행
 	@PostMapping("/userInsert.do")
-	public String userInsert(HttpServletRequest request){
+	public String userInsert(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		
 		UserVO vo = new UserVO();
 		vo.setId(request.getParameter("id"));
@@ -40,9 +42,13 @@ public class joinController {
 		vo.setEmail(request.getParameter("email"));
 
 		joinDao.userJoin(vo);
-		
 		System.out.println("등록 완");
 		
-		return "workspaceNone";
+		response.setContentType("text/html; utf-8");
+		PrintWriter out = response.getWriter();
+		out.println("<script>alert('회원가입 완료! 바로 로그인해보세요.');</script>");
+		out.flush();
+		
+		return "login";
 	}
 }

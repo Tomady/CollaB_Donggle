@@ -14,8 +14,7 @@
   <style>
      /* 등록 취소 버튼 */
      #btnGroup{
-       margin: auto;
-       display: block;
+       margin-left: 45%;
      }
      #insertBtn{
        background-color: #9F90D9;
@@ -50,6 +49,18 @@
       margin: 20px auto;
       width: 40%;
      }
+     #chkDel, #itemDel{
+     	cursor: pointer;
+     	color: red;
+     	font-size: 10px;
+     }
+     #itemDel{
+    	margin-left: 20px;
+     }
+     #chkDel{
+     	float: right;
+     }
+    
     
 
      /* 폼 */
@@ -99,17 +110,18 @@
                             <div class="card-header">
                               <h3 style="color: #6553C1;">이슈 등록</h3>
                             </div>
+                            <form name="frm" method="post" id="frm">      
                             <div class="card-body">
                               <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">제목</label>
                                 <div class="col-sm-12 col-md-7">
-                                  <input type="text" class="form-control">
+                                  <input type="text" class="form-control" id="issue_title" name="issueTitle">
                                 </div>
                               </div>
                               <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">카테고리</label>
                                 <div class="col-sm-12 col-md-7">
-                                  <select class="form-control selectric">
+                                  <select class="form-control selectric" id="issue_category" name="issueCategory">
                                     <option>Tech</option>
                                     <option>News</option>
                                     <option>Political</option>
@@ -119,7 +131,7 @@
                               <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">내용</label>
                                 <div class="col-sm-12 col-md-7">
-                                  <textarea style="width:inherit; background-color: #fdfdff; border-color: #e4e6fc;"></textarea>
+                                  <textarea style="width:inherit; background-color: #fdfdff; border-color: #e4e6fc;" id="issue_content" name="issueContent"></textarea>
                                 </div>
                               </div>
                               <div class="form-group row mb-4">
@@ -137,10 +149,12 @@
                           </div>
                           
                         </div>
+                        <input type="hidden" id="id" name="id" value="${id }">
                         <div id="btnGroup">
-                          <button class="btn btn-primary" id="insertBtn">등록</button>
-                          <button class="btn btn-primary" id="cancelBtn">취소</button>
+                          <button type="button" class="btn btn-primary" id="insertBtn" onclick="issueInsert()">등록</button>           
+                          <input type="reset" class="btn btn-primary" id="cancelBtn" value="취소">
                         </div>
+                        </form>
                         <br><br>
                       </div>
                 </div>
@@ -156,7 +170,7 @@
       let ul = event.target.closest("ul");
       let li = document.createElement("li");
       let input = ul.firstChild;
-      li.innerHTML = input.value;
+      li.innerHTML = input.value + '<span id="itemDel" onclick="itemDel()">삭제</span>';
       ul.append(li);
       input.value = '';
     }
@@ -166,7 +180,10 @@
     function issue_add(){
       let wrap = document.getElementById("accordion");
       let div = document.createElement('div');
-
+      let span = document.createElement('span');
+      span.setAttribute('id', 'chkDel');
+      span.addEventListener('click', chkDel);
+	  span.innerHTML = '삭제';
       let div_header = document.createElement('div');
       div.classList.add('accordion');
       div_header.classList.add('accordion-header');
@@ -194,10 +211,51 @@
       ul.innerHTML = '<input type="text" class="text-blank" placeholder="이슈 아이템을 입력하세요"><span class="plus" id="itadd" onclick="item_add()"><ion-icon name="add-outline"></ion-icon> 아이템추가</span>';
       
       items.append(ul);
-
+      
+      wrap.append(span);
       wrap.append(div);
+      
       input.value = '';
+      $('#addadd').hide();
 
+    }
+    
+    function chkDel(){
+    	$('.accordion').remove();
+    	$('#chkDel').remove();
+    	$('#addadd').show();
+    }
+    
+    function itemDel(){
+    	event.target.closest('li').remove();
+
+    }
+    // 등록 버튼 ajax 함수
+    function issueInsert(){
+    	let frm = $('#frm')[0];
+    	let formdata = new FormData(frm);
+    	
+    	let chk = $('.accordion-header').text();
+    	let item = $('.items').find('li');
+    	
+    	formdata.append('chk', chk);
+    	for(let i=0; i<item.length; i++){
+    		let item2 = 'item' + i;
+    		
+    		let inner = item[i].innerHTML
+    		let ind = inner.indexOf('<');
+    		let itemval = inner.substring(0, ind);
+    	
+    		formdata.append(item2, itemval);
+    	}
+    
+    	$.ajax({
+    		type : "POST",
+    		url : "issueInsert.do",
+    		data : formdata,
+    		dataType : "text"
+    		
+    	})
     }
 </script>
 </body>
