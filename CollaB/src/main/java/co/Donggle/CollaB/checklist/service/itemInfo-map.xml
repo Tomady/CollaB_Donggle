@@ -20,12 +20,24 @@
 	</update>
 	
 	<update id="modifyitemyn" parameterType="co.Donggle.CollaB.checklist.service.itemInfoVO">
-	
+		UPDATE ITEM_INFO
+		SET ITEM_STATUS = #{item_status}
+		WHERE ITEM_ID = #{item_id}
 	</update>
 	
 	<delete id="deleteitem" parameterType="co.Donggle.CollaB.checklist.service.itemInfoVO">
 		DELETE FROM item_info
 		WHERE item_id = #{item_id}
 	</delete>
-
+	
+	<select id="selectedCardItemList"
+	resultType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT * FROM ITEM_INFO 
+	</select>
+	
+	<delete id="deleteItemAll"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		DELETE ITEM_INFO
+		WHERE CHECKLIST_ID = #{checklist_id}
+	</delete>
 </mapper>

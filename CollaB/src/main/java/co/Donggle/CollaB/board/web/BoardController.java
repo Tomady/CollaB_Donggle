@@ -43,6 +43,7 @@ public class BoardController {
 		
 		model.addAttribute("workspace",workspaceDao.searchWorkspace(wvo)); //워크스페이스ID,생성자아이디,생성일자,워크스페이스이름
 		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(userId)); //사용자가 가지고 있는 모든 워크스페이스
+		model.addAttribute("boardList",workspaceDao.boardListinWorkspace(wvo)); //해당워크스페이스가 가지고 있는 모든 보드 - admin은 다 볼 수 있으니까
 		
 		return "workspaceBoards";
 	}

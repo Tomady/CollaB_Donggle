@@ -97,19 +97,73 @@ function cardLabelSelect(cardId){
 	})
 }
 
-//카드일정잡기모달 띄우기
-function cardDatesSet(id){
-	document.querySelector("#cardStartDate").value="";
-	document.querySelector("#cardStartDate").removeAttribute("max");
-	document.querySelector("#cardEndDate").value="";
-	document.querySelector("#cardEndDate").removeAttribute("min");
+//카드관리자추가 모달창띄우기
+function cardMemberSet(id){
+	//해당 카드 아이디
+	let cardId = document.querySelector("#selectedCard").getAttribute("data-cardId");
+	
+	//모달창 켰을때마다 해당 카드의 매니저가 나오도록
+	let manager = selectedCard.getAttribute("data-cardManager");
+	cardManager.innerHTML = "";
+	cardManager.innerHTML = manager;
 	
 	var zIndex = 9999;
     var modal = document.getElementById(id);
-
+	
     // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
-    modal.querySelector('.add_Dates_close_btn').addEventListener('click', closeAddDates());
-
+    modal.querySelector('.add_Member_close_btn').onclick=function(){ closeAddMember() };
+	
+	//카드 관리자 추가
+	modal.querySelector("#managerSaveBtn").onclick=function(){
+		//선택된 관리자아이디
+		let managerId = cardManager.getAttribute("data-memid");
+		$.ajax({
+			url : "AjaxCardManagerSet",
+			type : "POST",
+			data : {
+				manager : managerId,
+				card_id : cardId
+			},
+			dataType : "text",
+			success : function(data){
+				console.log("카드관리자추가성공?"+data);
+				if(data == "YES"){
+					closeAddMember();
+					window.location.reload();
+				}
+			},
+			error : function(){
+				console.log("AjaxCardManagerSet 카드관리자지정 실패")
+			}
+		})
+	}
+	
+	//카드 관리자 삭제
+	modal.querySelector("#cardManager").onclick=function(){
+		event.target.innerHTML = "";
+	}
+	
+	function closeAddMember(){
+		bg.remove();
+        modal.style.display = 'none';
+	}
+	
+	// 모달 div 뒤 레이어
+    var bg = document.createElement('div');
+    bg.setAttribute("id","modal-back");
+    bg.setStyle({
+        position: 'fixed',
+        zIndex: zIndex,
+        left: '0px',
+        top: '0px',
+        width: '100%',
+        height: '100%',
+        overflow: 'auto',
+        // 레이어 색갈은 여기서 바꾸기
+        backgroundColor: 'rgba(0,0,0,0.4)'
+    });
+    document.body.append(bg);
+	
     modal.setStyle({
         position: 'fixed',
         display: 'block',
@@ -127,9 +181,125 @@ function cardDatesSet(id){
     });
 }
 
-//일정추가모달창 닫기
-function closeAddDates(){
-	document.querySelector("#add_Dates").style.display = "none";
+//카드관리자추가 모달창-멤버한명선택
+function managerSelect(memberId){
+	let selectedMem = event.target.innerHTML;
+	cardManager.innerHTML = "";
+	cardManager.innerHTML = selectedMem;
+	cardManager.setAttribute("data-memid",memberId);
+}
+
+//카드일정잡기모달 띄우기
+function cardDatesSet(id){
+	//모달 속 내용 지워주기
+	document.querySelector("#cardStartDate").value="";
+	document.querySelector("#cardStartDate").removeAttribute("max");
+	document.querySelector("#cardEndDate").value="";
+	document.querySelector("#cardEndDate").removeAttribute("min");
+	
+	var zIndex = 9999;
+    var modal = document.getElementById(id);
+
+    // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
+    modal.querySelector('.add_Dates_close_btn').onclick=function(){ closeAddDates() };
+	
+	// 저장 버튼 처리
+	let cardId = document.querySelector("#selectedCard").getAttribute("data-cardId");
+	modal.querySelector('#datesSaveBtn').onclick=function(){
+		let startDate = document.querySelector("#cardStartDate").value;
+		let endDate = document.querySelector("#cardEndDate").value;
+	
+		if(startDate == ""){
+			document.querySelector("#cardStartDate").focus();
+		}else if(endDate == ""){
+			document.querySelector("#cardEndDate").focus();
+		}else{
+			$.ajax({
+				url : "AjaxAddCardDates",
+				type : "POST",
+				data : {
+					card_id : cardId,
+					card_start_date : startDate,
+					card_end_date : endDate
+				},
+				dataType : "text",
+				success : function(data){
+					bg.remove();
+       				modal.style.display = 'none';
+					if(data == "YES"){
+						if(document.querySelector("#cardDates")){ //기존에 일정이 있었다면
+							cardDatesSpan.innerHTML=startDate+" - "+endDate;
+						}else{  //카드일정을 처음 등록하는거라면
+							let dateDIV = document.createElement("div");
+							dateDIV.setAttribute("class","card-header");
+							dateDIV.setAttribute("id","cardDates");
+							let h4 = document.createElement("h4");
+							h4.innerHTML = "Dates";
+							h4.onclick = function(){
+								cardDatesSet(cardid);
+							}
+							let days = document.createElement("div");
+							let span = document.createElement("span");
+							span.setAttribute("id","cardDatesSpan");
+							span.style.backgroundColor="rgb(235,251,252)";
+							span.style.borderRadius="3px";
+							span.style.fontSize="15px";
+							span.innerHTML=startDate+" - "+endDate;
+							
+							let deleteBtn = document.createElement("div");
+							deleteBtn.setAttribute("class","fa fa-times ml-3 mb-1");
+							deleteBtn.style.cursor = "pointer";
+							deleteBtn.onclick=function(){
+								deleteDates(cardid);
+							}	
+							days.append(span);
+							dateDIV.append(h4);
+							dateDIV.append(days);
+							dateDIV.append(deleteBtn);
+							datesAppendTarget.append(dateDIV);
+						}
+					}
+				}
+			})
+		}
+	}
+	
+	function closeAddDates(){
+		bg.remove();
+        modal.style.display = 'none';
+	}
+	
+	// 모달 div 뒤 레이어
+    var bg = document.createElement('div');
+    bg.setAttribute("id","modal-back");
+    bg.setStyle({
+        position: 'fixed',
+        zIndex: zIndex,
+        left: '0px',
+        top: '0px',
+        width: '100%',
+        height: '100%',
+        overflow: 'auto',
+        // 레이어 색갈은 여기서 바꾸기
+        backgroundColor: 'rgba(0,0,0,0.4)'
+    });
+    document.body.append(bg);
+	
+    modal.setStyle({
+        position: 'fixed',
+        display: 'block',
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+
+        // 시꺼먼 레이어 보다 한칸 위에 보이기
+        zIndex: zIndex + 1,
+
+        // div center 정렬
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        msTransform: 'translate(-50%, -50%)',
+        webkitTransform: 'translate(-50%, -50%)'
+    });
 }
 
 //Element 에 style 한번에 오브젝트로 설정하는 함수 추가
@@ -154,65 +324,6 @@ function startDateLimit(){
 	}
 }
 
-//카드일정저장
-function cardDateSave(cardid){
-	let startDate = document.querySelector("#cardStartDate").value;
-	let endDate = document.querySelector("#cardEndDate").value;
-	
-	if(startDate == ""){
-		document.querySelector("#cardStartDate").focus();
-	}else if(endDate == ""){
-		document.querySelector("#cardEndDate").focus();
-	}else{
-		$.ajax({
-			url : "AjaxAddCardDates",
-			type : "POST",
-			data : {
-				card_id : cardid,
-				card_start_date : startDate,
-				card_end_date : endDate
-			},
-			dataType : "text",
-			success : function(data){
-				closeAddDates();
-				if(data == "YES"){
-					if(document.querySelector("#cardDates")){ //기존에 일정이 있었다면
-						cardDatesSpan.innerHTML=startDate+" - "+endDate;
-					}else{  //카드일정을 처음 등록하는거라면
-						let dateDIV = document.createElement("div");
-						dateDIV.setAttribute("class","card-header");
-						dateDIV.setAttribute("id","cardDates");
-						let h4 = document.createElement("h4");
-						h4.innerHTML = "Dates";
-						h4.onclick = function(){
-							cardDatesSet(cardid);
-						}
-						let days = document.createElement("div");
-						let span = document.createElement("span");
-						span.setAttribute("id","cardDatesSpan");
-						span.style.backgroundColor="rgb(235,251,252)";
-						span.style.borderRadius="3px";
-						span.style.fontSize="15px";
-						span.innerHTML=startDate+" - "+endDate;
-						
-						let deleteBtn = document.createElement("div");
-						deleteBtn.setAttribute("class","fa fa-times ml-3 mb-1");
-						deleteBtn.style.cursor = "pointer";
-						deleteBtn.onclick=function(){
-							deleteDates(cardid);
-						}	
-						days.append(span);
-						dateDIV.append(h4);
-						dateDIV.append(days);
-						dateDIV.append(deleteBtn);
-						datesAppendTarget.append(dateDIV);
-					}
-				}
-			}
-		})
-	}
-}
-
 //카드일정삭제
 function deleteDates(cardid){
 	$.ajax({
@@ -233,3 +344,212 @@ function deleteDates(cardid){
 		}
 	})
 }
+
+//리스트이름수정
+function renameList(listid){
+	let appendTarget = document.querySelector(".listnameAppendTarget"); //input박스 붙여줄 곳
+	document.querySelector(".listName"+listid).remove();
+	
+	let input = document.createElement("input");
+	input.setAttribute("id","NewListName")
+	input.setAttribute("type","text");
+	input.setAttribute("class","form-control mb-2 mt-5");
+	input.style.width="100%";
+	input.style.height="90%";
+	input.style.textAlign="center";
+	input.addEventListener("keyup",function(){
+		//엔터키가 눌렸을때
+		if(window.event.keyCode == 13){
+			//사용자가 입력한 새로운 리스트 이름
+			let newListname = document.querySelector("#NewListName").value;
+			//빈 값이면
+			if(newListname == ""){
+				input.style.border="2px solid red;"
+				input.setAttribute("placeholder","Please name it.");
+				input.focus();
+			}else{ //값이 있으면
+				//Ajax실행 => DB에 해당 리스트이름 update하기
+				$.ajax({
+					url : "AjaxRenameList",
+					type : "POST",
+					data : {
+						listId : listid,
+						listName : newListname
+					},
+					dataType : "text",
+					success : function(data){
+						if(data == "YES"){
+							document.querySelector("#NewListName").remove();
+							let h4 = document.createElement("h4");
+							h4.setAttribute("class","listName"+listid+" mt-5 mb-4 ml-4");
+							h4.onclick=function(){renameList(listid)}
+							h4.innerHTML=newListname;
+							
+							appendTarget.prepend(h4);
+						}else if(data == "NO"){
+							console.log("리스트이름수정실패");
+						}
+					},
+					error : function(){
+						console.log("AjaxRenameList 실패");
+					}
+				})	
+			}
+		}
+	})
+	appendTarget.prepend(input);
+	input.focus();
+}
+
+//카드내용수정하기버튼
+function contentsEdit(){
+	document.querySelector(".cardContents").removeAttribute("readonly");
+}
+//카드내용저장하기버튼
+function contentsSave(cardid){
+	let contents = document.querySelector(".cardContents").value;
+	$.ajax({
+		url : "AjaxCardContentsSave",
+		type : "POST",
+		data : {
+			card_id : cardid,
+			card_contents : contents
+		},
+		dataType : "text",
+		success : function(data){
+			if(data == "YES"){
+				console.log(data);
+				//화면에 변경된 내용 저장해주고 textarea는 다시 readonly로 바꿔주기
+				document.querySelector(".cardContents").setAttribute("readonly","readonly");
+			}else if(data == "NO"){
+				console.log("카드내용변경 실패");
+			}
+		},
+		error : function(){
+			console.log("AjaxCardContentsSave 카드내용변경실패");
+		}
+	})
+}
+
+//카드이름수정하기
+function renameCard(cardId){
+	let appendTarget = document.querySelector("#cardTitleAppendTarget");
+	document.querySelector("#card_Title").remove();
+	
+	let input = document.createElement("input");
+	input.setAttribute("id","NewCardName")
+	input.setAttribute("type","text");
+	input.setAttribute("class","form-control mb-3 mt-5");
+	input.style.width="90%";
+	input.style.height="90%";
+	input.style.textAlign="center";
+	input.addEventListener("keyup",function(){
+		//엔터키가 눌렸을때
+		if(window.event.keyCode == 13){
+			//사용자가 입력한 새로운 리스트 이름
+			let newCardname = document.querySelector("#NewCardName").value;
+			//빈 값이면
+			if(newCardname == ""){
+				input.style.border="2px solid red;"
+				input.setAttribute("placeholder","Please name it.");
+				input.focus();
+			}else{ //값이 있으면
+				//Ajax실행 => DB에 해당 카드이름 update하기
+				$.ajax({
+					url : "AjaxRenameCard",
+					type : "POST",
+					data : {
+						card_id : cardId,
+						card_title : newCardname
+					},
+					dataType : "text",
+					success : function(data){
+						if(data == "YES"){
+							document.querySelector("#NewCardName").remove();
+							let h4 = document.createElement("h4");
+							h4.setAttribute("id","card_Title");
+							h4.setAttribute("class","cardName mt-5 mb-4");
+							h4.onclick=function(){renameCard(cardId)}
+							h4.innerHTML=newCardname;
+							
+							appendTarget.prepend(h4);
+						}else if(data == "NO"){
+							console.log("리스트이름수정실패");
+						}
+					},
+					error : function(){
+						console.log("AjaxRenameCard 실패");
+					}
+				})	
+			}
+		}
+	})
+	appendTarget.prepend(input);
+	input.focus();
+}
+
+//체크리스트 전체 삭제
+function checklistDelete(checklistId){
+	let delTarget = document.querySelector(".ckDIV"+checklistId); //삭제할 타겟
+	
+	$.ajax({
+		url : "AjaxDeleteCheckList",
+		type : "POST",
+		data : {
+			checklist_id : checklistId
+		},
+		dataType : "text",
+		success : function(data){
+			console.log("체크리스트 삭제 성공?"+data);
+			if(data == "YES"){
+				delTarget.remove();
+			}
+		},
+		error : function(){
+			console.log("AjaxDeleteCheckList 실패");
+		}
+	})
+}
+
+//체크리스트 아이템삭제
+function checkItem(ckid,itemid){
+	let checked = "";
+	if ( $(event.target).prop('checked') ) { 
+		//체크함
+		checked = "Y";
+	} else {  
+		//체크해제함
+		checked = "N";
+	}
+	
+	$.ajax({
+		url : "AjaxCheckListItemStatusUpdate",
+		type : "POST",
+		data : {
+			item_id : itemid,
+			item_status : checked
+		},
+		dataType : "text",
+		success : function(data){
+			console.log("아이템상태변경성공?"+data);
+			if(data == "YES"){
+				const items = $(".checkitem"+ckid); //총 아이템
+				let itemCnt = $(items).length;  //총 아이템 수
+				let checkedCnt = 0; //체크된 아이템 수 
+				
+				for(let item of items){
+					if($(item).prop('checked')){
+						checkedCnt += 1;
+					}
+				}
+				let wid = Math.ceil(checkedCnt/itemCnt*100);
+				document.querySelector(".checkChart"+ckid).innerHTML = "&nbsp;&nbsp;&nbsp;"+wid+"%";
+				document.querySelector(".checkChart"+ckid).style.width=wid+"%";
+			}
+		},
+		error : function(){
+			console.log("AjaxCheckListItemStatusUpdate 아이템상태변경 실패");
+		}
+	})
+}
+

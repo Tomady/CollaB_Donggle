@@ -233,3 +233,49 @@ function closeModal(){
     document.querySelector("#modal-back").remove();
     document.querySelector("#create_board").style.display="none";
 }
+
+//워크스페이스 삭제 모달창 띄우기
+function deleteWorkspace(id){
+	var zIndex = 9999;
+    var modal = document.getElementById(id);
+	
+    // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
+    modal.querySelector('.del_workspace_close_btn').onclick=function(){ closeDelWorkspace() };
+    
+    function closeDelWorkspace(){
+		bg.remove();
+        modal.style.display = 'none';
+	}
+	
+	// 모달 div 뒤 레이어
+    var bg = document.createElement('div');
+    bg.setAttribute("id","modal-back");
+    bg.setStyle({
+        position: 'fixed',
+        zIndex: zIndex,
+        left: '0px',
+        top: '0px',
+        width: '100%',
+        height: '100%',
+        overflow: 'auto',
+        // 레이어 색갈은 여기서 바꾸기
+        backgroundColor: 'rgba(0,0,0,0.4)'
+    });
+    document.body.append(bg);
+	
+    modal.setStyle({
+        position: 'fixed',
+        display: 'block',
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+
+        // 시꺼먼 레이어 보다 한칸 위에 보이기
+        zIndex: zIndex + 1,
+
+        // div center 정렬
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        msTransform: 'translate(-50%, -50%)',
+        webkitTransform: 'translate(-50%, -50%)'
+    });
+}

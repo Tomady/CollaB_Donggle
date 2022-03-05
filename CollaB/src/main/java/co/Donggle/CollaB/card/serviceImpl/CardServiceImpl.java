@@ -128,4 +128,19 @@ public class CardServiceImpl implements CardService {
 	public int cardDatesDelete(CardVO vo) {
 		return map.cardDatesDelete(vo);
 	}
+
+	@Override
+	public int cardContentsUpdate(CardVO vo) {
+		return map.cardContentsUpdate(vo);
+	}
+
+	@Override
+	public int cardRename(CardVO vo) {
+		return map.cardRename(vo);
+	}
+
+	@Override
+	public int cardManagerSetting(CardVO vo) {
+		return map.cardManagerSetting(vo);
+	}
 }

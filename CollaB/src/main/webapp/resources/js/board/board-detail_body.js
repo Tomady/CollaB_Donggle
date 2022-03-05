@@ -192,7 +192,7 @@ function renameList(listId){
 //리스트 삭제 함수
 //매개값으로 리스트 아이디 받기
 function deleteList(listId){
-	let listDelete = confirm("※ ※ ※ ※ ※ ※ ※ ※ ※ ※ ※ ※ ※ ※\nAbsolutely impossible to recover.\nDo you want to proceed?\n※ ※ ※ ※ ※ ※ ※ ※ ※ ※ ※ ※ ※ ※");
+	let listDelete = confirm("Absolutely impossible to recover.\nDo you want to proceed?");
 	if(listDelete){
 		console.log(listId+"번 리스트 삭제");
 		$.ajax({
@@ -324,7 +324,8 @@ function createCard(obj){
 //카드삭제함수
 //매개값으로 카드아이디 받기
 function deleteCard(cardID){
-	let cardDelete = confirm("※ ※ ※ ※ ※ ※ ※ ※ ※ ※ ※ ※ ※ ※\nAbsolutely impossible to recover.\nDo you want to proceed?\n※ ※ ※ ※ ※ ※ ※ ※ ※ ※ ※ ※ ※ ※");
+	event.stopPropagation();
+	let cardDelete = confirm("Absolutely impossible to recover.\nDo you want to proceed?");
 	if(cardDelete){
 		console.log(cardID+"번 카드 삭제");
 		$.ajax({

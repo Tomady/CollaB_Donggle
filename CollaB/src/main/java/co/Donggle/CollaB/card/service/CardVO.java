@@ -33,4 +33,14 @@ public class CardVO {
 	private int comment_id;
 	private int file_id;
 	private int checklist_id;
+	
+	//checklist
+	private String checklist_title;
+	private int issue_id;
+	
+	//checklist_item
+	private int item_id;
+	private String item_title;
+	private String item_status;
+	
 }

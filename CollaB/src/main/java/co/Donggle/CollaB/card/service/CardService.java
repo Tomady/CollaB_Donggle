@@ -25,6 +25,12 @@ public interface CardService {
 	int cardDatesUpdate(CardVO vo);
 	//카드 일정삭제
 	int cardDatesDelete(CardVO vo);
+	//카드 내용수정
+	int cardContentsUpdate(CardVO vo);
+	//카드 이름변경
+	int cardRename(CardVO vo);
+	//카드 관리자지정
+	int cardManagerSetting(CardVO vo);
 	
 	//=====카드삭제===== 
 	//카드댓글아이디, 파일아이디, 체크리스트 아이디 필요

@@ -17,8 +17,11 @@ import co.Donggle.CollaB.board.service.BoardService;
 import co.Donggle.CollaB.board.service.BoardVO;
 import co.Donggle.CollaB.card.service.CardService;
 import co.Donggle.CollaB.card.service.CardVO;
+import co.Donggle.CollaB.checklist.service.checklistService;
+import co.Donggle.CollaB.checklist.service.itemInfoService;
 import co.Donggle.CollaB.list.service.ListService;
 import co.Donggle.CollaB.list.service.ListVO;
+import co.Donggle.CollaB.user.service.UserService;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 
 @Controller
@@ -27,6 +30,9 @@ public class CardController {
 	@Autowired ListService listDao;
 	@Autowired BoardService boardDao;
 	@Autowired WorkspaceJoinService workspaceJoinDao;
+	@Autowired checklistService checklistDao;
+	@Autowired itemInfoService itemInfoDao;
+	@Autowired UserService userDao;
 	
 	//카드 생성
 	@ResponseBody
@@ -118,6 +124,12 @@ public class CardController {
 		model.addAttribute("cardinfo",cardDao.selectCard(cardvo));
 		//해당카드가 포함된 리스트정보
 		model.addAttribute("listinfo",cardDao.selectListinfo(cardvo));
+		//해당카드가 갖고있는 체크리스트
+		model.addAttribute("checkList",checklistDao.totalCheckList(cardvo));
+		//체크리스트 아이템목록
+		model.addAttribute("checkItems",itemInfoDao.selectedCardItemList());
+		//해당 보드에 초대되어있는 모든 멤버-아이디,이름,닉네임,비번,이메일,프로필사진,전화번호,회사,토큰,워크스페이스아이디,보드아이디 - 보드헤더
+		model.addAttribute("boardJoinMembers",userDao.boardJoinMembers(vo));
 		
 		return "card/cardDetail";
 	}
@@ -152,14 +164,12 @@ public class CardController {
 		return cardItems;
 	}
 	
-	//카드상세조회시 바로실행 _ 선택된 카드의 정보
+	//카드상세조회시 바로실행 _ 해당 카드의 체크리스트 아이디 목록
 	@ResponseBody
-	@RequestMapping("/AjaxCardDetail_SelectCardItems")
-	public CardVO AjaxCardDetail_SelectCardItems(@RequestParam("cardId") int cardId) {
-		CardVO cardvo = new CardVO();
-		cardvo.setCard_id(cardId);
+	@RequestMapping("/AjaxSelectedCardCheckList")
+	public List<CardVO> AjaxSelectedCardCheckList(CardVO vo){
 		
-		return cardvo;
+		return checklistDao.totalCheckList(vo);
 	}
 	
 	//카드라벨수정 _ 매개값으로 카드아이디, 카드라벨 받음
@@ -185,6 +195,33 @@ public class CardController {
 	@RequestMapping("/AjaxDeleteDates")
 	public String AjaxDeleteDates(CardVO cardvo) {
 		int n = cardDao.cardDatesDelete(cardvo);
+		
+		return n > 0 ? "YES" : "NO";
+	}
+	
+	//카드내용수정 _ 매개값으로 카드아이디, 카드내용 받음
+	@ResponseBody
+	@RequestMapping("/AjaxCardContentsSave")
+	public String AjaxCardContentsSave(CardVO cardvo) {
+		int n = cardDao.cardContentsUpdate(cardvo);
+		
+		return n > 0 ? "YES" : "NO";
+	}
+	
+	//카드이름변경 _ 매개값으로 카드아이디, 새로운 카드이름 받음
+	@ResponseBody
+	@RequestMapping("/AjaxRenameCard")
+	public String AjaxRenameCard(CardVO vo) {
+		int n = cardDao.cardRename(vo);
+	
+		return n > 0 ? "YES" : "NO";
+	}
+	
+	//카드관리자지정 _ 매개값으로 아이디, 카드아이디 받음
+	@ResponseBody
+	@RequestMapping("/AjaxCardManagerSet")
+	public String AjaxCardManagerSet(CardVO cardvo) {
+		int n = cardDao.cardManagerSetting(cardvo);
 		
 		return n > 0 ? "YES" : "NO";
 	}

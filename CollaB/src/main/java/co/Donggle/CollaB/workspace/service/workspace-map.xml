@@ -29,4 +29,11 @@
 		SELECT MAX(WORKSPACE_ID) FROM WORKSPACE
 	</select>
 	
+	<select id="boardListinWorkspace"
+	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceVO"
+	resultType="co.Donggle.CollaB.board.service.BoardVO">
+		SELECT * FROM BOARD 
+		WHERE WORKSPACE_ID = #{workspace_id}
+	</select>
+	
 </mapper>

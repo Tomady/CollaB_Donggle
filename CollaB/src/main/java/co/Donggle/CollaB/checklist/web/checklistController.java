@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.Donggle.CollaB.card.service.CardVO;
 import co.Donggle.CollaB.checklist.service.checklistService;
 import co.Donggle.CollaB.checklist.service.checklistVO;
 import co.Donggle.CollaB.checklist.service.itemInfoService;
@@ -63,6 +64,25 @@ public class checklistController {
 		} else {
 			return "redirect:cheklist.do";
 		}
+	}
+	
+	//카드상세조회 _ 체크리스트삭제 : 매개값 - 체크리스트아이디
+	@ResponseBody
+	@RequestMapping("/AjaxDeleteCheckList")
+	public String AjaxDeleteCheckList(CardVO cardvo) {
+		int n = checklistDao.chklistDelete(cardvo);
+		n += itemInfoDao.deleteItemAll(cardvo);
+		
+		return n > 0 ? "YES" : "NO";
+	}
+	
+	//카드상세조회 _ 체크리스트 아이템 클릭시 상태변경 : 매개값 - 아이템아이디, 아이템상태
+	@ResponseBody
+	@RequestMapping("/AjaxCheckListItemStatusUpdate")
+	public String AjaxCheckListItemStatusUpdate(CardVO vo) {
+		int n = itemInfoDao.modifyitemyn(vo);
+		
+		return n > 0 ? "YES" : "NO";
 	}
 
 }

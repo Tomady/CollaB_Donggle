@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import co.Donggle.CollaB.card.service.CardVO;
+
 @Repository("itemInfoDao")
 public class itemInfoServiceImpl implements itemInfoService {
 	
@@ -27,13 +29,23 @@ public class itemInfoServiceImpl implements itemInfoService {
 	}
 
 	@Override
-	public int modifyitemyn(itemInfoVO vo) {
-		return itemInfoMapper.modifyitemyn(vo);
+	public int deleteitem(int item_id) {
+		return itemInfoMapper.deleteitem(item_id);
 	}
 
 	@Override
-	public int deleteitem(int item_id) {
-		return itemInfoMapper.deleteitem(item_id);
+	public List<CardVO> selectedCardItemList() {
+		return itemInfoMapper.selectedCardItemList();
+	}
+
+	@Override
+	public int deleteItemAll(CardVO vo) {
+		return itemInfoMapper.deleteItemAll(vo);
+	}
+
+	@Override
+	public int modifyitemyn(CardVO vo) {
+		return itemInfoMapper.modifyitemyn(vo);
 	}
 
 }

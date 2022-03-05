@@ -154,4 +154,25 @@
 		CARD_END_DATE = ''
 		WHERE CARD_ID = #{card_id}
 	</update>
+	
+	<update id="cardContentsUpdate"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		UPDATE CARD
+		SET CARD_CONTENTS = #{card_contents}
+		WHERE CARD_ID = #{card_id}
+	</update>
+	
+	<update id="cardRename"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		UPDATE CARD
+		SET CARD_TITLE = #{card_title}
+		WHERE CARD_ID = #{card_id}
+	</update>
+	
+	<update id="cardManagerSetting"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		UPDATE CARD
+		SET MANAGER = #{manager}
+		WHERE CARD_ID = #{card_id}
+	</update>
 </mapper>

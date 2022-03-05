@@ -1,8 +1,11 @@
 package co.Donggle.CollaB.workspace.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import co.Donggle.CollaB.board.service.BoardVO;
 import co.Donggle.CollaB.workspace.service.WorkspaceMapper;
 import co.Donggle.CollaB.workspace.service.WorkspaceService;
 import co.Donggle.CollaB.workspace.service.WorkspaceVO;
@@ -30,6 +33,11 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 	@Override
 	public int selectWorkspaceMaxId() {
 		return map.selectWorkspaceMaxId();
+	}
+
+	@Override
+	public List<BoardVO> boardListinWorkspace(WorkspaceVO vo) {
+		return map.boardListinWorkspace(vo);
 	}
 
 }
