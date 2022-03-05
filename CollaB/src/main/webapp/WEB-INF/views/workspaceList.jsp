@@ -61,11 +61,50 @@
     }
     #bkcolor:hover{
     cursor: pointer;
-    }    
+    }
+    
+    /*워크스페이스 삭제 모달*/
+     #del_workspace {
+   	  display: none;
+      width: 450px;
+      padding: 20px 60px;
+      background-color: #fefefe;
+      border: 1px solid #888;
+      border-radius: 3px;
+    }
+    #del_workspace .del_workspace_close_btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    
 </style>
 </head>
 <body class="sidebar-mini mr-5">
 <div id="app">
+
+  <!-- 워크스페이스 삭제 모달창 -->
+  <div id="del_workspace" class="card">
+      <a class="del_workspace_close_btn fa fa-times" style="cursor:pointer;" onclick="closeDelWorkspace()"></a>
+      <div class="mb-4 text-center">
+    	<label class="mb-3" style="font-weight:bold; font-size:30px;">All the Workspaces</label>
+    	<label style="color:tomato;">Please select the workspace you want to delete.</label>
+   	    <div class="card" style="height:300px; overflow:scroll; overflow-x:hidden;">
+    	   		<button class="btn btn-light mt-2 mb-2 ml-2" style="width:95%"
+    	   		onclick="del_SelectedWorkspace()">워크스페이스이름</button>
+   	    </div>
+   	    <hr>
+   	    <div class="card" id="deleteTargetWorkspace">
+   	    	<!-- 삭제할 워크스페이스 여기 오도록 -->
+   	    </div>
+   	    <label style="color:tomato;">Deleted data can never be recovered.</label>
+   	    <label style="color:tomato;">Do you want to proceed?</label>
+   	    <div>
+   	    	<button id="proceedWorkspaceDelete" class="btn btn-danger mt-2 mb-2" style="width:90%">PROCEED</button>
+   	    </div>
+      </div>
+   </div>
+
   <!-- create workspace 모달창 -->
   <div id="create_wk">
     <div class="card" >
@@ -207,7 +246,10 @@
             <div class="card">
               <div class="card-body ml-5 mr-5" style="height: 500vh;" >
                 <!-- 검색창 -->
-                <div class="row d-flex justify-content-end mr-5">
+                <div class="row d-flex justify-content-end mr-5 ml-5">
+                  <div class="col-lg ml-5 mt-5">
+                  	<button class="btn btn-danger" onclick="deleteWorkspace('del_workspace')">DELETE WORKSPACE</button>
+                  </div>
                   <form action="#">
                     <div class="d-flex mr-5 mt-5 mb-5">
                       <input id="searchWKNAME" type="search" class="form-control" placeholder="Search Workspace">

@@ -19,8 +19,19 @@
 	</insert>
 	
 	<!-- 체크리스트 삭제 -->
-	<delete id="chklistDelete" parameterType="co.Donggle.CollaB.checklist.service.checklistVO">
-		
+	<delete id="chklistDelete" 
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		DELETE CHECKLIST
+		WHERE CHECKLIST_ID = #{checklist_id}
 	</delete>
 
+
+	<!-- 카드상세조회_해당카드의 체크리스트 모두 -->
+	<select id="totalCheckList"
+	parameterType="co.Donggle.CollaB.card.service.CardVO"
+	resultType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT * FROM CHECKLIST
+		WHERE CARD_ID = #{card_id}
+		ORDER BY CHECKLIST_ID DESC
+	</select>
 </mapper>

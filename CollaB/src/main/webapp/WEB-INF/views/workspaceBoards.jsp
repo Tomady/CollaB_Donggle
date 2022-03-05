@@ -114,6 +114,21 @@
     그리고 relation은 static 기준으로 이동 top left 등등! 이해 되셨ㅅ으면 좋겠어요.. ) 
     << 이건 몰라도 상관 없긴해요..! 저도 잘 몰라서 찾아봤음!! 도움이 되셨으면!!
     */
+    
+    /*보드삭제모달*/
+    #del_board {
+   	  display: none;
+      width: 450px;
+      padding: 20px 60px;
+      background-color: #fefefe;
+      border: 1px solid #888;
+      border-radius: 3px;
+    }
+    #del_board .del_board_close_btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
   </style>
 <script type="text/javascript">
 	//화면그려줌과 동시에 해당 워크스페이스에 사용자가 초대된 보드목록 뿌려주는 함수 실행
@@ -310,6 +325,31 @@
 <body style="background-color: rgb(204, 195, 226); overflow:scroll; overflow-x:hidden;">
 <div id="app">
    <div class="main-wrapper">
+   
+   <!-- 보드삭제 모달창 : admin -->
+   <div id="del_board" class="card">
+      <a class="del_board_close_btn fa fa-times" style="cursor:pointer;" onclick="closeDelBoard()"></a>
+      <div class="mb-4 text-center">
+    	<label class="mb-3" style="font-weight:bold; font-size:30px;">All the boards</label>
+    	<label style="color:tomato;">Please select the board you want to delete.</label>
+   	    <div class="card" style="height:300px; overflow:scroll; overflow-x:hidden;">
+   		  <c:forEach items="${boardList}" var="board">
+    	   		<button class="btn btn-light mt-2 mb-2 ml-2" style="width:95%"
+    	   		onclick="del_SelectedBoard(${board.board_id},'${board.board_Title}')">${board.board_Title}</button>
+		  </c:forEach>
+   	    </div>
+   	    <hr>
+   	    <div class="card" id="deleteTargetBoard">
+   	    	<!-- 삭제할 보드 여기 오도록 -->
+   	    </div>
+   	    <label style="color:tomato;">Deleted data can never be recovered.</label>
+   	    <label style="color:tomato;">Do you want to proceed?</label>
+   	    <div>
+   	    	<button id="proceedBoardDelete" class="btn btn-danger mt-2 mb-2" style="width:90%">PROCEED</button>
+   	    </div>
+      </div>
+    </div>
+   
 	<!-- ////////////////////MAIN HEADER//////////////////// -->
 	  <div class="navbar-bg" style="background-color: rgb(199, 174, 247);"></div>
       <nav class="navbar navbar-expand-lg main-navbar d-flex justify-content-between">
@@ -513,7 +553,10 @@
                   </div>
                   <div class="card-body ml-5 mr-5" style="height: 100vh;">
                     <!-- 검색창 -->
-                    <div class="row d-flex justify-content-end mr-5">
+                    <div class="row d-flex justify-content-end mr-5 ml-5">
+                      <div class="col-lg ml-5 mt-5">
+                      	<button class="btn btn-danger" onclick="deleteBoard('del_board')">DELETE BOARD</button>
+                      </div>
                       <form action="#">
                         <div class="d-flex mr-5 mt-5 mb-5">
                           <input id="searchBOARDNAME" type="search" class="form-control" placeholder="Search boards">

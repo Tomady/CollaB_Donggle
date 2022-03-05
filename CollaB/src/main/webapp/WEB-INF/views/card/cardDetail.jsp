@@ -45,6 +45,7 @@
       transition: all 0.2s;
       opacity: 1;
     }
+    /* 카드상세메뉴 - 모달창 */
     #add_Dates {
       display: none;
       width: 400px;
@@ -53,7 +54,16 @@
       border: 1px solid #888;
       border-radius: 3px;
     }
-    #add_Dates .add_Dates_close_btn {
+    #add_Member {
+   	  display: none;
+      width: 450px;
+      padding: 20px 60px;
+      background-color: #fefefe;
+      border: 1px solid #888;
+      border-radius: 3px;
+    }
+    #add_Dates .add_Dates_close_btn,
+    #add_Member .add_Member_close_btn {
         position: absolute;
         top: 10px;
         right: 10px;
@@ -180,23 +190,40 @@ document.addEventListener("DOMContentLoaded", function(){
 		})
 	}
 	
-	//현재 카드의 아이템들 가져오기
-	//관리자프로필,체크리스트,파일
-	let selectedCard = document.querySelector("#selectedCard").getAttribute("data-cardId");
+	//현재카드의 체크리스트 아이디 목록
+	let cardId = document.querySelector("#selectedCard").getAttribute("data-cardId");
 	$.ajax({
-		url : "AjaxCardDetail_SelectCardItems",
+		url : "AjaxSelectedCardCheckList",
 		type : "POST",
 		data : {
-			cardId : selectedCard
+			card_id : cardId
 		},
 		dataType : "json",
-		success : function(data){
-			console.log(data);
+		success : function(datas){
+			const checkIds = new Array();
+			for(let i=0; i<datas.length; i++){
+				checkIds[i] = datas[i].checklist_id; 
+			}//아이디목록 checkIds 배열에 담아주고
+			
+			checkIds.forEach((checkId)=>{
+				const items = document.querySelectorAll(".checkitem"+checkId); //총 아이템
+				let checkedCnt = 0; //체크된 아이템 수 
+				items.forEach((item)=>{
+					if(item.getAttribute("checked") == "checked"){
+						checkedCnt += 1;
+					}	
+				})
+				let itemCnt = items.length;  //총 아이템 수
+				let width = Math.ceil(checkedCnt/itemCnt*100);
+				document.querySelector(".checkChart"+checkId).innerHTML = "&nbsp;&nbsp;&nbsp;"+width+"%";
+				document.querySelector(".checkChart"+checkId).style.color="white";
+				document.querySelector(".checkChart"+checkId).style.width=width+"%";
+				document.querySelector(".checkChart"+checkId).style.backgroundColor="tomato";
+			})
 		},
 		error : function(){
-			console.log("AjaxCardDetail_SelectCardItems 해당카드 상세조회실패");
+			console.log("AjaxSelectedCardCheckList 실패");
 		}
-		
 	})
 })
 </script>
@@ -207,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function(){
       
       <!-- add Dates 모달창 -->
       <div id="add_Dates" class="card">
-         <a class="add_Dates_close_btn fa fa-times" style="cursor:pointer;"></a>
+         <a class="add_Dates_close_btn fa fa-times" style="cursor:pointer;" onclick="closeAddDates()"></a>
          <div class="mb-4">
          	<div class="d-flex justify-content-between mt-2 mb-2">
          		<label class="mt-2">START DATE</label>
@@ -221,10 +248,35 @@ document.addEventListener("DOMContentLoaded", function(){
          	</div>
          </div>
          <div>
-         	<button onclick="cardDateSave(${cardinfo.card_id})" class="btn btn-secondary" style="width:100%;">SAVE</button>
+         	<button id="datesSaveBtn" onclick="cardDateSave(${cardinfo.card_id})" class="btn btn-secondary" style="width:100%;">SAVE</button>
          </div>
        </div>
-    	
+       
+       <!-- 카드 관리자 추가 모달창 -->
+      <div id="add_Member" class="card">
+         <a class="add_Member_close_btn fa fa-times" style="cursor:pointer;" onclick="closeAddMember()"></a>
+         <div class="card" style="height:350px; overflow:scroll; overflow-x:hidden;">
+         	<label class="ml-3">Your Partners 👫</label>
+         	<!-- 해당 보드에 초대된 멤버목록 -->
+         	<c:forEach items="${boardJoinMembers}" var="member">
+         		<span class="member ml-3 mt-1 mb-1" style="font-size:15px;">
+         			<button class="btn btn-light" style="width:95%;" onclick="managerSelect('${member.id}')"> ${member.name}(${member.email})</button>
+         		</span>
+         	</c:forEach>
+         </div>
+         <hr>
+         <div class="card selectedMember">
+         	<label class="ml-3">Manager  </label>
+	         <button id="cardManager" class="ml-3 mb-3 btn btn-light" style="width:90%;">${cardinfo.manager}</button>
+         	 <c:if test="${cardinfo.manager ne null}">
+	         	 <span class="ml-2" style="font-size:13px; color:tomato;">* If you click this button, the manager will be deleted.</span>
+         	 </c:if>
+         </div>
+         <div>
+         	<button id="managerSaveBtn" class="btn btn-secondary" style="width:100%;">SAVE</button>
+         </div>
+       </div>
+       
       <!-- Main Content -->
       <div class="main-content" style="min-height: 829px;">
         <section class="section">
@@ -232,8 +284,8 @@ document.addEventListener("DOMContentLoaded", function(){
             <!--사용자가 선택한 리스트-->
             <div id="selectedList" class="col-lg-2 cardDetail" data-listId="${listinfo.list_id}"
             style="background-color: rgb(252, 250, 250);">
-              <div class="card.h-100">
-                <h4 class="listName mt-5 mb-4 ml-4">${listinfo.list_title}</h4> <!--리스트 이름 표시-->
+              <div class="card.h-100 listnameAppendTarget">
+                <h4 class="listName${listinfo.list_id} mt-5 mb-4 ml-4" onclick="renameList(${listinfo.list_id})">${listinfo.list_title}</h4> <!--리스트 이름 표시-->
                 <div class="cardArea">
                 <!--해당 리스트안에 카드리스트-->
                 <c:forEach items="${samelistcards}" var="card">
@@ -268,22 +320,20 @@ document.addEventListener("DOMContentLoaded", function(){
             <div class="col-lg-10 cardDetail" style="background-color: white;">
               <div class="row" style="float: right;">
                 <!--카드상세조회 닫기버튼-->
-                <h4 class="closeCardDetail mr-3 mt-3" 
-                  onclick="location.hfer='boardDetail?boardID=${workspace.board_id}'">
+                <h4 class="closeCardDetail mr-3 mt-3" style="cursor:pointer;"
+                  onclick="location.href='boardDetail?boardID=${workspace.board_id}'">
                   <i class="fa fa-window-close" title="close_card" aria-hidden="true"></i>
                 </h4>
               </div>
-              <div class="row" id="selectedCard" data-cardId="${cardinfo.card_id}">
+              <div class="row" id="selectedCard" data-cardId="${cardinfo.card_id}" data-cardManager="${cardinfo.manager}">
                 <!--카드상세내용-->
                 <div class="col-lg-7 ml-3" style="border-right: whitesmoke 1px solid;">
                   <!--카드이름 & 책임자-->
-                  <div class="d-flex justify-content-between">
-                      <h4 class="cardName mt-5 mb-4">${cardinfo.card_title}</h4>
+                  <div id="cardTitleAppendTarget" class="d-flex justify-content-between">
+                      <h4 id="card_Title" class="cardName mt-5 mb-4" onclick="renameCard(${cardinfo.card_id})">${cardinfo.card_title}</h4>
                       <!-- 책임자 존재할때만 뜨도록 -->
                       <c:if test="${cardinfo.manager ne null}">
                       	<span class="btn mt-5 mb-5 ml-5">Member.  ${cardinfo.manager}
-                        <img alt="image" class="rounded-circle mr-1" id="cardManagerImg${cardinfo.card_id}"
-                        style="width: 30px; height: 30px; position: relative; top:-2px;">
                       </span>
                       </c:if>
                   </div>
@@ -291,8 +341,9 @@ document.addEventListener("DOMContentLoaded", function(){
                   <div class="row d-flex justify-content-center mr-2 cardmenu">
                     <button class="btn menu" onclick="cardDatesSet('add_Dates')"> Dates </button>
                     <button class="btn menu"> CheckList </button>
-                    <button class="btn menu"> Attachments </button>
-                    <button class="btn menu"> Member </button>
+                    <label class="btn menu mt-2" for="input-file"> Attachments </label>
+                    <input type="file" id="input-file" style="display:none;">
+                    <button class="btn menu" onclick="cardMemberSet('add_Member')"> Member </button>
                   </div>
                   <!--카드아이템 : 라벨, 일정-->
                   <div class="row mt-4">
@@ -369,44 +420,51 @@ document.addEventListener("DOMContentLoaded", function(){
                       <div style="width: 740px;"></div>
                       <div class="card-header" style="font-size: large;">
                         <i class="fa fa-align-left" aria-hidden="true">&nbsp;&nbsp;Description</i>
+                        <button class="btn btn-light ml-2" onclick="contentsEdit()">Edit</button>
                       </div>  
                       <div class="card-body">
-                        <textarea rows="4" style="width:100%;" readonly>${cardinfo.card_contents}</textarea>
-                        <button class="btn btn-secondary mt-1">SAVE</button>
+                        <textarea class="cardContents" rows="4" style="width:100%;" readonly>${cardinfo.card_contents}</textarea>
+                        <button class="btn btn-secondary mt-1" onclick="contentsSave(${cardinfo.card_id})">SAVE</button>
                       </div>
                     </div>
                   </div>
                   <!--카드아이템 : 체크리스트-->
-                  <div class="row">
+               	  <div class="row">
                     <div class="card">
                       <div style="width: 740px;"></div>
                       <div class="card-header" style="font-size: large;">
                         <i class="fa fa-check-square" aria-hidden="true">&nbsp;&nbsp;CheckList</i>
                       </div>
-                      <div class="card-body">
+                      <div class="card-body checklistAppendTarget">
+                      	<c:forEach items="${checkList}" var="check">
                         <!--여기서부터-->
-                        <div class="card">
+                        <div class="card ckDIV${check.checklist_id}">
                           <div class="card-body">
-                            <div>체크리스트 제목<button class="btn ml-2 fa fa-times"></button></div>
-                            <div class="progress mb-2"></div>
-                            <input type="checkbox"> 할일<br>
-                            <input type="checkbox"> 할일<br>
-                            <input type="checkbox"> 할일<br>
+                            <div class="d-flex justify-content-between">
+                            	${check.checklist_title}
+                            	<button class="btn ml-2 fa fa-times col-rg" 
+                            	onclick="checklistDelete(${check.checklist_id})"></button>
+                            </div>
+                            <div class="progress mb-2"><span class="checkChart${check.checklist_id}"></span></div>
+                            <c:forEach items="${checkItems}" var="item">
+	                            <c:if test="${item.checklist_id eq check.checklist_id}">
+    	                        <c:if test="${item.item_status eq 'Y'}">
+        		                    <input type="checkbox" checked="checked" onclick="checkItem(${item.checklist_id},${item.item_id})"
+        		                    class="mt-1 mb-1 checkitem${item.checklist_id}"> ${item.item_title}<br>
+                	            </c:if>
+                    	        <c:if test="${item.item_status eq 'N'}">
+                        		    <input type="checkbox" onclick="checkItem(${item.checklist_id},${item.item_id})"
+                        		    class="mt-1 mb-1 checkitem${item.checklist_id}"> ${item.item_title}<br>
+                            	</c:if>
+                            	</c:if>
+                            </c:forEach>
                           </div>
                         </div>
                         <!--여기까지가 하나의 체크리스트-->
-                        <div class="card">
-                          <div class="card-body">
-                            <div>체크리스트 제목<button class="btn ml-2 fa fa-times"></button></div>
-                            <div class="progress mb-2"></div>
-                            <input type="checkbox"> 할일<br>
-                            <input type="checkbox"> 할일<br>
-                            <input type="checkbox"> 할일<br>
-                          </div>
-                        </div>
+                      	</c:forEach>
                       </div>
                     </div>
-                  </div>
+                   </div>
                   <!--카드아이템 : 파일첨부-->
                   <div class="row">
                     <div class="card">

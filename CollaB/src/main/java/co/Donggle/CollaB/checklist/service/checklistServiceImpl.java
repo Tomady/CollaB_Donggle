@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import co.Donggle.CollaB.card.service.CardVO;
+
 @Repository("checklistDao")
 public class checklistServiceImpl implements checklistService {
 	
@@ -22,8 +24,12 @@ public class checklistServiceImpl implements checklistService {
 	}
 
 	@Override
-	public int chklistDelete(int checklist_id) {
-		return checklistMapper.chklistDelete(checklist_id); 
+	public List<CardVO> totalCheckList(CardVO vo) {
+		return checklistMapper.totalCheckList(vo);
 	}
 
+	@Override
+	public int chklistDelete(CardVO vo) {
+		return checklistMapper.chklistDelete(vo);
+	}
 }

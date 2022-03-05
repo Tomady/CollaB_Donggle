@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	boardColorFnc(color);
 	changeWKIMG(name);
 	
-	//워크프페이스 프로필이미지
+	//워크t스페이스 프로필이미지
 	function changeWKIMG(newWKname){
 		let img = document.querySelector(".wkimg");
 		if(name == 'a' || name == 'A'){
@@ -107,7 +107,6 @@ document.addEventListener("DOMContentLoaded", function(){
 		},
 		dataType : "json",
 		success : function(cards){
-			console.log(cards);
 			//현재 보드에 있는 모든 카드목록(카드아이디목록)을 cardIds배열에다 담아준다.
 			const cardIds = new Array();
 			for(let i = 0; i<cards.length; i++){
@@ -124,7 +123,6 @@ document.addEventListener("DOMContentLoaded", function(){
 					},
 					dataType : "text",
 					success : function(data){
-						console.log(cardId+"번 카드는 체크리스트가 있다?"+data);
 						if(data == "YES"){
 							document.querySelector(".check"+cardId).style.color="tomato";
 						}
@@ -142,7 +140,6 @@ document.addEventListener("DOMContentLoaded", function(){
 					},
 					dataType : "text",
 					success : function(data){
-						console.log(cardId+"번 카드는 첨부파일이 있다?"+data);
 						if(data == "YES"){
 							document.querySelector(".files"+cardId).style.color="tomato";
 						}
@@ -161,7 +158,6 @@ document.addEventListener("DOMContentLoaded", function(){
 					dataType : "text", //프로필 이미지 경로 가져오기
 					success : function(data){
 						if(data != ""){
-							console.log(cardId+"번 카드의 매니저 프로필 사진주소는=>"+data);
 							document.querySelector(".profimg"+cardId).setAttribute("src",data);
 						}else{
 							console.log(cardId+"번 카드의 매니저 프로필 사진주소는 없음");
