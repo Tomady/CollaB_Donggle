@@ -15,7 +15,6 @@ public class HomeController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(UserInfo uInfo, Model model) {
-		System.out.println("home()");
 		
 		uInfo = umap.UserInfoList();
 		uInfo.getId();
@@ -28,6 +27,7 @@ public class HomeController {
 	public String doyoung() {
 		return "doyoung/doyoung";
 	}
+	
 	@RequestMapping("/aram")
 	public String aram() {
 		return "aram/aram";
@@ -40,8 +40,6 @@ public class HomeController {
 	public String soyeon() {
 		return "soyeon/soyeon";
 	}
-	
-	
 	
 	@RequestMapping("/index.do")
 	public String index() {

@@ -1,12 +1,10 @@
 package co.Donggle.CollaB.login.service;
 
-
 import java.util.Properties;
 
 import java.util.HashMap;
 
 import org.json.simple.JSONObject;
-
 
 
 public class Coolsms extends Https {
@@ -188,11 +186,8 @@ public class Coolsms extends Https {
 	public JSONObject getDefault() {
 		JSONObject response = new JSONObject();
 		try {
-		
 			HashMap<String, String> params = new HashMap<String, String>();
 			params = setBasicInfo(params);
-			
-			
 			response = https.request(senderid_url + "get_default", params);	
 		} catch (Exception e) {
 			response.put("status", false);
@@ -200,7 +195,6 @@ public class Coolsms extends Https {
 		}
 		return response;
 	}
-
 
 	private HashMap<String, String> setBasicInfo(HashMap<String, String> params) {
 		params.put("api_secret", this.api_secret);

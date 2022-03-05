@@ -5,6 +5,7 @@
 <title>Home</title>
 </head>
 <body>
+	<jsp:forward page="/index.do"></jsp:forward>
 	INDEX
 	<button onclick="location.href='WorkspaceList'">eunji</button>
 	<button onclick="location.href='message_inbox'">MSG</button>

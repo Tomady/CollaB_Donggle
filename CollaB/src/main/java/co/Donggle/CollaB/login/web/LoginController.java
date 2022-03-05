@@ -4,13 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -22,22 +18,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.google.connect.GoogleConnectionFactory;
-import org.springframework.social.oauth2.GrantType;
-import org.springframework.social.oauth2.OAuth2Operations;
-import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
@@ -50,7 +36,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
-import co.Donggle.CollaB.login.service.Coolsms;
 import co.Donggle.CollaB.login.service.FacebookLoginBO;
 import co.Donggle.CollaB.login.service.GoogleLoginBO;
 import co.Donggle.CollaB.login.service.GoogleLoginRequest;
@@ -63,29 +48,13 @@ import co.Donggle.CollaB.user.service.UserVO;
 
 @Controller
 public class LoginController {
-
-	
-
-	@Autowired
-	private LoginUserService LoginUserDao;
-
-	@Autowired
-	private KakaoLoginApiService kakao;
-	
-	@Autowired
-	private NaverLoginBO naverLoginBO;
-
-	@Autowired
-	private GoogleLoginBO googleLoginBO;
-
-	@Autowired
-	private FacebookLoginBO facebookLoginBO;
-
-	@Autowired
-	private JavaMailSender mail;
-
-	@Autowired
-	private SmsSendBO sendBO;
+	@Autowired private LoginUserService LoginUserDao;
+	@Autowired private KakaoLoginApiService kakao;
+	@Autowired private NaverLoginBO naverLoginBO;
+	@Autowired private GoogleLoginBO googleLoginBO;
+	@Autowired private FacebookLoginBO facebookLoginBO;
+	@Autowired private JavaMailSender mail;
+	@Autowired private SmsSendBO sendBO;
 	
 	@RequestMapping("/login.do")
 	public String login() {
@@ -567,7 +536,4 @@ public class LoginController {
 			return "Yes";
 		}
 	}
-	
-
-	
 }
