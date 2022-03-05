@@ -9,5 +9,6 @@
 	<button onclick="location.href='WorkspaceList'">eunji</button>
 	<button onclick="location.href='message_inbox'">MSG</button>
 	<button onclick="location.href='index.do'">index</button>
+	<button onclick="location.href='memberPage.do'">memberPage</button>
 </body>
 </html>

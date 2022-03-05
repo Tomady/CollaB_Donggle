@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@800&display=swap" rel="stylesheet">
 <style type="text/css">
-     html,
+ html,
         body {
             margin: 0;
             padding: 0;
@@ -241,7 +241,7 @@
             text-align: center;
             line-height: 35px;
             cursor: pointer;
-                 	padding: 0;
+                         	padding: 0;
 	box-sizing: inherit;
 	outline: none;
 	border: 1px solid #9F90D9;
@@ -271,12 +271,12 @@
             font-weight: bold;
             color: #F6F6F6;
             cursor: pointer;
-            padding: 0;
+               padding: 0;
 	box-sizing: inherit;
         }
 
 
-        /* 아이디 찾기 모달 */
+        /* 패스워드 찾기 모달 */
         .passwordFindModal {
 
             justify-content: center;
@@ -526,7 +526,7 @@
             border: none;
         }
         
-               .swal-modal {
+        .swal-modal {
 	border-radius: 10px;
 }
 
@@ -569,11 +569,11 @@
                 </div>
                 <div class="body__container__mid">
                     <ul class="container__mid__header">
-                        <li>전화번호로 찾기<span class="underline"></span></li>
+                        <li>이메일로 찾기<span class="underline"></span></li>
                     </ul>
                     <div class="container__mid__body">
                         <ul class="body__content">
-                            <li>가입 시 등록하신 이름과 전화번호를 정확하게 입력해 주세요.</li>
+                            <li>가입 시 등록하신 이름과 이메일을 정확하게 입력해 주세요.</li>
                             <li>인증요청 버튼을 누르시면 인증번호가 발송 됩니다.</li>
                             <li>3분 이내에 인증 번호를 정확하게 입력해 주세요.</li>
                         </ul>
@@ -583,9 +583,9 @@
                                 <div class="body__inputbox"><input type="text" id="name"></div>
                             </li>
                             <li>
-                                <div>전화번호</div>
-                                <div class="body__inputbox"><input type="text" id="tel"></div>
-                                <button type="button" class="body__inputBtn" id="confirmRequestBtn" onclick="nameTelChkFn()">인증요청</button>
+                                <div>이메일</div>
+                                <div class="body__inputbox"><input type="text" id="email"></div>
+                                <button type="button" class="body__inputBtn" id="confirmRequestBtn" onclick="nameEmailChkFn()">인증요청</button>
                             </li>
                             <li>
                                 <div>인증번호</div>
@@ -610,7 +610,7 @@
     </div>
 
 
-    <!-- 패스워드 찾기 모달 -->
+    <!-- 아이디 찾기 모달 -->
     <div class="passwordFindModal">
         <div class="passwordFindModal_body">
             <div class="modal__header"><i class="fas fa-unlock-alt"></i>비밀번호 재설정 😍</div>
@@ -638,13 +638,13 @@
         </div>
 
     </div>
-    <input type="hidden" id="confirmNumber" value="">
+        <input type="hidden" id="confirmNumber" value="">
     <input type="hidden" id="findResultId" value="">
 </body>
+
 <script src="resources/js/jay/confirmForm.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
-
 
 $('.footer__passwordChange').on('click', function(){
 	let changePassword = $('#changePassword').val()
@@ -696,7 +696,7 @@ function ajaxPasswordChange(password){
 		            title: '비밀번호 변경이 완료됐습니다.',
 		            text: '',
 		        })
-		        	.then(function(value){
+		      	.then(function(value){
 		      		if(value){
 		      			location.href="login.do"
 		      		}
@@ -723,16 +723,16 @@ function ajaxPasswordChange(password){
 
 function passwordFind(){
 	let name = $('#name').val()
-	let tel = $('#tel').val()
+	let email = $('#email').val()
 	
 	
 	$.ajax({
-		url : 'ajaxPasswordTelFind.do',
+		url : 'ajaxPasswordEmailFind.do',
 		type : 'post',
 		dataType : 'text',
 		data : {
 			name : name,
-			tel : tel
+			email : email
 		},
 		success : function(data){
 			if(data == 'No'){
@@ -741,7 +741,7 @@ function passwordFind(){
 		            title: '시스템 오류\n관리자에게 문의해 주세요.',
 		            text: '',
 		        })
-		        .then(function(value){
+		         .then(function(value){
 		      		if(value){
 		      			return;
 		      		}
@@ -764,7 +764,6 @@ function numConfirmFn(){
         })
        
         return;
-        
 	}
 	if(confirmInput == confirmNumber){
 		let passwordFindBtn = $('#passwordFindBtn');
@@ -791,9 +790,9 @@ function numConfirmFn(){
 	
 }
 
-function nameTelChkFn(){
+function nameEmailChkFn(){
 	let name = $('#name').val()
-	let tel = $('#tel').val()
+	let email = $('#email').val()
 	if(name == ''){
 		swal({
             icon: 'warning',
@@ -801,34 +800,34 @@ function nameTelChkFn(){
             text: '',
         })
        return;
-	}else if(tel == ''){
+	}else if(email == ''){
 		swal({
             icon: 'warning',
-            title: '번호를 입력해 주세요.',
+            title: '이메일을 입력해 주세요.',
             text: '',
         })
         return;
 	}
 	
-	ajaxNameTelChk(name, tel);
+	ajaxNameEmailChk(name, email);
 	
 }
 
 
-function ajaxNameTelChk(name, tel){
+function ajaxNameEmailChk(name, email){
 	
 	
 	$.ajax({
-		url : 'ajaxNameTelChk.do',
+		url : 'ajaxNameEmailChk.do',
 		type : 'post',
 		dataType: 'text',
 		data : {
 			name : name,
-			tel : tel
+			email : email
 		},
 		success : function(data){
 			if(data=='Yes'){
-				ajaxTelConfirm(name, tel)
+				ajaxEmailConfirm(name, email)
 				
 			}else{
 				swal({
@@ -850,17 +849,17 @@ function ajaxNameTelChk(name, tel){
 	
 }
 // 요기!
-function ajaxTelConfirm(name, tel){
+function ajaxEmailConfirm(name, email){
 
 	let randomnum = Math.floor(Math.random() * 1000000);
 	
 	$.ajax({
-		url : 'ajaxTelConfirm.do',
+		url : 'ajaxEmailConfirm.do',
 		type : 'post',
 		data : {
 			randomnum : randomnum,
 			name : name,
-			tel : tel
+			email : email
 		},
 		success : function(data){
 			if(data=='Yes'){
@@ -988,7 +987,5 @@ function startcountdown(duration, element) {
         }
     }, 1000);
 }
-
-
 </script>
 </html>

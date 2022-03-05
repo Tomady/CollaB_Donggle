@@ -35,4 +35,10 @@ public class LoginUserServiceImpl implements LoginUserService {
 		return map.passwordFindIdChk(vo);
 	}
 
+	@Override
+	public int passwordFindPasswordChange(UserVO vo) {
+		// TODO Auto-generated method stub
+		return map.passwordFindPasswordChange(vo);
+	}
+
 }

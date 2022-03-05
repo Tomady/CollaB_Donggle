@@ -7,4 +7,5 @@ public interface LoginUserService {
 	UserVO idFindNameEmailChk(UserVO vo);
 	UserVO idFindNameTelChk(UserVO vo);
 	UserVO passwordFindIdChk(UserVO vo);
+	int passwordFindPasswordChange(UserVO vo);
 }

@@ -19,7 +19,6 @@ public class FacebookLoginBO {
   	
   	public String getAuthorizationUrl(){
 
-        //로그인 버튼연결 주소 생성
     		String facebookUrl = "https://www.facebook.com/v2.8/dialog/oauth?"+
     				"client_id="+F_CLIENT_ID+
     				"&redirect_uri="+F_REDIRECT_URI+

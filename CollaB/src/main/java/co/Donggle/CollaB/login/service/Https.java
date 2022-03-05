@@ -32,11 +32,9 @@ public class Https
 			params.put("signature", signature);
 			params.put("timestamp", timestamp);
 
-			// data 생성 및 데이터 구분을 위한 delimiter 설정
 			StringBuffer postDataBuilder = new StringBuffer();
 			postDataBuilder.append(delimiter);
-
-			// params에 image가 있으면 변수에 담아 request를 다르게 보낸다
+			
 			String image = null;
 			String image_path = null;
 			for (Entry<String, String> entry : params.entrySet()) {

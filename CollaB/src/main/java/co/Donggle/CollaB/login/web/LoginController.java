@@ -37,6 +37,7 @@ import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
@@ -63,29 +64,19 @@ import co.Donggle.CollaB.user.service.UserVO;
 @Controller
 public class LoginController {
 
-	private static final String GOOGLE_TOKEN_BASE_URL = "https://oauth2.googleapis.com/token";
+	
 
 	@Autowired
 	private LoginUserService LoginUserDao;
 
 	@Autowired
 	private KakaoLoginApiService kakao;
-
-	/* NaverLoginBO */
+	
+	@Autowired
 	private NaverLoginBO naverLoginBO;
-	private String apiResult = null;
 
 	@Autowired
-	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
-		this.naverLoginBO = naverLoginBO;
-	}
-
 	private GoogleLoginBO googleLoginBO;
-
-	@Autowired
-	private void setGoogleLoginBO(GoogleLoginBO googleLoginBO) {
-		this.googleLoginBO = googleLoginBO;
-	}
 
 	@Autowired
 	private FacebookLoginBO facebookLoginBO;
@@ -115,36 +106,57 @@ public class LoginController {
 		}
 	}
 
-	@RequestMapping(value = "/logout.do")
+	@RequestMapping("/logout.do")
 	public String logout(UserVO vo, HttpSession session) {
 		session.invalidate();
 		return "index";
 	}
 
 	@RequestMapping("/kakaologin.do")
-	public String kakaologin(@RequestParam String code, HttpSession session) {
+	public String kakaologin(@RequestParam String code, HttpSession session, UserVO vo, Model model) {
 		String access_Token = kakao.getAccessToken(code);
 		HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
 		System.out.println("controller access_token : " + access_Token);
 		System.out.println(code);
-		if (userInfo.get("email") != null) {
-			System.out.println("email : " + userInfo.get("email"));
-			System.out.println("nickname : " + userInfo.get("nickname"));
-			System.out.println("profile_image : " + userInfo.get("profile_image"));
-//			session.setAttribute("userId", userInfo.get("email"));
-//			session.setAttribute("access_Token", access_Token);
-		}
+		String email = (String) userInfo.get("email");
+		String name = (String) userInfo.get("nickname");
+		String profile_image = (String) userInfo.get("profile_image");
 
-		return "redirect:login.do";
+		
+		vo.setName(name);
+		vo.setEmail(email);
+		vo = LoginUserDao.idFindNameEmailChk(vo);
+		
+			if(vo != null) {
+				session.setAttribute("access_Token", access_Token);
+				session.setAttribute("id", vo.getId());
+				session.setAttribute("nickname", vo.getNickname());
+				session.setAttribute("name", vo.getName());
+				session.setAttribute("email", vo.getEmail());
+				return "redirect:index.do";
+			}else {
+				model.addAttribute("email", email);
+				model.addAttribute("name", name);
+				model.addAttribute("profile_image", profile_image);
+				model.addAttribute("company", "카카오");
+				return "apiJoinForm";
+			}
+	
+
 	}
 
-	@RequestMapping("/kakaologout.do")
+	@RequestMapping("/kakaoLogout.do")
 	public String kakaologout(HttpSession session) {
 		kakao.kakaoLogout((String) session.getAttribute("access_Token"));
-		session.removeAttribute("access_Token");
-		session.removeAttribute("userId");
+		session.invalidate();
+	
 
 		return "login";
+	}
+	
+	@RequestMapping("/apiJoinForm.do")
+	public String apiLogin() {
+		return "apiJoinForm";
 	}
 
 	@RequestMapping("/naverlogin.do")
@@ -154,45 +166,56 @@ public class LoginController {
 		return reqUrl;
 	}
 
-	// 네이버 연동정보 조회
 	@RequestMapping("/naverlogininfo.do")
-	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
+	public String callback(Model model,UserVO vo, @RequestParam String code, @RequestParam String state, HttpSession session)
 			throws IOException, ParseException {
-		System.out.println("여기는 callback");
+		 
 		OAuth2AccessToken oauthToken;
 
 		oauthToken = naverLoginBO.getAccessToken(session, code, state);
 
-		apiResult = naverLoginBO.getUserProfile(oauthToken);
+		String apiResult = naverLoginBO.getUserProfile(oauthToken);
 
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(apiResult);
 
 		JSONObject jsonObj = (JSONObject) obj;
-		System.out.println("jsonObj" + jsonObj);
 
 		JSONObject response_obj = (JSONObject) jsonObj.get("response");
 
 		String access_token = oauthToken.getAccessToken();
-		System.out.println("access_token : " + access_token);
+
 		String email = (String) response_obj.get("email");
 		String nickname = (String) response_obj.get("nickname");
 		String name = (String) response_obj.get("name");
 		String profile_image = (String) response_obj.get("profile_image");
+		String tel = (String) response_obj.get("mobile");
 
-		System.out.println(email);
-		System.out.println(nickname);
-		System.out.println(name);
-		System.out.println(profile_image);
 
-//			session.setAttribute("token", access_token);
+		vo.setEmail(email);
+		vo.setName(name);
+		vo = LoginUserDao.idFindNameEmailChk(vo);
+		
+		if(vo != null) {
+			session.setAttribute("id", vo.getId());
+			session.setAttribute("nickname", vo.getNickname());
+			session.setAttribute("name", vo.getName());
+			session.setAttribute("email", vo.getEmail());
+			return "redirect:index.do";
+		}else {
+			model.addAttribute("email", email);
+			model.addAttribute("nickname", nickname);
+			model.addAttribute("name", name);
+			model.addAttribute("profile_image", profile_image);
+			model.addAttribute("tel", tel);
+			model.addAttribute("company", "네이버");
+			return "apiJoinForm";
+		}
+	
+		
+	}	
 
-//			session.setAttribute("id", email);
-//		model.addAttribute("result", apiResult);
-		return "login";
-	}
-
-	@RequestMapping("/remove.do")
+	@RequestMapping("/naverLogout.do")
 	public String remove(HttpSession session, HttpServletRequest request, Model model) {
 		String token = (String) session.getAttribute("token");
 		String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=" + NaverLoginBO.CLIENT_ID
@@ -208,7 +231,7 @@ public class LoginController {
 			e.printStackTrace();
 		}
 
-		return "loginForm";
+		return "login";
 	}
 
 	private String requestToServer(String apiURL) throws IOException {
@@ -249,9 +272,9 @@ public class LoginController {
 	}
 
 	@RequestMapping("/googlelogin.do")
-	public String googleAuth(Model model, @RequestParam(value = "code") String authCode)
+	public String googleAuth(Model model,UserVO vo,HttpSession session, @RequestParam(value = "code") String authCode)
 			throws JsonProcessingException {
-
+		String GOOGLE_TOKEN_BASE_URL = "https://oauth2.googleapis.com/token";
 		RestTemplate restTemplate = new RestTemplate();
 
 		GoogleLoginRequest googleOAuthRequestParam = GoogleLoginRequest.builder()
@@ -282,11 +305,26 @@ public class LoginController {
 		String email = (String) userInfo.get("email");
 		String name = (String) userInfo.get("name");
 		String picture = (String) userInfo.get("picture");
-		System.out.println(email);
-		System.out.println(name);
-		System.out.println(picture);
-
-		return "login";
+		
+		vo.setEmail(email);
+		vo.setName(name);
+		vo = LoginUserDao.idFindNameEmailChk(vo);
+		vo = LoginUserDao.idFindNameEmailChk(vo);
+		
+		if(vo != null) {
+			session.setAttribute("id", vo.getId());
+			session.setAttribute("nickname", vo.getNickname());
+			session.setAttribute("name", vo.getName());
+			session.setAttribute("email", vo.getEmail());
+			return "redirect:index.do";
+		}else {
+			model.addAttribute("email", email);
+			model.addAttribute("name", name);
+			model.addAttribute("profile_image", picture);
+			model.addAttribute("company", "구글");
+			return "apiJoinForm";
+		}
+		
 
 	}
 
@@ -294,7 +332,6 @@ public class LoginController {
 	@ResponseBody
 	public String googleLogout() {
 		String logoutUrl = "https://accounts.google.com/logout";
-//			 window.open('https://accounts.google.com/logout', 'popup','z-lock=yes, width=600, height=400')
 		return "logoutUrl";
 	}
 
@@ -315,6 +352,25 @@ public class LoginController {
 		System.out.println(facebookResult);
 		return "ok";
 	}
+	
+	@RequestMapping("/facebookLogout.do")
+	public String facebookLogout() {
+		return "";
+	}
+	
+	@RequestMapping(value = "/ajaxCompanyChk.do", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String ajaxCompanyChk(HttpSession session, UserVO vo) {
+		vo.setId((String) session.getAttribute("id"));
+		vo = LoginUserDao.passwordFindIdChk(vo);
+		System.out.println("======================="+vo.getCompany());
+		if(vo.getCompany()==null) {
+			return "No";
+		}else {	
+			return vo.getCompany();
+		}
+		
+	}
 
 	@RequestMapping("/idFindMenu.do")
 	public String idFindForm() {
@@ -334,7 +390,7 @@ public class LoginController {
 	@RequestMapping("/ajaxNameEmailChk.do")
 	@ResponseBody
 	public String ajaxNameEmailChk(UserVO vo) {
-		System.out.println("dfkdjfdk?");
+
 		vo = LoginUserDao.idFindNameEmailChk(vo);
 		if (vo == null) {
 			return "No";
@@ -440,6 +496,32 @@ public class LoginController {
 		}
 	}
 	
+	@RequestMapping("/ajaxPasswordTelFind.do")
+	@ResponseBody
+	public String ajaxPasswordTelFind(UserVO vo) {
+
+		vo = LoginUserDao.idFindNameTelChk(vo);
+		if(vo == null) {
+			return "No";
+		}else {
+	
+			return vo.getId();
+		}
+	}
+	
+	@RequestMapping("/ajaxPasswordEmailFind.do")
+	@ResponseBody
+	public String ajaxPasswordEmailFind(UserVO vo) {
+		
+		vo = LoginUserDao.idFindNameEmailChk(vo);
+		if(vo == null) {
+			return "No";
+			
+		}else {
+			return vo.getId();
+		}
+	}
+	
 	@RequestMapping("/passwordFindMenuNext.do")
 	public String passwordFindMenuNext(UserVO vo, Model model) {
 		vo = LoginUserDao.passwordFindIdChk(vo);
@@ -474,5 +556,18 @@ public class LoginController {
 	public String passwordFindEmail() {
 		return "passwordFindEmail";
 	}
+	
+	@RequestMapping("/ajaxPasswordChange.do")
+	@ResponseBody
+	public String ajaxPasswordChange(UserVO vo) {
+		int updateResult = LoginUserDao.passwordFindPasswordChange(vo);
+		if(updateResult == 0) {
+			return "No";
+		}else {
+			return "Yes";
+		}
+	}
+	
+
 	
 }
