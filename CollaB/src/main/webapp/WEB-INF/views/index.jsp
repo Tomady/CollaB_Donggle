@@ -513,12 +513,52 @@ body .options .option .label .info .sub {
 			buttons : ["취소", "확인"]
 		})
 		.then(function(value){
+			
 			if(value){
-				location.href="logout.do"
+				console.log("value : "+ value)
+				ajaxCompanyChk()
+				
 			}
 		})
 	}
 
+	function ajaxCompanyChk(){
+		console.log("ajaxCompanyChk : ")
+		$.ajax({
+			url : 'ajaxCompanyChk.do',
+			dataType : 'text',
+			success : function(data){
+				if(data == "No"){
+					location.href="logout.do"
+				}else{
+					console.log(data + "로그아웃")
+					logoutSwitchFn(data);
+				}
+			}
+		})
+		
+	}
+	
+	function logoutSwitchFn(data){
+		switch(data){
+		case "카카오" : 
+			console.log("카카오" + "로그아웃")
+			location.href="kakaoLogout.do"
+			break;
+		case "네이버" :
+			console.log("네이버" + "로그아웃")
+			location.href="naverLogout.do"
+			break;
+		case "구글" : 
+			console.log("구글" + "로그아웃")
+			location.href="googleLogout.do"
+			break;
+		case "페이스북" :
+			console.log("페이스북" + "로그아웃")
+			location.href="facebookLogout.do"
+			break;
+		}
+	}
 //
 	$(".option").click(function() {
 		$(".option").removeClass("active");

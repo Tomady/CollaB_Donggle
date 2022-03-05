@@ -280,7 +280,7 @@ $(".container__mid__body").on("click", function (e) {
     // console.log($(e.target).prop('tagName'))
     if ($(e.target).prop('tagName') == 'INPUT') {
         let lis = $(".container__mid__body>li");
-        console.log(lis)
+  
         for(let i= 0; i<lis.length; i++ ){
             if(i==$(e.target).parent().parent().index()){
                 continue;
