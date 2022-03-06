@@ -394,39 +394,53 @@ body .options .option .label .info .sub {
 }
 
 </style>
+	<script src="resources/js/jay/confirmForm.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 	<nav class="nav_Bg">
 		<div class="nav_t">
 			<ul>
-				<li><i class="fas fa-phone-alt"></i><a href="">010-8258-9612</a></li>
-				<li><i class="fas fa-envelope"></i><a href="">ha3310@naver.com</a></li>
+				<li>
+					<i class="fas fa-phone-alt"></i>
+					<a href="">010-8258-9612</a>
+				</li>
+				<li>
+					<i class="fas fa-envelope"></i>
+					<a href="">ha3310@naver.com</a>
+				</li>
 			</ul>
 		</div>
 
 		<div class="nav_b">
-
 			<div class="logo">CollaB</div>
 			<ul>
-			<c:if test="${empty id }"><li><a href="login.do">로그인</a></li></c:if>
-			<c:if test="${empty id }"><li><a href="joinForm.do">회원가입</a></li></c:if>
-			<c:if test="${not empty id}"><li><a href="javascript:logout()">로그아웃</a></li></c:if>
-			<c:if test="${not empty id}"><li><a href="#">ㅇㅇ?</a></li></c:if>
+				<c:if test="${empty id }">
+					<li><a href="login.do">로그인</a></li>
+				</c:if>
+				<c:if test="${empty id }">
+					<li><a href="joinForm.do">회원가입</a></li>
+				</c:if>
+				<c:if test="${not empty id}">
+					<li><a href="javascript:logout()">로그아웃</a></li>
+				</c:if>
+				<c:if test="${not empty id}">
+					<li><a href="#">ㅇㅇ?</a></li>
+				</c:if>
 			</ul>
-
 		</div>
 	</nav>
+	
 	<div class="container-scroller">
-
 		<div class="container_content ">
 			<h1>초연결 업무 플랫폼 CollaB</h1>
 			<h5>업무를 위한 모든 서비스를 한 공간에서 이용해보세요</h5>
 			<button type="button">CollaB 시작하기</button>
 		</div>
+		
+		<!-- 슬라이드 -->
 		<div class="options">
-
-			<div class="option active"
-				style="background-image: url(https://66.media.tumblr.com/6fb397d822f4f9f4596dff2085b18f2e/tumblr_nzsvb4p6xS1qho82wo1_1280.jpg);">
+			<div class="option active" style="background-image: url(https://66.media.tumblr.com/6fb397d822f4f9f4596dff2085b18f2e/tumblr_nzsvb4p6xS1qho82wo1_1280.jpg);">
 				<div class="shadow"></div>
 				<div class="label">
 					<div class="icon">
@@ -438,6 +452,7 @@ body .options .option .label .info .sub {
 					</div>
 				</div>
 			</div>
+			
 			<div class="option"
 				style="background-image: url(https://66.media.tumblr.com/8b69cdde47aa952e4176b4200052abf4/tumblr_o51p7mFFF21qho82wo1_1280.jpg);">
 				<div class="shadow"></div>
@@ -451,6 +466,7 @@ body .options .option .label .info .sub {
 					</div>
 				</div>
 			</div>
+			
 			<div class="option"
 				style="background-image: url(https://66.media.tumblr.com/5af3f8303456e376ceda1517553ba786/tumblr_o4986gakjh1qho82wo1_1280.jpg);">
 				<div class="shadow"></div>
@@ -464,6 +480,7 @@ body .options .option .label .info .sub {
 					</div>
 				</div>
 			</div>
+			
 			<div class="option"
 				style="background-image: url(https://66.media.tumblr.com/5516a22e0cdacaa85311ec3f8fd1e9ef/tumblr_o45jwvdsL11qho82wo1_1280.jpg);">
 				<div class="shadow"></div>
@@ -477,6 +494,7 @@ body .options .option .label .info .sub {
 					</div>
 				</div>
 			</div>
+			
 			<div class="option"
 				style="background-image: url(https://66.media.tumblr.com/f19901f50b79604839ca761cd6d74748/tumblr_o65rohhkQL1qho82wo1_1280.jpg);">
 				<div class="shadow"></div>
@@ -501,10 +519,9 @@ body .options .option .label .info .sub {
 	</div>
 	<div class="footer"></div>
 </body>
-<script src="resources/js/jay/confirmForm.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 <script type="text/javascript">
-	
+
 	// 로그아웃
 	function logout(){
 		swal({
@@ -512,70 +529,67 @@ body .options .option .label .info .sub {
 			icon : "warning",
 			buttons : ["취소", "확인"]
 		})
-		.then(function(value){
-			
-			if(value){
-				console.log("value : "+ value)
-				ajaxCompanyChk()
-				
+		.then(function(value) {
+			if(value) {
+				console.log("value : " + value);
+				ajaxCompanyChk();
 			}
 		})
 	}
 
-	function ajaxCompanyChk(){
-		console.log("ajaxCompanyChk : ")
+	// 로그아웃 AJAX
+	function ajaxCompanyChk() {
 		$.ajax({
 			url : 'ajaxCompanyChk.do',
 			dataType : 'text',
-			success : function(data){
-				if(data == "No"){
-					location.href="logout.do"
-				}else{
-					console.log(data + "로그아웃")
+			success : function(data) {
+				if(data == "No") {
+					location.href="logout.do";
+				} else {
 					logoutSwitchFn(data);
 				}
 			}
 		})
-		
 	}
 	
 	function logoutSwitchFn(data){
-		switch(data){
-		case "카카오" : 
-			console.log("카카오" + "로그아웃")
-			location.href="kakaoLogout.do"
-			break;
-		case "네이버" :
-			console.log("네이버" + "로그아웃")
-			location.href="naverLogout.do"
-			break;
-		case "구글" : 
-			console.log("구글" + "로그아웃")
-			location.href="googleLogout.do"
-			break;
-		case "페이스북" :
-			console.log("페이스북" + "로그아웃")
-			location.href="facebookLogout.do"
-			break;
+		switch(data) {
+			case "카카오": 
+				console.log("카카오" + "로그아웃");
+				location.href="kakaoLogout.do";
+				break;
+				
+			case "네이버":
+				console.log("네이버" + "로그아웃");
+				location.href="naverLogout.do";
+				break;
+				
+			case "구글": 
+				console.log("구글" + "로그아웃");
+				location.href="googleLogout.do";
+				break;
+				
+			case "페이스북":
+				console.log("페이스북" + "로그아웃");
+				location.href="facebookLogout.do";
+				break;
 		}
 	}
-//
+	
 	$(".option").click(function() {
 		$(".option").removeClass("active");
 		$(this).addClass("active");
-
 	});
 
 	var nav_Bg = $(".nav_Bg");
 	// var nav_tBg = $(".nav_tBg");
 	$(window).on("scroll", function() {
 		let scrollTop = $(window).scrollTop();
+		
 		if (scrollTop == 0) {
 			nav_Bg.removeClass("nav_Bgafter");
-
 		} else {
 			nav_Bg.addClass("nav_Bgafter");
-
 		}
 	})
 </script>

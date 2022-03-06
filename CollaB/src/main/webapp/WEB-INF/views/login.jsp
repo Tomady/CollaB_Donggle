@@ -10,6 +10,7 @@
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
+	
 <style type="text/css">
 .logincontainer {
 	position: absolute;
@@ -271,21 +272,23 @@
 </head>
 <body>
 	<div class="logincontainer">
-
 		<div class="loginheader">
 			<h2 class="loginheaderH2">Login</h2>
 		</div>
 		<div class="loginbody">
-
 			<form action="" id="form">
-				<label class="loginInputLabel"> <i id="icons"
-					class="fas fa-user-tie"></i> <input id="loginId" class="loginInput"
-					type="text" autofocus="true" required> <span class="label">Useremail</span>
+				<label class="loginInputLabel">
+					<i id="icons" class="fas fa-user-tie"></i>
+					<input id="loginId" class="loginInput" type="text" autofocus="true" required>
+					<span class="label">Useremail</span>
 					<span class="underline"></span>
-				</label> <label class="loginInputLabel"> <i id="icons"
-					class="fas fa-unlock-alt"></i> <input id="loginPassword"
-					class="loginInput" type="password" required> <span
-					class="label">password</span> <span class="underline"></span>
+				</label>
+				
+				<label class="loginInputLabel">
+					<i id="icons" class="fas fa-unlock-alt"></i>
+					<input id="loginPassword" class="loginInput" type="password" required>
+					<span class="label">password</span> 
+					<span class="underline"></span>
 				</label>
 
 				<ul class="find_wrap">
@@ -293,7 +296,6 @@
 					<li><a href="passwordFindMenu.do">비밀번호 찾기</a></li>
 					<li><a href="joinForm.do">회원가입</a></li>
 				</ul>
-
 			</form>
 			<button type="button" onclick="loginChk()" class="loginBtn">Login</button>
 			<button type="button" class="globalLoginBtn">Global Login</button>
@@ -304,14 +306,26 @@
 			<a href="">logo</a>
 		</h1>
 		<ul class="loginUltag">
-			<li><a href="javascript:naverlogin()"><img class="loginIcons"
-					src="resources/img/naver.ico" alt=""></a></li>
-			<li><a href="https://kauth.kakao.com/oauth/authorize?client_id=3f1f202997e3b37e832aa0c1983ea15a&redirect_uri=http://localhost/CollaB/kakaologin.do&response_type=code"><img class="loginIcons"
-					src="resources/img/kakao.png" alt=""></a></li>
-			<li><a href="javascript:googleLogin()"><img class="loginIcons"
-					src="resources/img/google.png" alt=""></a></li>
-			<li><a href="javascript:facebookLogin()"><img class="loginIcons"
-					src="resources/img/facebook.png" alt=""></a></li>
+			<li>
+				<a href="javascript:naverlogin()">
+					<img class="loginIcons" src="resources/img/naver.ico" alt="">
+				</a>
+			</li>
+			<li>
+				<a href="https://kauth.kakao.com/oauth/authorize?client_id=3f1f202997e3b37e832aa0c1983ea15a&redirect_uri=http://localhost/CollaB/kakaologin.do&response_type=code">
+					<img class="loginIcons" src="resources/img/kakao.png" alt="">
+				</a>
+			</li>
+			<li>
+				<a href="javascript:googleLogin()">
+					<img class="loginIcons" src="resources/img/google.png" alt="">
+				</a>
+			</li>
+			<li>
+				<a href="javascript:facebookLogin()">
+					<img class="loginIcons" src="resources/img/facebook.png" alt="">
+				</a>
+			</li>
 		</ul>
 	</div>
 </body>
@@ -324,27 +338,26 @@
 			url : "facebookLoginUrl.do",
 			type : 'get',
 			dataType : 'text',
-			success : function(data){
-				location.href=data
+			success : function(data) {
+				location.href=data;
 			}
 		})
 	}
 
 	//구글 로그인
-	
-	function googleLogin(){
+	function googleLogin() {
 		$.ajax({
 			url : 'googleLoginUrl.do',
 			type : 'get',
 			dataType : 'text',
-			success : function(data){
-				location.href=data
+			success : function(data) {
+				location.href=data;
 			}
 		})
 	}
 
 	//네이버 로그인
-	function naverlogin(){
+	function naverlogin() {
 		$.ajax({
 			url : 'naverlogin.do',
 			type : 'get',
@@ -354,15 +367,12 @@
 				location.href=data;
 			}
 		})
-		
 	}
 	
-
-
 	//로그인 체크
 	function loginChk() {
-		let loginId = $('#loginId')
-		let loginPassword = $('#loginPassword')
+		let loginId = $('#loginId');
+		let loginPassword = $('#loginPassword');
 
 		if (loginId.val() == '') {
 			swal({
@@ -383,11 +393,9 @@
 		}
 		
 		ajaxLoginChk(loginId.val(), loginPassword.val());
-		
 	}
 	
 	function ajaxLoginChk(id, password){
-		
 		$.ajax({
 			url : 'ajaxLoginChk.do',
 			type : 'post',
@@ -396,17 +404,17 @@
 				id : id,
 				password : password
 			},
-			success : function(data){
+			success : function(data) {
 				swal({
 	                icon: 'success',
-	                title: data+'님 환영합니다.',
+	                title: data + '님 환영합니다.',
 	                text: '',
 	            })
-	            .then(function(value){
-	            	location.href = "index.do"
+	            .then(function(value) {
+	            	location.href = "WorkspaceList"
 	            })
 			},
-			error : function(){
+			error : function() {
 				
 			}
 		})
@@ -414,9 +422,7 @@
 
 	//그로벌 로그인 버튼 이벤
 	var logincontainer = $('.logincontainer');
-
 	$('.globalLoginBtn').on('click', function() {
-
 		logincontainer.toggleClass("moving");
 	})
 </script>
@@ -477,28 +483,28 @@
             BUTTON_LOADING: o + "--loading",
             BUTTON_LOADER: o + "__loader"
         }, e.default = e.CLASS_NAMES
-    }, function (t, e, n) {
+    }, function(t, e, n) {
         "use strict";
         Object.defineProperty(e, "__esModule", {
             value: !0
-        }), e.getNode = function (t) {
+        }), e.getNode = function(t) {
             var e = "." + t;
             return document.querySelector(e)
-        }, e.stringToNode = function (t) {
+        }, e.stringToNode = function(t) {
             var e = document.createElement("div");
             return e.innerHTML = t.trim(), e.firstChild
-        }, e.insertAfter = function (t, e) {
+        }, e.insertAfter = function(t, e) {
             var n = e.nextSibling;
             e.parentNode.insertBefore(t, n)
-        }, e.removeNode = function (t) {
+        }, e.removeNode = function(t) {
             t.parentElement.removeChild(t)
-        }, e.throwErr = function (t) {
+        }, e.throwErr = function(t) {
             throw t = t.replace(/ +(?= )/g, ""), "SweetAlert: " + (t = t.trim())
-        }, e.isPlainObject = function (t) {
+        }, e.isPlainObject = function(t) {
             if ("[object Object]" !== Object.prototype.toString.call(t)) return !1;
             var e = Object.getPrototypeOf(t);
             return null === e || e === Object.prototype
-        }, e.ordinalSuffixOf = function (t) {
+        }, e.ordinalSuffixOf = function(t) {
             var e = t % 10,
                 n = t % 100;
             return 1 === e && 11 !== n ? t + "st" : 2 === e && 12 !== n ? t + "nd" : 3 ===

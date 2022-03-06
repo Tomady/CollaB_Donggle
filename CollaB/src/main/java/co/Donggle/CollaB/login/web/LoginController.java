@@ -56,16 +56,17 @@ public class LoginController {
 	@Autowired private JavaMailSender mail;
 	@Autowired private SmsSendBO sendBO;
 	
+	// 로그인 페이지 이동
 	@RequestMapping("/login.do")
 	public String login() {
 		return "login";
 	}
 
-	@RequestMapping("/ajaxLoginChk.do")
 	@ResponseBody
+	@RequestMapping(value="/ajaxLoginChk.do", produces="application/text; charset=utf8")
 	public String ajaxLoginChk(UserVO vo, HttpSession session) {
 		vo = LoginUserDao.userLogin(vo);
-		System.out.println(vo);
+		
 		if (vo != null) {
 			session.setAttribute("id", vo.getId());
 			String nickname = vo.getNickname();
@@ -90,28 +91,25 @@ public class LoginController {
 		String email = (String) userInfo.get("email");
 		String name = (String) userInfo.get("nickname");
 		String profile_image = (String) userInfo.get("profile_image");
-
 		
 		vo.setName(name);
 		vo.setEmail(email);
 		vo = LoginUserDao.idFindNameEmailChk(vo);
 		
-			if(vo != null) {
-				session.setAttribute("access_Token", access_Token);
-				session.setAttribute("id", vo.getId());
-				session.setAttribute("nickname", vo.getNickname());
-				session.setAttribute("name", vo.getName());
-				session.setAttribute("email", vo.getEmail());
-				return "redirect:index.do";
-			}else {
-				model.addAttribute("email", email);
-				model.addAttribute("name", name);
-				model.addAttribute("profile_image", profile_image);
-				model.addAttribute("company", "카카오");
-				return "apiJoinForm";
-			}
-	
-
+		if(vo != null) {
+			session.setAttribute("access_Token", access_Token);
+			session.setAttribute("id", vo.getId());
+			session.setAttribute("nickname", vo.getNickname());
+			session.setAttribute("name", vo.getName());
+			session.setAttribute("email", vo.getEmail());
+			return "redirect:index.do";
+		} else {
+			model.addAttribute("email", email);
+			model.addAttribute("name", name);
+			model.addAttribute("profile_image", profile_image);
+			model.addAttribute("company", "카카오");
+			return "apiJoinForm";
+		}
 	}
 
 	@RequestMapping("/kakaoLogout.do")
@@ -119,7 +117,6 @@ public class LoginController {
 		kakao.kakaoLogout((String) session.getAttribute("access_Token"));
 		session.invalidate();
 	
-
 		return "login";
 	}
 	
@@ -128,8 +125,8 @@ public class LoginController {
 		return "apiJoinForm";
 	}
 
-	@RequestMapping("/naverlogin.do")
 	@ResponseBody
+	@RequestMapping("/naverlogin.do")
 	public String naverlogin(HttpSession session) {
 		String reqUrl = naverLoginBO.getAuthorizationUrl(session);
 		return reqUrl;
@@ -160,18 +157,17 @@ public class LoginController {
 		String profile_image = (String) response_obj.get("profile_image");
 		String tel = (String) response_obj.get("mobile");
 
-
 		vo.setEmail(email);
 		vo.setName(name);
 		vo = LoginUserDao.idFindNameEmailChk(vo);
 		
-		if(vo != null) {
+		if (vo != null) {
 			session.setAttribute("id", vo.getId());
 			session.setAttribute("nickname", vo.getNickname());
 			session.setAttribute("name", vo.getName());
 			session.setAttribute("email", vo.getEmail());
 			return "redirect:index.do";
-		}else {
+		} else {
 			model.addAttribute("email", email);
 			model.addAttribute("nickname", nickname);
 			model.addAttribute("name", name);
@@ -180,8 +176,6 @@ public class LoginController {
 			model.addAttribute("company", "네이버");
 			return "apiJoinForm";
 		}
-	
-		
 	}	
 
 	@RequestMapping("/naverLogout.do")
@@ -327,18 +321,19 @@ public class LoginController {
 		return "";
 	}
 	
-	@RequestMapping(value = "/ajaxCompanyChk.do", produces = "application/text; charset=utf8")
 	@ResponseBody
+	@RequestMapping(value = "/ajaxCompanyChk.do", produces = "application/text; charset=utf8")
 	public String ajaxCompanyChk(HttpSession session, UserVO vo) {
 		vo.setId((String) session.getAttribute("id"));
 		vo = LoginUserDao.passwordFindIdChk(vo);
-		System.out.println("======================="+vo.getCompany());
-		if(vo.getCompany()==null) {
+		
+		System.out.println("=======================" + vo.getCompany());
+		
+		if(vo.getCompany() == null) {
 			return "No";
-		}else {	
+		} else {
 			return vo.getCompany();
 		}
-		
 	}
 
 	@RequestMapping("/idFindMenu.do")
