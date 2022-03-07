@@ -240,10 +240,16 @@ document.addEventListener("DOMContentLoaded", function(){
 				})
 				let itemCnt = items.length;  //총 아이템 수
 				let width = Math.ceil(checkedCnt/itemCnt*100);
-				document.querySelector(".checkChart"+checkId).innerHTML = "&nbsp;&nbsp;&nbsp;"+width+"%";
-				document.querySelector(".checkChart"+checkId).style.color="white";
-				document.querySelector(".checkChart"+checkId).style.width=width+"%";
-				document.querySelector(".checkChart"+checkId).style.backgroundColor="tomato";
+				if(itemCnt != 0){
+					document.querySelector(".checkChart"+checkId).innerHTML = "&nbsp;&nbsp;&nbsp;"+width+"%";
+					document.querySelector(".checkChart"+checkId).style.color="white";
+					document.querySelector(".checkChart"+checkId).style.width=width+"%";
+					if(itemCnt == checkedCnt){
+						document.querySelector(".checkChart"+checkId).style.backgroundColor="#A9E81F";						
+					}else{
+						document.querySelector(".checkChart"+checkId).style.backgroundColor="tomato";						
+					}
+				}
 			})
 		},
 		error : function(){
@@ -485,7 +491,7 @@ document.addEventListener("DOMContentLoaded", function(){
                       	<c:forEach items="${checkList}" var="check">
                         <!--여기서부터-->
                         <div class="card ckDIV${check.checklist_id}">
-                          <div class="card-body">
+                          <div class="card-body" id="checkbody${check.checklist_id}">
                             <div class="d-flex justify-content-between">
                             	${check.checklist_title}
                             	<button class="btn ml-2 fa fa-times col-rg" 
@@ -505,6 +511,8 @@ document.addEventListener("DOMContentLoaded", function(){
                             	</c:if>
                             </c:forEach>
                           </div>
+                          <button class="btn btn-secondary fa fa-plus ml-4 mb-5" 
+                          style="width:15%;" onclick="addItemBtn(${check.checklist_id})"> item</button>
                         </div>
                         <!--여기까지가 하나의 체크리스트-->
                       	</c:forEach>
@@ -522,19 +530,7 @@ document.addEventListener("DOMContentLoaded", function(){
       		                    <input type="checkbox" checked="checked" class="mt-1 mb-1 checkitem"> 아이템이름<br>
                           </div>
                         </div>
-                        
-                        <div class="card ckDIV">
-                          <div class="card-body">
-                            <div class="d-flex justify-content-between">체크리스트 이름
-                            	<button class="btn ml-2 fa fa-times col-rg"></button>
-                            </div>
-                            <div class="progress mb-2"><span class="checkChart"></span></div>
-                            <input class="mb-2 mt-2" type="text" style="width:100%;">
-                          </div>
-                          <button class="btn btn-secondary fa fa-plus ml-4 mb-5" style="width:10%;"> item</button>
-                        </div>
-                      	
-                      	
+                    
                       </div>
                     </div>
                    </div>

@@ -357,11 +357,11 @@ function cardCheckListSet(id,cardid){
 	modal.querySelector("#checkAddBtn").onclick=function(){
 		let title = document.querySelector("#checklist_title").value;
 		
-		if(title == ""){
+		if(title == ""){ //체크리스트 이름 없으면
 			document.querySelector("#checklist_title").style.border="1px solid red";
 			document.querySelector("#checklist_title").focus();
 			document.querySelector("#checklist_title").placeholder="required";
-		}else{
+		}else{ //체크리스트 이름 있으면 그걸로 체크리스트 만들어주기
 			$.ajax({
 				url : "AjaxAddCheckList",
 				type : "POST",
@@ -372,7 +372,7 @@ function cardCheckListSet(id,cardid){
 				dataType : "json",
 				success : function(data){
 					let card = document.createElement("div");
-					card.setAttribute("class","card ckDIV");
+					card.setAttribute("class","card ckDIV"+data.checklist_id);
 					let cardBody = document.createElement("div");
 					cardBody.setAttribute("class","card-body");
 					cardBody.setAttribute("id","checkbody"+data.checklist_id);
@@ -384,13 +384,14 @@ function cardCheckListSet(id,cardid){
 					deleteBtn.style.cursor="pointer";
 					deleteBtn.onclick = function(){
 						//체크리스트 삭제 클릭이벤트 달아주기
+						checklistDelete(data.checklist_id);
 					}
 					let chart = document.createElement("div");
 					chart.setAttribute("class","progress mb-2");
 					let span = document.createElement("span");
-					span.setAttribute("class","checkChart");
+					span.setAttribute("class","checkChart"+data.checklist_id);
 					let button = document.createElement("button");
-					button.setAttribute("class","btn btn-secondary fa fa-plus ml-4 mb-5");
+					button.setAttribute("class","btn btn-secondary fa fa-plus ml-4 mb-5 additem"+data.checklist_id);
 					button.style.width="15%";
 					button.style.cursor="pointer";
 					button.innerHTML = " item";
@@ -410,6 +411,7 @@ function cardCheckListSet(id,cardid){
 									document.querySelector("#new_item").setAttribute("placeholder","required");
 									document.querySelector("#new_item").focus();
 								}else{
+									newitem = " "+newitem;
 									$.ajax({
 										url : "AjaxAddCheckListItem",
 										type : "POST",
@@ -419,8 +421,22 @@ function cardCheckListSet(id,cardid){
 										},
 										dataType : "json",
 										success : function(data){
-											//input박스 지워주고 체크로 만들기
+											//input박스 지워주고 체크로 만들기 + add item버튼 다시 보이게하기
+											new_item.remove();
 											
+											let input = document.createElement("input");
+											input.setAttribute("type","checkbox");
+											input.setAttribute("class","mt-1 mb-1 checkitem"+data.checklist_id);
+											input.onclick=function(){
+												//체크박스 이벤트 걸어주기
+												checkItem(data.checklist_id,data.item_id);
+											}
+											let br = document.createElement("br");
+											
+											document.querySelector("#checkbody"+data.checklist_id).append(input);
+											document.querySelector("#checkbody"+data.checklist_id).append( newitem);
+											document.querySelector("#checkbody"+data.checklist_id).append(br);
+											document.querySelector(".additem"+data.checklist_id).style.display="block";
 										},
 										error : function(){
 											console.log("AjaxAddCheckListItem 실패");
@@ -430,7 +446,8 @@ function cardCheckListSet(id,cardid){
 							}
 						})				
 						document.querySelector("#checkbody"+data.checklist_id).append(itemInput);
-						event.target.remove();
+						document.querySelector("#new_item").focus();
+						event.target.style.display="none"; //add item버튼 없애주기
 					}
 					
 					title.append(deleteBtn);
@@ -660,7 +677,26 @@ function checklistDelete(checklistId){
 	})
 }
 
-//체크리스트 아이템삭제
+//+ item버튼 클릭시, 체크리스트 아이템 추가
+function addItemBtn(ckid){
+	event.target.style.display="none";
+	
+	let input = document.createElement("input");
+	input.setAttribute("type","checkbox");
+	input.setAttribute("class","mt-1 mb-1 checkitem"+ckid);
+	input.onclick=function(){
+		//체크박스 이벤트 걸어주기
+		checkItem(data.checklist_id,data.item_id);
+	}
+	let br = document.createElement("br");
+	
+	document.querySelector("#checkbody"+data.checklist_id).append(input);
+	document.querySelector("#checkbody"+data.checklist_id).append( newitem);
+	document.querySelector("#checkbody"+data.checklist_id).append(br);
+	document.querySelector(".additem"+data.checklist_id).style.display="block"
+}
+
+//체크리스트 아이템
 function checkItem(ckid,itemid){
 	let checked = "";
 	if ( $(event.target).prop('checked') ) { 
@@ -693,6 +729,11 @@ function checkItem(ckid,itemid){
 				}
 				let wid = Math.ceil(checkedCnt/itemCnt*100);
 				document.querySelector(".checkChart"+ckid).innerHTML = "&nbsp;&nbsp;&nbsp;"+wid+"%";
+				if(itemCnt == checkedCnt){
+					document.querySelector(".checkChart"+ckid).style.backgroundColor="#A9E81F";
+				}else{
+					document.querySelector(".checkChart"+ckid).style.backgroundColor="tomato";
+				}
 				document.querySelector(".checkChart"+ckid).style.width=wid+"%";
 			}
 		},
