@@ -248,15 +248,16 @@ document.addEventListener("DOMContentLoaded", function(){
 					<div class="card-body">
 						<div class="row">
 							<div class="col-lg-2">
+								<h4 mt-2>Lists</h4>
 								<c:forEach items="${lists }" var="lists" varStatus="status">
 									<div class="card">
-										<div class="card-body">
+										<div class="card-body" style="background-color: #FAFAFA;">
 											<a href="">${lists.list_title }</a>
 										</div>
 									</div>
 								</c:forEach>
 							</div>
-							<div class="row col-lg-10">
+							<div class="col-lg-10">
 								<div id='calendar'></div>
 								<!-- Button trigger modal -->
 								<!-- <div class="row ml-2 mt-2">

@@ -37,8 +37,8 @@ public class calendarController {
 	@RequestMapping(value = "/calendar.do", method = RequestMethod.GET)
 	public ModelAndView calendar(ModelAndView mv, HttpServletRequest request,
 								 HttpSession session, @RequestParam("boardId") int boardid) {
-		String userId = (String)session.getAttribute("id");
-		//String userId = "user1";
+		//String userId = (String)session.getAttribute("id");
+		String userId = "user1";
 		String viewpage = "calendar/calendar";
 		
 		BoardVO vo = new BoardVO();
@@ -52,6 +52,7 @@ public class calendarController {
 		try {
 			calendar = calendarDao.calendarList();
 			request.setAttribute("calendarList", calendar);
+			System.out.println(calendar);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -79,7 +80,7 @@ public class calendarController {
 		// 해당 보드의 리스트 목록(캘린더 페이지에 리스트 목록)
 		mv.addObject("lists", lists);
 		
-		
+		System.out.println(lists);
 		
 		return mv;
 	}
