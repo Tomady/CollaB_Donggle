@@ -18,6 +18,8 @@ import co.Donggle.CollaB.board.service.BoardService;
 import co.Donggle.CollaB.board.service.BoardVO;
 import co.Donggle.CollaB.calendar.service.calendarService;
 import co.Donggle.CollaB.calendar.service.calendarVO;
+import co.Donggle.CollaB.list.service.ListService;
+import co.Donggle.CollaB.list.service.ListVO;
 import co.Donggle.CollaB.user.service.UserService;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 
@@ -28,13 +30,15 @@ public class calendarController {
 	@Autowired private BoardService boardDao;
 	@Autowired private WorkspaceJoinService workspaceJoinDao;
 	@Autowired private UserService userDao;
+	@Autowired private ListService listDao;
+
 	
 	// 일정 보기
 	@RequestMapping(value = "/calendar.do", method = RequestMethod.GET)
 	public ModelAndView calendar(ModelAndView mv, HttpServletRequest request,
 								 HttpSession session, @RequestParam("boardId") int boardid) {
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = (String)session.getAttribute("id");
+		//String userId = "user1";
 		String viewpage = "calendar/calendar";
 		
 		BoardVO vo = new BoardVO();
@@ -51,6 +55,9 @@ public class calendarController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		ListVO listvo = new ListVO();
+		List<ListVO> lists = listDao.selectTotalList(listvo);
 		
 		mv.setViewName(viewpage);
 		//해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID - 사이드
@@ -69,6 +76,10 @@ public class calendarController {
 		mv.addObject("boardJoinMembers",userDao.boardJoinMembers(vo));
 		//해당워크스페이스멤버 - 해당보드멤버 = 같은워크스페이스 사용하지만 해당 보드에는 없는사람 - 보드헤더
 		mv.addObject("boardOthers",userDao.outsideBoardMembers(vo));
+		// 해당 보드의 리스트 목록(캘린더 페이지에 리스트 목록)
+		mv.addObject("lists", lists);
+		
+		
 		
 		return mv;
 	}
@@ -83,6 +94,6 @@ public class calendarController {
 		return "dateUpdate";
 	}
 	
-	// 해당 이벤트에 해당하는 카드 상세 보기
+	
 	
 }
