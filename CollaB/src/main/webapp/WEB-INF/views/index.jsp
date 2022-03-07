@@ -435,7 +435,7 @@ body .options .option .label .info .sub {
 		<div class="container_content ">
 			<h1>초연결 업무 플랫폼 CollaB</h1>
 			<h5>업무를 위한 모든 서비스를 한 공간에서 이용해보세요</h5>
-			<button type="button">CollaB 시작하기</button>
+			<button type="button" onclick="location.href='WorkspaceList'">CollaB 시작하기</button>
 		</div>
 		
 		<!-- 슬라이드 -->
@@ -540,7 +540,7 @@ body .options .option .label .info .sub {
 	// 로그아웃 AJAX
 	function ajaxCompanyChk() {
 		$.ajax({
-			url : 'ajaxCompanyChk.do',
+			url : 'ajaxTokenChk.do',
 			dataType : 'text',
 			success : function(data) {
 				if(data == "No") {
@@ -555,25 +555,60 @@ body .options .option .label .info .sub {
 	function logoutSwitchFn(data){
 		switch(data) {
 			case "카카오": 
-				console.log("카카오" + "로그아웃");
+			
 				location.href="kakaoLogout.do";
 				break;
 				
 			case "네이버":
-				console.log("네이버" + "로그아웃");
-				location.href="naverLogout.do";
+				
+				naverLogoutFn();
 				break;
 				
 			case "구글": 
-				console.log("구글" + "로그아웃");
-				location.href="googleLogout.do";
+			
+				googleLogoutFn();
 				break;
 				
 			case "페이스북":
-				console.log("페이스북" + "로그아웃");
+			
 				location.href="facebookLogout.do";
 				break;
 		}
+	}
+	
+	function googleLogoutFn(){
+		$.ajax({
+			url : 'googleLogout.do',
+			type : 'post',
+			dataType : 'text',
+			success : function(data){
+				popupFn(data);
+			}
+		})
+	}
+	
+	function naverLogoutFn(){
+		
+		$.ajax({
+			url : 'naverLogout.do',
+			type : 'post',
+			dataType : 'text',
+			success : function(data){
+				
+				popupFn(data);
+			}
+		})
+	}
+	
+	function popupFn(url){
+		var popupWidth = 1000;
+		var popupHeight = 700;
+		
+		var popupX = (window.screen.width / 2) - (popupWidth /2);
+		var popupY = (window.screen.height / 2) - (popupHeight /2);
+		
+		window.open(url, 'popup', 'z-lock=yes, width='+popupWidth+', height='+popupHeight+', top='+popupY+', left='+popupX);
+		location.href='login.do'
 	}
 	
 	$(".option").click(function() {

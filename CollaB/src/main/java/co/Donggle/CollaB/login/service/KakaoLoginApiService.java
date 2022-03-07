@@ -115,7 +115,7 @@ public class KakaoLoginApiService {
 			URL url = new URL(reqURL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("POST");
-			conn.setRequestProperty("Authorization", "Bearer"+ access_Token);
+			conn.setRequestProperty("Authorization", "Bearer "+ access_Token);
 			
 			int responseCode = conn.getResponseCode();
 			System.out.println("responseCode : "+ responseCode);
