@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="co.Donggle.CollaB.memberPage.service.MemWorkspaceJoinMapper">
+	
+	<select id="workspaceJoinIdselect" resultType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO"
+	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO">
+		select * from workspace_join
+		where workspace_id = #{workspace_id}
+	</select>
+	
+	
+</mapper>

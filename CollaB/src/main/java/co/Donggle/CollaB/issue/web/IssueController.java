@@ -43,7 +43,8 @@ public class IssueController {
 	}
 	// 이슈 등록
 	@PostMapping("/issueInsert.do")
-	public String issueInsert(HttpServletRequest request) {
+	public String issueInsert(HttpServletRequest request, @RequestParam("itemLength") int num) {
+		System.out.println("aaaaaa:" + num);
 		
 		vo.setId(request.getParameter("id"));
 		vo.setIssueTitle(request.getParameter("issue_title"));

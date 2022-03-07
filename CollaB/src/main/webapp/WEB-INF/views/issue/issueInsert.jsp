@@ -248,10 +248,13 @@
     	
     		formdata.append(item2, itemval);
     	}
+    	formdata.append('itemLength', item.length);
     
     	$.ajax({
     		type : "POST",
     		url : "issueInsert.do",
+    		processData: false,
+            contentType: false,
     		data : formdata,
     		dataType : "text"
     		

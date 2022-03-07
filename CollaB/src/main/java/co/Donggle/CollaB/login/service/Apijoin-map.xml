@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.Donggle.CollaB.login.service.ApiJoinMapper">
+	
+	<insert id="ApiUserJoin">
+		insert into user_info
+		values (#{id}, #{name}, #{nickname}, #{password}, #{email}, #{prof_pic}, #{tel}, #{company}, #{token})
+	</insert>
+
+</mapper>

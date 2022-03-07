@@ -38,9 +38,9 @@
               </a>
             </li>
             <li>
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="memberPage.do">
                 <i class="far fa-user"></i>
-                <span>Members</span>
+               <span>Members</span>
               </a>
             </li>
             <li>

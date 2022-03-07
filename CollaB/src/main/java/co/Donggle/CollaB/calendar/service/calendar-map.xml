@@ -3,16 +3,18 @@
 <mapper namespace="co.Donggle.CollaB.calendar.service.calendarMapper">
 
 <select id="calendarList" resultType="co.Donggle.CollaB.calendar.service.calendarVO">
-select card_title, card_start_date, card_end_date from card
+	select card_title, card_start_date, card_end_date + (interval '1' day)
+	from card
+	where board_id = #{board_id}
 </select>
 
 <select id="calendarSelect" resultType="co.Donggle.CollaB.calendar.service.calendarVO">
-select * from card where card_id = #{card_id}
+	select * from card where card_id = #{card_id}
 </select>
 
 <update id="updateCalendar" parameterType="co.Donggle.CollaB.calendar.service.calendarVO">
-update card set card_start_date = #{card_start_date}, card_end_date = #{card_end_date}
-where card_id = 1
+	update card set card_start_date = #{card_start_date}, card_end_date = #{card_end_date}
+	where card_id = #{card_id}
 </update>
 
 </mapper>

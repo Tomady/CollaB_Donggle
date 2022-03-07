@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,18 +44,25 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col-md-3">
-                        <img src="/CollaB/resources/assets/img/example-image.jpg" alt="" class="profileimg">
+						<c:choose>
+							<c:when test="${user_info.prof_pic == null }">
+								<img src="/CollaB/resources/assets/img/avatar/avatar-1.png" alt="" class="profileimg">
+							</c:when>
+							<c:when test="${not empty user_info.prof_pic }">
+								<img src="${user_info.prof_pic }" alt="" class="profileimg">
+							</c:when>
+						</c:choose>
                       </div>
                       <div class="col-md-9">
                         <p>
-                          <b>이름</b>&nbsp;&nbsp;박소연<br>
-                          <b>닉네임</b>&nbsp;&nbsp;sy
+                          <b>이름</b>&nbsp;&nbsp; ${user_info.name } <br>
+                          <b>닉네임</b>&nbsp;&nbsp; ${user_info.nickname }
                         </p>
                       </div>
                     </div>
                   </div>
                   <div class="card-footer text-right">
-                    <button class="btn btn-primary">프로필 수정</button>
+                    <button class="btn btn-primary" onclick="location.href='/CollaB/myProfile'">프로필 수정</button>
                   </div>
                 </div>
                 <div class="card">
@@ -76,13 +84,13 @@
                   </div>
                   <div class="card-body">
                     <p class="card-text">
-                      <b>연락처</b> &nbsp;&nbsp; 010-1111-1111<br>
-                      <b>이메일</b> &nbsp;&nbsp; ask@yedam.ac<br>
-                      <b>회사</b> &nbsp;&nbsp; 예담
+                      <b>연락처</b> &nbsp;&nbsp; ${user_info.tel } <br>
+                      <b>이메일</b> &nbsp;&nbsp; ${user_info.email } <br>
+                      <b>회사</b> &nbsp;&nbsp; ${user_info.company }
                     </p>
                   </div>
                   <div class="card-footer text-right">
-                    <button class="btn btn-primary">정보 수정</button>
+                    <button class="btn btn-primary" onclick="location.href='/CollaB/myInfo'">정보 수정</button>
                   </div>
                 </div>
                 <div class="card">
@@ -107,7 +115,7 @@
                     비밀번호를 변경하세요 &#128272;
                   </div>
                   <div class="card-footer text-right">
-                    <button class="btn btn-primary">비밀번호 변경</button>
+                    <button class="btn btn-primary" onclick="location.href='/CollaB/newPw'">비밀번호 변경</button>
                   </div>
                 </div>
                 <div class="card">
@@ -118,7 +126,7 @@
                     <p class="card-text">서비스를 더이상 이용하지 않는다면.. &#128549;</p>
                   </div>
                   <div class="card-footer text-right">
-                    <button class="btn btn-primary">탈퇴 바로가기</button>
+                    <button class="btn btn-primary" onclick="location.href='/CollaB/withdrawal'">탈퇴 바로가기</button>
                   </div>
                 </div>
               </div>

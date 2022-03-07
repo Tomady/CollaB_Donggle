@@ -45,57 +45,93 @@
               </div>
               <div class="card-body">
                 <div class="div-table">
-                  <table class="table table-bordered">
-                    <tr>
-                      <th>기존 비밀번호</th>
-                      <td>
-                        <div class="input-group">
+                  <form action="pwUpdate" method="post" id="frm">
+                    <table class="table table-bordered">
+                      <tr>
+                        <th>기존 비밀번호</th>
+                        <td>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <i class="fas fa-lock"></i>
+                              </div>
+                            </div>
+                            <input type="password" class="form-control pwstrength" data-indicator="pwindicator"
+                              name="oldPw">
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>새 비밀번호</th>
+                        <td>
+                          <div class="input-group">
                           <div class="input-group-prepend">
                             <div class="input-group-text">
                               <i class="fas fa-lock"></i>
                             </div>
                           </div>
-                          <input type="password" class="form-control pwstrength" data-indicator="pwindicator" value="thdus">
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>새 비밀번호</th>
-                      <td>
-                        <div class="input-group">
-                        <div class="input-group-prepend">
-                          <div class="input-group-text">
-                            <i class="fas fa-lock"></i>
+                          <input type="password" class="form-control phone-number" name="password">
                           </div>
-                        </div>
-                        <input type="text" class="form-control phone-number">
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>비밀번호 확인</th>
-                      <td>
-                        <div class="input-group">
-                        <div class="input-group-prepend">
-                          <div class="input-group-text">
-                            <i class="fas fa-lock"></i>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>비밀번호 확인</th>
+                        <td>
+                          <div class="input-group">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <i class="fas fa-lock"></i>
+                            </div>
                           </div>
-                        </div>
-                        <input type="text" class="form-control">
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
+                          <input type="password" class="form-control" name="pwConfirm">
+                          </div>
+                        </td>
+                      </tr>
+                      <input type="hidden" name="id" value="${user_info.id }">
+                      <input type="hidden" name="oldPwConfirm" value="${user_info.password }">
+                    </table>
+                  </form>
                 </div>
               </div>
               <div class="card-footer text-center">
-                <button class="btn btn-primary">적용하기</button>
+                <button class="btn btn-primary" onclick="pwUpdate()">적용하기</button>
               </div>
             </div>
           </div>
             
         </section>
       </div>
+      
+      <script>
+      
+      	function pwUpdate() {
+      	  let pw = document.getElementsByName('password');
+          let pwConfirm = document.getElementsByName('pwConfirm');
+          let oldPw = document.getElementsByName('oldPw');
+          let oldPwConfirm = document.getElementsByName('oldPwConfirm');
+
+          // 기존 비밀번호 일치여부
+          if(oldPw[0].value != oldPwConfirm[0].value ) {
+            window.alert('기존 비밀번호가 일치하지 않습니다.')
+          }
+
+          // 비밀번호 확인
+      	  if(pw[0].value != pwConfirm[0].value) {
+            window.alert('비밀번호 확인이 틀렸습니다.');
+            return;
+          }
+
+          if(pw[0].value=='') {
+            window.alert('새 비밀번호를 입력하세요.')
+          }
+
+          window.alert('비밀번호 변경이 완료되었습니다.')
+          frm.submit();
+          console.log(pw[0].value);
+          console.log(oldPw[0].value);
+      	}
+      
+      </script>
 
 </body>
 </html>
