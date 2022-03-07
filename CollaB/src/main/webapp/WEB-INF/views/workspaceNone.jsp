@@ -180,12 +180,12 @@
           <div class="d-sm-none d-lg-inline-block">Hi, Circle</div></a>
           <div class="dropdown-menu dropdown-menu-right">
             <!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
-            <a class="dropdown-item has-icon" onclick="mainHead_gotoMypage()">
+            <a class="dropdown-item has-icon" href="myPageMain.do">
               <i class="far fa-user"></i> Mypage
             </a>
             <div class="dropdown-divider"></div>
             <!--로그아웃처리 : 세션값삭제-->
-            <a class="dropdown-item has-icon text-danger" onclick="mainHead_logout()">
+            <a class="dropdown-item has-icon text-danger" href="logout.do">
               <i class="fas fa-sign-out-alt"></i> Logout
             </a>
           </div>
@@ -203,8 +203,7 @@
               <div class="card-body ml-5 mr-5" style="height: 100vh;">
                 <div class="col-lg-12 text-center">
                   <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-                  <h4>No Workspace
-                  	<p id="Workspace_create" style="cursor: pointer;" 
+                  <h4>No Workspace<p id="Workspace_create" style="cursor: pointer;" 
                   	onclick="create_workspaceModal()">Create your Workspace🎨</p></h4>
                 </div>
               </div>

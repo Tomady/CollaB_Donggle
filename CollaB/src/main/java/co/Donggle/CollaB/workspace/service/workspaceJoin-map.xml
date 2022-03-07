@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.Donggle.CollaB.workspace.service.WorkspaceJoinMapper">
 	
 	<select id="workspaceJoinList"
@@ -39,5 +40,27 @@
 		DELETE WORKSPACE_JOIN
 		WHERE ID = #{id}
 		AND WORKSPACE_ID = #{workspace_id}
+	</delete>
+	
+	<select id="workspaceJoinSearch" resultType="int" 
+	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO">
+		SELECT COUNT(*) 
+		FROM WORKSPACE_JOIN 
+		WHERE WORKSPACE_ID = #{workspace_id}
+	</select>
+	
+	<select id="workspaceListMeAdmin" parameterType="string"
+	resultType="co.Donggle.CollaB.workspace.service.WorkspaceVO">
+		SELECT A.* 
+		FROM WORKSPACE A, WORKSPACE_JOIN B
+		WHERE A.WORKSPACE_ID = B.WORKSPACE_ID
+		AND B.ID = #{id}
+		AND B.PERMISSIONS = 'ADMIN'
+	</select>
+	
+	<delete id="workspaceJoinAllDelete"
+	parameterType="int">
+		DELETE WORKSPACE_JOIN
+		WHERE WORKSPACE_ID = #{workspace_id}
 	</delete>
 </mapper>

@@ -48,4 +48,9 @@ public class itemInfoServiceImpl implements itemInfoService {
 		return itemInfoMapper.modifyitemyn(vo);
 	}
 
+	@Override
+	public itemInfoVO selectItem(itemInfoVO vo) {
+		return itemInfoMapper.selectItem(vo);
+	}
+
 }

@@ -41,4 +41,19 @@ public class WorkspaceJoinServiceImpl implements WorkspaceJoinService {
 		return map.workspaceJoinDelete(vo);
 	}
 
+	@Override
+	public int workspaceJoinSearch(WorkspaceJoinVO vo) {
+		return map.workspaceJoinSearch(vo);
+	}
+
+	@Override
+	public List<WorkspaceVO> workspaceListMeAdmin(String id) {
+		return map.workspaceListMeAdmin(id);
+	}
+
+	@Override
+	public int workspaceJoinAllDelete(int workspaceId) {
+		return map.workspaceJoinAllDelete(workspaceId);
+	}
+
 }
