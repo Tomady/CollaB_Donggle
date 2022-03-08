@@ -28,17 +28,17 @@
     #testbtn{position: relative;}
     .test123{
       width: 50px;
-      height: 25px;
+      height: 30px;
       background-color: gray;
       border-radius : 5px;
       color: white;
       opacity: 0;
       transition: all 0.3s;
       position: absolute;
-      top: -30px;
+      top: -25px;
       left: -15px;
       z-index : 999;
-      line-height : 25px;
+      line-height : 30px;
     }
     /* 임의 스타일 */
     .test1234{ 
@@ -84,10 +84,10 @@
       opacity: 0;
       transition: all 0.3s;
       position: absolute;
-      top: -30px;
+      top: -25px;
       left: -15px;
       z-index : 999;
-      line-height : 25px;
+      line-height : 30px;
     }
     .saveDone123{
    	  transition: all 0.2s;
@@ -276,8 +276,8 @@ document.addEventListener("DOMContentLoaded", function(){
             id="checklist_title" name="checklist_title">
          </div>
          <div>
-         	<button id="checkAddBtn"
-         	class="btn btn-secondary" style="width:100%;">ADD</button>
+         	<a id="ChecklistSectionMove" href="#checklistAppendTarget"><button id="checkAddBtn"
+         	class="btn btn-secondary" style="width:100%;">ADD</button></a>
          </div>
        </div>
       
@@ -309,7 +309,8 @@ document.addEventListener("DOMContentLoaded", function(){
          	<!-- 해당 보드에 초대된 멤버목록 -->
          	<c:forEach items="${boardJoinMembers}" var="member">
          		<span class="member ml-3 mt-1 mb-1" style="font-size:15px;">
-         			<button class="btn btn-light" style="width:95%;" onclick="managerSelect('${member.id}')"> ${member.name}(${member.email})</button>
+         			<button class="btn btn-light" style="width:95%;" data-memid="${member.id}"
+         			onclick="managerSelect('${member.id}')"> ${member.name}(${member.id})</button>
          		</span>
          	</c:forEach>
          </div>
@@ -342,7 +343,7 @@ document.addEventListener("DOMContentLoaded", function(){
                    onclick="location.href='cardDetail?list=${card.list_id}&card=${card.card_id}'"
                    class="cards card card-${card.card_label} ml-2 mr-2"> <!--라벨표시-->
                     <div class="card-header d-flex justify-content-between">
-                      <span class="cardName ml-0">${card.card_title}</span> <!--카드이름-->
+                      <span class="cardName${card.card_id} ml-0">${card.card_title}</span> <!--카드이름-->
                     </div>
                      <c:if test="${card.manager ne null}">
 	                    <div class="ml-2 mt-1 text-right card-owner" style="font-weight:bold; height:50px;">
@@ -452,7 +453,7 @@ document.addEventListener("DOMContentLoaded", function(){
                       <div id="datesAppendTarget" style="width: 350px;"></div>
                       	<c:if test="${cardinfo.card_start_date ne null}">
                       	  <div class="card-header" id="cardDates">
-	                        <h4 onclick="cardDatesSet(${cardinfo.card_id})">Dates</h4>
+	                        <h4>Dates</h4>
 	                        <div>
 	                          <span id="cardDatesSpan" style="background-color: rgb(235, 251, 252);
 	                          border-radius: 3px; font-size: 15px;">${cardinfo.card_start_date} - ${cardinfo.card_end_date}</span>
@@ -511,26 +512,11 @@ document.addEventListener("DOMContentLoaded", function(){
                             	</c:if>
                             </c:forEach>
                           </div>
-                          <button class="btn btn-secondary fa fa-plus ml-4 mb-5" 
+                          <button class="btn btn-secondary fa fa-plus ml-4 mb-5 additem${check.checklist_id}" 
                           style="width:15%;" onclick="addItemBtn(${check.checklist_id})"> item</button>
                         </div>
                         <!--여기까지가 하나의 체크리스트-->
                       	</c:forEach>
-                      	
-                      	
-                      	<div class="card ckDIV">
-                          <div class="card-body">
-                            <div class="d-flex justify-content-between">체크리스트 이름
-                            	<button class="btn ml-2 fa fa-times col-rg"></button>
-                            </div>
-                            <div class="progress mb-2"><span class="checkChart"></span></div>
-      		                    <input type="checkbox" checked="checked" class="mt-1 mb-1 checkitem"> 아이템이름<br>
-      		                    <input type="checkbox" checked="checked" class="mt-1 mb-1 checkitem"> 아이템이름<br>
-      		                    <input type="checkbox" checked="checked" class="mt-1 mb-1 checkitem"> 아이템이름<br>
-      		                    <input type="checkbox" checked="checked" class="mt-1 mb-1 checkitem"> 아이템이름<br>
-                          </div>
-                        </div>
-                    
                       </div>
                     </div>
                    </div>

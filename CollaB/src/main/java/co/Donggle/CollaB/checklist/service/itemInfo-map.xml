@@ -9,9 +9,9 @@
 	
 	<insert id="additem" parameterType="co.Donggle.CollaB.checklist.service.itemInfoVO">
 		<selectKey keyProperty="item_id" resultType="int" order="BEFORE">
-		SELECT NVL(MAX(item_id), 0)+1 AS item_id FROM item_info
+		SELECT NVL(MAX(ITEM_ID), 0)+1 AS ITEM_ID FROM ITEM_INFO
 		</selectKey>
-		INSERT INTO item_info (item_id, item_title, item_status, checklist_id)
+		INSERT INTO ITEM_INFO (ITEM_ID, ITEM_TITLE, ITEM_STATUS, CHECKLIST_ID)
 		VALUES (#{item_id}, #{item_title}, 'N', #{checklist_id})
 	</insert>
 	
