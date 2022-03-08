@@ -101,7 +101,8 @@
                     <p class="card-text">나에게 온 쪽지를 확인하세요 &#128231;</p>
                   </div>
                   <div class="card-footer text-right">
-                    <button class="btn btn-primary">쪽지함 가기</button>
+                    <button class="btn btn-primary"
+                    onclick="location.href='message_inbox'">쪽지함 가기</button>
                   </div>
                 </div>
               </div>

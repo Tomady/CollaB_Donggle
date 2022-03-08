@@ -13,4 +13,6 @@ public interface checklistService {
 	List<CardVO> totalCheckList(CardVO vo);
 	//카드상세조회 _ 체크리스트삭제
 	int chklistDelete(CardVO vo);
+	
+	checklistVO selectCheckList(checklistVO vo); //체크리스트 한건조회
 }

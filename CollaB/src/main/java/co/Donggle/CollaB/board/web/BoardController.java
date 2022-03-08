@@ -1,5 +1,6 @@
 package co.Donggle.CollaB.board.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -97,18 +98,70 @@ public class BoardController {
 	}
 
 	// 보드가입탈퇴
+	// 만약 해당 사용자가 마지막 남은 사람이라면 보드자체도 없애기
 	@ResponseBody
 	@RequestMapping("/AjaxBoardJoinDelete")
 	public String AjaxBoardDelete(@RequestParam("boardID") int boardID, @RequestParam("workID") int workID,
 			HttpSession session) {
 		String result = "";
 		String userId = (String)session.getAttribute("id");
-
+		
 		BoardVO vo = new BoardVO();
 		vo.setId(userId);
 		vo.setBoard_id(boardID);
 		vo.setWorkspace_id(workID);
-		int n = boardDao.boardJoinDelete(vo);
+		
+		int n = 0;
+		int joinMember = boardDao.boardJoinCount(vo);
+		if(joinMember == 1) { //사용자가 해당보드의 마지막 멤버였을때
+			List<ListVO> listIds = new ArrayList<ListVO>();
+			listIds = boardDao.listIdInBoard(vo); //해당 보드의 리스트 아이디 목록 구하기
+			
+			for(ListVO listId : listIds) { //리스트 아이디로 해당 리스트들에 있는 카드 id목록 구하기
+				List<CardVO> cardIds = new ArrayList<CardVO>();
+				cardIds = listDao.selectCardIds(listId);
+				
+				for(CardVO cardId : cardIds) { //카드 아이디로 해당 카드 댓글 아이디 목록 구하기
+					List<CardVO> commentids = cardDao.selectCommentIds(cardId);
+					for(CardVO commentid : commentids) {
+						//카드댓글아이디로 카드댓글첨부파일, 카드댓글좋아요 삭제
+						n += cardDao.deleteCardCommentFile(commentid);
+						n += cardDao.deleteCardCommentLike(commentid);
+					}
+				}
+				for(CardVO cardId : cardIds) { //카드 아이디로 첨부파일 아이디 목록 구하기
+					List<CardVO> fileids = cardDao.selectFileIds(cardId);
+					for(CardVO fileid : fileids) {
+						//첨부파일 아이디 이용해서 첨부파일 내역 삭제
+						n += cardDao.deleteCardFileHistory(fileid);
+					}
+				}
+				for(CardVO cardId : cardIds) { //카드 아이디로 체크리스트 아이디 목록 구하기
+					List<CardVO> checkids = cardDao.selectCheckListIds(cardId);
+					for(CardVO checkid : checkids) {
+						//체크리스트 아이디 이용해서 체크리스트 아이템 삭제
+						n += cardDao.deleteCardCheckItems(checkid);
+					}
+				}
+				for(CardVO cardid : cardIds) { //카드 아이디로 카드댓글, 체크리스트, 첨부파일 삭제하기
+					n += cardDao.deleteCardComment(cardid);
+					n += cardDao.deleteCardCheckList(cardid);
+					n += cardDao.deleteCardFile(cardid);
+				}
+				//리스트 아이디로 해당 리스트 삭제, 해당 리스트 안에 카드목록 삭제
+				n += listDao.deleteList(listId);
+				n += cardDao.deleteCards(listId);
+			}
+			//보드 아이디로 해당 보드 가입내역 전부 삭제, 해당 보드 삭제, 해당 보드 즐겨찾기 내역 전부 삭제
+			n += boardDao.deleteBoardJoinAll(vo);
+			n += boardDao.boardDelete(vo);
+			n += boardDao.deleteBoardStars(vo);
+			
+		}else { //그냥 탈퇴처리
+			n += boardDao.boardJoinDelete(vo); //내가 보드에 가입한 내역 삭제
+			n += boardDao.deleteBoardstar(vo); //내가 해당 보드 즐겨찾기한 내역 삭제
+		}
+		
 		if (n > 0) {
 			result = "YES";
 		} else if (n == 0) {

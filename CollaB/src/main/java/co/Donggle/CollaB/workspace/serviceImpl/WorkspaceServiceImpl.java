@@ -40,4 +40,14 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 		return map.boardListinWorkspace(vo);
 	}
 
+	@Override
+	public List<BoardVO> boardIdListInWorkspace(WorkspaceVO vo) {
+		return map.boardIdListInWorkspace(vo);
+	}
+
+	@Override
+	public int workspaceDelete(WorkspaceVO vo) {
+		return map.workspaceDelete(vo);
+	}
+
 }

@@ -40,4 +40,11 @@
 		DELETE ITEM_INFO
 		WHERE CHECKLIST_ID = #{checklist_id}
 	</delete>
+	
+	<select id="selectItem"
+	parameterType="co.Donggle.CollaB.checklist.service.itemInfoVO"
+	resultType="co.Donggle.CollaB.checklist.service.itemInfoVO">
+		SELECT * FROM ITEM_INFO
+		WHERE ITEM_ID = #{item_id}
+	</select>
 </mapper>
