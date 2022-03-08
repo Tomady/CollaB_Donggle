@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,8 +16,7 @@
  <style>
      /* 수정 취소 버튼 */
      #btnGroup{
-       margin: auto;
-       display: block;
+       margin-left: 45%;
      }
      #insertBtn{
        background-color: #9F90D9;
@@ -109,13 +109,13 @@
                               <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">제목</label>
                                 <div class="col-sm-12 col-md-7">
-                                  <input type="text" class="form-control" value="${issue.issueTitle }">
+                                  <input type="text" class="form-control" value="${issue.issueTitle }" name="issueTitle">
                                 </div>
                               </div>
                               <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">카테고리</label>
                                 <div class="col-sm-12 col-md-7">
-                                  <select class="form-control selectric" value="${issue.issueCategory }">
+                                  <select class="form-control selectric" value="${issue.issueCategory }" name="issueCategory">
                                     <option>Tech</option>
                                     <option>News</option>
                                     <option>Political</option>
@@ -125,7 +125,7 @@
                               <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">내용</label>
                                 <div class="col-sm-12 col-md-7">
-                                  <textarea style="width:inherit; background-color: #fdfdff; border-color: #e4e6fc;">${issue.issueContent }</textarea>
+                                  <textarea style="width:inherit; background-color: #fdfdff; border-color: #e4e6fc;" name="issueContent">${issue.issueContent }</textarea>
                                 </div>
                               </div>
                               <div class="form-group row mb-4">
@@ -212,7 +212,7 @@
     // 수정, 취소 버튼 클릭 
     $(function() {
 		$("#insertBtn").click(function() {
-			frm.action = "updateIssue.do";
+			frm.action = "issueUpdate.do";
 			frm.submit();
 		});
 		$("#cancelBtn").click(function() {
