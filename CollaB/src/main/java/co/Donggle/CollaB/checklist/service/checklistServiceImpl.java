@@ -32,4 +32,9 @@ public class checklistServiceImpl implements checklistService {
 	public int chklistDelete(CardVO vo) {
 		return checklistMapper.chklistDelete(vo);
 	}
+
+	@Override
+	public checklistVO selectCheckList(checklistVO vo) {
+		return checklistMapper.selectCheckList(vo);
+	}
 }

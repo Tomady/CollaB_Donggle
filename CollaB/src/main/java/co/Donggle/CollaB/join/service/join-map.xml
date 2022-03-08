@@ -3,8 +3,28 @@
 <mapper namespace="co.Donggle.CollaB.join.service.JoinMapper">
 
 	<insert id="userJoin" parameterType="co.Donggle.CollaB.join.service.JoinVO">
-		INSERT INTO USER_INFO (ID, PASSWORD, NAME, NICKNAME, COMPANY, TEL, EMAIL)
-		VALUES (#{id}, #{password}, #{name}, #{nickname}, #{company}, #{tel}, #{email})
+		INSERT INTO USER_INFO (ID
+		, PASSWORD
+		, NAME
+		<if test="nickname!=null and nickname != ''">, NICKNAME</if>
+		<if test="company!=null and company != ''">		, COMPANY</if>
+		<if test="tel !=null and tel != ''">, TEL</if>
+		, EMAIL
+		)
+		VALUES (#{id}
+		, #{password}
+		, #{name}
+		<if test="nickname!=null and nickname != ''">, #{nickname}</if>
+		<if test="company!=null and company != ''">	, #{company}</if>
+		<if test="tel !=null and tel != ''">, #{tel}</if>
+		, #{email}
+		)
 	</insert>
+	
+	<!-- 아이디 중복 확인 -->
+	<select id="idChk" resultType="int">
+		select count(*) from user_info
+		where id = #{id}
+	</select>
 
 </mapper>

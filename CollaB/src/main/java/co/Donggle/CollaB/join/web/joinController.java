@@ -9,18 +9,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.Donggle.CollaB.join.service.JoinMapper;
+import co.Donggle.CollaB.join.service.JoinVO;
 import co.Donggle.CollaB.user.service.UserVO;
 
 @Controller
 public class joinController {
 	
-	@Autowired
-	JoinMapper joinDao;
+	@Autowired JoinMapper joinDao;
+	@Autowired BCryptPasswordEncoder pwEncoder;
 	
 	// 회원가입 페이지로 이동
 	@RequestMapping("/joinForm.do")
@@ -30,25 +33,29 @@ public class joinController {
 	
 	// 회원가입 실행
 	@PostMapping("/userInsert.do")
-	public String userInsert(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		
-		UserVO vo = new UserVO();
-		vo.setId(request.getParameter("id"));
-		vo.setPassword(request.getParameter("password"));
-		vo.setName(request.getParameter("name"));
-		vo.setNickname(request.getParameter("nickname"));
-		vo.setCompany(request.getParameter("company"));
-		vo.setTel(request.getParameter("tel"));
-		vo.setEmail(request.getParameter("email"));
-
-		joinDao.userJoin(vo);
-		System.out.println("등록 완");
-		
+	public void userInsert(JoinVO vo, HttpServletResponse response) throws IOException{
 		response.setContentType("text/html; utf-8");
 		PrintWriter out = response.getWriter();
-		out.println("<script>alert('회원가입 완료! 바로 로그인해보세요.');</script>");
-		out.flush();
-		
-		return "login";
+		vo.setPassword(pwEncoder.encode(vo.getPassword()));
+		int n = joinDao.userJoin(vo);
+		if(n == 1) {		
+			System.out.println("등록 완");			
+			out.println("<script>alert('회원가입 완료! 바로 로그인해보세요.'); location.href='login.do';</script>");
+			out.flush();
+			
+			
+		}else {
+			out.println("<script>alert('회원가입 실패!'); history.back();</script>");
+			out.flush();
+		}
+	
+	}
+	
+	// 아이디 중복 확인
+	@ResponseBody
+	@RequestMapping("/idChk.do")
+	public int idChk(JoinVO vo) throws Exception{
+		int result = joinDao.idChk(vo);
+		return result;
 	}
 }

@@ -8,9 +8,9 @@
 <title>Insert title here</title>
 <style>
     /*2.메인헤더배경색*/
-    .mainheaderBackground{background-color: rgb(199, 174, 247);}
+    .mainheaderBackground{background-color: #9F90D9;}
     /*3.페이지바디배경색*/
-    .pagebodybackground{background-color: rgb(204, 195, 226); overflow: scroll;}
+    .pagebodybackground{background-color: #ECE9FE; overflow: scroll;}
     #create_board{
       display: none;
       width: 30%;
@@ -110,12 +110,12 @@
             <div class="d-sm-none d-lg-inline-block">Hi, Circle</div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
-              <a class="dropdown-item has-icon" onclick="mainHead_gotoMypage()">
+              <a class="dropdown-item has-icon" href="myPageMain.do">
                 <i class="far fa-user"></i> Mypage
               </a>
               <div class="dropdown-divider"></div>
               <!--로그아웃처리 : 세션값삭제-->
-              <a class="dropdown-item has-icon text-danger" onclick="mainHead_logout()">
+              <a class="dropdown-item has-icon text-danger" href="logout.do">
                 <i class="fas fa-sign-out-alt"></i> Logout
               </a>
             </div>

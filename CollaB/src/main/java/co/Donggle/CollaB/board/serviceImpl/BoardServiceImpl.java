@@ -9,6 +9,7 @@ import co.Donggle.CollaB.board.service.BoardMapper;
 import co.Donggle.CollaB.board.service.BoardService;
 import co.Donggle.CollaB.board.service.BoardVO;
 import co.Donggle.CollaB.list.service.ListVO;
+import co.Donggle.CollaB.workspace.service.WorkspaceVO;
 
 @Repository("boardDao")
 public class BoardServiceImpl implements BoardService {
@@ -102,6 +103,41 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int selectBoardId(ListVO vo) {
 		return map.selectBoardId(vo);
+	}
+
+	@Override
+	public List<ListVO> listIdInBoard(BoardVO vo) {
+		return map.listIdInBoard(vo);
+	}
+
+	@Override
+	public int deleteBoards(WorkspaceVO vo) {
+		return map.deleteBoards(vo);
+	}
+
+	@Override
+	public int deleteBoardStars(BoardVO vo) {
+		return map.deleteBoardStars(vo);
+	}
+
+	@Override
+	public int deleteBoardJoinAll(BoardVO vo) {
+		return map.deleteBoardJoinAll(vo);
+	}
+
+	@Override
+	public int deleteBoardstar(BoardVO vo) {
+		return map.deleteBoardstar(vo);
+	}
+
+	@Override
+	public int boardJoinCount(BoardVO vo) {
+		return map.boardJoinCount(vo);
+	}
+
+	@Override
+	public int boardDelete(BoardVO vo) {
+		return map.boardDelete(vo);
 	}
 
 }
