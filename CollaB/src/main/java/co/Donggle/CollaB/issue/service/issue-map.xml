@@ -28,5 +28,4 @@
 		DELETE FROM ISSUE WHERE ISSUEID = #{issueId}
 	</delete>
 
-
 </mapper>

@@ -1,7 +1,8 @@
 package co.Donggle.CollaB.join.service;
 
-import co.Donggle.CollaB.user.service.UserVO;
+
 
 public interface JoinMapper {
-	int userJoin(UserVO vo);
+	int userJoin(JoinVO vo);
+	int idChk(JoinVO vo);
 }

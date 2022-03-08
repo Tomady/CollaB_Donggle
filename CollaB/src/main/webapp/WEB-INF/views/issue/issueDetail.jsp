@@ -13,6 +13,26 @@
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 <style>
+	#btnGroup{
+       margin-left: 45%;
+     }
+     #insertBtn{
+       background-color: #9F90D9;
+       border: 1px solid #9F90D9;
+     }
+     #insertBtn:hover, #insertBtn:focus{
+       background-color: #6553C1 !important;
+     }
+     #cancelBtn{
+       background-color: white;
+       border: 1px solid #9F90D9;
+       color: #6553C1;
+     }
+     #cancelBtn:hover, #cacelBtn:focus{
+       background-color: white !important;
+       border: 1px solid #6553C1 !important;
+       color: #6553C1 !important;
+     }
    /* 글 내용*/
    .profile-widget .profile-widget-description{
      width: 90%;
@@ -152,6 +172,11 @@
                             </div>
                           </div>
                         </div>
+                        <div id="btnGroup">
+                          <button type="button" class="btn btn-primary" id="insertBtn" onclick="location.href='issueUpdate.do?issueId=${issue.issueId}'">수정</button>           
+                          <button type="button" class="btn btn-primary" id="cancelBtn" onclick="#">삭제</button>
+                        </div>
+                        
                 </div>
               
                 <!-- 댓글 -->
@@ -168,5 +193,14 @@
           </div>
         </section>
       </div>
+      
+<script type="text/javascript">
+
+// 체크박스 체크 방지
+$(document).ready(function func() {
+	$("input[type=checkbox]").bind("click",false);
+});
+
+</script>
 </body>
 </html>
