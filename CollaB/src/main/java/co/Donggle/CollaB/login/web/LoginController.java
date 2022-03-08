@@ -438,7 +438,7 @@ public class LoginController {
 	public String ajaxTelConfirm(int randomnum, UserVO vo) {
 		String result = sendBO.smsSend(vo.getTel(), randomnum);
 		System.out.println(result);
-		if (result == "Yes") {
+		if (result.equals("Yes")) {
 			return "Yes";
 		} else {
 			return "No";

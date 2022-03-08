@@ -619,7 +619,13 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 	overflow: auto;
 	min-height: 192px;
 }
-
+.Workspace__boards::-webkit-scrollbar, .footerRow-content::-webkit-scrollbar{
+	width: 10px;
+}
+.Workspace__boards::-webkit-scrollbar-thumb, .footerRow-content::-webkit-scrollbar-thumb{
+	background: #dee2e7;;
+	border-radius: 6px;
+}
 .Workspace__boards__header {
 	width: 100%;
 	display: flex;
@@ -991,28 +997,10 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 											</tr>
 
 										</thead>
-										<tbody>
-<%-- 											<c:forEach items="${user_infoList }" var="user_info"> --%>
-<!-- 												<tr class="tableTr"> -->
-<!-- 													<td> -->
-<!-- 														<div class="tabletdRow"> -->
-<!-- 															<div class="tdDetails"> -->
-<!-- 																<div class="user__img"> -->
-<%-- 																	<img src="${user_info.prof-pic }" --%>
-<!-- 																		alt=""> -->
-<!-- 																</div> -->
-<%-- 																<div class="user__name">${user_info.name }</div> --%>
-<!-- 															</div> -->
-<!-- 															<div class="tdOptions"> -->
-<!-- 																<a href="#" class="boardsNum a_tag">On 2 boards</a> <a -->
-<!-- 																	href="#" class="userAuthor a_tag">Admin -->
-<!-- 																	&#183;&#183;&#183; </a> <a href="#" -->
-<!-- 																	class="userRemoveBtn a_tag">Remove...</a> -->
-<!-- 															</div> -->
-<!-- 														</div> -->
-<!-- 													</td> -->
-<!-- 												</tr> -->
-<%-- 											</c:forEach> --%>
+										<tbody class="tbodyEl">
+
+
+
 										</tbody>
 									</table>
 								</div>
@@ -1032,32 +1020,7 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 							class="fas fa-times"></i></span>
 					</div>
 					<div class="Workspace__boards__body">
-						<div class="Workspace__boards__body__boardsList">
-							<div class="Workspace__boards__body__boardsList__row">
-								<div class="boardsList__row__img">
-									<img src="resources/assets/img/avatar/avatar-1.png" alt="">
-								</div>
-								<div class="boardsList__row__name">test1</div>
-								<div class="boardsList__row__name__author">(Normal)</div>
-								<div class="boardsList__row__removeBtn">Remove</div>
-							</div>
-							<div class="Workspace__boards__body__boardsList__row">
-								<div class="boardsList__row__img">
-									<img src="resources/assets/img/avatar/avatar-1.png" alt="">
-								</div>
-								<div class="boardsList__row__name">test1</div>
-								<div class="boardsList__row__name__author">(Normal)</div>
-								<div class="boardsList__row__removeBtn">Remove</div>
-							</div>
-							<div class="Workspace__boards__body__boardsList__row">
-								<div class="boardsList__row__img">
-									<img src="resources/assets/img/avatar/avatar-1.png" alt="">
-								</div>
-								<div class="boardsList__row__name">test1</div>
-								<div class="boardsList__row__name__author">(Normal)</div>
-								<div class="boardsList__row__removeBtn">Remove</div>
-							</div>
-						</div>
+						<div class="Workspace__boards__body__boardsList"></div>
 					</div>
 					<div class="Workspace__boards__footer"></div>
 				</div>
@@ -1356,44 +1319,152 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 	</div>
 
 	<div style="display: none;" class="userTrTemplate">
-		<tr class="tableTr displaynone">
-			<td>
-				<div class="tabletdRow">
-					<div class="tdDetails">
-						<div class="user__img">
-							<img src="resources/assets/img/avatar/avatar-1.png" alt="">
-						</div>
-						<div class="user__name">JaeEui Ha</div>
-					</div>
-					<div class="tdOptions">
-						<a href="#" class="boardsNum a_tag">On 2 boards</a> <a href="#"
-							class="userAuthor a_tag">Admin &#183;&#183;&#183; </a> <a
-							href="#" class="userRemoveBtn a_tag">Remove...</a>
-					</div>
+		<div class="tabletdRow">
+			<div class="tdDetails">
+				<div class="user__img">
+					<img src="" alt="">
 				</div>
-			</td>
-		</tr>
+				<div class="user__name"></div>
+			</div>
+			<div class="tdOptions">
+				<a href="#" class="boardsNum a_tag">On <span></span> boards
+				</a> <a href="#" class="userAuthor a_tag"> &#183;&#183;&#183; </a> <a
+					href="#" class="userRemoveBtn a_tag">Remove...</a>
+			</div>
+		</div>
 	</div>
-	<input type="hidden" id="test" value="${workspace.workspace_id}">
+	<div style="display: none;" class="boardsListRowTemplate">
+		<div class="Workspace__boards__body__boardsList__row">
+			<div class="boardsList__row__img"></div>
+			<div class="boardsList__row__name">test1</div>
+			<!-- 			<div class="boardsList__row__name__author">(Normal)</div> -->
+			<div class="boardsList__row__removeBtn">Remove</div>
+		</div>
+	</div>
+	<input type="hidden" id="hWorkspace_id"
+		value="${workspace.workspace_id}">
 </body>
 
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
+
+	
+
+const boardBg = {
+		red : "rgb(247,123,123)",
+		orange : "rgb(247,217,189)",
+		yellow : "rgb(248,244,204)",
+		green : "rgb(218,247,228)",
+		skyblue : "rgb(203, 248, 250)",
+		blue : "rgb(209, 231, 241)",
+		darkblue : "rgb(192, 193, 250)",
+		purple : "rgb(204, 195, 226)",
+		pink : "rgb(248,233,247)",
+		gray : "rgb(241,241,241)",
+		darkgray : "rgb(119,116,116)",
+		black : "rgb(12,12,12)",
+		base : "#ECE9FE"
+}
+
+
 	$(function() {
 
 		let name = "${workspace.workspace_title}";
-
+		
 		changeWKIMG(name);
+		
+		let workspaceId = $('#hWorkspace_id').val();
 
-		ajaxUserList()
+
+		ajaxMemPageUserList(workspaceId)
+
 	})
 
-	function ajaxUserList() {
-		console.log($('#test').val())
+	function ajaxMemPageUserList(workspaceId) {
+		$.ajax({
+			url : 'ajaxMemPageUserList.do',
+			type : 'post',
+			data : {	
+				workspace_id : workspaceId
+			},
+			success : function(data){
+				let userList = data.userList;
+				let usersAuthor = data.userAuthor;
+				
+				
+				createTrRow(userList, usersAuthor)
+			}
+			
+		})
 	}
 
+	
+	
+	function createTrRow(userList, usersAuthor){
+
+		let tbodyEl = $('.tbodyEl');
+		
+		userList
+		for(let user of userList){
+			let tr = $('<tr>')
+			let td = $('<td>')
+			tbodyEl.append(tr.append(td.append(trRow(user, usersAuthor).html())))
+		}	
+	}
+	
+	function trRow(user, usersAuthor){
+		
+		
+		let userTrTemplate = $('.userTrTemplate');
+		
+		let userId = user.id;
+
+		let boardsNub = ajaxBoardsNub(userId);
+		
+		var userAuthorVal;
+		for(let userAuthor of usersAuthor){
+			
+			if(userAuthor['id'] == userId){
+				userAuthorVal = userAuthor['permissions']
+			}
+		}
+	
+		userTrTemplate.find('.tabletdRow').attr('data', user.id);
+		userTrTemplate.find('.user__img>img').attr('src', user.prof_pic);
+		userTrTemplate.find('.user__name').text(user.name);
+		userTrTemplate.find('.userAuthor').text(userAuthorVal)
+		userTrTemplate.find('.boardsNum>span').text(boardsNub);
+		
+		return userTrTemplate;
+	}
+	
+	function ajaxBoardsNub(userId){
+
+		let num;
+		$.ajax({
+			url : 'ajaxBoardsNub.do',
+			type : 'post',
+			dataType : 'json',
+			async: false,
+			data : {
+				id : userId
+			},
+			success : function(data){
+				
+					num = data.length;
+				
+			
+			}
+		})
+	
+		return num;
+	}
+	
+
+	
+	
 	//워크프페이스 프로필이미지
 
 	function changeWKIMG(newWKname) {
@@ -1513,9 +1584,9 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 
 	$(document).on('click', '.a_tag', a_tageventFn)
 	$(document).on('click', '.cancelB', a_tagcancelFn)
-	let boardsNum = $('.boardsNum');
-	let userAuthor = $('.userAuthor');
-	let userRemoveBtn = $('.userRemoveBtn');
+	var boardsNum = $('.boardsNum');
+	var userAuthor = $('.userAuthor');
+	var userRemoveBtn = $('.userRemoveBtn');
 
 	function a_tagcancelFn() {
 		let tagName;
@@ -1551,7 +1622,101 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 		return contentShowFn(target)
 	}
 
+	
+	function MemBoardsListRowCreate(data, tagName){
+		
+		let Workspace__boards__body__boardsList = tagName.find('.Workspace__boards__body__boardsList')
+		let workspaceId = $('#hWorkspace_id').val();
+		Workspace__boards__body__boardsList.find('.Workspace__boards__body__boardsList__row').remove();
+
+		for(let board of data){
+				console.log(board)
+			if(board.workspace_id == workspaceId){
+				let boardsListRowTemplate = $('.boardsListRowTemplate')
+			
+				console.log()
+				boardsListRowTemplate.find('.boardsList__row__img').css('background-color', boardBg[board.board_thema])
+				boardsListRowTemplate.find('.boardsList__row__name').text(board.board_Title)
+				Workspace__boards__body__boardsList.append(boardsListRowTemplate.html());	
+				
+				
+				
+			}
+		}
+	}
+	
+	function ajaxMemBoardsListRow(userId){
+		let result;
+		$.ajax({
+			
+			url : 'ajaxMemBoardsListRow.do',
+			dataType : 'json',
+			async: false,
+			type :  'post',
+			data : {
+				id : userId
+			},
+			success : function(data){
+				result = data;
+			}
+		})
+		
+		return result;
+	}
+	
+	function contentInputFn(tagName, target){
+		let userId = $('.target').closest('.tabletdRow').attr('data')
+		
+		let data = ajaxMemBoardsListRow(userId);
+		console.log(data)
+		MemBoardsListRowCreate(data, tagName)
+		
+	}
+
+	function ajaxMemChangePermission(userId, hWorkspace_id){
+		let result;
+		$.ajax({
+			url : 'ajaxMemChangePermission.do',
+			type : 'post',
+			dataType : 'json',
+			async: false,
+			data : {
+				id : userId,
+				workspace_id : hWorkspace_id
+			},
+			success : function(data){
+				
+				result = data;
+			}
+		})
+		
+		return result;
+	}
+	
+	function authorChkdFn(author, tagName){
+	
+
+		if(author.includes("ADMIN") || author.includes("admin")){
+			$('.change__adminRow').attr('disabled', true);
+			$('.change__userRow').attr('disabled', false);
+		}else if(author.includes("USER") || author.includes("user")){
+			$('.change__adminRow').attr('disabled', false);
+			$('.change__userRow').attr('disabled', true);
+		}
+	}
+	
+	
+	function authorContentInputFn(tagName, target){
+		let userId = $('.target').closest('.tabletdRow').attr('data')
+		let hWorkspace_id = $('#hWorkspace_id').val()
+	
+		let data = ajaxMemChangePermission(userId, hWorkspace_id);
+
+		authorChkdFn(data.permissions, tagName);
+	}
+	
 	function contentShowFn(target) {
+
 		let className = target.attr('class');
 		let topminu = 0;
 		let leftminu = 0;
@@ -1560,14 +1725,16 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 			tagName = $('.pop_over_boards');
 			let tagHeight = $('.Workspace__boards').css('height').substring(0,
 					3)
-			console.log(tagHeight)
-			console.log(typeof a)
 			topminu = 272
 			leftminu = 280
+			
+			contentInputFn(tagName, target);
 		} else if (className.includes('userAuthor')) {
 			tagName = $('.pop_over_author')
 			topminu = 351
 			leftminu = 530
+			
+			authorContentInputFn(tagName, target);
 		} else if (className.includes('userRemoveBtn')) {
 			tagName = $('.pop_over_remove')
 			topminu = 230
@@ -1575,7 +1742,7 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 		} else {
 
 		}
-
+		
 		let targetTop = target.offset().top;
 		let targetLeft = target.offset().left;
 
@@ -1602,6 +1769,9 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 	$(document).on('click', '.change__userRow', changeuserFn)
 
 	function changeadminFn() {
+		
+		changeadmin()
+		
 		if (!$('.change__adminRow').attr('disabled')) {
 			$('.change__adminRow').attr('disabled', true);
 			$('.change__userRow').attr('disabled', false);
@@ -1614,14 +1784,29 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 			$('.change__userRow').attr('disabled', true);
 		}
 	}
+	
+	function changeadmin(){
+		let userId = $('.target').closest('.tabletdRow').attr('data');
+	
+// 		ajaxChangeadmin(userId)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	}
+	
 
 	function labelClick() {
 		$('.modal2_label').click();
 	}
+	
+	function boardsRemoveFn(e){
+		console.log("removeBtn"+$(e.target))
+		
+	}
 
 	$(document).on('click', '#minusBtn', minusBtnHandle);
 	$(document).on('click', '#plusBtn', plusBtnHandle);
-
+	$(document).on('click', '.boardsList__row__removeBtn', boardsRemoveFn)
+	
+	
+	
 	function plusBtnHandle() {
 		let memberimg = $(this).parent().prev().prev().find('img').attr('src')
 		let memberid = $(this).parent().prev().text();
@@ -1631,7 +1816,7 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 		let members = $('.footerRow-content');
 		memTemplate.find('.result-member-img').find('img').attr('src',
 				memberimg)
-		console.log(memberid)
+	
 		memTemplate.find('.result-member-id').text(memberid)
 		members.append(memTemplate.html())
 		thismember.remove();
@@ -1721,7 +1906,7 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 	const options = $('.optionItem');
 
 	label.on('click', function(e) {
-		console.log(e.target)
+
 		$(e.target).parent().toggleClass('active');
 	})
 
