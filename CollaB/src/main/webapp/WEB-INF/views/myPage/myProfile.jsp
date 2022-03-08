@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +12,7 @@
       cursor: pointer;
     }
 
-    .eximg {
+    .profileImg {
       height: 100px;
       width: 100px;
     }
@@ -46,34 +47,56 @@
 						</h4>
 					</div>
 					<div class="card-body">
-						<table class="table table-bordered">
-							<tbody>
-								<tr>
-									<th>프로필사진</th>
-									<td><img src="/CollaB/resources/assets/img/example-image.jpg" alt=""
-										class="eximg mt-2"><br> <input type="file" name=""
-										id="" class="my-2"></td>
-								</tr>
-								<tr>
-									<th>이름</th>
-									<td><input type="text" class="form-control" name="" id=""
-										value="박소연"></td>
-								</tr>
-								<tr>
-									<th>닉네임</th>
-									<td><input type="text" class="form-control" value="sy"></td>
-								</tr>
-							</tbody>
-						</table>
+						<form action="myProfileUpdate" method="post" enctype="multipart/form-data" id="proffrm">
+							<table class="table table-bordered">
+								<tbody>
+									<tr>
+										<th>프로필사진</th>
+										<td>
+											<c:choose>
+												<c:when test="${user_info.prof_pic == null }">
+													<img src="/CollaB/resources/assets/img/avatar/avatar-1.png" alt="" class="profileImg my-2">
+												</c:when>
+												<c:when test="${not empty user_info.prof_pic }">
+													<img src="${user_info.prof_pic }" alt="" class="profileImg my-2">
+												</c:when>
+											</c:choose>
+											<input type="file" name="file" id="file">
+										</td>
+									</tr>
+									<tr>
+										<th>이름</th>
+										<td><input type="text" class="form-control" name="name" id="name"
+											value="${user_info.name }"></td>
+									</tr>
+									<tr>
+										<th>닉네임</th>
+										<td><input type="text" class="form-control" value="${user_info.nickname }" name="nickname" id="nickname"></td>
+									</tr>
+								</tbody>
+							</table>
+							<input type="hidden" name="id" value="${user_info.id }">
+						</form>
 					</div>
 					<div class="card-footer text-center">
-						<button class="btn btn-primary">적용하기</button>
+						<button class="btn btn-primary" onclick="updateProfile()">적용하기</button>
 					</div>
 				</div>
 			</div>
 
 		</section>
 	</div>
+	
+	<script>
+		function updateProfile() {
+            if($('#name').val().length==0){alert("이름을 입력하세요."); $('#name').focus(); return false; }
+            if($('#nickname').val().length==0){alert("닉네임을 입력하세요."); $('#nickname').focus(); return false; }
+            
+            window.alert("수정이 완료되었습니다.");
+            proffrm.submit();
+		}
+
+	</script>
 
 </body>
 </html>

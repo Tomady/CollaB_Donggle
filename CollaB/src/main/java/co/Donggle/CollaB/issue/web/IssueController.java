@@ -41,7 +41,6 @@ public class IssueController {
 		return "issue/issueInsert";
 	}
 	// 이슈 등록
-	 
 	   @PostMapping("/issueInsert.do")
 	   public String issueInsert(HttpServletRequest request, @RequestParam("itemLength") int num, IssueVO vo) {
 	      System.out.println("aaaaaa:" + num);
@@ -55,7 +54,6 @@ public class IssueController {
 	      }  
 	       return "redirect:issueBoard.do";
 	   }
-	
 
 	// 이슈 글 수정
 	@RequestMapping("/issueUpdate.do")

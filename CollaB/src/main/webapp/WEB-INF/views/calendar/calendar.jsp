@@ -22,6 +22,17 @@
 	background-color: #6553C1;
 	outline: #6553C1;
 }
+
+#calendarCard {
+	border: 1px solid #ECE9FE;
+	height: 600px;
+	overflow: scroll;
+}
+
+.calendar {
+	width: 800px;
+}
+
 .boardColor{width: 3%; height: 50px; margin-left: 5%;}
 .default{margin-right: 6%; height: 50px; margin-left: 5%;}
 .boardColor:hover, .default:hover{cursor: pointer;}
@@ -230,24 +241,38 @@ document.addEventListener("DOMContentLoaded", function(){
          </div>
 			<!-- 보드바디 -->
 			<div id="boardDetailBODY" class="section-body">
-				<div class="card">
+				<div class="card" id="calendarCard">
 					<div class="card-header">
 						<h4>Calendar</h4>
 					</div>
 					<div class="card-body">
-						<div id='calendar'></div>
-						<!-- Button trigger modal -->
-						<div class="row ml-2 mt-2">
-							<button type="button" class="btn btn-primary" id="addCardBtn"
-								data-toggle="modal" data-target="#addCardModal">Add
-								Card</button>
-							<button type="button" class="btn btn-primary ml-2"
-								id="addListBtn">Add List</button>
+						<div class="row">
+							<div class="col-lg-2">
+								<h4 mt-2>Lists</h4>
+								<c:forEach items="${lists }" var="lists" varStatus="status">
+									<div class="card">
+										<div class="card-body" style="background-color: #FAFAFA;">
+											<a href="">${lists.list_title }</a>
+										</div>
+									</div>
+								</c:forEach>
+							</div>
+							<div class="col-lg-10">
+								<div id='calendar'></div>
+								<!-- Button trigger modal -->
+								<!-- <div class="row ml-2 mt-2">
+									<button type="button" class="btn btn-primary" id="addCardBtn"
+										data-toggle="modal" data-target="#addCardModal">Add
+										Card</button>
+									<button type="button" class="btn btn-primary ml-2"
+											id="addListBtn">Add List</button>
+									</div>
+								</div> -->
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-	</div>
 
 	<!-- 카드 추가 모달 -->
 	<div class="modal fade show" id="addCardModal" tabindex="-1"
@@ -321,6 +346,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		
 		var calendar = new FullCalendar.Calendar(calendarEl, {
 			initialView : 'dayGridMonth',
+			height: 650,
 			nowIndicator: true,
 			headerToolbar : {
 	        	left: 'prev,next today',
@@ -383,13 +409,13 @@ document.addEventListener("DOMContentLoaded", function(){
       
       
 	  // 모달
-	  $('#addListBtn').on('click', function(){
-	    $('#addListModal').modal('show');
-	  })
+	//   $('#addListBtn').on('click', function(){
+	//     $('#addListModal').modal('show');
+	//   })
 	
-	  $('#closeAddList').on('click', function(){
-	    $('#addListModal').modal('hide');
-	  })
+	//   $('#closeAddList').on('click', function(){
+	//     $('#addListModal').modal('hide');
+	//   })
 	
 	  const cardModal = document.getElementById("addCardModal")
 	  const btnModal = document.getElementById("addCardBtn")

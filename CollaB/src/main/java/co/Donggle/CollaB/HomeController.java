@@ -46,10 +46,7 @@ public class HomeController {
 		return "index";
 	}
 	
-	@RequestMapping("/memberPage.do")
-	public String memberPage() {
-		return "member/memberPage";
-	}
+
 	
 
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.Donggle.CollaB.recent.service.RecentMapper">
+
+	<select id="recentBoard">
+		SELECT * FROM RECENT
+		WHERE ID = #{id}
+	</select>
+	
+	<insert id="insertRecent">
+		<selectKey keyProperty="id" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(ID), 0)+1 AS ID FROM RECENT
+		</selectKey>
+		INSERT INTO RECENT(INVITE, BOARD_ID, ID)
+		VALUES (sysdate, #{board_id}, #{id})
+	</insert>
+
+</mapper>

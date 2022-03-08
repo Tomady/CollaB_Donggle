@@ -341,7 +341,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	                 </c:forEach>
                    <div class="last card-header"> 
                      <div class="addCardBtn">
-                       <h4 class="fas fa-plus" 
+                       <h4 class="fas fa-plus ADDCARDBTN" style="cursor:pointer;"
                        onclick="nameCard(${list.list_id})">&nbsp;&nbsp;Add Card</h4>
                      </div>
                    </div>

@@ -38,9 +38,9 @@
               </a>
             </li>
             <li>
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="memberPage.do">
                 <i class="far fa-user"></i>
-                <span>Members</span>
+               <span>Members</span>
               </a>
             </li>
             <li>
@@ -62,6 +62,7 @@
             		<span class="sidebar_workspace${workspace.workspace_id}">&nbsp;&nbsp;${workspace.workspace_title}</span></a>
             	</li>
             </c:forEach>
+            <c:if test="${boardStar ne null}">
             <li class="menu-header">Your Boards</li>
             <c:forEach items="${boardStar}" var="starBoard">
             	<li>
@@ -78,6 +79,7 @@
 	              </a>
 	            </li>
             </c:forEach>
+            </c:if>
           </ul>
         </aside>
       </div>

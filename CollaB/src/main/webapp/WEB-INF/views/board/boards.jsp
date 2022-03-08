@@ -263,7 +263,7 @@
                   <div class="card-header d-flex justify-content-center" style="text-align:center;">
                     <div id="workspace-body" class="card-body col-lg-3 mt-5 mb-5 d-flex justify-content-center">
                       <div class="row workspaceNAME">
-                        <img class="img-fluid mr-2 mt-2 wkimg-body">
+                        <img class="img-fluid mr-2 mt-2 	-body">
                         <h3 class="mt-4" id="WsName" data-wkid="${workspace.workspace_id}">${workspace.workspace_title}</h3>
                       </div>
                     </div>  
