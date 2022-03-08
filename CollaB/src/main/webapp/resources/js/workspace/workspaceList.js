@@ -30,8 +30,9 @@ function searchWorkspace(){
 }
 
 //워크스페이스 탈퇴, 해당 워크스페이스의 보드에서도 탈퇴되도록
+//만약 최후의 1인이면 워크스페이스 아예 삭제되게하기 -완
 function workspaceJoinDelete(wkID){
-	let answer = confirm("Do you want to leave \nthe selected workspace?");
+	let answer = confirm("Do you want to leave the selected workspace?");
 	if(answer){
 		$.ajax({
 			url : "AjaxWorkspaceJoinDelete",
@@ -238,9 +239,53 @@ function closeModal(){
 function deleteWorkspace(id){
 	var zIndex = 9999;
     var modal = document.getElementById(id);
-	
+    
+    $("#deleteTargetWorkspace").empty();
+   	if($("#wkdelAgree").prop("checked")){
+   		$("#wkdelAgree").prop("checked", false);
+   	}
+	document.querySelector(".divisionLine").style.display="none";	
+	document.querySelector(".warningAlert").style.display="none";
+	const workspaces = document.querySelectorAll(".wkbtn");
+	workspaces.forEach((work)=>{
+		work.style.display="block";
+	})
+
     // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
     modal.querySelector('.del_workspace_close_btn').onclick=function(){ closeDelWorkspace() };
+    // 삭제 버튼 처리
+    modal.querySelector("#proceedWorkspaceDelete").onclick=function(){
+    	//동의하는 체크박스 체크시에만 삭제가능하도록
+    	if($("#wkdelAgree").prop("checked")){
+    		const targetList = document.querySelectorAll(".delTarget");
+    		const wkIds = new Array(); //삭제할 워크스페이스 아이디
+			for(let i = 0; i<targetList.length; i++){
+				wkIds[i] = targetList[i].getAttribute("data-wkid");
+			}
+			for(let wkId of wkIds){
+	    		$.ajax({
+	    			url : "AjaxWorkspaceDelete",
+	    			type : "POST",
+	    			data : {
+	    				workspace_id : wkId
+	    			},
+	    			dataType : "text",
+	    			success : function(data){
+	    				console.log(wkId+"번 워크스페이스 삭제 성공?"+data);
+	    				if(data == "YES"){
+	    					closeDelWorkspace();
+	    					window.location.reload();
+	    				}
+	    			},
+	    			error : function(){
+	    				console.log("AjaxWorkspaceDelete 실패");
+	    			}
+	    		})
+			}
+    	}else{
+			alert("PLEASE CHECK IF YOU AGREE.");
+    	}
+    }
     
     function closeDelWorkspace(){
 		bg.remove();
@@ -278,4 +323,27 @@ function deleteWorkspace(id){
         msTransform: 'translate(-50%, -50%)',
         webkitTransform: 'translate(-50%, -50%)'
     });
+}
+
+//삭제할 워크스페이스 추가되도록
+function del_SelectedWorkspace(wkid,wkname){
+	document.querySelector(".wk"+wkid).style.display = "none";
+	document.querySelector(".divisionLine").style.display = "block";
+	document.querySelector(".warningAlert").style.display = "block";
+	
+	let btn = document.createElement("button");
+	btn.setAttribute("class","delTarget btn btn-light mt-2 mb-2 ml-2");
+	btn.setAttribute("data-wkid",wkid);
+	btn.setAttribute("id","workspaceDelTarget"+wkid);
+	btn.style.width="95%";
+	btn.innerHTML = wkname;
+	btn.onclick = function(){
+		document.querySelector(".wk"+wkid).style.display = "block";
+		event.target.remove();
+		if(document.querySelector("#deleteTargetWorkspace .delTarget") == null){
+			document.querySelector(".divisionLine").style.display = "none";
+			document.querySelector(".warningAlert").style.display = "none";
+		}
+	}
+	deleteTargetWorkspace.append(btn);
 }

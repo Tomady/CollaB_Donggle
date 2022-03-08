@@ -414,7 +414,7 @@
 	                text: '',
 	            })
 	            .then(function(value) {
-	            	location.href = "index.do"
+	            	location.href = "WorkspaceList"
 	            })
 			},
 			error : function() {

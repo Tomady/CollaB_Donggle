@@ -85,20 +85,22 @@
 
   <!-- 워크스페이스 삭제 모달창 -->
   <div id="del_workspace" class="card">
-      <a class="del_workspace_close_btn fa fa-times" style="cursor:pointer;" onclick="closeDelWorkspace()"></a>
+      <a class="del_workspace_close_btn fa fa-times" style="cursor:pointer;" 
+      onclick="closeDelWorkspace()"></a>
       <div class="mb-4 text-center">
-    	<label class="mb-3" style="font-weight:bold; font-size:30px;">All the Workspaces</label>
+    	<label class="mb-3 mt-2" style="font-weight:bold; font-size:30px;">A list of workspaces<br>you can delete</label>
     	<label style="color:tomato;">Please select the workspace you want to delete.</label>
-   	    <div class="card" style="height:300px; overflow:scroll; overflow-x:hidden;">
-    	   		<button class="btn btn-light mt-2 mb-2 ml-2" style="width:95%"
-    	   		onclick="del_SelectedWorkspace()">워크스페이스이름</button>
+   	    <div class="card" style="height:200px; overflow:scroll; overflow-x:hidden;">
+    	   	<c:forEach items="${meAdmin}" var="workspace">
+	    	   	<button class="wkbtn btn btn-light mt-2 mb-2 ml-2 wk${workspace.workspace_id}" style="width:95%"
+    		   	onclick="del_SelectedWorkspace(${workspace.workspace_id},'${workspace.workspace_title}')">${workspace.workspace_title}</button>
+    	   	</c:forEach>
    	    </div>
-   	    <hr>
+   	    <hr class="divisionLine" style="display:none;">
    	    <div class="card" id="deleteTargetWorkspace">
    	    	<!-- 삭제할 워크스페이스 여기 오도록 -->
    	    </div>
-   	    <label style="color:tomato;">Deleted data can never be recovered.</label>
-   	    <label style="color:tomato;">Do you want to proceed?</label>
+   	    <label class="warningAlert" style="color:tomato; display:none;">Deleted data can never be recovered.<br><input id="wkdelAgree" type="checkbox" class="mr-2">Do you want to proceed?</label>
    	    <div>
    	    	<button id="proceedWorkspaceDelete" class="btn btn-danger mt-2 mb-2" style="width:90%">PROCEED</button>
    	    </div>
@@ -183,6 +185,7 @@
       
   <div class="main-wrapper">
     <div class="navbar-bg mainheaderBackground"></div>
+    
     <!-- Main Header -->
     <nav class="navbar navbar-expand-lg main-navbar d-flex justify-content-between">
       <div class="col-lg d-flex justify-content">
@@ -224,12 +227,12 @@
           <div class="d-sm-none d-lg-inline-block">Hi, Circle</div></a>
           <div class="dropdown-menu dropdown-menu-right">
             <!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
-            <a class="dropdown-item has-icon" onclick="mainHead_gotoMypage()">
+            <a class="dropdown-item has-icon" href="myPageMain.do">
               <i class="far fa-user"></i> Mypage
             </a>
             <div class="dropdown-divider"></div>
             <!--로그아웃처리 : 세션값삭제-->
-            <a class="dropdown-item has-icon text-danger" onclick="mainHead_logout()">
+            <a class="dropdown-item has-icon text-danger" href="logout.do">
               <i class="fas fa-sign-out-alt"></i> Logout
             </a>
           </div>
@@ -239,16 +242,18 @@
     
     <!-- Main Content -->
     <div class="main-content" >
+      
       <!-- 보드바디 -->
       <div class="section-body">
         <div class="row">
           <div class="col-12 col-md-6 col-lg-12">
             <div class="card">
               <div class="card-body ml-5 mr-5" style="height: 500vh;" >
+      
                 <!-- 검색창 -->
                 <div class="row d-flex justify-content-end mr-5 ml-5">
                   <div class="col-lg ml-5 mt-5">
-                  	<button class="btn btn-danger" onclick="deleteWorkspace('del_workspace')">DELETE WORKSPACE</button>
+                  	<button class="btn btn-secondary fa fa-trash" onclick="deleteWorkspace('del_workspace')">&nbsp;&nbsp;DELETE WORKSPACE</button>
                   </div>
                   <form action="#">
                     <div class="d-flex mr-5 mt-5 mb-5">
@@ -259,22 +264,27 @@
                     </div>
                   </form>
                 </div>
+      
                 <!--워크스페이스 목록-->
                 <div class="ml-5 mr-5">
                   <div class="col-12 col-md-6 col-lg-3 mb-5 ml-5">
-                    <h4>Your workspaces</h4>
+                    <h2>Your workspaces</h2>
                   </div>
-                  <!--여기서부터-->
+                  
+                  <!--여기서부터 워크스페이스-->
                   <c:forEach items="${workspaces}" var="workspace">
-                  	<div class="ml-5 mr-5 mt-5 mb-5 workspace" style="position: relative;" data-name="${workspace.workspace_title}">
+                  	<div class="ml-5 mr-5 mt-5 mb-5 workspace" style="position: relative; " 
+                  	data-name="${workspace.workspace_title}" data-id="${workspace.workspace_id}">
 	            	<div class="row ml-5 mr-5">
-						<div class="col-lg-5 d-flex justify-content-between" style="background-color:rgb(251, 251, 255);">
+						<div class="col-lg-5 d-flex justify-content-between " 
+						style="border:5px solid rgb(199,174,247); border-radius:10px;">
 							<!-- 워크스페이스 하나 클릭시 boards페이지로 이동 -->
-							<div class="btn" style="width:90%; background-color:rgb(251, 251, 255);"
+							<div class="btn" style="width:90%;);"
 							onclick="location.href='Boards?wkid=${workspace.workspace_id}'">
 							<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 								style="text-align: right; display: table-cell;">
-								<span class="ml-4 mt-1" style="font-weight: bold;">${workspace.workspace_title}</span>
+								<span class="ml-4 mt-3" 
+								style="color:rgb(199,174,247); font-size:25px; font-weight: bold;">${workspace.workspace_title}</span>
 							</div>
 							<div class="row card-header"></div>
 							</div>
@@ -288,19 +298,20 @@
                     <div class="boardList" style="display: none;">
                       <div class="ml-5 mr-5" style="position: relative; background-color: rgb(251, 251, 255);">
                         <div class="row mr-5 ml-5">
-              			<!--여기서부터-->
+              			
+              			<!--여기서부터 보드목록-->
 						<c:forEach items="${boards}" var="board">
 							<!-- 해당워크스페이스의 보드인지 확인 -->
 							<c:if test="${workspace.workspace_id eq board.workspace_id}">
 								<!-- 보드색깔지정 : 색깔없음 -->
-								<c:if test="${board.board_thema == ''}">
+								<c:if test="${board.board_thema == 'base' ||board.board_thema eq null }">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(245,245,245);"
+										<div class="card board" style="background-color:white;"
 										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
-												 color:rgb(245,245,245);">${board.board_Title}</span>
+												 color:black;">${board.board_Title}</span>
 											</div>
 											<div class="row card-header"></div>
 										</div>

@@ -13,4 +13,9 @@ public interface WorkspaceMapper {
 	int selectWorkspaceMaxId(); 
 	//해당 워크스페이스가 가지고 있는 모든 보드목록
 	List<BoardVO> boardListinWorkspace(WorkspaceVO vo);
+	
+	//워크스페이스 삭제 - 해당 워크스페이스가 가지고 있는 모든 보드 아이디 목록
+	List<BoardVO> boardIdListInWorkspace(WorkspaceVO vo);
+	//워크스페이스 삭제
+	int workspaceDelete(WorkspaceVO vo);
 }

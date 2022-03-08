@@ -14,7 +14,10 @@
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
- <style>
+<style>
+	body{
+		background-color: white !important;
+	}
     #timeline-wrap{
         width: 100%;
         height: auto;
@@ -40,6 +43,8 @@
     #timeline-list-footer{
         height: 10%;
     }
+
+    /* calendar */
     #calendar {
         width: 80%;
         margin: 40px auto;
@@ -58,6 +63,8 @@
     .fc-daygrid{
         padding: 5px;
     }
+
+    /* 왼쪽 div*/
     #addBtn{
         background-color: #9F90D9;
         border: none;
@@ -88,27 +95,83 @@
         cursor: pointer;
         height: 100px;
     }
-    .modal{
+    #modal{
         position: absolute;
-        width: 250px; height: 60px;
+        width: 200px; height: 90px;
         background: white;
         display: none;
         border: 1px solid lightgray;    
         top: 80%; left: 7%;
     }
-    .modal li{
+    #modal li{
         list-style-type: none;
         cursor: pointer; 
     }
-    .modal li:hover{
+    #modal li:hover{
         color:#6553C1;
         font-weight: bold;
+    } 
+    .icon{
+      cursor: pointer;
+      float: right;
+      margin: 10px;
     }
-   
+    #modalOfCard, #modalOfList{
+        width: 500px;
+        border: 1px solid lightgray;
+        border-radius: 0.25rem;
+        display: none;
+        transform: translate(-50%, -50%);
+        top: 50%; left: 60%;
+        background-color: white;
+        z-index: 1060;
+        position: fixed; 
+    }
+    .alert.alert-primary{
+        background-color: #9F90D9;
+        color: #F6F6F6;
+        font-weight: bold;
+        text-align: center;
+        font-size: 20px;
+    }
+    .form-group{
+        width: 70%;
+        margin: 10px auto;
+    }
+    #dateWrap{ 
+        display: flex;
+    }
+    #startDate{
+        width: 150px;
+        margin-right: 50px;
+    }
+    #dueDate{
+        width: 150px;
+    }
+    .addBtn{
+        background-color: #9F90D9;
+        border: none;
+        border-radius: 5px;
+        color: #F6F6F6;
+        font-size: 18px;
+        margin: auto;
+        display: block;
+        border: 1px solid #9F90D9;
+        width: -webkit-fill-available;
+    }
+    .addBtn:active, .addBtn:hover{
+        background-color: white;
+        border: 1px solid #9F90D9;
+        border-radius: 5px;
+        color: #9F90D9;
+        outline: 0;
+    }
   </style>
+
 </head>
 <body style="background-color: white;">
- <!-- Main Content -->
+  
+        <!-- Main Content -->
         <div class="main-content">
           <section class="section">
             <!-- 보드헤더 -->
@@ -121,9 +184,10 @@
                 </button>
                 <div class="dropdown-menu">
                   <div class="dropdown-title">Hi, [Nickname] ! 🤗<p>Where are you going ?</p></div>
-                  <a class="dropdown-item" href="#">&nbsp;&nbsp;TimeLine</a>
-                  <a class="dropdown-item" href="#">&nbsp;&nbsp;Calendar</a>
-                  <a class="dropdown-item" href="#">&nbsp;&nbsp;DashBoard</a>
+                 	<a class="dropdown-item" href="boardDetail">&nbsp;&nbsp;Board</a>
+	             	<a class="dropdown-item" href="timeline.do">&nbsp;&nbsp;TimeLine</a>
+	             	<a class="dropdown-item" href="calendar.do">&nbsp;&nbsp;Calendar</a>
+                  	<a class="dropdown-item" href="#">&nbsp;&nbsp;DashBoard</a>
                   <!--<div class="dropdown-divider"></div> 구분선-->
                 </div>
                 &nbsp;&nbsp;
@@ -195,8 +259,11 @@
               </div>
               <!-- 보드헤더 끝 -->
             </div>
+            
             <!-- 보드바디 -->
+            
             <div id="timeline-wrap">
+              
                 <div id="timeline-list">
                     <div id="timeline-list-header"> 
                         <h4>TIMELINE LIST 📆</h4>
@@ -213,10 +280,10 @@
                         </div>
                         <div id="timeline-list-footer">
                             <div class="modal" id="modal">
-                              <div style="margin-bottom: 20px;"><ion-icon name="close-outline" id="icon"></ion-icon></div>
+                              <div style="margin-bottom: 20px;"><ion-icon name="close-outline" class="icon" id="close1"></ion-icon></div>
                               <ul>
-                                <li>Card</li>
-                                <li>List</li>
+                                <li id="card">Card</li>
+                                <li id="list">List</li>
                               </ul>
                             </div>
 
@@ -225,15 +292,70 @@
                     </div> <!-- end of timeline-list-box-->
                     
                 </div> <!-- end of timeline-list-->
+
+                
                 <div id='calendar'></div>
+                
             </div>
-            
 
           </section>
+          
+        </div>
+
+      </div>
+      <!-- 카드, 리스트 추가 모달-->
+      <div id="modalOfCard">
+        <div style="margin-bottom: 20px;"><ion-icon name="close-outline" class="icon" id="close2"></ion-icon></div>
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Select</label>
+            <select class="form-control">
+              <option>Option 1</option>
+              <option>Option 2</option>
+              <option>Option 3</option>
+            </select>
+        </div>
+        <div class="form-group" id="dateWrap">
+            <div id="startDate">
+                <label>Start date</label>
+                <input type="date" class="form-control">
+            </div>
+            <div id="dueDate">
+                <label>Due date</label>
+                <input type="date" class="form-control">
+            </div>
+        </div> <!-- end of dateWrap -->
+        <br>
+        <div class="form-group">
+            <button type="button" class="addBtn" id="addCard">Add Card </button>
+        </div>
+        <br>
+      </div> <!--end of 카드모달모달-->
+
+      <div id="modalOfList">
+        <div style="margin-bottom: 20px;"><ion-icon name="close-outline" class="icon" id="close3"></ion-icon></div>
+        <div class="form-group">
+            <label>Title</label>
+            <input type="text" class="form-control">
         </div>
         
-<script>
-	// 풀캘린더
+        <br>
+        <div class="form-group">
+            <button type="button" class="addBtn" id="addList">Add List </button>
+        </div>
+        <br>
+      </div> <!--end of 리스트모달모달-->
+      
+    </div>
+    
+    
+<!-- Fullcalendar-->
+    <link href='../sources/fullcalendar/main.css' rel='stylesheet' />
+    <script src='../sources/fullcalendar/main.js'></script>
+    <script>
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
       
@@ -255,14 +377,33 @@
       });
 
 
- 	// 모달
-    document.getElementById("addBtn").onclick = function() {
-       $("#modal").fadeIn();
-   };
+     // 모달
+     document.getElementById("addBtn").onclick = function() {
+        $("#modal").fadeIn();
+    };
+    document.getElementById("card").onclick = function() {
+        $("#modalOfCard").fadeIn();
+        $("#modal").fadeOut();
+    };
 
-   document.getElementById("icon").onclick = function() {
-       $("#modal").fadeOut();
-   };
-</script>
+    document.getElementById("list").onclick = function() {
+        $("#modalOfList").fadeIn();
+        $("#modal").fadeOut();
+    };
+
+    document.getElementById("close1").onclick = function() {
+        $("#modal").fadeOut();
+    };
+
+    document.getElementById("close2").onclick = function() {
+        $("#modalOfCard").fadeOut();
+    };
+
+    document.getElementById("close3").onclick = function() {
+        $("#modalOfList").fadeOut();
+    };
+  
+
+      </script>
 </body>
 </html>

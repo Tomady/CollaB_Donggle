@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import co.Donggle.CollaB.card.service.CardMapper;
 import co.Donggle.CollaB.card.service.CardService;
 import co.Donggle.CollaB.card.service.CardVO;
+import co.Donggle.CollaB.list.service.ListVO;
 
 @Repository("cardDao")
 public class CardServiceImpl implements CardService {
@@ -142,5 +143,10 @@ public class CardServiceImpl implements CardService {
 	@Override
 	public int cardManagerSetting(CardVO vo) {
 		return map.cardManagerSetting(vo);
+	}
+
+	@Override
+	public int deleteCards(ListVO vo) {
+		return map.deleteCards(vo);
 	}
 }

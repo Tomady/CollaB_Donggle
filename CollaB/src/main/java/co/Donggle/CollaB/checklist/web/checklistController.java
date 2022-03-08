@@ -2,13 +2,10 @@ package co.Donggle.CollaB.checklist.web;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.Donggle.CollaB.card.service.CardVO;
@@ -40,19 +37,21 @@ public class checklistController {
 	}
 	
 	// 체크리스트 등록하기
-	@RequestMapping("/addchecklist")
+	@RequestMapping("/AjaxAddCheckList")
 	@ResponseBody
-	public void addchecklist(checklistVO vo) {
-		System.out.println(vo.getChecklist_title());
-		checklistDao.chklistAdd(vo);
-		
+	public checklistVO addchecklist(checklistVO vo) {
+		checklistDao.chklistAdd(vo); //체크리스트 추가
+
+		return checklistDao.selectCheckList(vo);
 	}
 	
 	// 아이템 등록하기
-	@RequestMapping("/additem")
+	@RequestMapping("/AjaxAddCheckListItem")
 	@ResponseBody
-	public void additem(itemInfoVO vo) {
-		itemInfoDao.additem(vo);
+	public itemInfoVO additem(itemInfoVO vo) {
+		itemInfoDao.additem(vo); //아이템 추가
+		
+		return itemInfoDao.selectItem(vo); 
 	}
 	
 	// 아이템 삭제하기

@@ -9,5 +9,10 @@
 		where workspace_id = #{workspace_id}
 	</select>
 	
-	
+	<select id="workspaceJoinUserIdselect" resultType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO"
+	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO">
+		select * from workspace_join
+		where id = #{id}
+		and workspace_id = #{workspace_id}
+	</select>
 </mapper>

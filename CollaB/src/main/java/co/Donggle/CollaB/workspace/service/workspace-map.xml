@@ -36,4 +36,17 @@
 		WHERE WORKSPACE_ID = #{workspace_id}
 	</select>
 	
+	<select id="boardIdListInWorkspace"
+	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceVO"
+	resultType="co.Donggle.CollaB.board.service.BoardVO">
+		SELECT BOARD_ID FROM BOARD
+		WHERE WORKSPACE_ID = #{workspace_id}
+	</select>
+	
+	<delete id="workspaceDelete"
+	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceVO">
+		DELETE WORKSPACE
+		WHERE WORKSPACE_ID = #{workspace_id}
+	</delete>
+	
 </mapper>
