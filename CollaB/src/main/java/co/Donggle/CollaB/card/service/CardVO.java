@@ -23,7 +23,7 @@ public class CardVO {
 	private int board_id;
 	private String id;
 	
-	//user
+	//user_info
 	private String name;
 	private String prof_pic;
 	
@@ -42,5 +42,4 @@ public class CardVO {
 	private int item_id;
 	private String item_title;
 	private String item_status;
-	
 }

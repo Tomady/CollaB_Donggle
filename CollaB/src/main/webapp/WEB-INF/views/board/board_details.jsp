@@ -195,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function(){
              </button>
              <div class="dropdown-menu">
                <!-- 세션에다 닉네임 저장해주세여....부탁드려보자.... -->
-               <div class="dropdown-title">Hi, [Nickname] ! 🤗<p>Where are you going ?</p></div>
+               <div class="dropdown-title">Hi, ${nickname}! 🤗<p>Where are you going ?</p></div>
                <a class="dropdown-item" href="boardDetail?boardID=${boardID}">&nbsp;&nbsp;Board</a>
                <a class="dropdown-item" href="timeline.do">&nbsp;&nbsp;TimeLine</a>
                <a class="dropdown-item" href="calendar.do?boardId=${boardID}">&nbsp;&nbsp;Calendar</a>
@@ -288,7 +288,10 @@ document.addEventListener("DOMContentLoaded", function(){
              <div class="dropdown-menu dropdown-menu-right filtermenu" style="overflow: scroll; height: 300px;">
                <div class="dropdown-title Members">Your Partners 👫</div>
                <c:forEach items="${boardJoinMembers}" var="boardmember">
-                 <a class="dropdown-item" href="#"><input type="checkbox"> ${boardmember.name}(${boardmember.email})</a>						                 	
+                 <a class="dropdown-item" href="#">
+                 	<input type="checkbox" name="filterMember" data-memid="${boardmember.id}"
+                 	onclick="filterApply()"> ${boardmember.id}(${boardmember.name})
+                 </a>						                 	
                </c:forEach>
              </div>
            </div>
@@ -312,9 +315,9 @@ document.addEventListener("DOMContentLoaded", function(){
                  <!-- 한 리스트 내 카드목록 -->
 	                 <c:forEach items="${totalCard}" var="card">
 	                 <c:if test="${card.list_id eq list.list_id}">
-	                 	<div id="card${card.card_id}" style="cursor:pointer;"
+	                 	<div id="card${card.card_id}" style="cursor:pointer;" data-manager="${card.manager}"
 	                 	onclick="location.href='cardDetail?list=${list.list_id}&card=${card.card_id}'"
-	                 	class="card card-${card.card_label} ml-2 mr-2" > <!--라벨표시-->
+	                 	class="caaard card card-${card.card_label} ml-2 mr-2" > <!--라벨표시-->
 	                     <div class="card-header d-flex justify-content-between">
 	                       <span class="cardName">${card.card_title}</span> <!--카드이름-->
 	                       <i class="fa fa-times col-rg" aria-hidden="true" onclick="deleteCard(${card.card_id})"></i>
