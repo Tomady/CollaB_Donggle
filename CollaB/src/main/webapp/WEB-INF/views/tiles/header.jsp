@@ -110,7 +110,7 @@
             <div class="d-sm-none d-lg-inline-block">Hi, Circle</div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
-              <a class="dropdown-item has-icon" href="myPageMain.do">
+              <a class="dropdown-item has-icon" href="/CollaB/myPageMain">
                 <i class="far fa-user"></i> Mypage
               </a>
               <div class="dropdown-divider"></div>

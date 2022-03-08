@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import co.Donggle.CollaB.calendar.service.calendarMapper;
 import co.Donggle.CollaB.calendar.service.calendarService;
+import co.Donggle.CollaB.card.service.CardVO;
 
 @Repository("calendarDao")
 public class calendarServiceImpl implements calendarService {
@@ -29,6 +30,11 @@ public class calendarServiceImpl implements calendarService {
 	public int updateCalendar(calendarVO vo) {
 		
 		return calendarMapper.updateCalendar(vo);
+	}
+
+	@Override
+	public List<CardVO> calendarAllCard(int boardId) {
+		return calendarMapper.calendarAllCard(boardId);
 	}
 
 }
