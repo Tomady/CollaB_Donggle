@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,6 +33,7 @@
        border: 1px solid #6553C1 !important;
        color: #6553C1 !important;
      }
+     
    /* 글 내용*/
    .profile-widget .profile-widget-description{
      width: 90%;
@@ -44,6 +45,7 @@
     .issue-content{
       width: 50%;
     }
+    
 
 
      /* 이슈리스트 */
@@ -107,6 +109,7 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-body">
+                  <a href="javascript:window.history.back();"><ion-icon name="arrow-back"></ion-icon> BACK</a>
                     <div class="card profile-widget">
                         <div class="profile-widget-header">
                           
@@ -172,11 +175,13 @@
                             </div>
                           </div>
                         </div>
+                        <c:if test="${issue.id == id }">
                         <div id="btnGroup">
-                          <button type="button" class="btn btn-primary" id="insertBtn" onclick="location.href='issueUpdate.do?issueId=${issue.issueId}'">수정</button>           
-                          <button type="button" class="btn btn-primary" id="cancelBtn" onclick="#">삭제</button>
+                          <button type="button" class="btn btn-primary" id="insertBtn" onclick="location.href='goIssueUpdate.do?issueId=${issue.issueId}'">수정</button>           
+                          <button type="button" class="btn btn-primary" id="cancelBtn" onclick="issueDelete('${issue.issueId}')">삭제</button>
                         </div>
-                        
+                        </c:if>
+                        <br>
                 </div>
               
                 <!-- 댓글 -->
@@ -200,6 +205,27 @@
 $(document).ready(function func() {
 	$("input[type=checkbox]").bind("click",false);
 });
+
+// 삭제 ajax function
+function issueDelete(issueId){
+	console.log(issueId);
+	
+	$.ajax({
+		url : "issueDelete.do",
+		type : "post",
+		data : { issueid : issueId},
+		dataType : "text",
+		success : function(data){
+			if(data == "true"){
+				alert("✔ 삭제 완료");
+				location.href = "issueBoard.do";
+			}
+		},
+		error : function(){
+			alert("⁉ 삭제 실패");
+		}
+	})
+}
 
 </script>
 </body>
