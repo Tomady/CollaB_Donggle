@@ -57,25 +57,35 @@ public class IssueController {
 	   }
 	
 
-	// 이슈 글 수정
+	// 이슈 글 수정 버튼 실행
 	@RequestMapping("/issueUpdate.do")
 	public String issueUpdate(Model model, HttpSession session, IssueVO vo) {
 		String id = (String) session.getAttribute("id");
-		int edit = issueDao.updateIssue(vo);
 		vo.setId(id);
-		List<IssueVO> issue = issueDao.issueList(vo);
+		int edit = issueDao.updateIssue(vo);
 		
-		model.addAttribute("issue", issue);
+		System.out.println(vo.getIssueTitle());
+		System.out.println(vo.getIssueContent());
+		
+		model.addAttribute("issues", edit);
 		
 		if(edit > 0) {
 			System.out.println("수정 완");
 		}
 		
-		return "issueBoard.do";
+		return "redirect:issueBoard.do";
+	}
+	// 이슈 글 수정 페이지 이동
+	@RequestMapping("/goIssueUpdate.do")
+	public String goIssueUpdate(@RequestParam("issueId") int issueId, Model model, IssueVO vo) {
+		vo.setIssueId(issueId);
+		IssueVO ivo = issueDao.issueSelect(vo);
+		model.addAttribute("issue", ivo);
+		return "issue/issueUpdate";
 	}
 	
 	// 이슈 글 상세
-	@RequestMapping("issueDetail.do")
+	@RequestMapping("/issueDetail.do")
 	public String issueDetail(Model model, HttpSession session, @RequestParam("issueId") int issueId, IssueVO vo) {
 		String id = (String) session.getAttribute("id");
 		System.out.println("로그인 된 아이디는" + id);
@@ -89,12 +99,13 @@ public class IssueController {
 	// 이슈 글 삭제 ajax
 	@ResponseBody
 	@RequestMapping("/issueDelete.do") 
-	public String roomDelete(HttpServletRequest request, @RequestParam("issueId") int issueId, IssueVO vo) {
-     
+	public String roomDelete(HttpServletRequest request) {
+      int no = Integer.parseInt(request.getParameter("issueid"));
+      
       String result = "false";
 
-     
-      vo.setIssueId(issueId);
+      IssueVO vo = new IssueVO();
+      vo.setIssueId(no);
 
       int n = issueDao.deleteIssue(vo);
 
