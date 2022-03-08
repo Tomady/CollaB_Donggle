@@ -15,4 +15,10 @@ public interface WorkspaceJoinMapper {
 	List<UserVO> workspaceTotalMember(WorkspaceJoinVO vo);
 	//워크스페이스 탈퇴
 	int workspaceJoinDelete(WorkspaceJoinVO vo);
-}
+	//워크스페이스 가입멤버 몇명인지 조회 => 아무도 없으면 워크스페이스,보드,리스트,카드,관련파일 전부 삭제
+	int workspaceJoinSearch(WorkspaceJoinVO vo);
+	//사용자가 admin인 워크스페이스 목록
+	List<WorkspaceVO> workspaceListMeAdmin(String id);
+	//워크스페이스 가입내역 전부 삭제
+	int workspaceJoinAllDelete(int workspaceId);
+}	

@@ -42,7 +42,8 @@
 		SELECT A.*
         FROM BOARD A JOIN BOARD_STAR B
         ON ( A.BOARD_ID = B.BOARD_ID)
-        WHERE A.WORKSPACE_ID = #{workspace_id} 
+        WHERE A.WORKSPACE_ID = #{workspace_id}
+        AND B.USER_ID = #{id}
 	</select>
 	
 	<select id="selectBoardNonStar"
@@ -51,14 +52,14 @@
 		SELECT A.*
 		FROM BOARD A JOIN BOARD_JOIN B
 		ON (A.BOARD_ID = B.BOARD_ID)
-		WHERE A.WORKSPACE_ID = #{workspace_id}
+		WHERE b.WORKSPACE_ID = #{workspace_id} 
+        and b.id = #{id}
 		MINUS
-		SELECT C.*
-		FROM BOARD_JOIN A JOIN BOARD_STAR B
-		ON (A.BOARD_ID = B.BOARD_ID)
-		JOIN BOARD C
-		ON (A.BOARD_ID = C.BOARD_ID)
-		WHERE A.WORKSPACE_ID = #{workspace_id} 
+        SELECT C.*
+        FROM BOARD C JOIN BOARD_STAR B
+        ON (C.BOARD_ID = B.BOARD_ID)
+        WHERE C.WORKSPACE_ID = #{workspace_id} 
+        AND B.USER_ID = #{id}
 	</select>
 	
 	<select id="boardStarYesOrNo"
@@ -149,4 +150,49 @@
 		SELECT BOARD_ID FROM LIST 
 		WHERE LIST_ID = #{list_id}
 	</select>
+	
+	<select id="listIdInBoard"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO"
+	resultType="co.Donggle.CollaB.list.service.ListVO">
+		SELECT LIST_ID FROM LIST
+		WHERE BOARD_ID = #{board_id}
+	</select>
+	
+	<delete id="deleteBoards"
+	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceVO">
+		DELETE BOARD
+		WHERE WORKSPACE_ID = #{workspace_id}
+	</delete>
+	
+	<delete id="deleteBoardStars"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO">
+		DELETE BOARD_STAR
+		WHERE BOARD_ID = #{board_id}
+	</delete>
+	
+	<delete id="deleteBoardstar"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO">
+		DELETE BOARD_STAR
+		WHERE USER_ID = #{id}
+	</delete>
+	
+	<delete id="deleteBoardJoinAll"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO">
+		DELETE BOARD_JOIN
+		WHERE BOARD_ID = #{board_id}
+	</delete>
+	
+	<select id="boardJoinCount"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO"
+	resultType="int">
+		SELECT COUNT(*)
+		FROM BOARD_JOIN
+		WHERE BOARD_ID = #{board_id}
+	</select>
+	
+	<delete id="boardDelete"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO">
+		DELETE BOARD
+		WHERE BOARD_ID = #{board_id}
+	</delete>
 </mapper>

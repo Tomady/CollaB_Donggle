@@ -48,25 +48,33 @@ import co.Donggle.CollaB.user.service.UserVO;
 
 @Controller
 public class LoginController {
-	@Autowired private LoginUserService LoginUserDao;
-	@Autowired private KakaoLoginApiService kakao;
-	@Autowired private NaverLoginBO naverLoginBO;
-	@Autowired private GoogleLoginBO googleLoginBO;
-	@Autowired private FacebookLoginBO facebookLoginBO;
-	@Autowired private JavaMailSender mail;
-	@Autowired private SmsSendBO sendBO;
-	
+	@Autowired
+	private LoginUserService LoginUserDao;
+	@Autowired
+	private KakaoLoginApiService kakao;
+	@Autowired
+	private NaverLoginBO naverLoginBO;
+	@Autowired
+	private GoogleLoginBO googleLoginBO;
+	@Autowired
+	private FacebookLoginBO facebookLoginBO;
+	@Autowired
+	private JavaMailSender mail;
+	@Autowired
+	private SmsSendBO sendBO;
+
 	// 로그인 페이지 이동
 	@RequestMapping("/login.do")
 	public String login() {
 		return "login";
 	}
 
+	//index
 	@ResponseBody
-	@RequestMapping(value="/ajaxLoginChk.do", produces="application/text; charset=utf8")
+	@RequestMapping(value = "/ajaxLoginChk.do", produces = "application/text; charset=utf8")
 	public String ajaxLoginChk(UserVO vo, HttpSession session) {
 		vo = LoginUserDao.userLogin(vo);
-		
+
 		if (vo != null) {
 			session.setAttribute("id", vo.getId());
 			String nickname = vo.getNickname();
@@ -75,13 +83,13 @@ public class LoginController {
 			return "No";
 		}
 	}
-
+	//index
 	@RequestMapping("/logout.do")
 	public String logout(UserVO vo, HttpSession session) {
 		session.invalidate();
 		return "index";
 	}
-
+	//login
 	@RequestMapping("/kakaologin.do")
 	public String kakaologin(@RequestParam String code, HttpSession session, UserVO vo, Model model) {
 		String access_Token = kakao.getAccessToken(code);
@@ -91,12 +99,12 @@ public class LoginController {
 		String email = (String) userInfo.get("email");
 		String name = (String) userInfo.get("nickname");
 		String profile_image = (String) userInfo.get("profile_image");
-		
+
 		vo.setName(name);
 		vo.setEmail(email);
 		vo = LoginUserDao.idFindNameEmailChk(vo);
-		
-		if(vo != null) {
+
+		if (vo != null) {
 			session.setAttribute("access_Token", access_Token);
 			session.setAttribute("id", vo.getId());
 			session.setAttribute("nickname", vo.getNickname());
@@ -107,24 +115,27 @@ public class LoginController {
 			model.addAttribute("email", email);
 			model.addAttribute("name", name);
 			model.addAttribute("profile_image", profile_image);
-			model.addAttribute("company", "카카오");
+			model.addAttribute("token", "카카오");
 			return "apiJoinForm";
 		}
 	}
 
+	//login
 	@RequestMapping("/kakaoLogout.do")
 	public String kakaologout(HttpSession session) {
 		kakao.kakaoLogout((String) session.getAttribute("access_Token"));
 		session.invalidate();
-	
+
 		return "login";
 	}
-	
+
+	//login
 	@RequestMapping("/apiJoinForm.do")
 	public String apiLogin() {
 		return "apiJoinForm";
 	}
 
+	//login
 	@ResponseBody
 	@RequestMapping("/naverlogin.do")
 	public String naverlogin(HttpSession session) {
@@ -132,10 +143,11 @@ public class LoginController {
 		return reqUrl;
 	}
 
+	//login
 	@RequestMapping("/naverlogininfo.do")
-	public String callback(Model model,UserVO vo, @RequestParam String code, @RequestParam String state, HttpSession session)
-			throws IOException, ParseException {
-		 
+	public String callback(Model model, UserVO vo, @RequestParam String code, @RequestParam String state,
+			HttpSession session) throws IOException, ParseException {
+
 		OAuth2AccessToken oauthToken;
 
 		oauthToken = naverLoginBO.getAccessToken(session, code, state);
@@ -156,11 +168,11 @@ public class LoginController {
 		String name = (String) response_obj.get("name");
 		String profile_image = (String) response_obj.get("profile_image");
 		String tel = (String) response_obj.get("mobile");
-
+		System.out.println("dfdfdfd : " + email);
 		vo.setEmail(email);
 		vo.setName(name);
 		vo = LoginUserDao.idFindNameEmailChk(vo);
-		
+
 		if (vo != null) {
 			session.setAttribute("id", vo.getId());
 			session.setAttribute("nickname", vo.getNickname());
@@ -173,30 +185,26 @@ public class LoginController {
 			model.addAttribute("name", name);
 			model.addAttribute("profile_image", profile_image);
 			model.addAttribute("tel", tel);
-			model.addAttribute("company", "네이버");
+			model.addAttribute("token", "네이버");
 			return "apiJoinForm";
 		}
-	}	
-
-	@RequestMapping("/naverLogout.do")
-	public String remove(HttpSession session, HttpServletRequest request, Model model) {
-		String token = (String) session.getAttribute("token");
-		String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=" + NaverLoginBO.CLIENT_ID
-				+ "&client_secret=" + NaverLoginBO.CLIENT_SECRET + "&access_token=" + token.replaceAll("'", "")
-				+ "&service_provider=NAVER";
-		try {
-			System.out.println("apiUrl : " + apiUrl);
-			String res = requestToServer(apiUrl);
-			System.out.println(res);
-			session.invalidate();
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-
-		return "login";
 	}
 
+	//login
+	@RequestMapping("/naverLogout.do")
+	@ResponseBody
+	public String remove(HttpSession session, HttpServletRequest request, Model model) {
+//		String apiUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=" + NaverLoginBO.CLIENT_ID
+//				+ "&client_secret=" + NaverLoginBO.CLIENT_SECRET + "&access_token=" + token.replaceAll("'", "")
+//				+ "&service_provider=NAVER";
+		String apiUrl = "https://nid.naver.com/nidlogin.logout";
+
+		session.invalidate();
+
+		return apiUrl;
+	}
+
+	//login
 	private String requestToServer(String apiURL) throws IOException {
 		URL url = new URL(apiURL);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -225,6 +233,7 @@ public class LoginController {
 		}
 	}
 
+	//login
 	@RequestMapping("/googleLoginUrl.do")
 	@ResponseBody
 	public String googleLogin() {
@@ -234,8 +243,9 @@ public class LoginController {
 		return googleLoginUrl;
 	}
 
+	//login
 	@RequestMapping("/googlelogin.do")
-	public String googleAuth(Model model,UserVO vo,HttpSession session, @RequestParam(value = "code") String authCode)
+	public String googleAuth(Model model, UserVO vo, HttpSession session, @RequestParam(value = "code") String authCode)
 			throws JsonProcessingException {
 		String GOOGLE_TOKEN_BASE_URL = "https://oauth2.googleapis.com/token";
 		RestTemplate restTemplate = new RestTemplate();
@@ -268,36 +278,38 @@ public class LoginController {
 		String email = (String) userInfo.get("email");
 		String name = (String) userInfo.get("name");
 		String picture = (String) userInfo.get("picture");
-		
+
 		vo.setEmail(email);
 		vo.setName(name);
 		vo = LoginUserDao.idFindNameEmailChk(vo);
 		vo = LoginUserDao.idFindNameEmailChk(vo);
-		
-		if(vo != null) {
+
+		if (vo != null) {
 			session.setAttribute("id", vo.getId());
 			session.setAttribute("nickname", vo.getNickname());
 			session.setAttribute("name", vo.getName());
 			session.setAttribute("email", vo.getEmail());
 			return "redirect:index.do";
-		}else {
+		} else {
 			model.addAttribute("email", email);
 			model.addAttribute("name", name);
 			model.addAttribute("profile_image", picture);
-			model.addAttribute("company", "구글");
+			model.addAttribute("token", "구글");
 			return "apiJoinForm";
 		}
-		
 
 	}
-
+	//login
 	@RequestMapping("/googleLogout.do")
 	@ResponseBody
-	public String googleLogout() {
+	public String googleLogout(HttpSession session) {
 		String logoutUrl = "https://accounts.google.com/logout";
-		return "logoutUrl";
+		session.invalidate();
+		
+		return logoutUrl;
 	}
 
+	//login
 	@RequestMapping("/facebookLoginUrl.do")
 	@ResponseBody
 	public String facebookLoginUrl() {
@@ -307,6 +319,7 @@ public class LoginController {
 		return facebookUrl;
 	}
 
+	//login
 	@RequestMapping("/https://localhost/CollaB/facebookLogin.do")
 	public String facebookLogin(String code, HttpSession session, String state) throws Exception {
 		String accessToken = facebookLoginBO.requestFaceBooktAccesToken(session, code);
@@ -315,24 +328,25 @@ public class LoginController {
 		System.out.println(facebookResult);
 		return "ok";
 	}
-	
+
+	//login
 	@RequestMapping("/facebookLogout.do")
 	public String facebookLogout() {
 		return "";
 	}
-	
+
+	//login
 	@ResponseBody
-	@RequestMapping(value = "/ajaxCompanyChk.do", produces = "application/text; charset=utf8")
-	public String ajaxCompanyChk(HttpSession session, UserVO vo) {
+	@RequestMapping(value = "/ajaxTokenChk.do", produces = "application/text; charset=utf8")
+	public String ajaxTokenChk(HttpSession session, UserVO vo) {
 		vo.setId((String) session.getAttribute("id"));
 		vo = LoginUserDao.passwordFindIdChk(vo);
-		
-		System.out.println("=======================" + vo.getCompany());
-		
-		if(vo.getCompany() == null) {
+
+
+		if (vo.getToken() == null) {
 			return "No";
 		} else {
-			return vo.getCompany();
+			return vo.getToken();
 		}
 	}
 
@@ -380,27 +394,21 @@ public class LoginController {
 				+ "        <div><span style=\"font-size: 20px; font-weight: bold; color: #fff;\">안녕하세요 </span>\r\n"
 				+ "             <span style=\"font-size: 24px; font-weight: bold; color: orangered;\">CollaB</span>\r\n"
 				+ "            <span style=\"font-size: 20px; font-weight: bold; color: #fff;\"> 입니다.</span>\r\n"
-				+ "        </div>\r\n"
-				+ "        <br>\r\n"
+				+ "        </div>\r\n" + "        <br>\r\n"
 				+ "        <div style=\"width: 300px; height: 110px; background-color: #fff; display: inline-block; border-radius: 10px;\">\r\n"
 				+ "            <br><br>\r\n"
 				+ "            <span style=\"font-size: 18px; font-weight: bold; color: black;\">인증번호 : </span>\r\n"
-				+ "            <span style=\"font-size: 22px; font-weight: bold; color: orangered;\">"+randomnum+"</span>\r\n"
-				+ "        </div>\r\n"
-				+ "        <br><br>\r\n"
+				+ "            <span style=\"font-size: 22px; font-weight: bold; color: orangered;\">" + randomnum
+				+ "</span>\r\n" + "        </div>\r\n" + "        <br><br>\r\n"
 				+ "        <div style=\"display: inline-block;\">\r\n"
 				+ "            <span style=\"font-size: 18px; font-weight: bold; color: black;\">3분 이내로 인증번호(6자리)를 입력해 주세요.</span>\r\n"
-				+ "        </div>\r\n"
-				+ "    </div>\r\n"
-				+ "</body>\r\n"
-				+ "\r\n"
-				+ "</html>";
+				+ "        </div>\r\n" + "    </div>\r\n" + "</body>\r\n" + "\r\n" + "</html>";
 		messageHelper.setText(str, true);
 		mail.send(message);
-		
+
 		return "Yes";
 	}
-	
+
 	@RequestMapping("/ajaxIdFind.do")
 	@ResponseBody
 	public String ajaxIdFind(UserVO vo) {
@@ -413,7 +421,7 @@ public class LoginController {
 	public String passwordFindMenu() {
 		return "passwordFindMenu";
 	}
-	
+
 	@RequestMapping("/ajaxNameTelChk.do")
 	@ResponseBody
 	public String ajaxNameTelChk(UserVO vo) {
@@ -424,110 +432,111 @@ public class LoginController {
 			return "Yes";
 		}
 	}
-	
+
 	@RequestMapping("/ajaxTelConfirm.do")
 	@ResponseBody
 	public String ajaxTelConfirm(int randomnum, UserVO vo) {
 		String result = sendBO.smsSend(vo.getTel(), randomnum);
 		System.out.println(result);
-		if(result == "Yes") {
+		if (result.equals("Yes")) {
 			return "Yes";
-		}else {
+		} else {
 			return "No";
 		}
-		
+
 	}
+
 	@RequestMapping("/ajaxIdTelFind.do")
 	@ResponseBody
 	public String ajaxIdTelFind(UserVO vo) {
 		vo = LoginUserDao.idFindNameTelChk(vo);
-		if(vo == null) {
+		if (vo == null) {
 			return "No";
-		}else {
+		} else {
 			return vo.getId();
 		}
 	}
-	
+
 	@RequestMapping("/ajaxPasswordFindIdChk.do")
 	@ResponseBody
 	public String ajaxPasswordFindIdChk(UserVO vo) {
 		vo = LoginUserDao.passwordFindIdChk(vo);
-		
-		if(vo == null) {
+
+		if (vo == null) {
 			return "No";
-		}else {
+		} else {
 			return vo.getId();
 		}
 	}
-	
+
 	@RequestMapping("/ajaxPasswordTelFind.do")
 	@ResponseBody
 	public String ajaxPasswordTelFind(UserVO vo) {
 
 		vo = LoginUserDao.idFindNameTelChk(vo);
-		if(vo == null) {
+		if (vo == null) {
 			return "No";
-		}else {
-	
+		} else {
+
 			return vo.getId();
 		}
 	}
-	
+
 	@RequestMapping("/ajaxPasswordEmailFind.do")
 	@ResponseBody
 	public String ajaxPasswordEmailFind(UserVO vo) {
-		
+
 		vo = LoginUserDao.idFindNameEmailChk(vo);
-		if(vo == null) {
+		if (vo == null) {
 			return "No";
-			
-		}else {
+
+		} else {
 			return vo.getId();
 		}
 	}
-	
+
 	@RequestMapping("/passwordFindMenuNext.do")
 	public String passwordFindMenuNext(UserVO vo, Model model) {
 		vo = LoginUserDao.passwordFindIdChk(vo);
-	
+
 		String tel = vo.getTel();
 		String email = vo.getEmail();
-		String telResult = "( +82 10 - "+tel.substring(4, 6) +"** - "+ tel.substring(9, 11)+"** )";
-		
+		String telResult = "( +82 10 - " + tel.substring(4, 6) + "** - " + tel.substring(9, 11) + "** )";
+
 		String arrEmail[] = email.split("@");
 		String str = arrEmail[0];
 		String arr = "";
-		for(int i=0; i<str.length()-2; i++) {
+		for (int i = 0; i < str.length() - 2; i++) {
 			arr += "*";
 		}
-		
-		String emailResult = "( "+arrEmail[0].substring(0,2) +arr+"@"+ arrEmail[1] + " )";
-		System.out.println("telResult : "+telResult);
-		System.out.println("emailResult : "+emailResult);
-	
+
+		String emailResult = "( " + arrEmail[0].substring(0, 2) + arr + "@" + arrEmail[1] + " )";
+		System.out.println("telResult : " + telResult);
+		System.out.println("emailResult : " + emailResult);
+
 		model.addAttribute("name", vo.getName());
 		model.addAttribute("tel", telResult);
 		model.addAttribute("email", emailResult);
 		return "passwordFindMenuNext";
 	}
-	
+
 	@RequestMapping("/passwordFindTel.do")
 	public String passwordFindTel() {
 		return "passwordFindTel";
 	}
-	
+
 	@RequestMapping("/passwordFindEmail.do")
 	public String passwordFindEmail() {
 		return "passwordFindEmail";
 	}
-	
+
 	@RequestMapping("/ajaxPasswordChange.do")
 	@ResponseBody
 	public String ajaxPasswordChange(UserVO vo) {
 		int updateResult = LoginUserDao.passwordFindPasswordChange(vo);
-		if(updateResult == 0) {
+		if (updateResult == 0) {
 			return "No";
-		}else {
+		} else {
 			return "Yes";
 		}
 	}

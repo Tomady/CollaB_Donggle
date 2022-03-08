@@ -326,30 +326,6 @@
 <div id="app">
    <div class="main-wrapper">
    
-   <!-- 보드삭제 모달창 : admin -->
-   <div id="del_board" class="card">
-      <a class="del_board_close_btn fa fa-times" style="cursor:pointer;" onclick="closeDelBoard()"></a>
-      <div class="mb-4 text-center">
-    	<label class="mb-3" style="font-weight:bold; font-size:30px;">All the boards</label>
-    	<label style="color:tomato;">Please select the board you want to delete.</label>
-   	    <div class="card" style="height:300px; overflow:scroll; overflow-x:hidden;">
-   		  <c:forEach items="${boardList}" var="board">
-    	   		<button class="btn btn-light mt-2 mb-2 ml-2" style="width:95%"
-    	   		onclick="del_SelectedBoard(${board.board_id},'${board.board_Title}')">${board.board_Title}</button>
-		  </c:forEach>
-   	    </div>
-   	    <hr>
-   	    <div class="card" id="deleteTargetBoard">
-   	    	<!-- 삭제할 보드 여기 오도록 -->
-   	    </div>
-   	    <label style="color:tomato;">Deleted data can never be recovered.</label>
-   	    <label style="color:tomato;">Do you want to proceed?</label>
-   	    <div>
-   	    	<button id="proceedBoardDelete" class="btn btn-danger mt-2 mb-2" style="width:90%">PROCEED</button>
-   	    </div>
-      </div>
-    </div>
-   
 	<!-- ////////////////////MAIN HEADER//////////////////// -->
 	  <div class="navbar-bg" style="background-color: rgb(199, 174, 247);"></div>
       <nav class="navbar navbar-expand-lg main-navbar d-flex justify-content-between">
@@ -398,12 +374,12 @@
             <div class="d-sm-none d-lg-inline-block">Hi, Circle</div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
-              <a class="dropdown-item has-icon" onclick="mainHead_gotoMypage()">
+              <a class="dropdown-item has-icon" href="myPageMain.do">
                 <i class="far fa-user"></i> Mypage
               </a>
               <div class="dropdown-divider"></div>
               <!--로그아웃처리 : 세션값삭제-->
-              <a class="dropdown-item has-icon text-danger" onclick="mainHead_logout()">
+              <a class="dropdown-item has-icon text-danger" href="logout.do">
                 <i class="fas fa-sign-out-alt"></i> Logout
               </a>
             </div>
@@ -554,9 +530,6 @@
                   <div class="card-body ml-5 mr-5" style="height: 100vh;">
                     <!-- 검색창 -->
                     <div class="row d-flex justify-content-end mr-5 ml-5">
-                      <div class="col-lg ml-5 mt-5">
-                      	<button class="btn btn-danger" onclick="deleteBoard('del_board')">DELETE BOARD</button>
-                      </div>
                       <form action="#">
                         <div class="d-flex mr-5 mt-5 mb-5">
                           <input id="searchBOARDNAME" type="search" class="form-control" placeholder="Search boards">

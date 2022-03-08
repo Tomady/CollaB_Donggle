@@ -228,12 +228,13 @@
 	top: -30%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	font-size: 48px;
+	font-size: 58px;
+	
 }
 
 .homeLogo a {
 	text-decoration: none;
-	color: black;
+	color: #9F90D9;
 }
 
 .find_wrap {
@@ -303,7 +304,7 @@
 	</div>
 	<div class="loginbackcontainer">
 		<h1 class="homeLogo">
-			<a href="">logo</a>
+			<a href="">CollaB</a>
 		</h1>
 		<ul class="loginUltag">
 			<li>
@@ -368,6 +369,8 @@
 			}
 		})
 	}
+	
+	//카카오 로그인
 	
 	//로그인 체크
 	function loginChk() {

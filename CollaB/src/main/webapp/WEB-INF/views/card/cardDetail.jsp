@@ -28,34 +28,26 @@
     #testbtn{position: relative;}
     .test123{
       width: 50px;
-      height: 25px;
+      height: 30px;
       background-color: gray;
       border-radius : 5px;
       color: white;
       opacity: 0;
       transition: all 0.3s;
       position: absolute;
-      top: -30px;
+      top: -25px;
       left: -15px;
       z-index : 999;
-      line-height : 25px;
+      line-height : 30px;
     }
     /* 임의 스타일 */
     .test1234{ 
       transition: all 0.2s;
       opacity: 1;
     }
-    /* 카드상세메뉴 - 모달창 */
-    #add_Dates {
+    /* 카드상세메뉴 - 일정추가, 관리자 지정모달창 */
+    #add_Dates, #add_Member {
       display: none;
-      width: 400px;
-      padding: 20px 60px;
-      background-color: #fefefe;
-      border: 1px solid #888;
-      border-radius: 3px;
-    }
-    #add_Member {
-   	  display: none;
       width: 450px;
       padding: 20px 60px;
       background-color: #fefefe;
@@ -67,6 +59,39 @@
         position: absolute;
         top: 10px;
         right: 10px;
+    }
+    /* 카드상세메뉴 - 체크리스트추가모달창 */
+     #add_Check {
+      display: none;
+      width: 500px;
+      padding: 20px 60px;
+      background-color: #fefefe;
+      border: 1px solid #888;
+      border-radius: 3px;
+    }
+    #add_Check .add_Check_close_btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    /*카드내용저장버튼*/
+    .saveDone{
+      width: 80px;
+      height: 30px;
+      background-color: gray;
+      border-radius : 5px;
+      color: white;
+      opacity: 0;
+      transition: all 0.3s;
+      position: absolute;
+      top: -25px;
+      left: -15px;
+      z-index : 999;
+      line-height : 30px;
+    }
+    .saveDone123{
+   	  transition: all 0.2s;
+      opacity: 1;
     }
 </style>
 <script type="text/javascript">
@@ -215,10 +240,16 @@ document.addEventListener("DOMContentLoaded", function(){
 				})
 				let itemCnt = items.length;  //총 아이템 수
 				let width = Math.ceil(checkedCnt/itemCnt*100);
-				document.querySelector(".checkChart"+checkId).innerHTML = "&nbsp;&nbsp;&nbsp;"+width+"%";
-				document.querySelector(".checkChart"+checkId).style.color="white";
-				document.querySelector(".checkChart"+checkId).style.width=width+"%";
-				document.querySelector(".checkChart"+checkId).style.backgroundColor="tomato";
+				if(itemCnt != 0){
+					document.querySelector(".checkChart"+checkId).innerHTML = "&nbsp;&nbsp;&nbsp;"+width+"%";
+					document.querySelector(".checkChart"+checkId).style.color="white";
+					document.querySelector(".checkChart"+checkId).style.width=width+"%";
+					if(itemCnt == checkedCnt){
+						document.querySelector(".checkChart"+checkId).style.backgroundColor="#A9E81F";						
+					}else{
+						document.querySelector(".checkChart"+checkId).style.backgroundColor="tomato";						
+					}
+				}
 			})
 		},
 		error : function(){
@@ -232,17 +263,35 @@ document.addEventListener("DOMContentLoaded", function(){
  <div id="app">
     <div class="main-wrapper">
       
+      <!-- add CheckList 모달창 -->
+      <div id="add_Check" class="card">
+         <a class="add_Check_close_btn fa fa-times" 
+         style="cursor:pointer;" onclick="closeAddCheck()"></a>
+         <div class="mb-4 mt-1 text-center">
+			<h5>Add a Checklist</h5>
+         </div>
+         <div class="form-group">
+            <label style="font-size:15px;">Title</label>
+            <input type="text" class="form-control"
+            id="checklist_title" name="checklist_title">
+         </div>
+         <div>
+         	<a id="ChecklistSectionMove" href="#checklistAppendTarget"><button id="checkAddBtn"
+         	class="btn btn-secondary" style="width:100%;">ADD</button></a>
+         </div>
+       </div>
+      
       <!-- add Dates 모달창 -->
       <div id="add_Dates" class="card">
          <a class="add_Dates_close_btn fa fa-times" style="cursor:pointer;" onclick="closeAddDates()"></a>
          <div class="mb-4">
          	<div class="d-flex justify-content-between mt-2 mb-2">
-         		<label class="mt-2">START DATE</label>
+         		<label class="mt-2" style="font-size:15px;">START DATE</label>
          		<input id="cardStartDate" type="date" 
          		style="width:60%;" onclick="startDateLimit()">
          	</div>
          	<div class="d-flex justify-content-between mt-2 mb-2">
-         		<label class="mt-2">DUE DATE</label>
+         		<label class="mt-2" style="font-size:15px;">DUE DATE</label>
          		<input id="cardEndDate" type="date" 
          		style="width:60%;" onclick="endDateLimit()">
          	</div>
@@ -260,7 +309,8 @@ document.addEventListener("DOMContentLoaded", function(){
          	<!-- 해당 보드에 초대된 멤버목록 -->
          	<c:forEach items="${boardJoinMembers}" var="member">
          		<span class="member ml-3 mt-1 mb-1" style="font-size:15px;">
-         			<button class="btn btn-light" style="width:95%;" onclick="managerSelect('${member.id}')"> ${member.name}(${member.email})</button>
+         			<button class="btn btn-light" style="width:95%;" data-memid="${member.id}"
+         			onclick="managerSelect('${member.id}')"> ${member.name}(${member.id})</button>
          		</span>
          	</c:forEach>
          </div>
@@ -293,7 +343,7 @@ document.addEventListener("DOMContentLoaded", function(){
                    onclick="location.href='cardDetail?list=${card.list_id}&card=${card.card_id}'"
                    class="cards card card-${card.card_label} ml-2 mr-2"> <!--라벨표시-->
                     <div class="card-header d-flex justify-content-between">
-                      <span class="cardName ml-0">${card.card_title}</span> <!--카드이름-->
+                      <span class="cardName${card.card_id} ml-0">${card.card_title}</span> <!--카드이름-->
                     </div>
                      <c:if test="${card.manager ne null}">
 	                    <div class="ml-2 mt-1 text-right card-owner" style="font-weight:bold; height:50px;">
@@ -340,7 +390,7 @@ document.addEventListener("DOMContentLoaded", function(){
                   <!--카드메뉴-->
                   <div class="row d-flex justify-content-center mr-2 cardmenu">
                     <button class="btn menu" onclick="cardDatesSet('add_Dates')"> Dates </button>
-                    <button class="btn menu"> CheckList </button>
+                    <button class="btn menu" onclick="cardCheckListSet('add_Check',${cardinfo.card_id})"> CheckList </button>
                     <label class="btn menu mt-2" for="input-file"> Attachments </label>
                     <input type="file" id="input-file" style="display:none;">
                     <button class="btn menu" onclick="cardMemberSet('add_Member')"> Member </button>
@@ -403,7 +453,7 @@ document.addEventListener("DOMContentLoaded", function(){
                       <div id="datesAppendTarget" style="width: 350px;"></div>
                       	<c:if test="${cardinfo.card_start_date ne null}">
                       	  <div class="card-header" id="cardDates">
-	                        <h4 onclick="cardDatesSet(${cardinfo.card_id})">Dates</h4>
+	                        <h4>Dates</h4>
 	                        <div>
 	                          <span id="cardDatesSpan" style="background-color: rgb(235, 251, 252);
 	                          border-radius: 3px; font-size: 15px;">${cardinfo.card_start_date} - ${cardinfo.card_end_date}</span>
@@ -424,7 +474,10 @@ document.addEventListener("DOMContentLoaded", function(){
                       </div>  
                       <div class="card-body">
                         <textarea class="cardContents" rows="4" style="width:100%;" readonly>${cardinfo.card_contents}</textarea>
-                        <button class="btn btn-secondary mt-1" onclick="contentsSave(${cardinfo.card_id})">SAVE</button>
+                        <button class="saveBtn btn btn-secondary mt-1" style="position:relative;"
+                         onclick="contentsSave(${cardinfo.card_id})">SAVE
+                        	<div class="saveDone">SUCCESS !</div>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -435,11 +488,11 @@ document.addEventListener("DOMContentLoaded", function(){
                       <div class="card-header" style="font-size: large;">
                         <i class="fa fa-check-square" aria-hidden="true">&nbsp;&nbsp;CheckList</i>
                       </div>
-                      <div class="card-body checklistAppendTarget">
+                      <div class="card-body" id="checklistAppendTarget">
                       	<c:forEach items="${checkList}" var="check">
                         <!--여기서부터-->
                         <div class="card ckDIV${check.checklist_id}">
-                          <div class="card-body">
+                          <div class="card-body" id="checkbody${check.checklist_id}">
                             <div class="d-flex justify-content-between">
                             	${check.checklist_title}
                             	<button class="btn ml-2 fa fa-times col-rg" 
@@ -459,6 +512,8 @@ document.addEventListener("DOMContentLoaded", function(){
                             	</c:if>
                             </c:forEach>
                           </div>
+                          <button class="btn btn-secondary fa fa-plus ml-4 mb-5 additem${check.checklist_id}" 
+                          style="width:15%;" onclick="addItemBtn(${check.checklist_id})"> item</button>
                         </div>
                         <!--여기까지가 하나의 체크리스트-->
                       	</c:forEach>

@@ -2,17 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.Donggle.CollaB.calendar.service.calendarMapper">
 
-<select id="calendarList" resultType="co.Donggle.CollaB.calendar.service.calendarVO">
-select card_title, card_start_date, card_end_date from card
-</select>
-
-<select id="calendarSelect" resultType="co.Donggle.CollaB.calendar.service.calendarVO">
-select * from card where card_id = #{card_id}
-</select>
-
-<update id="updateCalendar" parameterType="co.Donggle.CollaB.calendar.service.calendarVO">
-update card set card_start_date = #{card_start_date}, card_end_date = #{card_end_date}
-where card_id = 1
-</update>
+	<select id="calendarList" resultType="co.Donggle.CollaB.calendar.service.calendarVO">
+		SELECT CARD_ID, CARD_TITLE, CARD_START_DATE, CARD_END_DATE
+		FROM CARD
+		<!--  where board_id = #{board_id} -->
+	</select>
+	
+	<select id="calendarSelect" resultType="co.Donggle.CollaB.calendar.service.calendarVO">
+		SELECT * FROM CARD WHERE CARD_ID = #{card_id}
+	</select>
+	
+	<update id="updateCalendar" parameterType="co.Donggle.CollaB.calendar.service.calendarVO">
+		UPDATE CARD SET CARD_START_DATE = #{card_start_date}, CARD_END_DATE = #{card_end_date} - (INTERVAL '1' DAY)
+		WHERE CARD_ID = #{card_id}
+	</update>
+	
+	<select id="calendarAllCard" parameterType="int" resultType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT C.CARD_ID, C.CARD_TITLE, C.CARD_START_DATE, C.CARD_END_DATE + 1 AS CARD_END_DATE
+		FROM LIST L JOIN CARD C
+		ON (L.LIST_ID = C.LIST_ID)
+		WHERE L.BOARD_ID = #{board_id}
+	</select>
 
 </mapper>

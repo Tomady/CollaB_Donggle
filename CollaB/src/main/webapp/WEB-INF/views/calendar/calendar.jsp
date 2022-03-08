@@ -22,6 +22,17 @@
 	background-color: #6553C1;
 	outline: #6553C1;
 }
+
+#calendarCard {
+	border: 1px solid #ECE9FE;
+	height: 600px;
+	overflow: scroll;
+}
+
+.calendar {
+	width: 800px;
+}
+
 .boardColor{width: 3%; height: 50px; margin-left: 5%;}
 .default{margin-right: 6%; height: 50px; margin-left: 5%;}
 .boardColor:hover, .default:hover{cursor: pointer;}
@@ -229,144 +240,85 @@ document.addEventListener("DOMContentLoaded", function(){
            <!-- 보드헤더 끝 -->
          </div>
 			<!-- 보드바디 -->
-			<div id="boardDetailBODY" class="section-body">
-				<div class="card">
+			<div id="boardDetailBODY" class="section-body" data-boardId="${boardID}">
+				<div class="card" id="calendarCard">
 					<div class="card-header">
 						<h4>Calendar</h4>
 					</div>
 					<div class="card-body">
-						<div id='calendar'></div>
-						<!-- Button trigger modal -->
-						<div class="row ml-2 mt-2">
-							<button type="button" class="btn btn-primary" id="addCardBtn"
-								data-toggle="modal" data-target="#addCardModal">Add
-								Card</button>
-							<button type="button" class="btn btn-primary ml-2"
-								id="addListBtn">Add List</button>
+						<div class="row">
+							<div class="col-lg-2">
+								<h4 mt-2>Lists</h4>
+								<c:forEach items="${lists }" var="lists" varStatus="status">
+									<div class="card">
+										<div class="card-body" style="background-color: #FAFAFA;">
+											<a href="">${lists.list_title }</a>
+										</div>
+									</div>
+								</c:forEach>
+							</div>
+							<div class="col-lg-10">
+								<div id='calendar'></div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-	</div>
-
-	<!-- 카드 추가 모달 -->
-	<div class="modal fade show" id="addCardModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Add Card</h5>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<label>Title</label> <input type="text" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>List</label> <select class="form-control">
-
-							<!-- <c:forEach var="list" items="${List}" varStatus="status">
-                        <option value="${list.id}">${list.title}</option>
-                      </c:forEach> -->
-
-							<option>리스트1</option>
-							<option>리스트2</option>
-							<option>리스트3</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label>Start Date</label> <input type="date" class="form-control">
-					</div>
-					<div class="form-group">
-						<label>Due Date</label> <input type="date" class="form-control">
-					</div>
-				</div>
-				<div class="modal-footer text-right">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal" id="closeAddCard">Close</button>
-					<button type="button" class="btn btn-primary">Save</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- 리스트 추가 모달 -->
-	<div class="modal fade" id="addListModal" tabindex="-1"
-		aria-labelledby="listModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Add List</h5>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<label>Title</label> <input type="text" class="form-control">
-					</div>
-				</div>
-				<div class="modal-footer text-right">
-					<button type="button" class="btn btn-secondary" id="closeAddList">Close</button>
-					<button type="button" class="btn btn-primary">Save</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- 리스트 추가 모달 끝 -->
 	</section>
 	</div>
 
 	<script>
 
-    // 풀캘린더 일정 DB 연동
-	document.addEventListener('DOMContentLoaded', function() {
-		var calendarEl = document.getElementById('calendar');
-		
-		var calendar = new FullCalendar.Calendar(calendarEl, {
-			initialView : 'dayGridMonth',
-			nowIndicator: true,
-			headerToolbar : {
-	        	left: 'prev,next today',
-	            center : 'title',
-	            end : 'dayGridMonth,dayGridWeek,dayGridDay'
-	            },
-	        navLinks: true, // can click day/week names to navigate views
-	        editable: true,
-	        selectable: true,
-	        selectMirror: true,
-	        eventResize : function(info){
-	        	updateDate(info);
-	        },
-	        eventDrop: function(info){
-	        	updateDate(info);	
-	        },
-	        dayMaxEvents: true, // allow "more" link when too many events
-			events : [ 
-	    	    <%List<calendarVO> calendarList = (List<calendarVO>) request.getAttribute("calendarList");%>
-	            <%if (calendarList != null) {%>
-	            <%for (calendarVO vo : calendarList) {%>
-	            {
-	            	title : '<%=vo.getCard_title()%>',
-	                start : '<%=vo.getCard_start_date()%>',
-	                end : '<%=vo.getCard_end_date()%>',
-	             },
-			<%}
-		}%>
-					]
-					
-				});
-				calendar.render();
+	//풀캘린더 일정 DB 연동
+	document.addEventListener('DOMContentLoaded', function () {
+		let boardId = document.querySelector("#boardDetailBODY").getAttribute("data-boardId");
+		let xhtp = new XMLHttpRequest();
+		xhtp.open('get', '/CollaB/dbCalendar?boardid='+boardId);
+		xhtp.send();
+		xhtp.onload = function(){
+			let dbData = JSON.parse(xhtp.responseText);
+			console.log(xhtp.responseText);
+			console.log(dbData);
+			var calendarEl = document.getElementById('calendar');
+							
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				initialView: 'dayGridMonth',
+				nowIndicator: true,
+				headerToolbar: {
+					left: 'prev,next today',
+					center: 'title',
+					end: 'dayGridMonth,dayGridWeek,dayGridDay'
+				},
+				navLinks: true, // can click day/week names to navigate views
+				editable: true,
+				selectable: true,
+				selectMirror: true,
+				eventResize: function (info) {
+					updateDate(info);
+				},
+				eventDrop: function (info) {
+					updateDate(info);
+				},
+				dayMaxEvents: true, // allow "more" link when too many events
+				events: dbData
 			});
+			calendar.render();
+		}
+	});
 
 
       // 날짜 변경
       function updateDate(info) {
     	  
     	  var data = {
-    			  card_start_date: info.event.start,
-    			  card_end_date: info.event.end
+    			card_id: info.event.id,
+    	  		card_start_date: info.event.start,
+    			card_end_date: info.event.end
     	  }
     	  console.log(data);
     	  
     	  $.ajax({
-    		  url : '/CollaB/dateUpdate.do',
+    		  url : '/CollaB/dateUpdate',
     		  headers: {'Content-Type': 'application/json'},
     		  type : 'POST',
     		  data : JSON.stringify(data),
@@ -380,34 +332,6 @@ document.addEventListener("DOMContentLoaded", function(){
     		  }
     	  });
       }
-      
-      
-	  // 모달
-	  $('#addListBtn').on('click', function(){
-	    $('#addListModal').modal('show');
-	  })
-	
-	  $('#closeAddList').on('click', function(){
-	    $('#addListModal').modal('hide');
-	  })
-	
-	  const cardModal = document.getElementById("addCardModal")
-	  const btnModal = document.getElementById("addCardBtn")
-	  btnModal.addEventListener("click", e => {
-	      addCardModal.style.display = "flex"
-	  })
-	
-	  const closeBtn = modal.querySelector("#closeAddCard")
-	  closeBtn.addEventListener("click", e => {
-	      addCardModal.style.display = "none"
-	  })
-	
-	  modal.addEventListener("click", e => {
-	    const evTarget = e.target
-	    if(evTarget.classList.contains("modal")) {
-	        addCardModal.style.display = "none"
-	    }
-	  })
 	
 	  </script>
 	  <script src="resources/js/board/board-header.js"></script>

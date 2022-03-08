@@ -2,6 +2,8 @@ package co.Donggle.CollaB.card.service;
 
 import java.util.List;
 
+import co.Donggle.CollaB.list.service.ListVO;
+
 public interface CardService {
 	//카드 아이템 조회-체크리스트 : 0초과면 존재 
 	int cardCheckListExist(CardVO vo);
@@ -43,6 +45,8 @@ public interface CardService {
 	
 	//카드삭제_1(리스트에 있는 모든 카드 삭제됨, 파라미터값이 리스트아이디)
 	int deleteCard(CardVO vo);
+	//카드삭제_1_1(리스트에 있는 모든 카드 삭제됨,,)
+	int deleteCards(ListVO vo);
 	//카드삭제_2(개별카드삭제)
 	int dropCard(CardVO vo);
 	//카드댓글삭제

@@ -3,6 +3,7 @@ package co.Donggle.CollaB.board.service;
 import java.util.List;
 
 import co.Donggle.CollaB.list.service.ListVO;
+import co.Donggle.CollaB.workspace.service.WorkspaceVO;
 
 public interface BoardService {
 	//사용자가 갖고 있는 보드 전부
@@ -41,4 +42,21 @@ public interface BoardService {
 	int addBoardJoinMember(BoardVO vo);
 	//해당 리스트가 있는 보드 아이디
 	int selectBoardId(ListVO vo);
+	//해당 보드가 가지고 있는 리스트 아이디들
+	
+	List<ListVO> listIdInBoard(BoardVO vo);
+	//해당 워크스페이스가 가지고 있는 모든 보드 삭제
+	int deleteBoards(WorkspaceVO vo);
+	//보드즐겨찾기 내역 삭제(내것만)
+	int deleteBoardstar(BoardVO vo);
+	//보드즐겨찾기 내역 전부 삭제
+	int deleteBoardStars(BoardVO vo);
+	//보드 가입내역 전부 삭제
+	int deleteBoardJoinAll(BoardVO vo);
+	//해당 보드에 가입되어 있는 사람 몇명인지
+	int boardJoinCount(BoardVO vo);
+	//보드 하나 삭제
+	int boardDelete(BoardVO vo);
 }
+
+

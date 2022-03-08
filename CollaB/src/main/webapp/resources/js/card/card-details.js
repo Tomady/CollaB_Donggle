@@ -89,7 +89,7 @@ function cardLabelSelect(cardId){
 			$('.test123').addClass('test1234');
       		setTimeout(function() {
         		$('.test123').removeClass('test1234');
-       		}, 200)
+       		}, 1000)
 		},
 		error : function(){
 			console.log("AjaxCardLabelUpdate 카드라벨변경 실패");
@@ -183,7 +183,7 @@ function cardMemberSet(id){
 
 //카드관리자추가 모달창-멤버한명선택
 function managerSelect(memberId){
-	let selectedMem = event.target.innerHTML;
+	let selectedMem = event.target.getAttribute("data-memid");
 	cardManager.innerHTML = "";
 	cardManager.innerHTML = selectedMem;
 	cardManager.setAttribute("data-memid",memberId);
@@ -235,9 +235,6 @@ function cardDatesSet(id){
 							dateDIV.setAttribute("id","cardDates");
 							let h4 = document.createElement("h4");
 							h4.innerHTML = "Dates";
-							h4.onclick = function(){
-								cardDatesSet(cardid);
-							}
 							let days = document.createElement("div");
 							let span = document.createElement("span");
 							span.setAttribute("id","cardDatesSpan");
@@ -250,7 +247,7 @@ function cardDatesSet(id){
 							deleteBtn.setAttribute("class","fa fa-times ml-3 mb-1");
 							deleteBtn.style.cursor = "pointer";
 							deleteBtn.onclick=function(){
-								deleteDates(cardid);
+								deleteDates(cardId);
 							}	
 							days.append(span);
 							dateDIV.append(h4);
@@ -258,6 +255,9 @@ function cardDatesSet(id){
 							dateDIV.append(deleteBtn);
 							datesAppendTarget.append(dateDIV);
 						}
+					}
+					if(document.querySelector(".dates"+cardId).style.color != "tomato"){
+						document.querySelector(".dates"+cardId).style.color = "tomato";
 					}
 				}
 			})
@@ -334,15 +334,183 @@ function deleteDates(cardid){
 		},
 		dataType : "text",
 		success : function(data){
-			console.log("일정삭제성공?"+data);
 			if(data == "YES"){
 				cardDates.remove();
+				document.querySelector(".dates"+cardid).style.color = "#e9ecef";
 			}
 		},
 		error : function(){
 			console.log("AjaxDeleteDates 실패")
 		}
-	})
+	}) 
+}
+
+//카드체크리스트추가 모달 띄우기
+function cardCheckListSet(id,cardid){
+	
+	var zIndex = 9999;
+    var modal = document.getElementById(id);
+	
+	//이미 입력된 내용 있으면 지워주기
+	document.querySelector("#checklist_title").value="";
+	document.querySelector("#checklist_title").style.border= "1px solid #ECE9FE";
+	document.querySelector("#checklist_title").placeholder= "";
+
+	// 저장 버튼 처리
+	modal.querySelector("#checkAddBtn").onclick=function(){
+		let title = document.querySelector("#checklist_title").value;
+		
+		if(title == ""){ //체크리스트 이름 없으면
+			document.querySelector("#checklist_title").style.border="1px solid red";
+			document.querySelector("#checklist_title").focus();
+			document.querySelector("#checklist_title").placeholder="required";
+			document.querySelector("#ChecklistSectionMove").removeAttribute("href");
+		}else{ //체크리스트 이름 있으면 그걸로 체크리스트 만들어주기
+		document.querySelector("#ChecklistSectionMove").setAttribute("href","#checklistAppendTarget");
+			$.ajax({
+				url : "AjaxAddCheckList",
+				type : "POST",
+				data : {
+					card_id : cardid,
+					checklist_title : title
+				},
+				dataType : "json",
+				success : function(data){
+					let card = document.createElement("div");
+					card.setAttribute("class","card ckDIV"+data.checklist_id);
+					let cardBody = document.createElement("div");
+					cardBody.setAttribute("class","card-body");
+					cardBody.setAttribute("id","checkbody"+data.checklist_id);
+					let title = document.createElement("div");
+					title.setAttribute("class","d-flex justify-content-between");
+					title.innerHTML = data.checklist_title;
+					let deleteBtn = document.createElement("button");
+					deleteBtn.setAttribute("class","btn ml-2 fa fa-times col-rg");
+					deleteBtn.style.cursor="pointer";
+					deleteBtn.onclick = function(){
+						//체크리스트 삭제 클릭이벤트 달아주기
+						checklistDelete(data.checklist_id);
+					}
+					let chart = document.createElement("div");
+					chart.setAttribute("class","progress mb-2");
+					let span = document.createElement("span");
+					span.setAttribute("class","checkChart"+data.checklist_id);
+					let button = document.createElement("button");
+					button.setAttribute("class","btn btn-secondary fa fa-plus ml-4 mb-5 additem"+data.checklist_id);
+					button.style.width="15%";
+					button.style.cursor="pointer";
+					button.innerHTML = " item";
+					button.onclick=function(){
+						//add item버튼 클릭이벤트 달아주기
+						let itemInput = document.createElement("input");
+						itemInput.setAttribute("class","mb-2 mt-2");
+						itemInput.setAttribute("id","new_item");
+						itemInput.setAttribute("type","text");
+						itemInput.style.width="100%";
+						itemInput.addEventListener("keyup",function(){
+							if(window.event.keyCode == 13){
+								//엔터키가 눌렸을때
+								let newitem = document.querySelector("#new_item").value;
+								if(newitem == ""){
+									document.querySelector("#new_item").style.border="2px solid red";
+									document.querySelector("#new_item").setAttribute("placeholder","required");
+									document.querySelector("#new_item").focus();
+								}else{
+									newitem = " "+newitem;
+									$.ajax({
+										url : "AjaxAddCheckListItem",
+										type : "POST",
+										data : {
+											checklist_id : data.checklist_id,
+											item_title : newitem
+										},
+										dataType : "json",
+										success : function(data){
+											//input박스 지워주고 체크로 만들기 + add item버튼 다시 보이게하기
+											new_item.remove();
+											
+											let input = document.createElement("input");
+											input.setAttribute("type","checkbox");
+											input.setAttribute("class","mt-1 mb-1 checkitem"+data.checklist_id);
+											input.onclick=function(){
+												//체크박스 이벤트 걸어주기
+												checkItem(data.checklist_id,data.item_id);
+											}
+											let br = document.createElement("br");
+											
+											document.querySelector("#checkbody"+data.checklist_id).append(input);
+											document.querySelector("#checkbody"+data.checklist_id).append( newitem);
+											document.querySelector("#checkbody"+data.checklist_id).append(br);
+											document.querySelector(".additem"+data.checklist_id).style.display="block";
+										},
+										error : function(){
+											console.log("AjaxAddCheckListItem 실패");
+										}
+									})
+								}
+							}
+						})				
+						document.querySelector("#checkbody"+data.checklist_id).append(itemInput);
+						document.querySelector("#new_item").focus();
+						event.target.style.display="none"; //add item버튼 없애주기
+					}
+					
+					title.append(deleteBtn);
+					chart.append(span);
+					cardBody.append(title);
+					cardBody.append(chart);
+					card.append(cardBody);
+					card.append(button);
+					checklistAppendTarget.prepend(card);
+					
+					document.querySelector(".check"+cardid).style.color="tomato";
+					closeAddCheck();
+				},
+				error : function(){
+					console.log("AjaxAddCheckList 실패");
+				}
+			})
+		}
+	}
+
+    // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
+    modal.querySelector('.add_Check_close_btn').onclick=function(){ closeAddCheck() };
+	function closeAddCheck(){
+		bg.remove();
+        modal.style.display = 'none';
+	}
+	
+	// 모달 div 뒤 레이어
+    var bg = document.createElement('div');
+    bg.setAttribute("id","modal-back");
+    bg.setStyle({
+        position: 'fixed',
+        zIndex: zIndex,
+        left: '0px',
+        top: '0px',
+        width: '100%',
+        height: '100%',
+        overflow: 'auto',
+        // 레이어 색갈은 여기서 바꾸기
+        backgroundColor: 'rgba(0,0,0,0.4)'
+    });
+    document.body.append(bg);
+	
+    modal.setStyle({
+        position: 'fixed',
+        display: 'block',
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+
+        // 시꺼먼 레이어 보다 한칸 위에 보이기
+        zIndex: zIndex + 1,
+
+        // div center 정렬
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        msTransform: 'translate(-50%, -50%)',
+        webkitTransform: 'translate(-50%, -50%)'
+    });
 }
 
 //리스트이름수정
@@ -404,6 +572,7 @@ function renameList(listid){
 //카드내용수정하기버튼
 function contentsEdit(){
 	document.querySelector(".cardContents").removeAttribute("readonly");
+	document.querySelector(".cardContents").focus();
 }
 //카드내용저장하기버튼
 function contentsSave(cardid){
@@ -421,6 +590,9 @@ function contentsSave(cardid){
 				console.log(data);
 				//화면에 변경된 내용 저장해주고 textarea는 다시 readonly로 바꿔주기
 				document.querySelector(".cardContents").setAttribute("readonly","readonly");
+				$(".saveDone").addClass("saveDone123");
+				setTimeout(function(){
+					$(".saveDone").removeClass("saveDone123");},1000)
 			}else if(data == "NO"){
 				console.log("카드내용변경 실패");
 			}
@@ -473,6 +645,7 @@ function renameCard(cardId){
 							h4.innerHTML=newCardname;
 							
 							appendTarget.prepend(h4);
+							document.querySelector(".cardName"+cardId).innerHTML=newCardname;
 						}else if(data == "NO"){
 							console.log("리스트이름수정실패");
 						}
@@ -500,7 +673,6 @@ function checklistDelete(checklistId){
 		},
 		dataType : "text",
 		success : function(data){
-			console.log("체크리스트 삭제 성공?"+data);
 			if(data == "YES"){
 				delTarget.remove();
 			}
@@ -511,7 +683,64 @@ function checklistDelete(checklistId){
 	})
 }
 
-//체크리스트 아이템삭제
+// + item버튼 클릭시, 체크리스트 아이템 추가
+function addItemBtn(ckid){
+	document.querySelector(".additem"+ckid).style.display="none";
+	
+	let itemInput = document.createElement("input");
+	itemInput.setAttribute("class","mb-2 mt-2");
+	itemInput.setAttribute("id","new_item");
+	itemInput.setAttribute("type","text");
+	itemInput.style.width="100%";
+	itemInput.addEventListener("keyup",function(){
+		if(window.event.keyCode == 13){
+			//엔터키가 눌렸을때
+			let newitem = document.querySelector("#new_item").value;
+			if(newitem == ""){
+				document.querySelector("#new_item").style.border = "2px solid red";
+				document.querySelector("#new_item").setAttribute("placeholder","required");
+				document.querySelector("#new_item").focus();
+			}else{
+				newitem = " "+newitem;
+				$.ajax({
+					url : "AjaxAddCheckListItem",
+					type : "POST",
+					data : {
+						checklist_id : ckid,
+						item_title : newitem
+					},
+					dataType : "json",
+					success : function(data){
+						new_item.remove();
+						
+						let input = document.createElement("input");
+						input.setAttribute("type","checkbox");
+						input.setAttribute("class","mt-1 mb-1 checkitem"+data.checklist_id);
+						input.onclick=function(){
+							//체크박스 이벤트 걸어주기
+							checkItem(data.checklist_id,data.item_id);
+						}
+						let br = document.createElement("br");
+						
+						document.querySelector("#checkbody"+ckid).append(input);
+						document.querySelector("#checkbody"+ckid).append( newitem);
+						document.querySelector("#checkbody"+ckid).append(br);
+						document.querySelector(".additem"+ckid).style.display="block";
+					},
+					error : function(){
+						alert("체크리스트 아이템 추가가 실패하였습니다.");
+					}
+				})
+			}
+		}
+	})
+	
+	document.querySelector("#checkbody"+ckid).append(itemInput);
+	document.querySelector("#new_item").focus();
+	event.target.style.display="none"; //add item버튼 없애주기
+}
+
+//체크리스트 아이템
 function checkItem(ckid,itemid){
 	let checked = "";
 	if ( $(event.target).prop('checked') ) { 
@@ -531,7 +760,6 @@ function checkItem(ckid,itemid){
 		},
 		dataType : "text",
 		success : function(data){
-			console.log("아이템상태변경성공?"+data);
 			if(data == "YES"){
 				const items = $(".checkitem"+ckid); //총 아이템
 				let itemCnt = $(items).length;  //총 아이템 수
@@ -544,6 +772,11 @@ function checkItem(ckid,itemid){
 				}
 				let wid = Math.ceil(checkedCnt/itemCnt*100);
 				document.querySelector(".checkChart"+ckid).innerHTML = "&nbsp;&nbsp;&nbsp;"+wid+"%";
+				if(itemCnt == checkedCnt){
+					document.querySelector(".checkChart"+ckid).style.backgroundColor="#A9E81F";
+				}else{
+					document.querySelector(".checkChart"+ckid).style.backgroundColor="tomato";
+				}
 				document.querySelector(".checkChart"+ckid).style.width=wid+"%";
 			}
 		},

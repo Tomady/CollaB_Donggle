@@ -1,6 +1,11 @@
 package co.Donggle.CollaB.calendar.web;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,10 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import co.Donggle.CollaB.board.service.BoardService;
 import co.Donggle.CollaB.board.service.BoardVO;
 import co.Donggle.CollaB.calendar.service.calendarService;
 import co.Donggle.CollaB.calendar.service.calendarVO;
+import co.Donggle.CollaB.card.service.CardVO;
+import co.Donggle.CollaB.list.service.ListService;
+import co.Donggle.CollaB.list.service.ListVO;
 import co.Donggle.CollaB.user.service.UserService;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 
@@ -28,30 +39,27 @@ public class calendarController {
 	@Autowired private BoardService boardDao;
 	@Autowired private WorkspaceJoinService workspaceJoinDao;
 	@Autowired private UserService userDao;
+	@Autowired private ListService listDao;
+
 	
 	// 일정 보기
 	@RequestMapping(value = "/calendar.do", method = RequestMethod.GET)
 	public ModelAndView calendar(ModelAndView mv, HttpServletRequest request,
-								 HttpSession session, @RequestParam("boardId") int boardid) {
+									HttpSession session, @RequestParam("boardId") int boardid) {
 		//String userId = (String)session.getAttribute("id");
 		String userId = "user1";
 		String viewpage = "calendar/calendar";
-		
+			
 		BoardVO vo = new BoardVO();
 		vo.setId(userId);
 		vo.setBoard_id(boardid);
 		int workspaceid = boardDao.boardWorkspaceID(vo); //해당보드의 워크스페이스아이디
 		vo.setWorkspace_id(workspaceid);
-	
-		List<calendarVO> calendar = null;
-		
-		try {
-			calendar = calendarDao.calendarList();
-			request.setAttribute("calendarList", calendar);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+			
+		ListVO listvo = new ListVO();
+		listvo.setBoard_id(boardid);
+		List<ListVO> lists = listDao.selectTotalList(listvo);
+			
 		mv.setViewName(viewpage);
 		//해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID - 사이드
 		mv.addObject("workspace", boardDao.selectBoard(vo));
@@ -69,12 +77,45 @@ public class calendarController {
 		mv.addObject("boardJoinMembers",userDao.boardJoinMembers(vo));
 		//해당워크스페이스멤버 - 해당보드멤버 = 같은워크스페이스 사용하지만 해당 보드에는 없는사람 - 보드헤더
 		mv.addObject("boardOthers",userDao.outsideBoardMembers(vo));
-		
+		// 해당 보드의 리스트 목록(캘린더 페이지에 리스트 목록)
+		mv.addObject("lists", lists);
+			
+		System.out.println(lists);
+			
 		return mv;
+	}
+		
+	
+	// 일정 가져오기
+	@RequestMapping("/dbCalendar")
+	@ResponseBody
+	public List<Map<String, String>> dbCalendar(@RequestParam("boardid") int boardId) {
+		List<Map<String, String>> list = null;
+		list = new ArrayList<>();
+		List<CardVO> list2 = calendarDao.calendarAllCard(boardId);
+		System.out.println(list2);
+		
+		for(CardVO vo : list2) {
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("title", vo.getCard_title());
+			map.put("start", test(vo.getCard_start_date()));
+			map.put("end", test(vo.getCard_end_date()));
+			map.put("id", String.valueOf(vo.getCard_id()));
+			list.add(map);
+		}
+		return list;
+		
+	}
+
+	
+	public String test(Date d) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String str = format.format(d);
+		return str;
 	}
 	
 	// 일정 변경 처리
-	@RequestMapping(value = "/dateUpdate.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/dateUpdate", method = RequestMethod.POST)
 	@ResponseBody
 	public String dateUpdate(@RequestBody calendarVO vo) {
 		calendarDao.updateCalendar(vo);
@@ -83,6 +124,6 @@ public class calendarController {
 		return "dateUpdate";
 	}
 	
-	// 해당 이벤트에 해당하는 카드 상세 보기
+	
 	
 }

@@ -4,15 +4,16 @@
 
 	<!-- 체크리스트 목록 -->
 	<select id="chklistAll" resultType="co.Donggle.CollaB.checklist.service.checklistVO">
-		SELECT DISTINCt chk.*, ca.card_id
-		FROM card ca, checklist chk
-		WHERE ca.card_id = chk.card_id
+		SELECT DISTINCT CHK.*, CA.CARD_ID
+		FROM CARD CA, CHECKLIST CHK
+		WHERE CA.CARD_ID = CHK.CARD_ID
 	</select>
 	
 	<!-- 체크리스트 추가 -->
 	<insert id="chklistAdd" parameterType="co.Donggle.CollaB.checklist.service.checklistVO">
 		<selectKey keyProperty="checklist_id" resultType="int" order="BEFORE">
-		SELECT NVL(MAX(checklist_id), 0)+1 AS checklist_id FROM checklist
+			SELECT NVL(MAX(checklist_id), 0)+1 AS checklist_id 
+			FROM checklist
 		</selectKey>
 		INSERT INTO CHECKLIST(checklist_id, checklist_title, card_id, issue_id)
 		VALUES (#{checklist_id}, #{checklist_title}, #{card_id}, #{issue_id})
@@ -33,5 +34,12 @@
 		SELECT * FROM CHECKLIST
 		WHERE CARD_ID = #{card_id}
 		ORDER BY CHECKLIST_ID DESC
+	</select>
+	
+	<select id="selectCheckList"
+	parameterType="co.Donggle.CollaB.checklist.service.checklistVO"
+	resultType="co.Donggle.CollaB.checklist.service.checklistVO">
+		SELECT * FROM CHECKLIST
+		WHERE CHECKLIST_ID = #{checklist_id}
 	</select>
 </mapper>
