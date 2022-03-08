@@ -8,9 +8,9 @@
 <title>Insert title here</title>
 <style>
     /*2.메인헤더배경색*/
-    .mainheaderBackground{background-color: rgb(199, 174, 247);}
+    .mainheaderBackground{background-color: #9F90D9;}
     /*3.페이지바디배경색*/
-    .pagebodybackground{background-color: rgb(204, 195, 226); overflow: scroll;}
+    .pagebodybackground{background-color: #ECE9FE; overflow: scroll;}
     #create_board{
       display: none;
       width: 30%;

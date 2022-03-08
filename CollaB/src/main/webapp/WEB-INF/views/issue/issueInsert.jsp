@@ -50,15 +50,15 @@
       width: 40%;
      }
      #chkDel, #itemDel{
-     	cursor: pointer;
-     	color: red;
-     	font-size: 10px;
+        cursor: pointer;
+        color: red;
+        font-size: 10px;
      }
      #itemDel{
-    	margin-left: 20px;
+       margin-left: 20px;
      }
      #chkDel{
-     	float: right;
+        float: right;
      }
     
     
@@ -115,13 +115,13 @@
                               <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">제목</label>
                                 <div class="col-sm-12 col-md-7">
-                                  <input type="text" class="form-control" id="issue_title" name="issueTitle">
+                                  <input type="text" class="form-control" id="issueTitle" name="issueTitle">
                                 </div>
                               </div>
                               <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">카테고리</label>
                                 <div class="col-sm-12 col-md-7">
-                                  <select class="form-control selectric" id="issue_category" name="issueCategory">
+                                  <select class="form-control selectric" id="issueCategory" name="issueCategory">
                                     <option>Tech</option>
                                     <option>News</option>
                                     <option>Political</option>
@@ -131,7 +131,7 @@
                               <div class="form-group row mb-4">
                                 <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">내용</label>
                                 <div class="col-sm-12 col-md-7">
-                                  <textarea style="width:inherit; background-color: #fdfdff; border-color: #e4e6fc;" id="issue_content" name="issueContent"></textarea>
+                                  <textarea style="width:inherit; background-color: #fdfdff; border-color: #e4e6fc;" id="issueContent" name="issueContent"></textarea>
                                 </div>
                               </div>
                               <div class="form-group row mb-4">
@@ -152,7 +152,7 @@
                         <input type="hidden" id="id" name="id" value="${id }">
                         <div id="btnGroup">
                           <button type="button" class="btn btn-primary" id="insertBtn" onclick="issueInsert()">등록</button>           
-                          <input type="reset" class="btn btn-primary" id="cancelBtn" value="취소">
+                          <input type="reset" class="btn btn-primary" id="cancelBtn" onclick="location.href='issueBoard.do'" value="취소">
                         </div>
                         </form>
                         <br><br>
@@ -171,6 +171,7 @@
       let li = document.createElement("li");
       let input = ul.firstChild;
       li.innerHTML = input.value + '<span id="itemDel" onclick="itemDel()">삭제</span>';
+      li.setAttribute('id', 'itemName');
       ul.append(li);
       input.value = '';
     }
@@ -183,7 +184,7 @@
       let span = document.createElement('span');
       span.setAttribute('id', 'chkDel');
       span.addEventListener('click', chkDel);
-	  span.innerHTML = '삭제';
+     span.innerHTML = '삭제';
       let div_header = document.createElement('div');
       div.classList.add('accordion');
       div_header.classList.add('accordion-header');
@@ -193,7 +194,7 @@
       let str = '#panel-body-' + (count+1);
       div_header.setAttribute('data-target', str);
       let input = document.getElementById("istitle");
-      div_header.innerHTML = '<h4>'+input.value+'</h4>';
+      div_header.innerHTML = '<h4 id="listName">'+input.value+'</h4>';
       div.append(div_header);
       
       let div_body = document.createElement('div');
@@ -221,41 +222,53 @@
     }
     
     function chkDel(){
-    	$('.accordion').remove();
-    	$('#chkDel').remove();
-    	$('#addadd').show();
+       $('.accordion').remove();
+       $('#chkDel').remove();
+       $('#addadd').show();
     }
     
     function itemDel(){
-    	event.target.closest('li').remove();
+       event.target.closest('li').remove();
 
     }
     // 등록 버튼 ajax 함수
     function issueInsert(){
-    	let frm = $('#frm')[0];
-    	let formdata = new FormData(frm);
+ /*      let frm = $('#frm')[0];
+       let formdata = new FormData(frm);
+       
+       let chk = $('.accordion-header').text();
+       let item = $('.items').find('li');
+       
+       formdata.append('chk', chk);
+       for(let i=0; i<item.length; i++){
+          let item2 = 'item' + i;
+          
+          let inner = item[i].innerHTML
+          let ind = inner.indexOf('<');
+          let itemval = inner.substring(0, ind);
+       
+          formdata.append(item2, itemval);
+       }
+       formdata.append('itemLength', item.length); */
     	
-    	let chk = $('.accordion-header').text();
-    	let item = $('.items').find('li');
-    	
-    	formdata.append('chk', chk);
-    	for(let i=0; i<item.length; i++){
-    		let item2 = 'item' + i;
-    		
-    		let inner = item[i].innerHTML
-    		let ind = inner.indexOf('<');
-    		let itemval = inner.substring(0, ind);
-    	
-    		formdata.append(item2, itemval);
-    	}
-    
-    	$.ajax({
-    		type : "POST",
-    		url : "issueInsert.do",
-    		data : formdata,
-    		dataType : "text"
-    		
-    	})
+       let data = $('#frm').serialize();
+       
+       
+       data += "&issueList=" + $("#listName").val();
+       data += "&issueItem=" + $("#itemName").val();
+      
+       console.log(data);
+       
+       $.ajax({
+          type : "POST",
+          url : "issueInsert.do",
+          processData: false,
+          contentType : false,
+          data : formdata,
+		  dataType : "json"
+          
+          
+       })
     }
 </script>
 </body>

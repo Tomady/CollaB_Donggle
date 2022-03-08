@@ -1,5 +1,7 @@
 package co.Donggle.CollaB.issue.web;
 
+
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 
 import co.Donggle.CollaB.issue.service.IssueMapper;
 import co.Donggle.CollaB.issue.service.IssueVO;
@@ -24,15 +26,12 @@ public class IssueController {
 	
 	@Autowired IssueMapper issueDao;
 	
-	IssueVO vo = new IssueVO();
-	
-	
 	// 이슈게시판 이동
 	@RequestMapping("/issueBoard.do")
-	public String issueBoard(HttpSession session, Model model) {
+	public String issueBoard(HttpSession session, Model model, IssueVO vo) {
 		String id = (String) session.getAttribute("id");
 		List<IssueVO> issue = issueDao.issueList(vo);
-		System.out.println(issue.get(0).getId());
+		
 		model.addAttribute("issues", issue);
 		return "issue/issueBoard";
 	}
@@ -42,29 +41,25 @@ public class IssueController {
 		return "issue/issueInsert";
 	}
 	// 이슈 등록
-	@PostMapping("/issueInsert.do")
-	public String issueInsert(HttpServletRequest request) {
-		
-		vo.setId(request.getParameter("id"));
-		vo.setIssueTitle(request.getParameter("issue_title"));
-		vo.setIssueCategory(request.getParameter("issue_category"));
-		vo.setIssueContent(request.getParameter("issue_content"));
-		
-		/* cvo.setChecklist_title(request.getParameter("chk"));
-		
-		
-		ivo.setItem_title(request.getParameter("item2")); */
-		
-		System.out.println("등록 완");
-		
-		
-		return "issueBoard.do";
-	}
+	 
+	   @PostMapping("/issueInsert.do")
+	   public String issueInsert(HttpServletRequest request, @RequestParam("itemLength") int num, IssueVO vo) {
+	      System.out.println("aaaaaa:" + num);
+	      
+	      int n = issueDao.insertIssue(vo);
+	      if(n == 1) {
+	    	  System.out.println("등록 완");
+	    	  
+	      }else {
+	    	  System.out.println("등록 실패");
+	      }  
+	       return "redirect:issueBoard.do";
+	   }
 	
-	
+
 	// 이슈 글 수정
 	@RequestMapping("/issueUpdate.do")
-	public String issueUpdate(Model model, HttpSession session) {
+	public String issueUpdate(Model model, HttpSession session, IssueVO vo) {
 		String id = (String) session.getAttribute("id");
 		int edit = issueDao.updateIssue(vo);
 		vo.setId(id);
@@ -81,9 +76,9 @@ public class IssueController {
 	
 	// 이슈 글 상세
 	@RequestMapping("issueDetail.do")
-	public String issueDetail(Model model, HttpSession session, @RequestParam("issueId") int issueId) {
+	public String issueDetail(Model model, HttpSession session, @RequestParam("issueId") int issueId, IssueVO vo) {
 		String id = (String) session.getAttribute("id");
-		
+		System.out.println("로그인 된 아이디는" + id);
 		vo.setId(id);
 		vo.setIssueId(issueId);
 		model.addAttribute("issue", issueDao.issueSelect(vo));
@@ -94,7 +89,7 @@ public class IssueController {
 	// 이슈 글 삭제 ajax
 	@ResponseBody
 	@RequestMapping("/issueDelete.do") 
-	public String roomDelete(HttpServletRequest request, @RequestParam("issueId") int issueId) {
+	public String roomDelete(HttpServletRequest request, @RequestParam("issueId") int issueId, IssueVO vo) {
      
       String result = "false";
 
