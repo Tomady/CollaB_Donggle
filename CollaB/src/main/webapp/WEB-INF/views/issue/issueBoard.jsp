@@ -203,6 +203,17 @@
     }
     page(pagenumber, pageCount, currentPage);
 
+  //status 배지 색상 변경
+    $(document).ready(function(){
+    	const badge = document.getElementsByClassName('badge badge-success');
+    	
+    	for(let i = 0; i < badge.length; i++){
+    		if(badge[i].innerText === 'TO DO'){
+    			badge[i].setAttribute('class', 'badge badge-danger');
+    		}
+    	}
+		
+	}); 
   </script>
 </body>
 </html>
