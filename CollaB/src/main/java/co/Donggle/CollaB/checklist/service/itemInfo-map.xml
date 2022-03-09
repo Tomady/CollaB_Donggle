@@ -47,4 +47,31 @@
 		SELECT * FROM ITEM_INFO
 		WHERE ITEM_ID = #{item_id}
 	</select>
+	
+	<select id="itemInfoTotalCnt" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM CHECKLIST K JOIN ITEM_INFO I
+		ON ( K.CHECKLIST_ID = I.CHECKLIST_ID)
+		WHERE I.CHECKLIST_ID IN (SELECT K.CHECKLIST_ID
+                                 FROM CARD C, CHECKLIST K
+                                 WHERE C.CARD_ID = K.CARD_ID
+                                 AND C.CARD_ID IN (SELECT C.CARD_ID
+                                                   FROM CARD C JOIN LIST L
+                                                   ON(C.LIST_ID = L.LIST_ID)
+                                                   WHERE L.BOARD_ID = #{board_id}))
+	</select>
+	
+	<select id="itemInfoYesState" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM CHECKLIST K JOIN ITEM_INFO I
+		ON ( K.CHECKLIST_ID = I.CHECKLIST_ID)
+		WHERE I.CHECKLIST_ID IN (SELECT K.CHECKLIST_ID
+                                 FROM CARD C, CHECKLIST K
+                                 WHERE C.CARD_ID = K.CARD_ID
+                                 AND C.CARD_ID IN (SELECT C.CARD_ID
+                                                   FROM CARD C JOIN LIST L
+                                                   ON(C.LIST_ID = L.LIST_ID)
+                                                   WHERE L.BOARD_ID = #{BOARD_ID}))
+		AND I.ITEM_STATUS = 'Y'
+	</select>
 </mapper>

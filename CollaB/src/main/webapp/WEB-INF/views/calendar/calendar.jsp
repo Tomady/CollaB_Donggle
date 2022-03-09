@@ -142,9 +142,9 @@ document.addEventListener("DOMContentLoaded", function(){
                <!-- 세션에다 닉네임 저장해주세여....부탁드려보자.... -->
                <div class="dropdown-title">Hi, [Nickname] ! 🤗<p>Where are you going ?</p></div>
                <a class="dropdown-item" href="boardDetail?boardID=${boardID}">&nbsp;&nbsp;Board</a>
-               <a class="dropdown-item" href="timeline.do">&nbsp;&nbsp;TimeLine</a>
-               <a class="dropdown-item" href="calendar.do?boardId=${boardID}">&nbsp;&nbsp;Calendar</a>
-               <a class="dropdown-item" href="#">&nbsp;&nbsp;DashBoard</a>
+               <a class="dropdown-item" href="timeline.do?boardID=${boardID}">&nbsp;&nbsp;TimeLine</a>
+               <a class="dropdown-item" href="calendar.do?boardID=${boardID}">&nbsp;&nbsp;Calendar</a>
+               <a class="dropdown-item" href="dashboard?boardID=${boardID}">&nbsp;&nbsp;DashBoard</a>
                <!--<div class="dropdown-divider"></div> 구분선-->
              </div>
              &nbsp;&nbsp;
@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function(){
            <div class="btn-group col-rg">
              <button class="btn btn-outline-secondary dropdown-toggle boardheaderFilter" 
              type="button" data-toggle="dropdown" aria-haspopup="true" 
-             aria-expanded="false">Filter </button>
+             aria-expanded="false" style="display:none;">Filter </button>
              <div class="dropdown-menu dropdown-menu-right filtermenu" style="overflow: scroll; height: 300px;">
                <div class="dropdown-title Members">Your Partners 👫</div>
                <c:forEach items="${boardJoinMembers}" var="boardmember">

@@ -28,8 +28,8 @@ public class MessageController {
 	@RequestMapping("/message_inbox")
 	public String message_inbox(HttpSession session,
 								Model model) {
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = (String)session.getAttribute("id");
+		//String userId = "user1";
 		InboxVO vo = new InboxVO();
 		vo.setId(userId);
 		
@@ -47,8 +47,8 @@ public class MessageController {
 	@RequestMapping("/AjaxInboxMsgDelete")
 	public String AjaxDeleteMSG(HttpServletRequest request,
 								HttpSession session) {
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = (String)session.getAttribute("id");
+		//String userId = "user1";
 		String[] inboxMsgID = request.getParameterValues("inboxMsgID");
 		InboxVO vo = new InboxVO();
 		vo.setId(userId);
@@ -73,8 +73,8 @@ public class MessageController {
 	@ResponseBody
 	@RequestMapping("/AjaxUnreadInbox")
 	public List<InboxVO> AjaxUnreadInbox(HttpSession session){
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = (String)session.getAttribute("id");
+		//String userId = "user1";
 		
 		InboxVO vo = new InboxVO();
 		vo.setId(userId);
@@ -123,8 +123,8 @@ public class MessageController {
 								  @RequestParam("title") String title,
 								  @RequestParam("contents") String contents,
 								  HttpSession session) {
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = (String)session.getAttribute("id");
+		//String userId = "user1";
 		String result = "";
 
 		//괄호안에 값만 추출
@@ -169,8 +169,8 @@ public class MessageController {
 	@RequestMapping("/AjaxInboxSearch_writer")
 	public List<InboxVO> AjaxInboxSearch_writer(@RequestParam("searchVal") String searchVal,
 												HttpSession session){
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = (String)session.getAttribute("id");
+		//String userId = "user1";
 		
 		InboxVO vo = new InboxVO();
 		vo.setId(userId);
@@ -184,8 +184,8 @@ public class MessageController {
 	@RequestMapping("/AjaxInboxSearch_title")
 	public List<InboxVO> AjaxInboxSearch_title(@RequestParam("searchVal") String searchVal,
 											   HttpSession session){
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = (String)session.getAttribute("id");
+		//String userId = "user1";
 		
 		InboxVO vo = new InboxVO();
 		vo.setId(userId);
@@ -198,8 +198,8 @@ public class MessageController {
 	@RequestMapping("/message_sent")
 	public String message_sent(HttpSession session,
 							   Model model) {
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = (String)session.getAttribute("id");
+		//String userId = "user1";
 		
 		InboxVO inbox = new InboxVO();
 		inbox.setId(userId);
@@ -221,8 +221,8 @@ public class MessageController {
 	@RequestMapping("/AjaxSentMsgDelete")
 	public String AjaxSentMsgDelete(HttpServletRequest request,
 								    HttpSession session) {
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = (String)session.getAttribute("id");
+		//String userId = "user1";
 		String[] sentMsgID = request.getParameterValues("sentMsgID");
 		SentVO vo = new SentVO();
 		vo.setId(userId);
@@ -278,8 +278,8 @@ public class MessageController {
 	@RequestMapping("/AjaxSentSearch_to")
 	public List<SentVO> AjaxSentSearch_to(@RequestParam("searchVal") String searchVal,
 										  HttpSession session){
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = (String)session.getAttribute("id");
+		//String userId = "user1";
 		
 		SentVO vo = new SentVO();
 		vo.setId(userId);
@@ -293,8 +293,8 @@ public class MessageController {
 	@RequestMapping("/AjaxSentSearch_title")
 	public List<SentVO> AjaxSentSearch_title(@RequestParam("searchVal") String searchVal,
 											 HttpSession session){
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = (String)session.getAttribute("id");
+		//String userId = "user1";
 		
 		SentVO vo = new SentVO();
 		vo.setId(userId);
@@ -307,8 +307,8 @@ public class MessageController {
 	@RequestMapping("/message_starred")
 	public String message_starred(HttpSession session,
 								  Model model) {
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = (String)session.getAttribute("id");
+		//String userId = "user1";
 		
 		InboxVO inbox = new InboxVO();
 		inbox.setId(userId);
@@ -328,8 +328,8 @@ public class MessageController {
 	@RequestMapping("/AjaxStarredSearch_writer")
 	public List<InboxVO> AjaxStarredSearch_writer(@RequestParam("searchVal") String searchVal,
 										   HttpSession session) {
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = (String)session.getAttribute("id");
+		//String userId = "user1";
 		
 		InboxVO vo = new InboxVO();
 		vo.setId(userId);
@@ -343,8 +343,8 @@ public class MessageController {
 	@RequestMapping("/AjaxStarredSearch_title")
 	public List<InboxVO> AjaxStarredSearch_title(@RequestParam("searchVal") String searchVal,
 										  HttpSession session) {
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = (String)session.getAttribute("id");
+		//String userId = "user1";
 		
 		InboxVO vo = new InboxVO();
 		vo.setId(userId);

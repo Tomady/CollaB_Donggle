@@ -26,8 +26,7 @@ public class ListController {
 	public ListVO AjaxCreateList(@RequestParam("listTitle") String listTitle,
 								 @RequestParam("boardID") int boardID,
 								 HttpSession session) {
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = (String)session.getAttribute("id");
 		
 		ListVO vo = new ListVO();
 		vo.setList_title(listTitle);

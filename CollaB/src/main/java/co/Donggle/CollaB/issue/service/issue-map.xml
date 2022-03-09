@@ -2,8 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.Donggle.CollaB.issue.service.IssueMapper">
 
-	<select id="issueList" resultType="co.Donggle.CollaB.issue.service.IssueVO">
-		SELECT * FROM ISSUE 
+	<select id="issueList" 
+	resultType="co.Donggle.CollaB.issue.service.IssueVO"
+	parameterType="co.Donggle.CollaB.issue.service.IssueVO">
+		SELECT * FROM ISSUE WHERE WORKSPACE_ID = #{workspace_id}
 	</select>
 	
 	<select id="issueSelect" resultType="co.Donggle.CollaB.issue.service.IssueVO">
@@ -15,7 +17,7 @@
 			SELECT MAX(ISSUEID) + 1 AS ISSUEID FROM ISSUE
 		</selectKey>
 		INSERT INTO ISSUE 
-		VALUES (#{issueId}, #{issueTitle}, #{issueCategory}, #{issueContent}, 'TO DO', #{id}, sysdate)
+		VALUES (#{issueId}, #{issueTitle}, #{issueCategory}, #{issueContent}, 'TO DO', #{id}, sysdate, #{workspace_id})
 	</insert>
 	
 	<update id="updateIssue" parameterType="co.Donggle.CollaB.issue.service.IssueVO">

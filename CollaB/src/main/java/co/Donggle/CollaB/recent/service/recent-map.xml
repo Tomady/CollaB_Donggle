@@ -2,15 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.Donggle.CollaB.recent.service.RecentMapper">
 
-	<select id="recentBoard">
+	<select id="recentBoard" parameterType="co.Donggle.CollaB.recent.service.RecentVO">
 		SELECT * FROM RECENT
 		WHERE ID = #{id}
 	</select>
 	
-	<insert id="insertRecent">
-		<selectKey keyProperty="id" resultType="int" order="BEFORE">
-			SELECT NVL(MAX(ID), 0)+1 AS ID FROM RECENT
-		</selectKey>
+	<insert id="insertRecent" parameterType="co.Donggle.CollaB.recent.service.RecentVO">
 		INSERT INTO RECENT(INVITE, BOARD_ID, ID)
 		VALUES (sysdate, #{board_id}, #{id})
 	</insert>
