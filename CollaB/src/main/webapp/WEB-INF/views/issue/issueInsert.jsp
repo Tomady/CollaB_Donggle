@@ -171,7 +171,7 @@
       let li = document.createElement("li");
       let input = ul.firstChild;
       li.innerHTML = input.value + '<span id="itemDel" onclick="itemDel()">삭제</span>';
-      li.setAttribute('id', 'itemName');
+      li.setAttribute('class', 'itemName');
       ul.append(li);
       input.value = '';
     }
@@ -233,42 +233,40 @@
     }
     // 등록 버튼 ajax 함수
     function issueInsert(){
- /*      let frm = $('#frm')[0];
-       let formdata = new FormData(frm);
+ 
+    	let issueTitle = $("#issueTitle").val();
+        let issueCategory = $("#issueCategory option:selected").val();
+        let issueContent = $("#issueContent").val();
+        let chkLiTitle = $('#listName').text();
+        let items = $('.items').find('li');
+        let itemTitle = [];
+        
+        for(let i=0; i< items.length; i++) {
+          let item = 'item' + i;
+            let inner = items[i].innerHTML;
+            let ind = inner.indexOf('<');
+            let val = inner.substring(0, ind);
+          itemTitle.push(val);
+        }itemTitle = JSON.stringify(itemTitle);
+        
+        let data = {
+          issueTitle,
+          issueCategory,
+          issueContent,
+          chkLiTitle,
+          itemTitle
+        }
+
+        console.log(data);
+        
+        $.ajax({
+            type : "POST",
+            url : "issueInsert.do",    
+            data : data,
+  		  	dataType : "json"
+            
+         })
        
-       let chk = $('.accordion-header').text();
-       let item = $('.items').find('li');
-       
-       formdata.append('chk', chk);
-       for(let i=0; i<item.length; i++){
-          let item2 = 'item' + i;
-          
-          let inner = item[i].innerHTML
-          let ind = inner.indexOf('<');
-          let itemval = inner.substring(0, ind);
-       
-          formdata.append(item2, itemval);
-       }
-       formdata.append('itemLength', item.length); */
-    	
-       let data = $('#frm').serialize();
-       
-       
-       data += "&issueList=" + $("#listName").val();
-       data += "&issueItem=" + $("#itemName").val();
-      
-       console.log(data);
-       
-       $.ajax({
-          type : "POST",
-          url : "issueInsert.do",
-          processData: false,
-          contentType : false,
-          data : formdata,
-		  dataType : "json"
-          
-          
-       })
     }
 </script>
 </body>

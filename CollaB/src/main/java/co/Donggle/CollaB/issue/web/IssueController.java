@@ -8,15 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.tiles.autotag.core.runtime.annotation.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.Donggle.CollaB.issue.service.IssueCheckListMapper;
+import co.Donggle.CollaB.issue.service.IssueCheckListVO;
+import co.Donggle.CollaB.issue.service.IssueItemMapper;
+import co.Donggle.CollaB.issue.service.IssueItemVO;
 import co.Donggle.CollaB.issue.service.IssueMapper;
 import co.Donggle.CollaB.issue.service.IssueVO;
 
@@ -25,6 +31,8 @@ import co.Donggle.CollaB.issue.service.IssueVO;
 public class IssueController {
 	
 	@Autowired IssueMapper issueDao;
+	@Autowired IssueCheckListMapper chkDao;
+	@Autowired IssueItemMapper itemDao;
 	
 	// 이슈게시판 이동
 	@RequestMapping("/issueBoard.do")
@@ -43,9 +51,21 @@ public class IssueController {
 	// 이슈 등록
 	 
 	   @PostMapping("/issueInsert.do")
-	   public String issueInsert(HttpServletRequest request, @RequestParam("itemLength") int num, IssueVO vo) {
-	      System.out.println("aaaaaa:" + num);
+	   public String issueInsert(HttpServletRequest request, IssueVO vo, IssueCheckListVO cvo, IssueItemVO ivo, 
+			   @RequestBody IssueItemVO[] items) {
+	     
+	      System.out.println("이슈타이틀은 " + vo.getIssueTitle());
+	      System.out.println("이슈내용은 " + vo.getIssueContent());
+	      System.out.println("체크리스트명은 " + cvo.getChkLiTitle());
 	      
+	      for(IssueItemVO ivo2 : items) {
+	    	  System.out.println("되어라!" + ivo2.getItemTitle());
+	      }
+	      
+	      // System.out.println("아이템은 " + ivo.getItemTitle());
+	      
+	      chkDao.insertChkLi(cvo);
+	      itemDao.insertItem(ivo);
 	      int n = issueDao.insertIssue(vo);
 	      if(n == 1) {
 	    	  System.out.println("등록 완");
@@ -71,6 +91,8 @@ public class IssueController {
 		
 		if(edit > 0) {
 			System.out.println("수정 완");
+		}else {
+			System.out.println("수정 실패");
 		}
 		
 		return "redirect:issueBoard.do";

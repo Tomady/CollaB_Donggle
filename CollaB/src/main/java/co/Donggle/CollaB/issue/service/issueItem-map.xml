@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.Donggle.CollaB.issue.service.issueItemMapper">
+	<insert id="insertItem" parameterType="co.Donggle.CollaB.issue.service.IssueItemVO">
+		<selectKey keyProperty="itemId" resultType="int" order="BEFORE">
+			SELECT MAX(ITEM_ID) + 1 AS ITEM_ID FROM ITEM_INFO
+		</selectKey>
+		insert into item_info (item_id, item_title, item_status, checklist_id)
+		values (#{itemId}, #{itemTitle}, 'N', #{chkLiId})
+	</insert>
+
+</mapper>
