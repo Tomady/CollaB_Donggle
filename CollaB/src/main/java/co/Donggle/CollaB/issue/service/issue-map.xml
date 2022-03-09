@@ -5,7 +5,9 @@
 	<select id="issueList" 
 	resultType="co.Donggle.CollaB.issue.service.IssueVO"
 	parameterType="co.Donggle.CollaB.issue.service.IssueVO">
-		SELECT * FROM ISSUE WHERE WORKSPACE_ID = #{workspace_id}
+		SELECT * FROM ISSUE  
+		WHERE WORKSPACE_ID = #{workspace_id}
+		ORDER BY ISSUEID
 	</select>
 	
 	<select id="issueSelect" resultType="co.Donggle.CollaB.issue.service.IssueVO">
@@ -13,7 +15,7 @@
 	</select>
 
 	<insert id="insertIssue" parameterType="co.Donggle.CollaB.issue.service.IssueVO">
-		<selectKey keyProperty="issueid" resultType="int" order="BEFORE">
+		<selectKey keyProperty="issueId" resultType="int" order="BEFORE">
 			SELECT MAX(ISSUEID) + 1 AS ISSUEID FROM ISSUE
 		</selectKey>
 		INSERT INTO ISSUE 
@@ -22,7 +24,7 @@
 	
 	<update id="updateIssue" parameterType="co.Donggle.CollaB.issue.service.IssueVO">
 		UPDATE ISSUE
-		SET ISSUETITLE = #{issueTitle}, ISSUECATEGORY = #{issueCategory}, ISSUECONTENT = #{issueContent}, ISSUESTATUS = #{issueStatus}
+		SET ISSUETITLE = #{issueTitle}, ISSUECATEGORY = #{issueCategory}, ISSUECONTENT = #{issueContent}, ISSUESTATUS = 'TO DO'
 		WHERE ISSUEID = #{issueId}
 	</update>
 	
