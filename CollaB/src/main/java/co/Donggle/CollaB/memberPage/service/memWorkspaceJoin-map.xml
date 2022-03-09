@@ -2,16 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="co.Donggle.CollaB.memberPage.service.MemWorkspaceJoinMapper">
-	
-	<select id="workspaceJoinIdselect" resultType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO"
-	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO">
+
+	<select id="memPageWorkspaceJoinIdselect"
+		resultType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO"
+		parameterType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO">
 		select * from workspace_join
-		where workspace_id = #{workspace_id}
+		where workspace_id =
+		#{workspace_id}
 	</select>
-	
-	<select id="workspaceJoinUserIdselect" resultType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO"
-	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO">
+
+	<select id="memPageWorkspaceJoinCurrentWorkspaceidUseridselect"
+		resultType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO"
+		parameterType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO">
 		select * from workspace_join
+		where id = #{id}
+		and workspace_id = #{workspace_id}
+	</select>
+
+	<update id="memPageWorkspaceJoinPermissionUpdate"
+		parameterType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO">
+		update workspace_join
+		set permissions = #{permissions}
+		where id = #{id}
+		and workspace_id = #{workspace_id}
+
+	</update>
+
+	<select id="workspaceJoinCurrentAuthorChk"
+		resultType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO"
+		parameterType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO">
+		select permissions from workspace_join
 		where id = #{id}
 		and workspace_id = #{workspace_id}
 	</select>

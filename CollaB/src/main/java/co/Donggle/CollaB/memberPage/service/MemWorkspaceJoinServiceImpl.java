@@ -13,15 +13,24 @@ public class MemWorkspaceJoinServiceImpl implements MemWorkspaceJoinService {
 	private MemWorkspaceJoinMapper map;
 	
 	@Override
-	public List<WorkspaceJoinVO> workspaceJoinIdselect(WorkspaceJoinVO vo) {
+	public List<WorkspaceJoinVO> memPageWorkspaceJoinIdselect(WorkspaceJoinVO vo) {
 		// TODO Auto-generated method stub
-		return map.workspaceJoinIdselect(vo);
+		return map.memPageWorkspaceJoinIdselect(vo);
 	}
 
 	@Override
-	public WorkspaceJoinVO workspaceJoinUserIdselect(WorkspaceJoinVO vo) {
+	public WorkspaceJoinVO memPageWorkspaceJoinCurrentWorkspaceidUseridselect(WorkspaceJoinVO vo) {
 		// TODO Auto-generated method stub
-		return map.workspaceJoinUserIdselect(vo);
+		return map.memPageWorkspaceJoinCurrentWorkspaceidUseridselect(vo);
 	}
+
+	@Override
+	public int memPageWorkspaceJoinPermissionUpdate(WorkspaceJoinVO vo) {
+		// TODO Auto-generated method stub
+		return map.memPageWorkspaceJoinPermissionUpdate(vo);
+	}
+
+
+
 
 }

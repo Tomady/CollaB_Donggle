@@ -77,6 +77,9 @@ public class LoginController {
 
 		if (vo != null) {
 			session.setAttribute("id", vo.getId());
+			session.setAttribute("name", vo.getName());
+			session.setAttribute("email", vo.getEmail());
+			session.setAttribute("nickname", vo.getNickname());
 			String nickname = vo.getNickname();
 			return nickname;
 		} else {
