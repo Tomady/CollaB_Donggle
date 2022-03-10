@@ -14,6 +14,12 @@
  
  
  <style>
+	 .wkimg-body {
+		width: 60px;
+		height: 60px;
+		border-radius: 5px;
+		border: 3px solid rgb(228, 227, 227);
+	}
      /* 수정 취소 버튼 */
      #btnGroup{
        margin-left: 45%;
@@ -91,16 +97,22 @@
  <!-- Main Content -->
       <div class="main-content">
         <section class="section">
-          <div class="section-header">
-            <div style="margin: 0 auto">
-              <figure class="avatar mr-2 avatar-xl" data-initial="W" style="background-color:#6553C1"></figure>
-              <h1>Workspace Name</h1>
-            </div>
-          </div>
+       
           <div class="section-body">
                     <div class="row">
                         <div class="col-12">
                           <div class="card">
+                          <div class="card-header d-flex justify-content-center"
+								style="text-align: center;">
+								<div id="workspace-body"
+									class="card-body col-lg-3 mt-5 mb-5 d-flex justify-content-center">
+									<div class="row workspaceNAME">
+										<img class="img-fluid mr-2 mt-2 wkimg-body">
+										<h3 class="mt-4" id="WsName"
+											data-wkid="${workspace.workspace_id}">${workspace.workspace_title}</h3>
+									</div>
+								</div>
+							</div>
                             <div class="card-header">
                               <h3 style="color: #6553C1;">이슈 수정</h3>
                             </div>
