@@ -30,6 +30,12 @@ public class MemWorkspaceJoinServiceImpl implements MemWorkspaceJoinService {
 		return map.memPageWorkspaceJoinPermissionUpdate(vo);
 	}
 
+	@Override
+	public int memPageWorkspaceJoinInsert(WorkspaceJoinVO vo) {
+		// TODO Auto-generated method stub
+		return map.memPageWorkspaceJoinInsert(vo);
+	}
+
 
 
 

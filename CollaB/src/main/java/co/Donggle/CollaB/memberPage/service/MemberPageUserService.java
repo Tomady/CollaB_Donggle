@@ -6,5 +6,7 @@ import co.Donggle.CollaB.user.service.UserVO;
 
 public interface MemberPageUserService {
 	List<UserVO> memberPageUserSearch(UserVO vo);
+	UserVO memberPageUserSelect(UserVO vo);
+	UserVO memberPageUserEmailSelect(UserVO vo);
 	
 }

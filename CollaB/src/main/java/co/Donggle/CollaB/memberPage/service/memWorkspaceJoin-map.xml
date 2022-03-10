@@ -35,4 +35,10 @@
 		where id = #{id}
 		and workspace_id = #{workspace_id}
 	</select>
+	
+	<insert id="memPageWorkspaceJoinInsert"
+	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceJoinVO">
+		insert into workspace_join
+		values(#{id},#{workspace_id},#{permissions})
+	</insert>
 </mapper>

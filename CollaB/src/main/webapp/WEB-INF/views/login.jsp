@@ -428,6 +428,12 @@
 	$('.globalLoginBtn').on('click', function() {
 		logincontainer.toggleClass("moving");
 	})
+	
+	$('#loginPassword').on("keyup", function(key){
+		if(key.keyCode==13){
+			loginChk();
+		}
+	})
 </script>
 <script type="text/javascript">
 ! function (t, e) {

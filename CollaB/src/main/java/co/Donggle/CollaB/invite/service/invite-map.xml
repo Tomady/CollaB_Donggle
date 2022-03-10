@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.Donggle.CollaB.invite.service.InviteMapper">
+	<insert id="inviteInsert"
+	parameterType="co.Donggle.CollaB.invite.service.InviteVO">
+	<selectKey keyProperty="invite_num" order="BEFORE" resultType="int">
+			select NVL(MAX(invite_num),0)+1 from invite
+		</selectKey>
+		insert into invite
+		values(#{invite_num},#{invite_code},#{invite_confirm},#{workspace_id},#{user_email},#{user_emailconfirm})
+	</insert>
+
+	<update id="inviteUpdate"
+	parameterType="co.Donggle.CollaB.invite.service.InviteVO">
+		update invite
+		set invite_confirm = #{invite_confirm}
+		where workspace_id = #{workspace_id}
+		and user_emailconfirm = #{user_emailconfirm}
+	</update>
+	
+	<select id="inviteEmailConfirmSelect"
+	parameterType="co.Donggle.CollaB.invite.service.InviteVO"
+	resultType="co.Donggle.CollaB.invite.service.InviteVO">
+		select * from invite
+		where user_emailconfirm = #{user_emailconfirm}
+	</select>
+</mapper>

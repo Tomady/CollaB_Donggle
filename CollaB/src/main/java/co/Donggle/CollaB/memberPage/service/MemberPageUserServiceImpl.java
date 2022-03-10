@@ -18,4 +18,16 @@ public class MemberPageUserServiceImpl implements MemberPageUserService {
 		return map.memberPageUserSearch(vo);
 	}
 
+	@Override
+	public UserVO memberPageUserSelect(UserVO vo) {
+		// TODO Auto-generated method stub
+		return map.memberPageUserSelect(vo);
+	}
+
+	@Override
+	public UserVO memberPageUserEmailSelect(UserVO vo) {
+		// TODO Auto-generated method stub
+		return map.memberPageUserEmailSelect(vo);
+	}
+
 }
