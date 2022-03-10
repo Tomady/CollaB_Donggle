@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function(){
 								<c:forEach items="${lists }" var="lists" varStatus="status">
 									<div class="card">
 										<div class="card-body" style="background-color: #FAFAFA;"  data-listId="${lists.list_id}" id="list + ${lists.list_id}" onclick="listPlan()">
-											<a href="boardDetail?boardID=${boardID}">${lists.list_title }</a>
+											<a href="">${lists.list_title }</a>
 										</div>
 									</div>
 								</c:forEach>
