@@ -1,18 +1,21 @@
 package co.Donggle.CollaB.issue.web;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.tiles.autotag.core.runtime.annotation.Parameter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +27,7 @@ import co.Donggle.CollaB.board.service.BoardVO;
 import co.Donggle.CollaB.issue.service.IssueCheckListMapper;
 import co.Donggle.CollaB.issue.service.IssueCheckListVO;
 import co.Donggle.CollaB.issue.service.IssueItemMapper;
-import co.Donggle.CollaB.issue.service.IssueItemVO;
+
 import co.Donggle.CollaB.issue.service.IssueMapper;
 import co.Donggle.CollaB.issue.service.IssueVO;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
@@ -90,32 +93,46 @@ public class IssueController {
 
 	// 이슈 등록
 	 @PostMapping("/issueInsert.do")
-	   public String issueInsert(HttpSession session, IssueVO vo, IssueCheckListVO cvo, @RequestParam(value="itemTitle") List<String> items) {
+	   public void issueInsert(HttpSession session, IssueVO vo, IssueCheckListVO cvo, 
+			   @RequestParam(value="itemTitle") List<String> items,
+			   HttpServletResponse response) throws IOException {
+		 // alert 띄울 때 쓰려고
+		 response.setContentType("text/html; utf-8");
+		 PrintWriter out = response.getWriter();
+		 // 세션 아이디 받아오고
 		 String id = (String) session.getAttribute("id");
 		 vo.setId(id);
+		 // 도영!!!!! 워크스페이스 아이디도 받아오고
+		 System.out.println("워크스페이스 아이디는" + vo.getWorkspace_id());
 		 
+		 // 값 들고오는지 찍어보자
 	      System.out.println("이슈타이틀은 " + vo.getIssueTitle());
 	      System.out.println("이슈내용은 " + vo.getIssueContent());
 	      System.out.println("체크리스트명은 " + cvo.getChkLiTitle());
-
+	      
+	      // 이슈체크리스트에 추가된 아이템들도 찍어보자
 	      for (String str : items) {
 	         System.out.println("되어라!" + str);
 	      }
-	      // 체크리스트 등록될 때 이슈아이디 받아와야 됨
+	      // 도영!!!!!!!! 체크리스트 등록될 때 이슈아이디 받아와야 됨
 	      int isid = vo.getIssueId();
 	      cvo.setIssueId(isid);
 	      chkDao.insertChkLi(cvo);
-	      // 아이템 dao 어쩌구 실행해야 됨
+	      // 도영!!!!!!!! 아이템 dao 어쩌구 실행해야 됨
 	      //itemDao.insertItem(ivo);
 	      
+	      // 이슈 등록해보자
 	      int n = issueDao.insertIssue(vo);
 	      if(n == 1) {
 	    	  System.out.println("등록 완");
-	    	  
+	    	  out.println("<script>alert('등록 완'); location.href='issueBoard.do?workspace_id=${workspace.id}';</script>");
+				out.flush();
 	      }else {
 	    	  System.out.println("등록 실패");
+	    	  out.println("<script>alert('회원가입 실패!'); history.back();</script>");
+			  out.flush();
 	      }  
-	       return "redirect:issueBoard.do";
+	      
 	   }
 
 

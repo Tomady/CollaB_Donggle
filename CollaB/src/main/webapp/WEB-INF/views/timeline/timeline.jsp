@@ -430,6 +430,7 @@
               <option>Option 1</option>
               <option>Option 2</option>
               <option>Option 3</option>
+              <!-- <option>${list.list_title }</option> -->
             </select>
         </div>
         <div class="form-group" id="dateWrap">
