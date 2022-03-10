@@ -10,4 +10,17 @@
 		where email like '%'||#{email}||'%'
 	</select>
 	
+	<select id="memberPageUserSelect"
+	resultType="co.Donggle.CollaB.user.service.UserVO"
+	parameterType="co.Donggle.CollaB.user.service.UserVO">
+		select * from user_info 
+		where id = #{id}
+	</select>
+	
+	<select id="memberPageUserEmailSelect"
+	resultType="co.Donggle.CollaB.user.service.UserVO"
+	parameterType="co.Donggle.CollaB.user.service.UserVO">
+		select * from user_info
+		where email = #{email}
+	</select>
 </mapper>
