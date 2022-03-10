@@ -449,7 +449,7 @@
               <div class="col-12 col-md-6 col-lg-12">
                 <div class="card">
                   <div class="card-header d-flex justify-content-between">
-                    <h4>Sent</h4>
+                    <h4 id="sentTitle" data-id="${id}">Sent</h4>
                     <!--검색창-->
                     <div class="search-element d-flex justify-content-between col-lg mt-2">
                       <div class="btn-group mb-2">
