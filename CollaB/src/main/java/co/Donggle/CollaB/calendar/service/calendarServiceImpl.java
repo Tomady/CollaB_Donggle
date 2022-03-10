@@ -38,8 +38,8 @@ public class calendarServiceImpl implements calendarService {
 	}
 
 	@Override
-	public List<CardVO> listPlanList(int boardId, int listId) {
-		return calendarMapper.listPlanList(boardId, listId);
+	public List<CardVO> listPlanList(CardVO vo) {
+		return calendarMapper.listPlanList(vo);
 	}
 
 }

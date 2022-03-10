@@ -114,10 +114,13 @@ public class calendarController {
 		System.out.println("보드 아이디: " + boardId);
 		System.out.println("리스트 아이디: " + listId);
 		
+		CardVO cardVo = new CardVO();
+		cardVo.setBoard_id(boardId);
+		cardVo.setList_id(listId);
+		
 		List<Map<String, String>> list = null;
 		list = new ArrayList<>();
-		List<CardVO> list2 = calendarDao.listPlanList(boardId, listId);
-		System.out.println("여기서 에러?");
+		List<CardVO> list2 = calendarDao.listPlanList(cardVo);
 		System.out.println(list2);
 		
 		for(CardVO vo : list2) {
