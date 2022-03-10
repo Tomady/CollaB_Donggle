@@ -53,4 +53,14 @@ public class itemInfoServiceImpl implements itemInfoService {
 		return itemInfoMapper.selectItem(vo);
 	}
 
+	@Override
+	public int itemInfoTotalCnt(int boardId) {
+		return itemInfoMapper.itemInfoTotalCnt(boardId);
+	}
+
+	@Override
+	public int itemInfoYesState(int boardId) {
+		return itemInfoMapper.itemInfoYesState(boardId);
+	}
+
 }

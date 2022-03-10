@@ -16,8 +16,11 @@ import co.Donggle.CollaB.board.service.BoardService;
 import co.Donggle.CollaB.board.service.BoardVO;
 import co.Donggle.CollaB.card.service.CardService;
 import co.Donggle.CollaB.card.service.CardVO;
+import co.Donggle.CollaB.checklist.service.itemInfoService;
 import co.Donggle.CollaB.list.service.ListService;
 import co.Donggle.CollaB.list.service.ListVO;
+import co.Donggle.CollaB.recent.service.RecentService;
+import co.Donggle.CollaB.recent.service.RecentVO;
 import co.Donggle.CollaB.user.service.UserService;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 import co.Donggle.CollaB.workspace.service.WorkspaceService;
@@ -37,17 +40,27 @@ public class BoardController {
 	ListService listDao;
 	@Autowired
 	CardService cardDao;
+	@Autowired
+	RecentService RecentDao;
+	@Autowired
+	itemInfoService itemInfoDao;
 
 	// 해당워크스페이스 boards페이지로 이동
 	@RequestMapping("/Boards")
 	public String goBoards(@RequestParam("wkid") int wkid, HttpSession session, Model model) {
 		String userId = (String) session.getAttribute("id");
 		WorkspaceVO wvo = new WorkspaceVO();
+		BoardVO vo = new BoardVO();
+		
 		wvo.setWorkspace_id(wkid);
-
+		vo.setWorkspace_id(wkid);
+		vo.setId(userId);
+		
 		model.addAttribute("workspace", workspaceDao.searchWorkspace(wvo)); // 워크스페이스ID,생성자아이디,생성일자,워크스페이스이름
 		model.addAttribute("workspaceList", workspaceJoinDao.workspaceJoinList(userId)); // 사용자가 가지고 있는 모든 워크스페이스
 		model.addAttribute("boardList", workspaceDao.boardListinWorkspace(wvo)); // 해당워크스페이스가 가지고 있는 모든 보드 - admin은 다 볼
+		model.addAttribute("boardStar", boardDao.selectBoardStar(vo));
+		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(vo));
 		
 		return "workspaceBoards";
 	}
@@ -182,6 +195,10 @@ public class BoardController {
 		vo.setWorkspace_id(workspaceId);
 		ListVO listvo = new ListVO();
 		listvo.setBoard_id(bId);
+		RecentVO recentvo = new RecentVO();
+		recentvo.setBoard_id(bId);
+		recentvo.setId(userId);
+		RecentDao.insertRecent(recentvo);
 
 		// 해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID - 사이드
 		model.addAttribute("workspace", boardDao.selectBoard(vo));
@@ -312,6 +329,44 @@ public class BoardController {
 		int n = boardDao.addBoardJoinMember(vo);
 		
 		return n > 0 ? "YES" : "NO";
+	}
+	
+	//대시보드
+	@RequestMapping("/dashboard")
+	public String dashboard(@RequestParam("boardID") int board_id,
+							HttpSession session, Model model) {
+		String userId = (String)session.getAttribute("id");
+		
+		BoardVO boardvo = new BoardVO();
+		boardvo.setId(userId);
+		boardvo.setBoard_id(board_id);
+		int workspace_id = boardDao.boardWorkspaceID(boardvo);
+		boardvo.setWorkspace_id(workspace_id);
+		
+		//해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID - 사이드
+		model.addAttribute("workspace", boardDao.selectBoard(boardvo));
+		//사용자가 가지고 있는 모든 워크스페이스-워크스페이스ID,워크스페이스이름 - 사이드
+		model.addAttribute("workspaceList", workspaceJoinDao.workspaceJoinList(userId));
+		//해당워크스페이스에서 즐겨찾기한 보드목록 - 사이드
+		model.addAttribute("boardStar", boardDao.selectBoardStar(boardvo));
+		//해당워크스페이스에서 즐겨찾기하지않은 보드목록 - 사이드
+		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(boardvo));
+		//해당 보드의 아이디 - 보드헤더
+		model.addAttribute("boardID",board_id);
+		//해당보드를 즐겨찾기했는지 유무 - 보드헤더
+		model.addAttribute("starYesOrNo",boardDao.boardStarYesOrNo(boardvo));
+		//해당 보드에 초대되어있는 모든 멤버-아이디,이름,닉네임,비번,이메일,프로필사진,전화번호,회사,토큰,워크스페이스아이디,보드아이디 - 보드헤더
+		model.addAttribute("boardJoinMembers",userDao.boardJoinMembers(boardvo));
+		//해당워크스페이스멤버 - 해당보드멤버 = 같은워크스페이스 사용하지만 해당 보드에는 없는사람 - 보드헤더
+		model.addAttribute("boardOthers",userDao.outsideBoardMembers(boardvo));
+		//해당보드의멤버수
+		model.addAttribute("boardMemberCnt",boardDao.boardJoinCount(boardvo));
+		//해당보드의 모든 체크리스트 아이템 개수
+		model.addAttribute("itemsCnt",itemInfoDao.itemInfoTotalCnt(board_id));
+		//해당보드의 모든 체크리스트 아이템 중 상태가 Y인 아이템 개수
+		model.addAttribute("YesItemCnt",itemInfoDao.itemInfoYesState(board_id));
+
+		return "board/dashboard";
 	}
 
 //workspaceList페이지에서 사용자가 워크스페이스 클릭시 해당 워크스페이스의 boards페이지로 이동

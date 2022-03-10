@@ -469,28 +469,31 @@ function closeInvite(){
 
 //보드참여멤버 필터적용
 function filterApply(){
-//	const cards = document.querySelectorAll(".caaard"); //해당 페이지의 모든 카드들
-	//const filterMembers = 'input[name="filterMember"]:checked'; 
-	//const members = document.querySelectorAll(filterMembers); //체크된 멤버들
-	//const ids = new Array(filterMembers.length);
+	const cards = document.querySelectorAll(".caaard"); //해당 페이지의 모든 카드들
+	cards.forEach((card)=>{
+		card.style.display="block";
+	})
+	
+	const filterMembers = 'input[name="filterMember"]:checked'; 
+	const members = document.querySelectorAll(filterMembers); //체크된 멤버들
+	const ids = new Array(filterMembers.length);
 
-//	for(let i=0; i<members.length; i++){
-//		ids[i] = members[i].getAttribute("data-memid"); //체크된 멤버들의 id를 ids배열에 담음
-//		console.log(members[i]);
-//	}
-//	console.log(ids);
+	for(let i=0; i<members.length; i++){
+		ids[i] = members[i].getAttribute("data-memid"); //체크된 멤버들의 id를 ids배열에 담음
+		console.log("체크된 멤버들==="+members[i]);
+	}	
+	console.log("======"+ids);
 	
 	//해당페이지의 모든 카드들의 data-manager 속성이 체크된 멤버들의 id와 같다면 display : block, 아니면 display : none
-//	cards.forEach((card)=>{
-//		ids.forEach((id)=>{
-//			if(card.getAttribute("data-manager") != id){
-//				card.style.display = "none";
-//			}
-//		})
-//	})
-				
-}
-
+	cards.forEach((card)=>{
+		ids.forEach((id)=>{
+			if(card.getAttribute("data-manager") != id){
+				card.style.display = "none";
+			}
+		})
+	})				
+} 
+ 
 
 
 

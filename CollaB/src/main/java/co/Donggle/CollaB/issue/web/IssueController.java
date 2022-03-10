@@ -18,36 +18,73 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.Donggle.CollaB.board.service.BoardService;
+import co.Donggle.CollaB.board.service.BoardVO;
+
 import co.Donggle.CollaB.issue.service.IssueCheckListMapper;
 import co.Donggle.CollaB.issue.service.IssueCheckListVO;
 import co.Donggle.CollaB.issue.service.IssueItemMapper;
 import co.Donggle.CollaB.issue.service.IssueItemVO;
 import co.Donggle.CollaB.issue.service.IssueMapper;
 import co.Donggle.CollaB.issue.service.IssueVO;
+import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
+import co.Donggle.CollaB.workspace.service.WorkspaceService;
+import co.Donggle.CollaB.workspace.service.WorkspaceVO;
 
 @Controller
 public class IssueController {
 
-	@Autowired
-	IssueMapper issueDao;
-	@Autowired
-	IssueCheckListMapper chkDao;
-	@Autowired
-	IssueItemMapper itemDao;
+	
+	@Autowired BoardService boardDao;
+	@Autowired WorkspaceJoinService workspaceJoinDao;
+	@Autowired WorkspaceService workspaceDao;
+	@Autowired IssueMapper issueDao;
+	@Autowired IssueCheckListMapper chkDao;
+	@Autowired IssueItemMapper itemDao;
 
+	
 	// 이슈게시판 이동
 	@RequestMapping("/issueBoard.do")
-	public String issueBoard(HttpSession session, Model model, IssueVO vo) {
-		String id = (String) session.getAttribute("id");
-		List<IssueVO> issue = issueDao.issueList(vo);
+	public String issueBoard(HttpSession session, 
+							 Model model,
+							 @RequestParam("workspace_id") int wkid) {
+		String userId = (String) session.getAttribute("id");
+		WorkspaceVO wkvo = new WorkspaceVO();
+		BoardVO vo = new BoardVO();
+		IssueVO issuevo = new IssueVO();
 
-		model.addAttribute("issues", issue);
+		wkvo.setWorkspace_id(wkid);
+		vo.setId(userId);
+		vo.setWorkspace_id(wkid);
+		issuevo.setWorkspace_id(wkid);
+		
+		model.addAttribute("issues", issueDao.issueList(issuevo));
+		//사이드바에서 필요한 내용 - 은지가 추가했어용~~ 놀라지마세요 아람걸>_0
+		model.addAttribute("workspace",workspaceDao.searchWorkspace(wkvo));
+		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(userId));
+		model.addAttribute("boardStar", boardDao.selectBoardStar(vo));
+		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(vo));
+		
 		return "issue/issueBoard";
 	}
-
+	
 	// 등록 페이지 이동
 	@RequestMapping("goIssueInsert.do")
-	public String goIssueInsert() {
+	public String goIssueInsert(HttpSession session, Model model, @RequestParam("workspace_id") int wkid) {
+		String userId = (String) session.getAttribute("id");
+		WorkspaceVO wkvo = new WorkspaceVO();
+		BoardVO vo = new BoardVO();
+		
+		wkvo.setWorkspace_id(wkid);
+		vo.setId(userId);
+		vo.setWorkspace_id(wkid);
+		
+		//사이드바에서 필요한 내용 - 은지가 추가했어용~~ 놀라지마세요 아람걸>_0
+		model.addAttribute("workspace",workspaceDao.searchWorkspace(wkvo));
+		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(userId));
+		model.addAttribute("boardStar", boardDao.selectBoardStar(vo));
+		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(vo));
+		
 		return "issue/issueInsert";
 	}
 
@@ -105,21 +142,48 @@ public class IssueController {
 
 	// 이슈 글 수정 페이지 이동
 	@RequestMapping("/goIssueUpdate.do")
-	public String goIssueUpdate(@RequestParam("issueId") int issueId, Model model, IssueVO vo) {
-		vo.setIssueId(issueId);
+	public String goIssueUpdate(@RequestParam("issueId") int issueId, Model model, IssueVO vo, HttpSession session, @RequestParam("workspace_id") int wkid) {
+		String id = (String) session.getAttribute("id");
+		WorkspaceVO wkvo = new WorkspaceVO();
+		BoardVO boardvo = new BoardVO();
 		IssueVO ivo = issueDao.issueSelect(vo);
+
+		wkvo.setWorkspace_id(wkid);
+		boardvo.setId(id);
+		boardvo.setWorkspace_id(wkid);
+		vo.setIssueId(issueId);
+		
 		model.addAttribute("issue", ivo);
+		//사이드바에서 필요한 내용 - 은지가 추가했어용~~ 놀라지마세요 아람걸>_0
+		model.addAttribute("workspace",workspaceDao.searchWorkspace(wkvo));
+		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(id));
+		model.addAttribute("boardStar", boardDao.selectBoardStar(boardvo));
+		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(boardvo));
+		
 		return "issue/issueUpdate";
 	}
 
 	// 이슈 글 상세
 	@RequestMapping("/issueDetail.do")
-	public String issueDetail(Model model, HttpSession session, @RequestParam("issueId") int issueId, IssueVO vo) {
+	public String issueDetail(Model model, HttpSession session, @RequestParam("issueId") int issueId, IssueVO vo,
+			@RequestParam("workspace_id") int wkid) {
 		String id = (String) session.getAttribute("id");
+		WorkspaceVO wkvo = new WorkspaceVO();
+		BoardVO boardvo = new BoardVO();
 		System.out.println("로그인 된 아이디는" + id);
+		
+		wkvo.setWorkspace_id(wkid);
+		boardvo.setId(id);
+		boardvo.setWorkspace_id(wkid);
 		vo.setId(id);
 		vo.setIssueId(issueId);
+		
 		model.addAttribute("issue", issueDao.issueSelect(vo));
+		//사이드바에서 필요한 내용 - 은지가 추가했어용~~ 놀라지마세요 아람걸>_0
+		model.addAttribute("workspace",workspaceDao.searchWorkspace(wkvo));
+		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(id));
+		model.addAttribute("boardStar", boardDao.selectBoardStar(boardvo));
+		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(boardvo));
 
 		return "issue/issueDetail";
 	}

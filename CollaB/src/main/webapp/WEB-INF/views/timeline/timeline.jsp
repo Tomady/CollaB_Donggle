@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +16,9 @@
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 <style>
+	.boardColor{width: 3%; height: 50px; margin-left: 5%;}
+	.default{margin-right: 6%; height: 50px; margin-left: 5%;}
+	.boardColor:hover, .default:hover{cursor: pointer;}
 	body{
 		background-color: white !important;
 	}
@@ -167,98 +171,211 @@
         outline: 0;
     }
   </style>
-
+  <script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(){
+		let color = "${workspace.board_thema}";
+		let name = "${workspace.workspace_title}".substring(0, 1);
+		console.log(color);
+		console.log(name);
+		boardColorFnc(color);
+		changeWKIMG(name);
+		
+		//워크프페이스 프로필이미지
+		function changeWKIMG(newWKname){
+			let img = document.querySelector(".wkimg");
+			if(name == 'a' || name == 'A'){
+				img.setAttribute("src","resources/img/a.jpg");
+			}else if(name == 'b' || name == 'B'){
+				img.setAttribute("src","resources/img/b.jpg");
+			}else if(name == 'c' || name == 'C'){
+				img.setAttribute("src","resources/img/c.jpg");
+			}else if(name == 'd' || name == 'D'){
+				img.setAttribute("src","resources/img/d.jpg");
+			}else if(name == 'e' || name == 'E'){
+				img.setAttribute("src","resources/img/e.jpg");
+			}else if(name == 'f' || name == 'F'){
+				img.setAttribute("src","resources/img/f.jpg");
+			}else if(name == 'g' || name == 'G'){
+				img.setAttribute("src","resources/img/g.jpg");
+			}else if(name == 'h' || name == 'H'){
+				img.setAttribute("src","resources/img/h.jpg");
+			}else if(name == 'i' || name == 'I'){
+				img.setAttribute("src","resources/img/i.jpg");
+			}else if(name == 'j' || name == 'J'){
+				img.setAttribute("src","resources/img/j.jpg");
+			}else if(name == 'k' || name == 'K'){
+				img.setAttribute("src","resources/img/k.jpg");
+			}else if(name == 'l' || name == 'L'){
+				img.setAttribute("src","resources/img/l.jpg");
+			}else if(name == 'm' || name == 'M'){
+				img.setAttribute("src","resources/img/m.jpg");
+			}else if(name == 'n' || name == 'N'){
+				img.setAttribute("src","resources/img/n.jpg");
+			}else if(name == 'o' || name == 'O'){
+				img.setAttribute("src","resources/img/o.jpg");
+			}else if(name == 'p' || name == 'P'){
+				img.setAttribute("src","resources/img/p.jpg");
+			}else if(name == 'q' || name == 'Q'){
+				img.setAttribute("src","resources/img/q.jpg");
+			}else if(name == 'r' || name == 'R'){
+				img.setAttribute("src","resources/img/r.jpg");
+			}else if(name == 's' || name == 'S'){
+				img.setAttribute("src","resources/img/s.jpg");
+			}else if(name == 't' || name == 'T'){
+				img.setAttribute("src","resources/img/t.jpg");
+			}else if(name == 'u' || name == 'U'){
+				img.setAttribute("src","resources/img/u.jpg");
+			}else if(name == 'v' || name == 'V'){
+				img.setAttribute("src","resources/img/v.jpg");
+			}else if(name == 'w' || name == 'W'){
+				img.setAttribute("src","resources/img/w.jpg");
+			}else if(name == 'x' || name == 'X'){
+				img.setAttribute("src","resources/img/x.jpg");
+			}else if(name == 'y' || name == 'Y'){
+				img.setAttribute("src","resources/img/y.jpg");
+			}else if(name == 'z' || name == 'Z'){
+				img.setAttribute("src","resources/img/z.jpg");
+			}else if(name == '0'){
+				img.setAttribute("src","resources/img/0.jpg");
+			}else if(name == '1'){
+				img.setAttribute("src","resources/img/1.jpg");
+			}else if(name == '2'){
+				img.setAttribute("src","resources/img/2.jpg");
+			}else if(name == '3'){
+				img.setAttribute("src","resources/img/3.jpg");
+			}else if(name == '4'){
+				img.setAttribute("src","resources/img/4.jpg");
+			}else if(name == '5'){
+				img.setAttribute("src","resources/img/5.jpg");
+			}else if(name == '6'){
+				img.setAttribute("src","resources/img/6.jpg");
+			}else if(name == '7'){
+				img.setAttribute("src","resources/img/7.jpg");
+			}else if(name == '8'){
+				img.setAttribute("src","resources/img/8.jpg");
+			}else if(name == '9'){
+				img.setAttribute("src","resources/img/9.jpg");
+			}
+		}
+	})
+  </script>
 </head>
-<body style="background-color: white;">
+<body>
   
         <!-- Main Content -->
         <div class="main-content">
           <section class="section">
-            <!-- 보드헤더 -->
-            <div class="section-header d-flex justify-content-between" style="margin-bottom: 5px;">
-              <div class="btn-group">
-                <button class="btn btn-secondary dropdown-toggle" type="button" 
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                style="background-color: #6553C1;">
-                Switch View
-                </button>
-                <div class="dropdown-menu">
-                  <div class="dropdown-title">Hi, [Nickname] ! 🤗<p>Where are you going ?</p></div>
-                 	<a class="dropdown-item" href="boardDetail">&nbsp;&nbsp;Board</a>
-	             	<a class="dropdown-item" href="timeline.do">&nbsp;&nbsp;TimeLine</a>
-	             	<a class="dropdown-item" href="calendar.do">&nbsp;&nbsp;Calendar</a>
-                  	<a class="dropdown-item" href="#">&nbsp;&nbsp;DashBoard</a>
-                  <!--<div class="dropdown-divider"></div> 구분선-->
-                </div>
-                &nbsp;&nbsp;
-                <button id="WsName" class="btn btn-secondary" type="button" style="background-color: #6553C1;">
-                  Workspace Name
-                </button>
-                &nbsp;&nbsp;
-                <button id="BorName" class="btn btn-secondary" type="button" style="background-color: #6553C1;">
-                  Board Name
-                </button>
-                &nbsp;&nbsp;
-                <button id="addstar" class="btn btn-secondary" type="button" style="background-color: #6553C1;">
-                  <i id="star" class="fas fa-star"></i>
-                </button>
-                <div class="ml-1">
-                  <button class="btn btn-secondary dropdown-toggle" 
-                  type="button" data-toggle="dropdown" aria-haspopup="true" 
-                  aria-expanded="false" style="background-color: #6553C1;">Thema </button>
-                  <div class="dropdown-menu dropdown-menu-right " 
-                  style="overflow: scroll; overflow-x: hidden; height: 300px;">
-                    <div class="dropdown-title text-right">What's your favorite color? 🌈</div>
-                    <!-- 백그라운드 색깔 종류 리스트 -->
-                    <div class="d-flex">
-                      <span class="dropdown-item" style="width: 3%; height: 50px; background-color: rgb(247, 123, 123); margin-left: 5%;"></span>
-                      <span class="dropdown-item" style="width: 3%; height: 50px; background-color: rgb(252, 187, 127); margin-left: 5%;"></span>
-                      <span class="dropdown-item" style="width: 3%; height: 50px; background-color: rgb(255, 245, 157); margin-left: 5%;"></span>
-                    </div>
-                    <div class="d-flex mt-3">
-                      <span class="dropdown-item" style="width: 3%; height: 50px; background-color: rgb(159, 255, 130); margin-left: 5%;"></span>
-                      <span class="dropdown-item" style="width: 3%; height: 50px; background-color: rgb(128, 253, 170); margin-left: 5%;"></span>
-                      <span class="dropdown-item" style="width: 3%; height: 50px; background-color: rgb(216, 247, 131); margin-left: 5%;"></span>
-                    </div>
-                    <div class="d-flex mt-3">
-                      <span class="dropdown-item" style="width: 3%; height: 50px; background-color: rgb(123, 243, 247); margin-left: 5%;"></span>
-                      <span class="dropdown-item" style="width: 3%; height: 50px; background-color: rgb(121, 199, 250); margin-left: 5%;"></span>
-                      <span class="dropdown-item" style="width: 3%; height: 50px; background-color: rgb(121, 162, 250); margin-left: 5%;"></span>
-                    </div>
-                    <div class="d-flex mt-3">
-                      <span class="dropdown-item" style="width: 3%; height: 50px; background-color: rgb(123, 125, 247); margin-left: 5%;"></span>
-                      <span class="dropdown-item" style="width: 3%; height: 50px; background-color: rgb(228, 151, 252); margin-left: 5%;"></span>
-                      <span class="dropdown-item" style="width: 3%; height: 50px; background-color: rgb(171, 127, 252); margin-left: 5%;"></span>
-                    </div>
-                    <div class="d-flex mt-3">
-                      <span class="dropdown-item" style="width: 3%; height: 50px; background-color: rgb(184, 184, 184); margin-left: 5%;"></span>
-                      <span class="dropdown-item" style="width: 3%; height: 50px; background-color: rgb(116, 115, 115); margin-left: 5%;"></span>
-                      <span class="dropdown-item" style="width: 3%; height: 50px; background-color: rgb(12, 12, 12); margin-left: 5%;"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="btn-group col-rg">
-                <button class="btn btn-outline-secondary dropdown-toggle" 
-                type="button" data-toggle="dropdown" aria-haspopup="true" 
-                aria-expanded="false" style="color: #6553C1; border: 1px solid #6553C1;">Filter </button>
-                  <div class="dropdown-menu dropdown-menu-right" style="overflow: scroll; overflow-x: hidden; height: 300px;">
-                    <div class="dropdown-title text-right">Your Partner 🙌</div>
-                    <a class="dropdown-item" href="#"><input type="checkbox">&nbsp;&nbsp;eunji_97@abc.com</a>
-                    <a class="dropdown-item" href="#"><input type="checkbox">&nbsp;&nbsp;eunji_97@abc.com</a>
-                    <a class="dropdown-item" href="#"><input type="checkbox">&nbsp;&nbsp;eunji_97@abc.com</a>
-                    <a class="dropdown-item" href="#"><input type="checkbox">&nbsp;&nbsp;eunji_97@abc.com</a>
-                    <a class="dropdown-item" href="#"><input type="checkbox">&nbsp;&nbsp;eunji_97@abc.com</a>
-                    <a class="dropdown-item" href="#"><input type="checkbox">&nbsp;&nbsp;eunji_97@abc.com</a>
-                    <a class="dropdown-item" href="#"><input type="checkbox">&nbsp;&nbsp;eunji_97@abc.com</a>
-                    <a class="dropdown-item" href="#"><input type="checkbox">&nbsp;&nbsp;eunji_97@abc.com</a>
-                    <a class="dropdown-item" href="#"><input type="checkbox">&nbsp;&nbsp;eunji_97@abc.com</a>
-                    <a class="dropdown-item" href="#"><input type="checkbox">&nbsp;&nbsp;eunji_97@abc.com</a>
-                    <!--<div class="dropdown-divider"></div> 구분선-->
-                  </div>
-              </div>
-              <!-- 보드헤더 끝 -->
-            </div>
+         <!-- 보드헤더 -->
+         <div class="section-header d-flex justify-content-between">
+           <div class="btn-group">
+             <button class="btn btn-secondary dropdown-toggle boardheaderbtn" type="button" 
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             Switch View
+             </button>
+             <div class="dropdown-menu">
+               <!-- 세션에다 닉네임 저장해주세여....부탁드려보자.... -->
+               <div class="dropdown-title">Hi, ${nickname}! 🤗<p>Where are you going ?</p></div>
+               <a class="dropdown-item" href="boardDetail?boardID=${boardID}">&nbsp;&nbsp;Board</a>
+               <a class="dropdown-item" href="timeline.do?boardID=${boardID}">&nbsp;&nbsp;TimeLine</a>
+               <a class="dropdown-item" href="calendar.do?boardID=${boardID}">&nbsp;&nbsp;Calendar</a>
+               <a class="dropdown-item" href="dashboard?boardID=${boardID}">&nbsp;&nbsp;DashBoard</a>
+               <!--<div class="dropdown-divider"></div> 구분선-->
+             </div>
+             &nbsp;&nbsp;
+             <button id="WsName" class="btn btn-secondary boardheaderbtn" type="button" title="workspace" data-wkId="${workspace.workspace_id}">
+               ${workspace.workspace_title}
+             </button>
+             &nbsp;&nbsp;
+             <button id="BorName" class="btn btn-secondary boardheaderbtn" type="button" title="board" data-boardId="${boardID}">
+               ${workspace.board_Title}
+             </button>
+             &nbsp;&nbsp;
+             <c:if test="${starYesOrNo > 0}">
+             	<button id="addstar" class="btn btn-secondary boardheaderbtn" type="button" data-boardId="${boardID}">
+               		<i id="star" class="fas fa-star" style="color:yellow;" data-boardId="${boardID}"></i>
+             	</button>
+             </c:if>
+             <c:if test="${starYesOrNo == 0}">
+             	<button id="addstar" class="btn btn-secondary boardheaderbtn" type="button" data-boardId="${boardID}">
+               		<i id="star" class="fas fa-star" data-boardId="${boardID}"></i>
+             	</button>
+             </c:if>
+             <div class="ml-1">
+               <button class="btn btn-secondary dropdown-toggle boardheaderbtn" 
+               type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Thema </button>
+               <div class="dropdown-menu dropdown-menu-right " 
+               style="overflow: scroll; overflow-x: hidden; height: 300px;">
+                 <div class="dropdown-title text-right">What's your favorite color? 🌈</div>
+                 <!-- 백그라운드 색깔 종류 리스트 -->
+                 <div class="d-flex">
+                   <span title="red" class="dropdown-item boardColor" style="background-color: rgb(247, 123, 123);" onclick="changeBoardColor('red')"></span>
+                   <span title="orange" class="dropdown-item boardColor" style="background-color: rgb(252, 187, 127);" onclick="changeBoardColor('orange')"></span>
+                   <span title="yellow" class="dropdown-item boardColor" style="background-color: rgb(255, 245, 157);" onclick="changeBoardColor('yellow')"></span>
+                 </div>
+                 <div class="d-flex mt-3">
+                   <span title="green" class="dropdown-item boardColor" style="background-color: rgb(86, 161, 111);" onclick="changeBoardColor('green')"></span>
+                   <span title="skyblue" class="dropdown-item boardColor" style="background-color: rgb(123, 243, 247);" onclick="changeBoardColor('skyblue')"></span>
+                   <span title="blue" class="dropdown-item boardColor" style="background-color: rgb(121, 162, 250);" onclick="changeBoardColor('blue')"></span>
+                 </div>
+                 <div class="d-flex mt-3">
+                   <span title="darkblue" class="dropdown-item boardColor" style="background-color: rgb(123, 125, 247);" onclick="changeBoardColor('darkblue')"></span>
+                   <span title="purple" class="dropdown-item boardColor" style="background-color: rgb(171, 127, 252);" onclick="changeBoardColor('purple')"></span>
+                   <span title="pink" class="dropdown-item boardColor" style="background-color: rgb(250, 167, 243);" onclick="changeBoardColor('pink')"></span>
+                 </div>
+                 <div class="d-flex mt-3">
+                   <span title="gray" class="dropdown-item boardColor" style="background-color: rgb(184, 184, 184);" onclick="changeBoardColor('gray')"></span>
+                   <span title="darkgray" class="dropdown-item boardColor" style="background-color: rgb(116, 115, 115);" onclick="changeBoardColor('darkgray')"></span>
+                   <span title="black" class="dropdown-item boardColor" style="background-color: rgb(12, 12, 12);" onclick="changeBoardColor('black')"></span>
+                 </div>
+                 <div class="d-flex mt-3">
+                   <span title="No Thema" class="dropdown-item default" style="background-color: #ECE9FE;" onclick="changeBoardColor('base')"></span>
+                 </div>
+               </div>
+             </div>
+             <div class="ml-1 dropdown">
+               <button class="btn btn-secondary dropdown-toggle InviteBTN boardheaderbtn fa fa-user-plus" type="button" 
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="showInvite()">
+               Invite
+               </button>
+               <div class="dropdown-menu showInvite" 
+               style="overflow: scroll; height: 300px; display:none;">
+                 <span class="fa fa-times ml-2 mt-1" title="close" style="cursor:pointer;"
+                 onclick="closeInvite()"></span>
+                 <div class="dropdown-title">Your Partners 👫</div>
+                 <div class="ml-1 mr-1 text-center Invite_selectMember"> <!--선택된 멤버들-->
+                 	<c:forEach items="${boardJoinMembers}" var="boardmember">
+	                   <span class="btn btn-light mr-1 ml-1 mt-1">${boardmember.name}</span>						                 	
+                 	</c:forEach>
+                 </div>
+                 <div class="dropdown-divider"></div>
+                 <div class="dropdown-title">Member List 🙌</div>
+                 <div id="Invite_member"> 
+                   <c:forEach items="${boardOthers}" var="workspaceMember">
+               			<a class="dropdown-item" href="#">
+                 		<input type="checkbox" class="Invite_check" onclick="inviteBoard()"
+                 		value="${workspaceMember.id}" data-memName="${workspaceMember.name}" 
+                 		data-workspaceID="${workspaceID}" data-boardID="${boardID}"> ${workspaceMember.name}(${workspaceMember.email})</a>
+                   </c:forEach>
+                 </div>
+               </div>
+             </div>
+           </div>
+           <div class="btn-group col-rg">
+             <button class="btn btn-outline-secondary dropdown-toggle boardheaderFilter" 
+             type="button" data-toggle="dropdown" aria-haspopup="true" 
+             aria-expanded="false" style="display:none;">Filter </button>
+             <div class="dropdown-menu dropdown-menu-right filtermenu" style="overflow: scroll; height: 300px;">
+               <div class="dropdown-title Members">Your Partners 👫</div>
+               <c:forEach items="${boardJoinMembers}" var="boardmember">
+                 <a class="dropdown-item" href="#">
+                 	<input type="checkbox" name="filterMember" data-memid="${boardmember.id}"
+                 	onclick="filterApply()"> ${boardmember.id}(${boardmember.name})
+                 </a>						                 	
+               </c:forEach>
+             </div>
+           </div>
+           <!-- 보드헤더 끝 -->
+         </div>
             
             <!-- 보드바디 -->
             
@@ -402,5 +519,6 @@
   
 
       </script>
+      <script src="resources/js/board/board-header.js"></script>
 </body>
 </html>

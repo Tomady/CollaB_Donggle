@@ -938,7 +938,7 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 </style>
 </head>
 
-<body style="background-color: #ECE9FE;">
+<body style="background-color: rgb(204, 195, 226); overflow:scroll; overflow-x:hidden;">
 
 
 

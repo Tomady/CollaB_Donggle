@@ -45,9 +45,8 @@ public class calendarController {
 	// 일정 보기
 	@RequestMapping(value = "/calendar.do", method = RequestMethod.GET)
 	public ModelAndView calendar(ModelAndView mv, HttpServletRequest request,
-									HttpSession session, @RequestParam("boardId") int boardid) {
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+									HttpSession session, @RequestParam("boardID") int boardid) {
+		String userId = (String)session.getAttribute("id");
 		String viewpage = "calendar/calendar";
 			
 		BoardVO vo = new BoardVO();
