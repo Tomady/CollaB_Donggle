@@ -37,9 +37,9 @@
         text-align: center;
     }
     #timeline-list-box{
-        height: 85%;
-        background-color: #ECE9FE;
-        border-radius: 20px;
+        height: 80%;
+        border: 1px solid #f2f2f2;
+        
     }
     #timeline-list-body{
         height: 90%;
@@ -97,7 +97,8 @@
         border-bottom: 1px solid lightgray;
         list-style-type: none;
         cursor: pointer;
-        height: 100px;
+ 		text-align: center;
+ 		padding: 5px;
     }
     #modal{
         position: absolute;
@@ -175,88 +176,8 @@
   document.addEventListener("DOMContentLoaded", function(){
 		let color = "${workspace.board_thema}";
 		let name = "${workspace.workspace_title}".substring(0, 1);
-		console.log(color);
-		console.log(name);
 		boardColorFnc(color);
 		changeWKIMG(name);
-		
-		//워크프페이스 프로필이미지
-		function changeWKIMG(newWKname){
-			let img = document.querySelector(".wkimg");
-			if(name == 'a' || name == 'A'){
-				img.setAttribute("src","resources/img/a.jpg");
-			}else if(name == 'b' || name == 'B'){
-				img.setAttribute("src","resources/img/b.jpg");
-			}else if(name == 'c' || name == 'C'){
-				img.setAttribute("src","resources/img/c.jpg");
-			}else if(name == 'd' || name == 'D'){
-				img.setAttribute("src","resources/img/d.jpg");
-			}else if(name == 'e' || name == 'E'){
-				img.setAttribute("src","resources/img/e.jpg");
-			}else if(name == 'f' || name == 'F'){
-				img.setAttribute("src","resources/img/f.jpg");
-			}else if(name == 'g' || name == 'G'){
-				img.setAttribute("src","resources/img/g.jpg");
-			}else if(name == 'h' || name == 'H'){
-				img.setAttribute("src","resources/img/h.jpg");
-			}else if(name == 'i' || name == 'I'){
-				img.setAttribute("src","resources/img/i.jpg");
-			}else if(name == 'j' || name == 'J'){
-				img.setAttribute("src","resources/img/j.jpg");
-			}else if(name == 'k' || name == 'K'){
-				img.setAttribute("src","resources/img/k.jpg");
-			}else if(name == 'l' || name == 'L'){
-				img.setAttribute("src","resources/img/l.jpg");
-			}else if(name == 'm' || name == 'M'){
-				img.setAttribute("src","resources/img/m.jpg");
-			}else if(name == 'n' || name == 'N'){
-				img.setAttribute("src","resources/img/n.jpg");
-			}else if(name == 'o' || name == 'O'){
-				img.setAttribute("src","resources/img/o.jpg");
-			}else if(name == 'p' || name == 'P'){
-				img.setAttribute("src","resources/img/p.jpg");
-			}else if(name == 'q' || name == 'Q'){
-				img.setAttribute("src","resources/img/q.jpg");
-			}else if(name == 'r' || name == 'R'){
-				img.setAttribute("src","resources/img/r.jpg");
-			}else if(name == 's' || name == 'S'){
-				img.setAttribute("src","resources/img/s.jpg");
-			}else if(name == 't' || name == 'T'){
-				img.setAttribute("src","resources/img/t.jpg");
-			}else if(name == 'u' || name == 'U'){
-				img.setAttribute("src","resources/img/u.jpg");
-			}else if(name == 'v' || name == 'V'){
-				img.setAttribute("src","resources/img/v.jpg");
-			}else if(name == 'w' || name == 'W'){
-				img.setAttribute("src","resources/img/w.jpg");
-			}else if(name == 'x' || name == 'X'){
-				img.setAttribute("src","resources/img/x.jpg");
-			}else if(name == 'y' || name == 'Y'){
-				img.setAttribute("src","resources/img/y.jpg");
-			}else if(name == 'z' || name == 'Z'){
-				img.setAttribute("src","resources/img/z.jpg");
-			}else if(name == '0'){
-				img.setAttribute("src","resources/img/0.jpg");
-			}else if(name == '1'){
-				img.setAttribute("src","resources/img/1.jpg");
-			}else if(name == '2'){
-				img.setAttribute("src","resources/img/2.jpg");
-			}else if(name == '3'){
-				img.setAttribute("src","resources/img/3.jpg");
-			}else if(name == '4'){
-				img.setAttribute("src","resources/img/4.jpg");
-			}else if(name == '5'){
-				img.setAttribute("src","resources/img/5.jpg");
-			}else if(name == '6'){
-				img.setAttribute("src","resources/img/6.jpg");
-			}else if(name == '7'){
-				img.setAttribute("src","resources/img/7.jpg");
-			}else if(name == '8'){
-				img.setAttribute("src","resources/img/8.jpg");
-			}else if(name == '9'){
-				img.setAttribute("src","resources/img/9.jpg");
-			}
-		}
 	})
   </script>
 </head>
@@ -378,20 +299,21 @@
          </div>
             
             <!-- 보드바디 -->
-            
+           
             <div id="timeline-wrap">
               
                 <div id="timeline-list">
                     <div id="timeline-list-header"> 
                         <h4>TIMELINE LIST 📆</h4>
                     </div>
+                    <c:forEach items="${lists }" var="list">
                     <div id="timeline-list-box">
                         <div id="timeline-list-body">
                             <ul class="listOfCard">
-                                <li>list 1</li>
-                              <!-- <li>${list.list_title }</li> -->
+                                <li>${list.list_title }</li> 
                             </ul>
                         </div>
+                        </c:forEach>
                         <div id="timeline-list-footer">
                             <div class="modal" id="modal">
                               <div style="margin-bottom: 20px;"><ion-icon name="close-outline" class="icon" id="close1"></ion-icon></div>
