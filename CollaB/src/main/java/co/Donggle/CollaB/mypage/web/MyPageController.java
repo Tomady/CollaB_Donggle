@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,9 @@ public class MyPageController {
 	
 	@Autowired 
 	String saveDirectory;
+	
+	@Autowired
+	BCryptPasswordEncoder pwEncoder;
 	
 			// 마이페이지 메인 페이지
 			@RequestMapping("/myPageMain")
@@ -102,6 +106,8 @@ public class MyPageController {
 			// 마이페이지 비밀번호 변경 처리
 			@PostMapping("/pwUpdate")
 			public String pwUpdate(MyPageVO vo) {
+				String securePw = pwEncoder.encode(vo.getPassword());
+				vo.setPassword(securePw);
 				int r = MypageDao.updatePw(vo);
 				if(r>0) {
 					return "redirect:myPageMain";

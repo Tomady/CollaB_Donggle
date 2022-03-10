@@ -95,18 +95,43 @@ public class calendarController {
 		System.out.println(list2);
 		
 		for(CardVO vo : list2) {
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("title", vo.getCard_title());
-			map.put("start", test(vo.getCard_start_date()));
-			map.put("end", test(vo.getCard_end_date()));
-			map.put("id", String.valueOf(vo.getCard_id()));
-			list.add(map);
+			if(vo.getCard_start_date() != null) {
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("title", vo.getCard_title());
+				map.put("start", test(vo.getCard_start_date()));
+				map.put("end", test(vo.getCard_end_date()));
+				map.put("id", String.valueOf(vo.getCard_id()));
+				list.add(map);				
+			}
+		}
+		return list;
+		
+	}
+	
+	// 리스트별 일정 가져오기
+	@RequestMapping("/listCalendar")
+	@ResponseBody
+	public List<Map<String, String>> listCalendar(@RequestParam("boardid") int boardId, @RequestParam("listid") int listId) {
+		List<Map<String, String>> list = null;
+		list = new ArrayList<>();
+		List<CardVO> list2 = calendarDao.listPlanList(boardId, listId);
+		System.out.println(list2);
+		
+		for(CardVO vo : list2) {
+			if(vo.getCard_start_date() != null) {
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("title", vo.getCard_title());
+				map.put("start", test(vo.getCard_start_date()));
+				map.put("end", test(vo.getCard_end_date()));
+				map.put("id", String.valueOf(vo.getCard_id()));
+				list.add(map);				
+			}
 		}
 		return list;
 		
 	}
 
-	
+	// 날짜 타입 형변환
 	public String test(Date d) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String str = format.format(d);
