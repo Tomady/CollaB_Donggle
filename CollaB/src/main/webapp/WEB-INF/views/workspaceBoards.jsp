@@ -209,7 +209,7 @@
 					//보드탈퇴 클릭함수걸기
 					i.addEventListener("click",function(){ 
 						let target = event.target.parentElement.parentElement.parentElement;
-						let answer = confirm("Do you want to leave \nthe selected board?");
+						let answer = confirm("Do you want to leave the selected board?");
 						if(answer){
 							$.ajax({
 								url : "AjaxBoardJoinDelete",

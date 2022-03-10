@@ -94,6 +94,8 @@ document.addEventListener("DOMContentLoaded", function(){
 			img.setAttribute("src","resources/img/8.jpg");
 		}else if(name == '9'){
 			img.setAttribute("src","resources/img/9.jpg");
+		}else{
+			img.setAttribute("src","resources/img/workspace_default_profile.png");
 		}
 	}
 })
