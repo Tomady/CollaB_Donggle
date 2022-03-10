@@ -251,8 +251,8 @@ document.addEventListener("DOMContentLoaded", function(){
 								<h4 mt-2>Lists</h4>
 								<c:forEach items="${lists }" var="lists" varStatus="status">
 									<div class="card">
-										<div class="card-body" style="background-color: #FAFAFA;">
-											<a href="">${lists.list_title }</a>
+										<div class="card-body" style="background-color: #FAFAFA;"  data-listId="${lists.list_id}" id="list + ${lists.list_id}" onclick="listPlan()">
+											<a href="boardDetail?boardID=${boardID}">${lists.list_title }</a>
 										</div>
 									</div>
 								</c:forEach>
@@ -299,12 +299,52 @@ document.addEventListener("DOMContentLoaded", function(){
 				eventDrop: function (info) {
 					updateDate(info);
 				},
+				eventClick: function(info) {
+					moveCard(info);
+				},
 				dayMaxEvents: true, // allow "more" link when too many events
 				events: dbData
 			});
 			calendar.render();
 		}
 	});
+	
+	// 리스트 클릭하면 해당 리스트의 카드만 캘린더에 불러오기
+	function listPlan() {
+		let listId = document.getElementById("list + ${lists.list_id}").getAttribute("data-listId");
+		let xhtp = new XMLHttpRequest();
+		xhtp.open('get', '/CollaB/listCalendar?listid='+listId);
+		xhtp.send();
+		xhtp.onload = function(){
+			let dbData = JSON.parse(xhtp.responseText);
+			console.log(xhtp.responseText);
+			console.log(dbData);
+			var calendarEl = document.getElementById('calendar');
+							
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				initialView: 'dayGridMonth',
+				nowIndicator: true,
+				headerToolbar: {
+					left: 'prev,next today',
+					center: 'title',
+					end: 'dayGridMonth,dayGridWeek,dayGridDay'
+				},
+				navLinks: true, // can click day/week names to navigate views
+				editable: true,
+				selectable: true,
+				selectMirror: true,
+				eventResize: function (info) {
+					updateDate(info);
+				},
+				eventDrop: function (info) {
+					updateDate(info);
+				},
+				dayMaxEvents: true, // allow "more" link when too many events
+				events: dbData
+			});
+			calendar.render();
+		}
+	}
 
 
       // 날짜 변경
@@ -332,6 +372,10 @@ document.addEventListener("DOMContentLoaded", function(){
     		  }
     	  });
       }
+
+	  function moveCard(info) {
+			location.href="cardDetail?list=13&card="+info.event.id
+	  }
 	
 	  </script>
 	  <script src="resources/js/board/board-header.js"></script>

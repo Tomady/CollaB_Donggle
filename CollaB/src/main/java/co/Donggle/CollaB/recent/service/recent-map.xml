@@ -3,8 +3,11 @@
 <mapper namespace="co.Donggle.CollaB.recent.service.RecentMapper">
 
 	<select id="recentBoard" parameterType="co.Donggle.CollaB.recent.service.RecentVO">
-		SELECT * FROM RECENT
-		WHERE ID = #{id}
+		SELECT B.BOARD_TITLE AS BOARD_TITLE, R.*
+		FROM BOARD B, RECENT R
+		WHERE B.BOARD_ID = R.BOARD_ID
+		AND ID = #{id}
+		ORDER BY INVITE DESC
 	</select>
 	
 	<insert id="insertRecent" parameterType="co.Donggle.CollaB.recent.service.RecentVO">
