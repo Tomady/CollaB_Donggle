@@ -247,7 +247,9 @@
             let ind = inner.indexOf('<');
             let val = inner.substring(0, ind);
           itemTitle.push(val);
-        }itemTitle = JSON.stringify(itemTitle);
+        }
+        
+        //itemTitle = JSON.stringify(itemTitle);
         
         let data = {
           issueTitle,

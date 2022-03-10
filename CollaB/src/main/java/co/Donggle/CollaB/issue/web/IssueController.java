@@ -95,7 +95,7 @@ public class IssueController {
 	// 이슈 등록
 	@PostMapping("/issueInsert.do")
 	public void issueInsert(HttpSession session, IssueVO vo, IssueCheckListVO cvo,
-			@RequestParam(value = "itemTitle") List<String> items, HttpServletResponse response) throws IOException {
+			@RequestParam(value = "itemTitle[]") List<String> items, HttpServletResponse response) throws IOException {
 		// alert 띄울 때 쓰려고
 		response.setContentType("text/html; utf-8");
 		PrintWriter out = response.getWriter();
