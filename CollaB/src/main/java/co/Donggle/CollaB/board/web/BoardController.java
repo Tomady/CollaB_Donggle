@@ -28,22 +28,14 @@ import co.Donggle.CollaB.workspace.service.WorkspaceVO;
 
 @Controller
 public class BoardController {
-	@Autowired
-	BoardService boardDao;
-	@Autowired
-	WorkspaceService workspaceDao;
-	@Autowired
-	WorkspaceJoinService workspaceJoinDao;
-	@Autowired
-	UserService userDao;
-	@Autowired
-	ListService listDao;
-	@Autowired
-	CardService cardDao;
-	@Autowired
-	RecentService RecentDao;
-	@Autowired
-	itemInfoService itemInfoDao;
+	@Autowired BoardService boardDao;
+	@Autowired WorkspaceService workspaceDao;
+	@Autowired WorkspaceJoinService workspaceJoinDao;
+	@Autowired UserService userDao;
+	@Autowired ListService listDao;
+	@Autowired CardService cardDao;
+	@Autowired RecentService RecentDao;
+	@Autowired itemInfoService itemInfoDao;
 
 	// 해당워크스페이스 boards페이지로 이동
 	@RequestMapping("/Boards")
@@ -56,6 +48,7 @@ public class BoardController {
 		vo.setWorkspace_id(wkid);
 		vo.setId(userId);
 		
+		session.setAttribute("enterWorkspaceId", wkid); //세션에다 워크스페이스 아이디 저장해주기
 		model.addAttribute("workspace", workspaceDao.searchWorkspace(wvo)); // 워크스페이스ID,생성자아이디,생성일자,워크스페이스이름
 		model.addAttribute("workspaceList", workspaceJoinDao.workspaceJoinList(userId)); // 사용자가 가지고 있는 모든 워크스페이스
 		model.addAttribute("boardList", workspaceDao.boardListinWorkspace(wvo)); // 해당워크스페이스가 가지고 있는 모든 보드 - admin은 다 볼

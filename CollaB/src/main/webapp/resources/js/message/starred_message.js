@@ -173,6 +173,7 @@ document.querySelector("#starredSearch").onclick = function(){
 function show_joinMembers(wkid){
 	let members = document.querySelector("#members"); //여기다 멤버들 option으로 붙여주기
 	members.innerHTML = "";
+	let id = document.querySelector("#starredTitle").getAttribute("data-id");
 	
 	$.ajax({
 		url : "AjaxWorkspaceJoinMembers",
@@ -183,10 +184,12 @@ function show_joinMembers(wkid){
 		dataType : "json",
 		success : function(datas){
 			for(let data of datas){
-				let option = document.createElement("option");
-				option.innerHTML = data.name+"("+data.id+")";
+				if(data.id != id){
+					let option = document.createElement("option");
+					option.innerHTML = data.name+"("+data.id+")";
 				
-				members.append(option);
+					members.append(option);
+				}
 			}
 		},
 		error : function(){
