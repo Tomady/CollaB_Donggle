@@ -26,7 +26,6 @@ public class checklistController {
 	// 체크리스트 페이지
 	@RequestMapping("/checklist.do")
 	public String checklist(Model model) {
-		
 		List<checklistVO> checklist = checklistDao.chklistAll();
 		List<itemInfoVO> itemlist = itemInfoDao.itemList();
 		

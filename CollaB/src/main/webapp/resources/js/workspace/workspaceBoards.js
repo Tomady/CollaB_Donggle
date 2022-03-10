@@ -111,6 +111,9 @@ function changeWKIMG(newWKname){
 	}else if(name == '9'){
 		img.setAttribute("src","resources/img/9.jpg");
 		img2.setAttribute("src","resources/img/9.jpg");
+	}else{
+		img.setAttribute("src","resources/img/workspace_default_profile.png");
+		img2.setAttribute("src","resources/img/workspace_default_profile.png");
 	}
 }
 
@@ -174,6 +177,15 @@ function workspaceRename(){
     });
     appendTarget.append(WsRename);
     document.getElementById("WsRename").focus();
+	document.body.onclick=function(){
+		if(event.target != document.querySelector("#WsRename") && event.target != document.querySelector("#WsName")){
+			if(WsRename.value == ""){
+				console.log("f");
+			}else{
+				
+			}		
+		}
+	}
 }
 
 //보드검색기능

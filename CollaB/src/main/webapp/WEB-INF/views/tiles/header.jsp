@@ -61,7 +61,7 @@
 <body class="pagebodybackground">
 	<div id="app">
     <div class="main-wrapper">
-      <div class="navbar-bg mainheaderBackground"></div>
+      <div class="navbar-bg mainheaderBackground"  style="background-color: rgb(199, 174, 247);"></div>
       <!-- Main Header -->
       <nav class="navbar navbar-expand-lg main-navbar d-flex justify-content-between">
         <form class="form-inline mr-auto">
@@ -88,9 +88,9 @@
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recent</button>
             <div class="dropdown-menu">
               <div class="dropdown-title">History 🎡</div>
-              <a class="dropdown-item" href="#">board_2</a>
-              <a class="dropdown-item" href="#">board_1</a>
-              <a class="dropdown-item" href="#">board_4</a>
+        	  <c:forEach items="${recent }" var="recent">
+              	<a class="dropdown-item" onclick="location.href='boardDetail?boardID=${recent.board_id}'">${recent.board_title }</a>
+        	  </c:forEach>
             </div>
           </div>
           <div class="btn-group">

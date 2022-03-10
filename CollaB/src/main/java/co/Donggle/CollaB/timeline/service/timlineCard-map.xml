@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="co.Donggle.CollaB.timeline.service.TimelineCardMapper">
+	
+	<select id="timecardList" resultType="co.Donggle.CollaB.timeline.service.TimelineCardVO">
+		SELECT * FROM CARD 
+		WHERE CARD_START_DATE IS NOT NULL
+		AND LIST_ID = #{list_id}
+	</select>
+	
+	<insert id="insertCard" parameterType="co.Donggle.CollaB.timeline.service.TimelineCardVO">
+		<selectKey keyProperty="card_id" resultType="int" order="BEFORE">
+			SELECT MAX(CARD_ID) + 1 AS CARD_ID FROM CARD
+		</selectKey>
+		INSERT INTO CARD (CARD_ID, CARD_TITLE, CARD_START_DATE, CARD_END_DATE, LIST_ID)
+		VALUES (#{card_id}, #{card_title}, #{card_start_date}, #{card_end_date}, #{list_id})
+	</insert>
+		
+
+</mapper>

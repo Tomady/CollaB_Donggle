@@ -15,4 +15,6 @@ public interface IssueMapper {
 	// 이슈 글 수정
 	int updateIssue(IssueVO vo);
 	
+	//이슈게시판 포함된 워크스페이스
+	
 }

@@ -15,4 +15,5 @@ public class IssueVO {
 	private String issueCategory;
 	private String id;
 	private Date issueDate;
+	private int workspace_id;
 }

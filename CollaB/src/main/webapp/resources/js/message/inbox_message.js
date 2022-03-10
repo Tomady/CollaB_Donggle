@@ -171,9 +171,9 @@ document.querySelector("#inboxSearch").onclick = function(){
 
 //메시지 보내기 모달창 속 워크스페이스 클릭시 해당 워크스페이스 조인멤버출력
 function show_joinMembers(wkid){
+	let id = document.querySelector("#inboxTitle").getAttribute("data-id");
 	let members = document.querySelector("#members"); //여기다 멤버들 option으로 붙여주기
 	members.innerHTML = "";
-	
 	$.ajax({
 		url : "AjaxWorkspaceJoinMembers",
 		type : "POST",
@@ -183,10 +183,12 @@ function show_joinMembers(wkid){
 		dataType : "json",
 		success : function(datas){
 			for(let data of datas){
-				let option = document.createElement("option");
-				option.innerHTML = data.name+"("+data.id+")";
-				
-				members.append(option);
+				if(data.id != id){
+					let option = document.createElement("option");
+					option.innerHTML = data.name+"("+data.id+")";
+					
+					members.append(option);				
+				}
 			}
 		},
 		error : function(){

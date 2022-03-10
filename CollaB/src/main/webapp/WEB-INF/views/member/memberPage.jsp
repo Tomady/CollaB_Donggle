@@ -1025,7 +1025,7 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 </style>
 </head>
 
-<body style="background-color: #ECE9FE;">
+<body style="background-color: rgb(204, 195, 226); overflow:scroll; overflow-x:hidden;">
 
 
 
@@ -1536,6 +1536,9 @@ const boardBg = {
 		} else if (name == '9') {
 			img.setAttribute("src", "resources/img/9.jpg");
 			img2.setAttribute("src", "resources/img/9.jpg");
+		} else {
+			img.setAttribute("src","resources/img/workspace_default_profile.png");
+			img2.setAttribute("src","resources/img/workspace_default_profile.png");
 		}
 	}
 
