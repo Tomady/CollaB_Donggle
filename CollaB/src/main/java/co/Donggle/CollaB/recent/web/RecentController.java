@@ -2,6 +2,8 @@ package co.Donggle.CollaB.recent.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +18,11 @@ public class RecentController {
 	@Autowired
 	RecentService RecentDao;
 	
-	// recent 목록 불러오기
+	// recent리스트
 	@RequestMapping("/recentList")
-	@ResponseBody
-	public List<RecentVO> recentList(RecentVO vo){
+	public List<RecentVO> recentList(RecentVO vo, HttpSession session) {
+		String id = (String) session.getAttribute("id");
+		vo.setId(id);
 		return RecentDao.recentBoard();
 	}
 	
