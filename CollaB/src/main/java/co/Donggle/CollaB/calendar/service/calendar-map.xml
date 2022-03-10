@@ -28,8 +28,8 @@
 		SELECT C.CARD_ID, C.CARD_TITLE, C.CARD_START_DATE, C.CARD_END_DATE + 1 AS CARD_END_DATE
 		FROM LIST L JOIN CARD C
 		ON (L.LIST_ID = C.LIST_ID)
-		WHERE L.BOARD_ID = #{board_id}
-		AND L.LIST_ID = #{list_id}
+		WHERE L.BOARD_ID = #{boardId}
+		AND L.LIST_ID = #{listId}
 	</select>
 
 </mapper>

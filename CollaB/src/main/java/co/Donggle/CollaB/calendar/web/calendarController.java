@@ -105,16 +105,19 @@ public class calendarController {
 			}
 		}
 		return list;
-		
 	}
 	
 	// 리스트별 일정 가져오기
 	@RequestMapping("/listCalendar")
 	@ResponseBody
 	public List<Map<String, String>> listCalendar(@RequestParam("boardid") int boardId, @RequestParam("listid") int listId) {
+		System.out.println("보드 아이디: " + boardId);
+		System.out.println("리스트 아이디: " + listId);
+		
 		List<Map<String, String>> list = null;
 		list = new ArrayList<>();
 		List<CardVO> list2 = calendarDao.listPlanList(boardId, listId);
+		System.out.println("여기서 에러?");
 		System.out.println(list2);
 		
 		for(CardVO vo : list2) {
@@ -128,7 +131,6 @@ public class calendarController {
 			}
 		}
 		return list;
-		
 	}
 
 	// 날짜 타입 형변환
