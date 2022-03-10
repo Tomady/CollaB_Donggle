@@ -89,30 +89,35 @@ public class IssueController {
 	}
 
 	// 이슈 등록
-	@PostMapping("/issueInsert.do")
-	public String issueInsert(HttpServletRequest request, IssueVO vo, IssueCheckListVO cvo, @RequestParam(value="itemTitle[]") List<String> items) {
-		
-		System.out.println("이슈타이틀은 " + vo.getIssueTitle());
-		System.out.println("이슈내용은 " + vo.getIssueContent());
-		System.out.println("체크리스트명은 " + cvo.getChkLiTitle());
+	 @PostMapping("/issueInsert.do")
+	   public String issueInsert(HttpSession session, IssueVO vo, IssueCheckListVO cvo, @RequestParam(value="itemTitle") List<String> items) {
+		 String id = (String) session.getAttribute("id");
+		 vo.setId(id);
+		 
+	      System.out.println("이슈타이틀은 " + vo.getIssueTitle());
+	      System.out.println("이슈내용은 " + vo.getIssueContent());
+	      System.out.println("체크리스트명은 " + cvo.getChkLiTitle());
 
-		for (String str : items) {
-			System.out.println("되어라!" + str);
-		}
+	      for (String str : items) {
+	         System.out.println("되어라!" + str);
+	      }
+	      // 체크리스트 등록될 때 이슈아이디 받아와야 됨
+	      int isid = vo.getIssueId();
+	      cvo.setIssueId(isid);
+	      chkDao.insertChkLi(cvo);
+	      // 아이템 dao 어쩌구 실행해야 됨
+	      //itemDao.insertItem(ivo);
+	      
+	      int n = issueDao.insertIssue(vo);
+	      if(n == 1) {
+	    	  System.out.println("등록 완");
+	    	  
+	      }else {
+	    	  System.out.println("등록 실패");
+	      }  
+	       return "redirect:issueBoard.do";
+	   }
 
-		// System.out.println("아이템은 " + ivo.getItemTitle());
-
-		chkDao.insertChkLi(cvo);
-//		itemDao.insertItem(ivo);
-		int n = issueDao.insertIssue(vo);
-		if (n == 1) {
-			System.out.println("등록 완");
-
-		} else {
-			System.out.println("등록 실패");
-		}
-		return "redirect:issueBoard.do";
-	}
 
 	// 이슈 글 수정 버튼 실행
 	@RequestMapping("/issueUpdate.do")

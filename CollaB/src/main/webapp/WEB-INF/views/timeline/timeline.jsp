@@ -389,10 +389,7 @@
                         <div id="timeline-list-body">
                             <ul class="listOfCard">
                                 <li>list 1</li>
-                                <li>list 2</li>
-                                <li>list 3</li>
-                                <li>list 4</li>
-                                <li>list 5</li>
+                              <!-- <li>${list.list_title }</li> -->
                             </ul>
                         </div>
                         <div id="timeline-list-footer">

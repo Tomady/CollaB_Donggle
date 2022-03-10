@@ -13,12 +13,20 @@ import co.Donggle.CollaB.board.service.BoardVO;
 import co.Donggle.CollaB.user.service.UserService;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 
+import co.Donggle.CollaB.timeline.service.TimelineCardMapper;
+import co.Donggle.CollaB.timeline.service.TimelineListMapper;
+
 @Controller
 public class TimelineController {
 	@Autowired private BoardService boardDao;
 	@Autowired private WorkspaceJoinService workspaceJoinDao;
 	@Autowired private UserService userDao;
 	
+	@Autowired TimelineCardMapper cardDao;
+	@Autowired TimelineListMapper listDao;
+	
+	
+	// 타임라인 페이지 이동
 	@RequestMapping("/timeline.do")
 	public String timeline(@RequestParam("boardID") int bId, Model model, HttpSession session) {
 		String userId = (String)session.getAttribute("id");
@@ -48,4 +56,12 @@ public class TimelineController {
 		
 		return "timeline/timeline";
 	}
+	
+	// 해당 보드의 리스트 출력
+	
+	// 타임라인에서 리스트 추가
+	
+	// 리스트 클릭 시 카드 내용 캘린더에 출력
+	
+	// 타임라인에서 카드 추가
 }
