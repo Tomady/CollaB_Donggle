@@ -149,4 +149,9 @@ public class CardServiceImpl implements CardService {
 	public int deleteCards(ListVO vo) {
 		return map.deleteCards(vo);
 	}
+
+	@Override
+	public List<CardVO> dashboardBasicInfo(CardVO vo) {
+		return map.dashboardBasicInfo(vo);
+	}
 }

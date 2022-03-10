@@ -157,7 +157,9 @@
 					row.style.textAlign="right";
 					row.style.display = "table-cell";
 					let span = document.createElement("span");
+					span.setAttribute("id","borRename"+data.board_id);
 					span.setAttribute("class","ml-4");
+					span.innerHTML = data.board_Title;
 					span.style.fontWeight="bold";
 					//보드이름수정 클릭함수걸기
 					span.addEventListener("click",function(){ 
@@ -178,8 +180,6 @@
 					                input.setAttribute("placeholder","Please name it.");
 					                input.focus();
 					            }else{
-					                document.querySelector("#boardNewName").remove();
-					                target.innerHTML=newBName;
 					                // ajax로 보드 이름변경해주기
 					                $.ajax({
 					                	url : "AjaxBoardRename",
@@ -190,7 +190,8 @@
 					                	dataType : "json",
 					                	type : "POST",
 					                	success : function(data){
-					                		console.log(data);
+					                		document.querySelector("#boardNewName").remove();
+							                target.innerHTML=data.board_Title;
 					                	},
 					                	error : function(){
 					                		console.log("boards페이지 AjaxBoardRename 실패");
@@ -198,11 +199,30 @@
 					                })
 					            }
 					        }
+					    	
 					    });
 					    target.append(input);
 					    document.getElementById("boardNewName").focus();
+					    
+					    //body클릭시 이름수정 취소되도록
+				        var body = document.querySelector("body");
+				    	var clickCnt = 0;
+				    	body.addEventListener("click", board_renameCancel);
+				    	function board_renameCancel(){
+				    		clickCnt += 1;
+				    		if(event.target == event.currentTarget.querySelector("#borRename"))
+				    			return ;
+				    		if(event.target == event.currentTarget.querySelector("#boardNewName"))
+				    			return ;
+				    		if(boardNewName.value == "" && clickCnt > 1){
+				    			document.querySelector("#boardNewName").remove();
+				    			let originName = document.querySelector("#borRename"+data.board_id);
+				    			originName.innerHTML = data.board_Title;
+				    			//클릭 이벤트 없애주기
+				    			body.removeEventListener("click",board_renameCancel);
+				    		}
+				    	}
 					});
-					span.innerHTML = data.board_Title;
 					let i = document.createElement("i");
 					i.setAttribute("class","fa fa-times");
 					i.setAttribute("aria-hidden","true");

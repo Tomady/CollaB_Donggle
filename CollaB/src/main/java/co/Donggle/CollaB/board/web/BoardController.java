@@ -331,10 +331,12 @@ public class BoardController {
 		String userId = (String)session.getAttribute("id");
 		
 		BoardVO boardvo = new BoardVO();
+		CardVO cardvo = new CardVO();
 		boardvo.setId(userId);
 		boardvo.setBoard_id(board_id);
 		int workspace_id = boardDao.boardWorkspaceID(boardvo);
 		boardvo.setWorkspace_id(workspace_id);
+		cardvo.setBoard_id(board_id);
 		
 		//해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID - 사이드
 		model.addAttribute("workspace", boardDao.selectBoard(boardvo));
@@ -358,6 +360,8 @@ public class BoardController {
 		model.addAttribute("itemsCnt",itemInfoDao.itemInfoTotalCnt(board_id));
 		//해당보드의 모든 체크리스트 아이템 중 상태가 Y인 아이템 개수
 		model.addAttribute("YesItemCnt",itemInfoDao.itemInfoYesState(board_id));
+		//해당보드의 모든 체크리스트 아이템 정보와 해당 아이템을 담고 있는 카드 정보
+		model.addAttribute("BasicInfo",cardDao.dashboardBasicInfo(cardvo));
 
 		return "board/dashboard";
 	}

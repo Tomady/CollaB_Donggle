@@ -29,8 +29,8 @@ public class itemInfoServiceImpl implements itemInfoService {
 	}
 
 	@Override
-	public int deleteitem(int item_id) {
-		return itemInfoMapper.deleteitem(item_id);
+	public int deleteitem(itemInfoVO vo) {
+		return itemInfoMapper.deleteitem(vo);
 	}
 
 	@Override

@@ -16,7 +16,9 @@
 	</insert>
 	
 	<update id="modifyitem" parameterType="co.Donggle.CollaB.checklist.service.itemInfoVO">
-	
+		UPDATE ITEM_INFO
+		SET ITEM_TITLE = #{item_title}
+		WHERE ITEM_ID = #{item_id}
 	</update>
 	
 	<update id="modifyitemyn" parameterType="co.Donggle.CollaB.checklist.service.itemInfoVO">

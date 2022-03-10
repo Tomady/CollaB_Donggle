@@ -59,6 +59,23 @@ document.querySelector(".addListBtn").onclick=function(){
 
     target.prepend(one);
     document.querySelector(".newListName").focus();
+
+	//body클릭시 리스트 생성 취소되도록
+	var body = document.querySelector("body");
+	var clickCnt = 0;
+	body.addEventListener("click", list_createCancel);
+	function list_createCancel(){
+		clickCnt += 1;
+		if(event.target == event.currentTarget.querySelector(".addListBtn"))
+			return ;
+		if(document.querySelector(".newListName").value == "" && clickCnt > 1){
+			createListDIV.remove();
+			addList.style.display="block";
+			//클릭이벤트 없애주기
+			body.removeEventListener("click",list_createCancel);
+		}
+	} 
+	
 }
 
 //입력한 이름으로 리스트 그려주는 함수
@@ -76,6 +93,7 @@ function createList(obj){
     let three_a = document.createElement("div");
     three_a.setAttribute("class","first card-header d-flex justify-content-between");
     let three_a_a = document.createElement("h4");
+	three_a_a.setAttribute("id","listName"+obj.list_id);
     three_a_a.setAttribute("class","listName");
     three_a_a.innerHTML=obj.list_title;	  //리스트 이름
     three_a_a.addEventListener("click",function(){ //리스트 이름 수정 클릭이벤트. renameList함수 매개값으로 list_id전달
@@ -93,7 +111,7 @@ function createList(obj){
     let three_b = document.createElement("div");
     three_b.setAttribute("class","cardArea"+obj.list_id);
     let three_b_a = document.createElement("div");
-    three_b_a.setAttribute("class","last card-header");
+    three_b_a.setAttribute("class","last card-header addCard"+obj.list_id);
     let three_b_a_a = document.createElement("div");
     three_b_a_a.setAttribute("class","addCardBtn");
     let three_b_h4 = document.createElement("h4");
@@ -121,6 +139,7 @@ function createList(obj){
 //리스트 이름 수정하는 함수 
 //매개값으로 리스트 아이디 받기
 function renameList(listId){
+	let originName = event.target.innerText;
     let targetParent = event.target.parentElement; //여기다 input 붙이기
 
     //우선 원래 리스트 이름이랑 리스트삭제버튼 지워주고
@@ -175,6 +194,9 @@ function renameList(listId){
 							
 							targetParent.append(h4);
 							targetParent.append(i);
+							
+							//클릭이벤트 없애주기
+							body.removeEventListener("click",workspace_renameCancel);
             			}
             		},
             		error : function(){
@@ -186,7 +208,39 @@ function renameList(listId){
     });
     targetParent.append(newListName);
     newListName.focus();
-
+	
+	//body클릭시 이름수정 취소되도록
+	var body = document.querySelector("body");
+	var clickCnt = 0;
+	body.addEventListener("click", workspace_renameCancel);
+	function workspace_renameCancel(){
+		clickCnt += 1;
+		if(event.target == event.currentTarget.querySelector("#listName"+listId))
+			return ;
+		if(event.target == event.currentTarget.querySelector("#newListName"))
+			return ;
+		if(document.querySelector("#newListName").value == "" && clickCnt > 1){
+			document.querySelector("#newListName").remove();
+			let h4 = document.createElement("h4");
+			h4.setAttribute("class","listName");
+			h4.innerHTML = originName;
+			h4.onclick = function(){
+				renameList(listId);
+			}
+			let i = document.createElement("i");
+			i.setAttribute("class","fa fa-times col-rg");
+			i.setAttribute("aria-hidden","true");
+			i.style.cursor = "pointer";
+			i.onclick = function(){
+				deleteList(listId);
+			}
+			
+			targetParent.append(h4);
+			targetParent.append(i);
+			//클릭이벤트 없애주기
+			body.removeEventListener("click",workspace_renameCancel);
+		}
+	}
 }
 
 //리스트 삭제 함수
@@ -219,6 +273,8 @@ function deleteList(listId){
 //매개값으로 리스트 아이디 받기
 function nameCard(listId){
     let target = document.querySelector(".cardArea"+listId); //여기 뒤에다 input붙이기
+	//카드 생성도중, 또 다른 카드 생성 못하도록 addCard div 없애기
+	document.querySelector(".addCard"+listId).style.display="none";
 
     //새로운 카드 이름 입력할 input박스 생성
     let div = document.createElement("div");
@@ -227,7 +283,7 @@ function nameCard(listId){
     let newCard = document.createElement("input");
     newCard.setAttribute("type","text");
     newCard.setAttribute("class","form-control mb-2");
-    newCard.setAttribute("id","newCardName");
+    newCard.setAttribute("id","newCardName"+listId);
     newCard.style.width="100%";
     newCard.style.height="90%";
     newCard.style.textAlign="center";
@@ -256,7 +312,10 @@ function nameCard(listId){
                 		console.log("방금생성한카드정보",data);
 						createCard(data);
 						document.querySelector("#inputDIV").remove(); //카드이름입력하는 input삭제
-                	},
+						document.querySelector(".addCard"+listId).style.display="block"; //카드생성버튼 다시 보이게
+                		//클릭이벤트 없애주기
+						document.querySelector("body").removeEventListener("click",card_createCancel);
+					},
                 	error : function(){
                 		console.log("AjaxAddCard 실패");
                 	}
@@ -267,6 +326,26 @@ function nameCard(listId){
     div.append(newCard);
     target.prepend(div);
     newCard.focus();
+
+	//body클릭시 카드생성 취소되도록
+	var body = document.querySelector("body");
+	var clickCnt = 0;
+	body.addEventListener("click", card_createCancel);
+	let newinput = document.querySelector("#newCardName"+listId);
+	function card_createCancel(){
+		clickCnt += 1;
+		if(event.target == event.currentTarget.querySelector(".addCard"+listId))
+			return ;
+		if(event.target == event.currentTarget.querySelector("#newCardName"))
+			return ;
+		if(newinput.value == "" && clickCnt > 1){
+			console.log("2))"+clickCnt);
+			document.querySelector("#inputDIV").remove();
+			document.querySelector(".addCard"+listId).style.display="block";
+			//클릭이벤트 없애주기
+			body.removeEventListener("click",card_createCancel);
+		}
+	} 
 }
 
 //카드생성함수(매개값으로 생성한 카드 object받기)

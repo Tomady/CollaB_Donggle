@@ -9,7 +9,7 @@ public interface itemInfoMapper {
 	List<itemInfoVO> itemList(); // 아이템 리스트
 	int additem(itemInfoVO vo); // 아이템 추가하기
 	int modifyitem(itemInfoVO vo); // 아이템 수정하기
-	int deleteitem(int item_id); // 아이템 개별 삭제하기
+	int deleteitem(itemInfoVO vo); // 아이템 개별 삭제하기
 	itemInfoVO selectItem(itemInfoVO vo); //아이템 개별 조회
 	
 	List<CardVO> selectedCardItemList(); //카드상세조회-해당카드의체크리스트아이템목록

@@ -495,7 +495,8 @@ document.addEventListener("DOMContentLoaded", function(){
                         <!--여기서부터-->
                         <div class="card ckDIV${check.checklist_id}">
                           <div class="card-body" id="checkbody${check.checklist_id}">
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between" onclick="checklistTitleRename(${check.checklist_id})"
+                            style="font-size:18px; font-weight:bold; color:#868e96;" id="checklistTitle${check.checklist_id}">
                             	${check.checklist_title}
                             	<button class="btn ml-2 fa fa-times col-rg" 
                             	onclick="checklistDelete(${check.checklist_id})"></button>
@@ -505,11 +506,17 @@ document.addEventListener("DOMContentLoaded", function(){
 	                            <c:if test="${item.checklist_id eq check.checklist_id}">
     	                        <c:if test="${item.item_status eq 'Y'}">
         		                    <input type="checkbox" checked="checked" onclick="checkItem(${item.checklist_id},${item.item_id})"
-        		                    class="mt-1 mb-1 checkitem${item.checklist_id}"> ${item.item_title}<br>
+   	    		                    class="ckitem${item.item_id} mt-1 mb-1 checkitem${item.checklist_id}">
+   	    		                    <span id="ckItemTitle${item.item_id}" onclick="itemTitleRename(${item.item_id})">${item.item_title}</span>
+       			                    <i class="ml-5 fa fa-times ckitem${item.item_id}" style="color:#ced4da; 
+       			                    cursor:pointer;" onclick="ckItemDelete(${item.item_id})"></i><br>
                 	            </c:if>
                     	        <c:if test="${item.item_status eq 'N'}">
-                        		    <input type="checkbox" onclick="checkItem(${item.checklist_id},${item.item_id})"
-                        		    class="mt-1 mb-1 checkitem${item.checklist_id}"> ${item.item_title}<br>
+                       		    	<input type="checkbox" onclick="checkItem(${item.checklist_id},${item.item_id})"
+   	                    		    class="ckitem${item.item_id} mt-1 mb-1 checkitem${item.checklist_id}">
+   	                    		    <span id="ckItemTitle${item.item_id}" onclick="itemTitleRename(${item.item_id})">${item.item_title}</span>
+       	                		    <i class="ml-5 fa fa-times ckitem${item.item_id}" style="color:#ced4da; 
+ 	                		    	cursor:pointer;" onclick="ckItemDelete(${item.item_id})"></i><br>
                             	</c:if>
                             	</c:if>
                             </c:forEach>
