@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="co.Donggle.CollaB.comment.service.comment-map">
+<mapper
+	namespace="co.Donggle.CollaB.comment.service.CommentMapper">
+	<select id="commentCardIdselectResultUserNameUserNickName"
+	resultType="co.Donggle.CollaB.comment.service.CommentVO"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		select distinct A.*, B.name, B.nickname, B.prof_pic
+		from card_comment A, user_info B
+		where A.id = B.id
+		and A.card_id = #{card_id}
+		ORDER BY COMMENT_GROUP ASC
+	</select>
 </mapper>

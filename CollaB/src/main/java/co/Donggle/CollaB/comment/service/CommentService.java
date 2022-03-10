@@ -1,5 +1,7 @@
 package co.Donggle.CollaB.comment.service;
 
-public interface CommentService {
+import java.util.List;
 
+public interface CommentService {
+	List<CommentVO> commentCardIdselectResultUserNameUserNickName(CommentVO vo);
 }

@@ -2,13 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 <meta charset="UTF-8">
-<meta
-	content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"
-	name="viewport">
+
 <title>Bootstrap Components &rsaquo; Card &mdash; Stisla</title>
 
 <!-- General CSS Files -->
@@ -754,12 +752,16 @@
 
 .class2 li:last-child {
 	border-bottom: 1px dotted rgb(235, 235, 235);
+	padding-bottom: 15px;
 	margin-bottom: 15px;
 }
 
 .recomment__row {
+	margin-bottom: 15px;
+	padding-bottom: 15px;
 	display: flex;
 	width: 100%;
+	display: flex
 }
 
 .recomment__left {
@@ -773,10 +775,10 @@
 }
 
 .recomment__icon {
-	width: 13px;
-	height: 13px;
-	border-bottom: 1px solid rgb(104, 104, 104);
-	border-left: 1px solid rgb(104, 104, 104);
+	width: 11px;
+	height: 11px;
+	border-bottom: 2px solid rgb(104, 104, 104);
+	border-left: 2px solid rgb(104, 104, 104);
 	margin-top: 5px;
 }
 
@@ -804,13 +806,17 @@
 
 .recomment__input__box {
 	/* border-top: 1px dotted rgb(216, 216, 216); */
-	padding: 20px 0 30px 0;
+	padding: 15px 0px 25px 0px;
 	display: flex;
 	width: 100%;
 }
 
 .recomment__input__box .comment__input__row {
 	width: 100%;
+}
+
+.recomment__box {
+ 	padding-top: 15px; 
 }
 </style>
 								<!-- 댓글 end -->
@@ -849,7 +855,8 @@
 											</div>
 										</div>
 										<hr>
-										<ul class="mt-4 list-unstyled list-unstyled-border">
+										<ul
+											class="comment__box mt-4 list-unstyled list-unstyled-border">
 
 											<li class="comment__row">
 												<div class="comment__class__1">
@@ -892,7 +899,8 @@
 													</div>
 												</div>
 												<div class="recomment__wrap">
-													<ul class="mt-4 list-unstyled list-unstyled-border class2">
+													<ul
+														class="recomment__box list-unstyled list-unstyled-border class2">
 														<li class="recomment__row">
 															<div class="recomment__left">
 																<div class="recomment__icon"></div>
@@ -931,6 +939,49 @@
 																				class="badBtnRow__num">0</span>
 																		</span>
 																		</span> </span>
+																	</div>
+																</div>
+															</div>
+														</li>
+														<li class="recomment__row">
+															<div class="recomment__left">
+																<div class="recomment__icon"></div>
+																<img class="mr-3 rounded-circle imgHd" width="40"
+																	height="40px" src="" alt="avatar">
+															</div>
+															<div class="recomment__right">
+																<img class="mr-3 rounded-circle" width="40"
+																	height="40px"
+																	src="resources/assets/img/avatar/avatar-1.png"
+																	alt="avatar">
+																<div class="recomment__content">
+																	<div class="comment__writer__box">
+																		<div class="comment__writer">김은지</div>
+																		<div class="fas__fa__menu">
+																			<div class="fas fa-bars">
+																				<div class="fas__menu">
+																					<div class="fas__menu__btnC">수정</div>
+																					<div class="fas__menu__btnD">삭제</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="comment__context">댓글댓글댓글</div>
+																	<div class="comment__context__file">
+																		파일명 : <a href="#">kakao.jsp</a>
+																	</div>
+																	<div class="comment__info">
+																		<span class="comment__date">2022/02/22</span> <span
+																			class="comment__right recommentgoodbadBtn"> <span
+																			class="goodBtnRow"> <span
+																				class="goodBtnRow__icon">👍🏻</span> <span
+																				class="goodBtnRow__num">0</span>
+																		</span> <span class="badBtnRow"> <span
+																				class="badBtnRow__icon">👎🏻</span> <span
+																				class="badBtnRow__num">0</span>
+																		</span>
+																		</span>
+
 																	</div>
 																</div>
 															</div>
@@ -995,32 +1046,126 @@
 </style>
 	<div class="imgpreview"></div>
 	<!--이미지 미리보기-->
-	<div class="" style="display: none;" id="commentPlusTemplate">
-		<li class="media"><img class="mr-3 rounded-circle" width="50"
-			src="resources/assets/img/avatar/avatar-2.png" alt="avatar">
-			<div class="media-body">
-				<div class="fas__fa__menu">
-					<div class="float-right fas fa-bars">
-						<div class="fas__menu">
-							<div class="fas__menu__btnC">수정</div>
-							<div class="fas__menu__btnD">삭제</div>
+	<div class="class1Temaplate" style="display: none;"
+		id="commentPlusTemplate">
+		<li class="comment__row">
+			<div class="comment__class__1">
+				<div class="comment__row__left">
+					<img class="mr-3 rounded-circle" width="40" height="40px"
+						src="resources/assets/img/avatar/avatar-1.png" alt="avatar">
+					<div class="recomment__btn">
+						<i class="fas fa-comment-medical"></i><span class="recomment__num">5</span>
+					</div>
+				</div>
+				<div class="comment__row__right">
+					<div class="comment__writer__box">
+						<div class="comment__writer"></div>
+						<div class="fas__fa__menu">
+							<div class="fas fa-bars">
+								<div class="fas__menu">
+									<div class="fas__menu__btnC">수정</div>
+									<div class="fas__menu__btnD">삭제</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="comment__context"></div>
+					<div class="comment__context__file">
+						파일명 : <a href="#"></a>
+					</div>
+					<div class="comment__info">
+						<span class="comment__date"></span> <span class="comment__right">
+							<span class="goodBtnRow"> <span class="goodBtnRow__icon">👍🏻</span>
+								<span class="goodBtnRow__num">0</span>
+						</span> <span class="badBtnRow"> <span class="badBtnRow__icon">👎🏻</span>
+								<span class="badBtnRow__num">0</span>
+						</span>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="recomment__wrap">
+				<ul class="recomment__box mt-4 list-unstyled list-unstyled-border class2">
+				</ul>
+				<div class="recomment__input__box">
+					<div class="recomment__left">
+						<div class="recomment__icon"></div>
+						<img class="mr-3 rounded-circle imgHd" width="40" height="22px"
+							src="" alt="avatar">
+					</div>
+					<div class="comment__input__row">
+						<img class="mr-3 rounded-circle" width="40" height="40px"
+							src="resources/assets/img/avatar/avatar-1.png" alt="avatar">
+						<div class="comment__input__Box">
+							<div class="textarea__Box">
+								<textarea name="" id="" class="textareaEl textareaEl__class2"></textarea>
+							</div>
+							<div class="input__Box__Btns__none">
+								<div class="input__Box__Btns">
+									<div class="input__Box__btns__left">
+										<label for="input_file__re"
+											class="file__icon fa fa-paperclip ml-1 files"></label> <input
+											type="file" id="input_file__re" class="input_file"
+											style="display: none;">
+										<button id="emoji-button" class="emoji_button_class2">😀</button>
+										<div class="comment__input__filetext filetext__class2"></div>
+									</div>
+									<div class="input__Box__btns__right">
+										<div class="save_btn" onclick="test()">SAVE</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="media-title"></div>
-				<span class="text-small text-muted"></span>
-				<div class="mt-2">
-					<span class="comment__date"></span> <span class="float-right">
-						<span class="goodBtnRow"> <span class="goodBtnRow__icon">👍</span>
-							<sapn class="goodBtnRow__num">0</sapn>
-					</span> <span class="badBtnRow"> <span class="badBtnRow__icon">👎</span>
-							<span class="badBtnRow__num">0</span>
-					</span>
-					</span>
-				</div>
-			</div></li>
+			</div>
+		</li>
 
 	</div>
+
+	<div style="display: none;" id="recommentTemplate"
+		class="class2Temaplate">
+		<li class="recomment__row">
+			<div class="recomment__left">
+				<div class="recomment__icon"></div>
+				<img class="mr-3 rounded-circle imgHd" width="40" height="40px"
+					src="" alt="avatar">
+			</div>
+			<div class="recomment__right">
+				<img class="mr-3 rounded-circle" width="40" height="40px"
+					src="resources/assets/img/avatar/avatar-1.png" alt="avatar">
+				<div class="recomment__content">
+					<div class="comment__writer__box">
+						<div class="comment__writer"></div>
+						<div class="fas__fa__menu">
+							<div class="fas fa-bars">
+								<div class="fas__menu">
+									<div class="fas__menu__btnC">수정</div>
+									<div class="fas__menu__btnD">삭제</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="comment__context"></div>
+					<div class="comment__context__file">
+						파일명 : <a href="#"></a>
+					</div>
+					<div class="comment__info">
+						<span class="comment__date"></span> <span
+							class="comment__right recommentgoodbadBtn"> <span
+							class="goodBtnRow"> <span class="goodBtnRow__icon">👍🏻</span>
+								<span class="goodBtnRow__num">0</span>
+						</span> <span class="badBtnRow"> <span class="badBtnRow__icon">👎🏻</span>
+								<span class="badBtnRow__num">0</span>
+						</span>
+						</span> 
+					</div>
+				</div>
+			</div>
+		</li>
+
+	</div>
+
 	<!-- 댓글 사진 미리보기 -->
 	<div class="img__box__wrap">
 		<div class="img__box">
@@ -1028,13 +1173,118 @@
 		</div>
 	</div>
 
+	<input type="hidden" id="currentCardId" value="${card_id }">
 	<script
 		src="https://cdn.jsdelivr.net/npm/emoji-button@0.6.0/dist/index.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script>
 	
+
+	const currentCardId = $('#currentCardId').val();
 	
- 
+	CommentApp = {
+			
+			init : async function(){
+			
+				$.ajax({
+					url : 'ajaxCardIdSelect.do',
+					type : 'post',
+					dataType : 'json',
+					data : {
+						card_id : currentCardId
+					},
+					success : function(data){
+						console.log(data)
+						return CommentApp.createComment(data);	
+					}
+				})
+		},
+		
+		createComment : function(data){
+			
+			let prevComment_group;
+			for(let comment of data){
+			
+				let template;
+				let src = comment.prof_pic;
+				let nickname = comment.nickname;
+				let id = comment.id;
+				let commentId = comment.comment_id;
+				let content = comment.comment_content;
+				let cdate = comment.comment_date;
+				let good = comment.comment_good;
+				let bad = comment.comment_bad;
+				let group = comment.comment_group;
+				
+			
+				if(prevComment_group == comment.comment_group){
+	
+					template = $('#recommentTemplate')
+					template.find('.recomment__row').attr('data-id', id)
+				
+					template.find('.recomment__right>img').attr('src', src)
+					template.find('.comment__writer').text(nickname)
+					template.find('.comment__context').text(content)
+							
+				}else{
+					
+					template = $('#commentPlusTemplate');
+					template.find('.comment__row').attr('data-id', id)
+					template.find('.comment__row').attr('data-group', group)
+					template.find('.comment__row__left>img').attr('src', src)
+					template.find('.comment__writer').text(nickname)
+					template.find('.comment__context').text(content)
+					
+				}
+				
+				if(comment.file_name != null){
+					let fileId = comment.file_id;
+					let filename = comment.file_name;
+					let pfile_name = comment.pfile_name;
+					
+					template.find('.comment__context__file').attr('data', fileId)
+					template.find('.comment__context__file>a').text(nickname)
+					template.find('.comment__context__file>a').attr('href', pfile_name)
+					
+				}else{
+					template.find('.comment__context__file').css('display', 'none')
+				}
+				
+				template.find('.comment__date').text(cdate)
+				template.find('.goodBtnRow__num').text(good)
+				template.find('.badBtnRow__num').text(bad)
+				
+				if(template.attr('class') == 'class1Temaplate'){
+				
+			
+					$('.comment__box').append(template.html())
+				}else{
+			
+					let comments = $('.comment__row');
+			
+					for(let i=0; i<comments.length; i++){
+				
+						if($(comments[i]).attr('data-group') == group){
+							console.log(i)
+
+							$(comments[i]).find('.recomment__box').append(template.html())
+							
+						}
+
+					}
+				}
+				prevComment_group = comment.comment_group
+		
+				
+			}
+		}
+		
+	}
+
+	 $(function(){
+		 CommentApp.init();
+	 })
+	
     function commentCreate() {
       let textareaElVal = $(event.target).closest('.comment__input__Box').find('.textareaEl').val()
       textareaElVal = textareaElVal.replace(/(?:\r\n|\r|\n)/g, '<br />');
@@ -1182,7 +1432,7 @@
 
   </script>
 	<!-- General JS Scripts -->
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script
@@ -1202,8 +1452,8 @@
 		src='<c:url value="/resources/js/board/main_layout.js"></c:url>'></script>
 
 	<!-- 은지 코드 -->
-	<script src="resources/js/board-header.js"></script>
-	<script src="resources/js/board-detail_body.js"></script>
+	<!-- 	<script src="resources/js/board-header.js"></script> -->
+	<!-- 	<script src="resources/js/board-detail_body.js"></script> -->
 </body>
 
 </html>

@@ -16,4 +16,22 @@ public class CommentVO {
 	private String id;
 	private Date comment_date;
 	
+	
+	// commentLikeVO
+	private int comment_num;
+	private int comment_good;
+	private int comment_bad;
+//	private int comment_id;
+//	private String id;
+	
+	// commentFileInfoVO
+	private int file_id;
+	private String file_name;
+	private String pfile_name;
+	private Date file_date;
+//	private int comment_id;
+	
+// user_info
+	private String nickname;
+	private String prof_pic;
 }

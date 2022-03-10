@@ -2030,7 +2030,7 @@ const boardBg = {
 		$.ajax({
 			url : 'ajaxWorkspaceInviteInputValSearch.do',
 			type : 'post',
-			dataTpye : 'json',
+			dataType : 'json',
 			data : {
 				email : workspaceInviteInputVal
 			},
