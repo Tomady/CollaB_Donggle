@@ -92,21 +92,33 @@
        height: 35px;
        font-size: 13px;
      }
+     .wkimg-body {
+		width: 60px;
+		height: 60px;
+		border-radius: 5px;
+		border: 3px solid rgb(228, 227, 227);
+	}
   </style>
 </head>
      <!-- Main Content -->
       <div class="main-content">
         <section class="section">
-          <div class="section-header">
-            <div style="margin: 0 auto">
-              <figure class="avatar mr-2 avatar-xl" data-initial="W" style="background-color:#6553C1"></figure>
-              <h1>Workspace Name</h1>
-            </div>
-          </div>
+          
           <div class="section-body">
                     <div class="row">
                         <div class="col-12">
                           <div class="card">
+                          <div class="card-header d-flex justify-content-center"
+								style="text-align: center;">
+								<div id="workspace-body"
+									class="card-body col-lg-3 mt-5 mb-5 d-flex justify-content-center">
+									<div class="row workspaceNAME">
+										<img class="img-fluid mr-2 mt-2 wkimg-body">
+										<h3 class="mt-4" id="WsName"
+											data-wkid="${workspace.workspace_id}">${workspace.workspace_title}</h3>
+									</div>
+								</div>
+							</div>
                             <div class="card-header">
                               <h3 style="color: #6553C1;">이슈 등록</h3>
                             </div>
@@ -152,7 +164,7 @@
                         <input type="hidden" id="id" name="id" value="${id }">
                         <div id="btnGroup">
                           <button type="button" class="btn btn-primary" id="insertBtn" onclick="issueInsert()">등록</button>           
-                          <input type="reset" class="btn btn-primary" id="cancelBtn" onclick="location.href='issueBoard.do'" value="취소">
+                          <input type="reset" class="btn btn-primary" id="cancelBtn" onclick="location.href='issueBoard.do?workspace_id=${workspace.workspace_id}'" value="취소">
                         </div>
                         </form>
                         <br><br>
@@ -249,6 +261,8 @@
           itemTitle.push(val);
         }
         
+        //itemTitle = JSON.stringify(itemTitle);
+        
         let data = {
           issueTitle,
           issueCategory,
@@ -268,6 +282,130 @@
          })
        
     }
+    
+    $(function() {
+		let name = "${workspace.workspace_title}";
+		changeWKIMG(name);
+	})
+	
+    //워크프페이스 프로필이미지
+	function changeWKIMG(newWKname) {
+		let name = newWKname.substring(0, 1);
+		let img = document.querySelector(".wkimg");
+		let img2 = document.querySelector(".wkimg-body");
+		if (name == 'a' || name == 'A') {
+			img.setAttribute("src", "resources/img/a.jpg");
+			img2.setAttribute("src", "resources/img/a.jpg");
+		} else if (name == 'b' || name == 'B') {
+			img.setAttribute("src", "resources/img/b.jpg");
+			img2.setAttribute("src", "resources/img/b.jpg");
+		} else if (name == 'c' || name == 'C') {
+			img.setAttribute("src", "resources/img/c.jpg");
+			img2.setAttribute("src", "resources/img/c.jpg");
+		} else if (name == 'd' || name == 'D') {
+			img.setAttribute("src", "resources/img/d.jpg");
+			img2.setAttribute("src", "resources/img/d.jpg");
+		} else if (name == 'e' || name == 'E') {
+			img.setAttribute("src", "resources/img/e.jpg");
+			img2.setAttribute("src", "resources/img/e.jpg");
+		} else if (name == 'f' || name == 'F') {
+			img.setAttribute("src", "resources/img/f.jpg");
+			img2.setAttribute("src", "resources/img/f.jpg");
+		} else if (name == 'g' || name == 'G') {
+			img.setAttribute("src", "resources/img/g.jpg");
+			img2.setAttribute("src", "resources/img/g.jpg");
+		} else if (name == 'h' || name == 'H') {
+			img.setAttribute("src", "resources/img/h.jpg");
+			img2.setAttribute("src", "resources/img/h.jpg");
+		} else if (name == 'i' || name == 'I') {
+			img.setAttribute("src", "resources/img/i.jpg");
+			img2.setAttribute("src", "resources/img/i.jpg");
+		} else if (name == 'j' || name == 'J') {
+			img.setAttribute("src", "resources/img/j.jpg");
+			img2.setAttribute("src", "resources/img/j.jpg");
+		} else if (name == 'k' || name == 'K') {
+			img.setAttribute("src", "resources/img/k.jpg");
+			img2.setAttribute("src", "resources/img/k.jpg");
+		} else if (name == 'l' || name == 'L') {
+			img.setAttribute("src", "resources/img/l.jpg");
+			img2.setAttribute("src", "resources/img/l.jpg");
+		} else if (name == 'm' || name == 'M') {
+			img.setAttribute("src", "resources/img/m.jpg");
+			img2.setAttribute("src", "resources/img/m.jpg");
+		} else if (name == 'n' || name == 'N') {
+			img.setAttribute("src", "resources/img/n.jpg");
+			img2.setAttribute("src", "resources/img/n.jpg");
+		} else if (name == 'o' || name == 'O') {
+			img.setAttribute("src", "resources/img/o.jpg");
+			img2.setAttribute("src", "resources/img/o.jpg");
+		} else if (name == 'p' || name == 'P') {
+			img.setAttribute("src", "resources/img/p.jpg");
+			img2.setAttribute("src", "resources/img/p.jpg");
+		} else if (name == 'q' || name == 'Q') {
+			img.setAttribute("src", "resources/img/q.jpg");
+			img2.setAttribute("src", "resources/img/q.jpg");
+		} else if (name == 'r' || name == 'R') {
+			img.setAttribute("src", "resources/img/r.jpg");
+			img2.setAttribute("src", "resources/img/r.jpg");
+		} else if (name == 's' || name == 'S') {
+			img.setAttribute("src", "resources/img/s.jpg");
+			img2.setAttribute("src", "resources/img/s.jpg");
+		} else if (name == 't' || name == 'T') {
+			img.setAttribute("src", "resources/img/t.jpg");
+			img2.setAttribute("src", "resources/img/t.jpg");
+		} else if (name == 'u' || name == 'U') {
+			img.setAttribute("src", "resources/img/u.jpg");
+			img2.setAttribute("src", "resources/img/u.jpg");
+		} else if (name == 'v' || name == 'V') {
+			img.setAttribute("src", "resources/img/v.jpg");
+			img2.setAttribute("src", "resources/img/v.jpg");
+		} else if (name == 'w' || name == 'W') {
+			img.setAttribute("src", "resources/img/w.jpg");
+			img2.setAttribute("src", "resources/img/w.jpg");
+		} else if (name == 'x' || name == 'X') {
+			img.setAttribute("src", "resources/img/x.jpg");
+			img2.setAttribute("src", "resources/img/x.jpg");
+		} else if (name == 'y' || name == 'Y') {
+			img.setAttribute("src", "resources/img/y.jpg");
+			img2.setAttribute("src", "resources/img/y.jpg");
+		} else if (name == 'z' || name == 'Z') {
+			img.setAttribute("src", "resources/img/z.jpg");
+			img2.setAttribute("src", "resources/img/z.jpg");
+		} else if (name == '0') {
+			img.setAttribute("src", "resources/img/0.jpg");
+			img2.setAttribute("src", "resources/img/0.jpg");
+		} else if (name == '1') {
+			img.setAttribute("src", "resources/img/1.jpg");
+			img2.setAttribute("src", "resources/img/1.jpg");
+		} else if (name == '2') {
+			img.setAttribute("src", "resources/img/2.jpg");
+			img2.setAttribute("src", "resources/img/2.jpg");
+		} else if (name == '3') {
+			img.setAttribute("src", "resources/img/3.jpg");
+			img2.setAttribute("src", "resources/img/3.jpg");
+		} else if (name == '4') {
+			img.setAttribute("src", "resources/img/4.jpg");
+			img2.setAttribute("src", "resources/img/4.jpg");
+		} else if (name == '5') {
+			img.setAttribute("src", "resources/img/5.jpg");
+			img2.setAttribute("src", "resources/img/5.jpg");
+		} else if (name == '6') {
+			img.setAttribute("src", "resources/img/6.jpg");
+			img2.setAttribute("src", "resources/img/6.jpg");
+		} else if (name == '7') {
+			img.setAttribute("src", "resources/img/7.jpg");
+			img2.setAttribute("src", "resources/img/7.jpg");
+		} else if (name == '8') {
+			img.setAttribute("src", "resources/img/8.jpg");
+			img2.setAttribute("src", "resources/img/8.jpg");
+		} else if (name == '9') {
+			img.setAttribute("src", "resources/img/9.jpg");
+			img2.setAttribute("src", "resources/img/9.jpg");
+		} else{
+			img.setAttribute("src","resources/img/workspace_default_profile.png");
+			img2.setAttribute("src","resources/img/workspace_default_profile.png");
+		}
+	}
 </script>
 </body>
 </html>

@@ -15,7 +15,7 @@
     }
 </style>
 </head>
-<body style="overflow:scroll; overflow-x:hidden;">
+<body style="background-color: #ECE9FE; overflow:scroll; overflow-x:hidden;">
 	<div id="app">
     <div class="main-wrapper">
       <!-- Main Sidebar -->
@@ -44,7 +44,7 @@
               </a>
             </li>
             <li>
-              <a class="nav-link" href="issueBoard.do">
+              <a class="nav-link" href="issueBoard.do?workspace_id=${workspace.workspace_id}">
                 <i class="fas fa-fire"></i>
                 <span>Issues</span>
               </a>

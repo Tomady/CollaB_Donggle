@@ -93,8 +93,7 @@ public class CardController {
 							 @RequestParam("card") int cardId,
 							 HttpSession session,
 							 Model model) {
-		//String userId = (String)session.getAttribute("id");
-		String userId = "user1";
+		String userId = (String)session.getAttribute("id");
 		
 		ListVO listvo = new ListVO();
 		listvo.setList_id(listId);

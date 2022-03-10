@@ -11,6 +11,7 @@ public class RecentVO {
 	
 	private Date invite;
 	private int board_id;
-	private int id;
+	private String id;
+	private String board_title;
 
 }

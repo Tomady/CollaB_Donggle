@@ -15,4 +15,7 @@ public interface itemInfoService {
 	List<CardVO> selectedCardItemList(); //카드상세조회-해당카드의체크리스트아이템목록
 	int deleteItemAll(CardVO vo); //카드상세조회-체크리스트삭제시 해당 아이템 모두 삭제
 	int modifyitemyn(CardVO vo); // 카드상세조회-체크여부 수정하기
+	
+	int itemInfoTotalCnt(int boardId); //해당보드의 아이템 개수 - 대시보드
+	int itemInfoYesState(int boardId); //해당보드의 Y상태인 아이템 개수 - 대시보드
 }

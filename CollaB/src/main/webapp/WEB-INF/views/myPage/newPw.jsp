@@ -47,7 +47,7 @@
                 <div class="div-table">
                   <form action="pwUpdate" method="post" id="frm">
                     <table class="table table-bordered">
-                      <tr>
+                      <!-- <tr>
                         <th>기존 비밀번호</th>
                         <td>
                           <div class="input-group">
@@ -60,7 +60,7 @@
                               name="oldPw">
                           </div>
                         </td>
-                      </tr>
+                      </tr> -->
                       <tr>
                         <th>새 비밀번호</th>
                         <td>
@@ -107,13 +107,6 @@
       	function pwUpdate() {
       	  let pw = document.getElementsByName('password');
           let pwConfirm = document.getElementsByName('pwConfirm');
-          let oldPw = document.getElementsByName('oldPw');
-          let oldPwConfirm = document.getElementsByName('oldPwConfirm');
-
-          // 기존 비밀번호 일치여부
-          if(oldPw[0].value != oldPwConfirm[0].value ) {
-            window.alert('기존 비밀번호가 일치하지 않습니다.')
-          }
 
           // 비밀번호 확인
       	  if(pw[0].value != pwConfirm[0].value) {
@@ -127,8 +120,6 @@
 
           window.alert('비밀번호 변경이 완료되었습니다.')
           frm.submit();
-          console.log(pw[0].value);
-          console.log(oldPw[0].value);
       	}
       
       </script>

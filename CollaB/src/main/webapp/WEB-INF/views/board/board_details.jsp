@@ -94,6 +94,8 @@ document.addEventListener("DOMContentLoaded", function(){
 			img.setAttribute("src","resources/img/8.jpg");
 		}else if(name == '9'){
 			img.setAttribute("src","resources/img/9.jpg");
+		}else{
+			img.setAttribute("src","resources/img/workspace_default_profile.png");
 		}
 	}
 	
@@ -197,9 +199,9 @@ document.addEventListener("DOMContentLoaded", function(){
                <!-- 세션에다 닉네임 저장해주세여....부탁드려보자.... -->
                <div class="dropdown-title">Hi, ${nickname}! 🤗<p>Where are you going ?</p></div>
                <a class="dropdown-item" href="boardDetail?boardID=${boardID}">&nbsp;&nbsp;Board</a>
-               <a class="dropdown-item" href="timeline.do">&nbsp;&nbsp;TimeLine</a>
-               <a class="dropdown-item" href="calendar.do?boardId=${boardID}">&nbsp;&nbsp;Calendar</a>
-               <a class="dropdown-item" href="#">&nbsp;&nbsp;DashBoard</a>
+               <a class="dropdown-item" href="timeline.do?boardID=${boardID}">&nbsp;&nbsp;TimeLine</a>
+               <a class="dropdown-item" href="calendar.do?boardID=${boardID}">&nbsp;&nbsp;Calendar</a>
+               <a class="dropdown-item" href="dashboard?boardID=${boardID}">&nbsp;&nbsp;DashBoard</a>
                <!--<div class="dropdown-divider"></div> 구분선-->
              </div>
              &nbsp;&nbsp;

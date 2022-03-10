@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.Donggle.CollaB.issue.service.IssueCheckListMapper">
+
 	<insert id="insertChkLi" parameterType="co.Donggle.CollaB.issue.service.IssueItemVO">
 		<selectKey keyProperty="chkLiId" resultType="int" order="BEFORE">
 			SELECT MAX(CHECKLIST_ID) + 1 AS CHECKLIST_ID FROM CHECKLIST
@@ -8,4 +9,5 @@
 		INSERT INTO CHECKLIST(CHECKLIST_ID, CHECKLIST_TITLE, ISSUE_ID)
 		VALUES (#{chkLiId}, #{chkLiTitle}, #{issueId})
 	</insert>
+	
 </mapper> 
