@@ -66,5 +66,5 @@ public interface CardService {
 	
 	
 	//====대시보드=====
-	List<CardVO> dashboardBasicInfo(CardVO vo); //해당 보드가 가지고 있는 모든 아이템과 카드정보
+	List<CardVO> boardCardsSelectList(int board_id); //해당 보드가 가지고 있는 모든 카드
 }

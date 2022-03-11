@@ -151,7 +151,8 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public List<CardVO> dashboardBasicInfo(CardVO vo) {
-		return map.dashboardBasicInfo(vo);
+	public List<CardVO> boardCardsSelectList(int board_id) {
+		return map.boardCardsSelectList(board_id);
 	}
+
 }

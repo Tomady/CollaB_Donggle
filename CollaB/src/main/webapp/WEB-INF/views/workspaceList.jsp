@@ -277,19 +277,19 @@
                   	data-name="${workspace.workspace_title}" data-id="${workspace.workspace_id}">
 	            	<div class="row ml-5 mr-5">
 						<div class="col-lg-5 d-flex justify-content-between " 
-						style="border:5px solid rgb(199,174,247); border-radius:10px;">
+						style="border:5px solid rgb(206 185 248); border-radius:10px;">
 							<!-- 워크스페이스 하나 클릭시 boards페이지로 이동 -->
 							<div class="btn" style="width:90%;);"
 							onclick="location.href='Boards?wkid=${workspace.workspace_id}'">
 							<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 								style="text-align: right; display: table-cell;">
 								<span class="ml-4 mt-3" 
-								style="color:rgb(199,174,247); font-size:25px; font-weight: bold;">${workspace.workspace_title}</span>
+								style="color:rgb(206 185 248); font-size:25px; font-weight: bold;">${workspace.workspace_title}</span>
 							</div>
 							<div class="row card-header"></div>
 							</div>
 							<!-- 워크스페이스 탈퇴버튼 -->
-							<div class="fa fa-times mt-3" onclick="workspaceJoinDelete(${workspace.workspace_id})"></div>
+							<div class="fa fa-times mt-3" style="color:rgb(206 185 248);" onclick="workspaceJoinDelete(${workspace.workspace_id})"></div>
 						</div>
 						<!-- 해당 워크스페이스의 보드목록 출력버튼-->
                     	<button class="btn mt-5 ml-2 fa fa-chevron-down" onclick="showBoards()">&nbsp;&nbsp;Boards</button>
@@ -320,12 +320,12 @@
 								<!-- 보드색깔지정 : red -->
 								<c:if test="${board.board_thema == 'red'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(247, 123, 123);"
+										<div class="card board" style="border:3px solid rgb(247, 123, 123);"
 										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
-												 color:white;">${board.board_Title}</span>
+												 color:rgb(247, 123, 123);">${board.board_Title}</span>
 											</div>
 											<div class="row card-header"></div>
 										</div>
@@ -334,133 +334,7 @@
 								<!-- 보드색깔지정 : orange -->
 								<c:if test="${board.board_thema == 'orange'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(252, 187, 127);"
-										onclick="location.href='boardDetail?boardID=${board.board_id}'">
-											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
-											style="text-align: right; display: table-cell;">
-												<span class="ml-4" style="font-weight: bold;
-												color:white;">${board.board_Title}</span>
-											</div>
-											<div class="row card-header"></div>
-										</div>
-									</div>
-								</c:if>
-								<!-- 보드색깔지정 : yellow -->
-								<c:if test="${board.board_thema == 'yellow'}">
-									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(255, 245, 157);"
-										onclick="location.href='boardDetail?boardID=${board.board_id}'">
-											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
-											style="text-align: right; display: table-cell;">
-												<span class="ml-4" style="font-weight: bold;
-												color:rgb(247, 123, 123);">${board.board_Title}</span>
-											</div>
-											<div class="row card-header"></div>
-										</div>
-									</div>
-								</c:if>
-								<!-- 보드색깔지정 : green -->
-								<c:if test="${board.board_thema == 'green'}">
-									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(86, 161, 111);"
-										onclick="location.href='boardDetail?boardID=${board.board_id}'">
-											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
-											style="text-align: right; display: table-cell;">
-												<span class="ml-4" style="font-weight: bold;
-												color:white;">${board.board_Title}</span>
-											</div>
-											<div class="row card-header"></div>
-										</div>
-									</div>
-								</c:if>
-								<!-- 보드색깔지정 : skyblue -->
-								<c:if test="${board.board_thema == 'skyblue'}">
-									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(123, 243, 247);"
-										onclick="location.href='boardDetail?boardID=${board.board_id}'">
-											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
-											style="text-align: right; display: table-cell;">
-												<span class="ml-4" style="font-weight: bold;
-												color:white;">${board.board_Title}</span>
-											</div>
-											<div class="row card-header"></div>
-										</div>
-									</div>
-								</c:if>
-								<!-- 보드색깔지정 : blue -->
-								<c:if test="${board.board_thema == 'blue'}">
-									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(121, 162, 250);"
-										onclick="location.href='boardDetail?boardID=${board.board_id}'">
-											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
-											style="text-align: right; display: table-cell;">
-												<span class="ml-4" style="font-weight: bold;
-												color:rgb(123, 243, 247);">${board.board_Title}</span>
-											</div>
-											<div class="row card-header"></div>
-										</div>
-									</div>
-								</c:if>
-								<!-- 보드색깔지정 : darkblue -->
-								<c:if test="${board.board_thema == 'darkblue'}">
-									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(123, 125, 247);"
-										onclick="location.href='boardDetail?boardID=${board.board_id}'">
-											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
-											style="text-align: right; display: table-cell;">
-												<span class="ml-4" style="font-weight: bold;
-												color:rgb(255, 245, 157);">${board.board_Title}</span>
-											</div>
-											<div class="row card-header"></div>
-										</div>
-									</div>
-								</c:if>
-								<!-- 보드색깔지정 : purple -->
-								<c:if test="${board.board_thema == 'purple'}">
-									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(171, 127, 252);"
-										onclick="location.href='boardDetail?boardID=${board.board_id}'">
-											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
-											style="text-align: right; display: table-cell;">
-												<span class="ml-4" style="font-weight: bold;
-												color:rgb(250, 167, 243);">${board.board_Title}</span>
-											</div>
-											<div class="row card-header"></div>
-										</div>
-									</div>
-								</c:if>
-								<!-- 보드색깔지정 : pink -->
-								<c:if test="${board.board_thema == 'pink'}">
-									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(250, 167, 243);"
-										onclick="location.href='boardDetail?boardID=${board.board_id}'">
-											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
-											style="text-align: right; display: table-cell;">
-												<span class="ml-4" style="font-weight: bold;
-												color:rgb(171, 127, 252);">${board.board_Title}</span>
-											</div>
-											<div class="row card-header"></div>
-										</div>
-									</div>
-								</c:if>
-								<!-- 보드색깔지정 : gray -->
-								<c:if test="${board.board_thema == 'gray'}">
-									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(184, 184, 184);"
-										onclick="location.href='boardDetail?boardID=${board.board_id}'">
-											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
-											style="text-align: right; display: table-cell;">
-												<span class="ml-4" style="font-weight: bold;
-												color:rgb(247, 123, 123);">${board.board_Title}</span>
-											</div>
-											<div class="row card-header"></div>
-										</div>
-									</div>
-								</c:if>
-								<!-- 보드색깔지정 : darkgray -->
-								<c:if test="${board.board_thema == 'darkgray'}">
-									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(116, 115, 115);"
+										<div class="card board" style="border:3px solid rgb(252, 187, 127);"
 										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
@@ -471,15 +345,141 @@
 										</div>
 									</div>
 								</c:if>
-								<!-- 보드색깔지정 : black -->
-								<c:if test="${board.board_thema == 'black'}">
+								<!-- 보드색깔지정 : yellow -->
+								<c:if test="${board.board_thema == 'yellow'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(12, 12, 12);"
+										<div class="card board" style="border:3px solid rgb(255, 245, 157);"
 										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
-												color:white;">${board.board_Title}</span>
+												color:rgb(230 201 32);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : green -->
+								<c:if test="${board.board_thema == 'green'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="border:3px solid rgb(86, 161, 111);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:rgb(86, 161, 111);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : skyblue -->
+								<c:if test="${board.board_thema == 'skyblue'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="border:3px solid rgb(123, 243, 247);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:rgb(123, 243, 247);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : blue -->
+								<c:if test="${board.board_thema == 'blue'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="border:3px solid rgb(121, 162, 250);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:rgb(121, 162, 250);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : darkblue -->
+								<c:if test="${board.board_thema == 'darkblue'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="border:3px solid rgb(123, 125, 247);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:rgb(123, 125, 247);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : purple -->
+								<c:if test="${board.board_thema == 'purple'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="border:3px solid rgb(171, 127, 252);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:rgb(171, 127, 252);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : pink -->
+								<c:if test="${board.board_thema == 'pink'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="border:3px solid rgb(250, 167, 243);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:rgb(250, 167, 243);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : gray -->
+								<c:if test="${board.board_thema == 'gray'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="border:3px solid rgb(184, 184, 184);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:rgb(184, 184, 184);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : darkgray -->
+								<c:if test="${board.board_thema == 'darkgray'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="border:3px solid rgb(116, 115, 115);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:rgb(116, 115, 115);">${board.board_Title}</span>
+											</div>
+											<div class="row card-header"></div>
+										</div>
+									</div>
+								</c:if>
+								<!-- 보드색깔지정 : black -->
+								<c:if test="${board.board_thema == 'black'}">
+									<div class="col-12 col-md-6 col-lg-3 mt-4">
+										<div class="card board" style="border:3px solid rgb(12, 12, 12);"
+										onclick="location.href='boardDetail?boardID=${board.board_id}'">
+											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
+											style="text-align: right; display: table-cell;">
+												<span class="ml-4" style="font-weight: bold;
+												color:rgb(12, 12, 12);">${board.board_Title}</span>
 											</div>
 											<div class="row card-header"></div>
 										</div>

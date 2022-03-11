@@ -76,4 +76,14 @@
                                                    WHERE L.BOARD_ID = #{BOARD_ID}))
 		AND I.ITEM_STATUS = 'Y'
 	</select>
+	
+	<select id="cardItemsAll" parameterType="int"
+	resultType="co.Donggle.CollaB.checklist.service.itemInfoVO">
+		SELECT I.*
+		FROM CHECKLIST K JOIN ITEM_INFO I
+		ON ( K.CHECKLIST_ID = I.CHECKLIST_ID)
+		JOIN CARD D
+		ON ( K.CARD_ID = D.CARD_ID)
+		WHERE K.CARD_ID = #{card_id}
+	</select>
 </mapper>

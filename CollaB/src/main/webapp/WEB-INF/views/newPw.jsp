@@ -258,6 +258,17 @@ th {
 						</div></li>
 				</ul>
 			</nav>
+			<!-- sidebar -->
+		      <div class="main-sidebar">
+		        <aside id="sidebar-wrapper">
+		          <ul class="sidebar-menu mt-3">
+		            <li>
+		            	<a class="nav-link fa fa-home" href="WorkspaceList"
+		            	style="font-size:20px;"></a>
+		            </li>
+		          </ul>
+		        </aside>
+		      </div>
 			<!-- Main Content -->
 			<div class="main-content">
 				<section class="section">

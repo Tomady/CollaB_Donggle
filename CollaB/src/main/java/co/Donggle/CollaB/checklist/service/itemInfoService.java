@@ -18,4 +18,5 @@ public interface itemInfoService {
 	
 	int itemInfoTotalCnt(int boardId); //해당보드의 아이템 개수 - 대시보드
 	int itemInfoYesState(int boardId); //해당보드의 Y상태인 아이템 개수 - 대시보드
+	List<itemInfoVO> cardItemsAll(int card_id); //해당 카드의 모든 아이템 정보 - 대시보드
 }

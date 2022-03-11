@@ -182,19 +182,12 @@
 		WHERE LIST_ID = #{list_id}
 	</delete>
 	
-	<select id="dashboardBasicInfo"
-	parameterType="co.Donggle.CollaB.card.service.CardVO"
+	<select id="boardCardsSelectList"
+	parameterType="int"
 	resultType="co.Donggle.CollaB.card.service.CardVO">
-		SELECT I.*, D.*
-		FROM CHECKLIST K JOIN ITEM_INFO I
-		ON ( K.CHECKLIST_ID = I.CHECKLIST_ID)
-		JOIN CARD D
-		ON ( K.CARD_ID = D.CARD_ID)
-		WHERE K.CARD_ID IN ( SELECT C.CARD_ID
-                             FROM BOARD B JOIN LIST L
-                             ON ( B.BOARD_ID = L.BOARD_ID)
-                             JOIN CARD C
-                             ON (L.LIST_ID = C.LIST_ID)
-                             WHERE B.BOARD_ID = #{board_id})
+		SELECT C.*
+		FROM LIST L JOIN CARD C
+		ON ( L.LIST_ID = C.LIST_ID)
+		WHERE L.BOARD_ID = #{board_id}
 	</select>
 </mapper>

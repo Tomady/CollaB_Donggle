@@ -63,4 +63,9 @@ public class itemInfoServiceImpl implements itemInfoService {
 		return itemInfoMapper.itemInfoYesState(boardId);
 	}
 
+	@Override
+	public List<itemInfoVO> cardItemsAll(int card_id) {
+		return itemInfoMapper.cardItemsAll(card_id);
+	}
+
 }

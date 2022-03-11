@@ -261,68 +261,68 @@
 					})
 					
 					if(data.board_thema == ""){
-						card.style.backgroundColor="rgb(245, 245, 245)";
+						card.style.border="3px solid rgb(245, 245, 245)";
 						secRow.style.backgroundColor="rgb(245, 245, 245)";
 					}else if(data.board_thema == "red"){
-						i.style.color="white";
-						span.style.color="white";
-						card.style.backgroundColor="rgb(247, 123, 123)";
-						secRow.style.backgroundColor="rgb(247, 123, 123)";
+						i.style.color="rgb(247, 123, 123)";
+						span.style.color="rgb(247, 123, 123)";
+						card.style.border="3px solid rgb(247, 123, 123)";
+						//secRow.style.border="3px solid rgb(247, 123, 123)";
 					}else if(data.board_thema == "orange"){
-						i.style.color="white";
-						span.style.color="white";
-						card.style.backgroundColor="rgb(252, 187, 127)";
-						secRow.style.backgroundColor="rgb(252, 187, 127)";
-					}else if(data.board_thema == "yellow"){
-						i.style.color="rgb(247, 123, 123)";
-						span.style.color="rgb(247, 123, 123)";
-						card.style.backgroundColor="rgb(255, 245, 157)";
-						secRow.style.backgroundColor="rgb(255, 245, 157)";
-					}else if(data.board_thema == "green"){
-						i.style.color="white";
-						span.style.color="white";
-						card.style.backgroundColor="rgb(86, 161, 111)";
-						secRow.style.backgroundColor="rgb(86, 161, 111)";
-					}else if(data.board_thema == "skyblue"){
-						i.style.color="white";
-						span.style.color="white";
-						card.style.backgroundColor="rgb(123, 243, 247)";
-						secRow.style.backgroundColor="rgb(123, 243, 247)";
-					}else if(data.board_thema == "blue"){
-						i.style.color="rgb(123, 243, 247)";
-						span.style.color="rgb(123, 243, 247)";
-						card.style.backgroundColor="rgb(121, 162, 250)";
-						secRow.style.backgroundColor="rgb(121, 162, 250)";
-					}else if(data.board_thema == "darkblue"){
-						i.style.color="rgb(255, 245, 157)";
-						span.style.color="rgb(255, 245, 157)";
-						card.style.backgroundColor="rgb(123, 125, 247)";
-						secRow.style.backgroundColor="rgb(123, 125, 247)";
-					}else if(data.board_thema == "purple"){
-						i.style.color="rgb(250, 167, 243)";
-						span.style.color="rgb(250, 167, 243)";
-						card.style.backgroundColor="rgb(171, 127, 252)";
-						secRow.style.backgroundColor="rgb(171, 127, 252)";
-					}else if(data.board_thema == "pink"){
-						i.style.color="rgb(171, 127, 252)";
-						span.style.color="rgb(171, 127, 252)"
-						card.style.backgroundColor="rgb(250, 167, 243)";
-						secRow.style.backgroundColor="rgb(250, 167, 243)";
-					}else if(data.board_thema == "gray"){
-						i.style.color="rgb(247, 123, 123)";
-						span.style.color="rgb(247, 123, 123)";
-						card.style.backgroundColor="rgb(184, 184, 184)";
-						secRow.style.backgroundColor="rgb(184, 184, 184)";
-					}else if(data.board_thema == "darkgray"){
 						i.style.color="rgb(252, 187, 127)";
 						span.style.color="rgb(252, 187, 127)";
-						card.style.backgroundColor="rgb(116, 115, 115)";
-						secRow.style.backgroundColor="rgb(116, 115, 115)";
+						card.style.border="3px solid rgb(252, 187, 127)";
+						//secRow.style.border="3px solid rgb(252, 187, 127)";
+					}else if(data.board_thema == "yellow"){
+						i.style.color="rgb(255, 245, 157)";
+						span.style.color="rgb(255, 245, 157)";
+						card.style.border="3px solid rgb(255, 245, 157)";
+						//secRow.style.backgroundColor="rgb(255, 245, 157)";
+					}else if(data.board_thema == "green"){
+						i.style.color="rgb(86, 161, 111)";
+						span.style.color="rgb(86, 161, 111)";
+						card.style.border="3px solid rgb(86, 161, 111)";
+						//secRow.style.backgroundColor="rgb(86, 161, 111)";
+					}else if(data.board_thema == "skyblue"){
+						i.style.color="rgb(123, 243, 247)";
+						span.style.color="rgb(123, 243, 247)";
+						card.style.border="3px solid rgb(123, 243, 247)";
+						//secRow.style.backgroundColor="rgb(123, 243, 247)";
+					}else if(data.board_thema == "blue"){
+						i.style.color="rgb(121, 162, 250)";
+						span.style.color="rgb(121, 162, 250)";
+						card.style.border="3px solid rgb(121, 162, 250)";
+						//secRow.style.backgroundColor="rgb(121, 162, 250)";
+					}else if(data.board_thema == "darkblue"){
+						i.style.color="rgb(123, 125, 247)";
+						span.style.color="rgb(123, 125, 247)";
+						card.style.border="3px solid rgb(123, 125, 247)";
+						//secRow.style.backgroundColor="rgb(123, 125, 247)";
+					}else if(data.board_thema == "purple"){
+						i.style.color="rgb(171, 127, 252)";
+						span.style.color="rgb(171, 127, 252)";
+						card.style.border="3px solid rgb(171, 127, 252)";
+						//secRow.style.backgroundColor="rgb(171, 127, 252)";
+					}else if(data.board_thema == "pink"){
+						i.style.color="rgb(250, 167, 243)";
+						span.style.color="rgb(250, 167, 243)"
+						card.style.border="3px solid rgb(250, 167, 243)";
+						//secRow.style.backgroundColor="rgb(250, 167, 243)";
+					}else if(data.board_thema == "gray"){
+						i.style.color="rgb(184, 184, 184)";
+						span.style.color="rgb(184, 184, 184)";
+						card.style.border="3px solid rgb(184, 184, 184)";
+						//secRow.style.backgroundColor="rgb(184, 184, 184)";
+					}else if(data.board_thema == "darkgray"){
+						i.style.color="rgb(116, 115, 115)";
+						span.style.color="rgb(116, 115, 115)";
+						card.style.border="3px solid rgb(116, 115, 115)";
+						//secRow.style.backgroundColor="rgb(116, 115, 115)";
 					}else if(data.board_thema == "black"){
-						i.style.color="white";
-						span.style.color="white";
-						card.style.backgroundColor="rgb(12, 12, 12)";
-						secRow.style.backgroundColor="rgb(12, 12, 12)";
+						i.style.color="rgb(12, 12, 12)";
+						span.style.color="rgb(12, 12, 12)";
+						card.style.border="3px solid rgb(12, 12, 12)";
+						//secRow.style.backgroundColor="rgb(12, 12, 12)";
 					}
 					
 					row.append(span);
