@@ -45,6 +45,8 @@ document.querySelector(".addListBtn").onclick=function(){
 						createList(data);
 						createListDIV.remove(); //리스트 이름 설정하는 div없애기
 						addList.style.display="block"; //리스트 추가하는 div 다시 보이게하기
+						//클릭이벤트 없애주기
+						document.querySelector("body").removeEventListener("click",list_createCancel);
 					},
 					error : function(){
 						console.log("AjaxCreateList 실패");
@@ -291,7 +293,7 @@ function nameCard(listId){
         // 엔터키가 눌렸을 때
         if (window.event.keyCode == 13) {
             //사용자가 입력한 새로운 카드 이름
-            let newCardName = document.querySelector("#newCardName").value;
+            let newCardName = document.querySelector("#newCardName"+listId).value;
             //빈 값이면
             if(newCardName == ""){
                 newCard.style.border="2px solid red";
