@@ -63,4 +63,7 @@ public interface CardMapper {
 	int deleteCardCheckList(CardVO vo);
 	//카드체크리스트아이템삭제
 	int deleteCardCheckItems(CardVO vo);
+	
+	//====대시보드=====
+	List<CardVO> boardCardsSelectList(int board_id); //해당 보드가 가지고 있는 모든 카드
 }

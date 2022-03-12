@@ -347,7 +347,6 @@ function deleteDates(cardid){
 
 //카드체크리스트추가 모달 띄우기
 function cardCheckListSet(id,cardid){
-	
 	var zIndex = 9999;
     var modal = document.getElementById(id);
 	
@@ -382,8 +381,15 @@ function cardCheckListSet(id,cardid){
 					cardBody.setAttribute("class","card-body");
 					cardBody.setAttribute("id","checkbody"+data.checklist_id);
 					let title = document.createElement("div");
+					title.setAttribute("id","checklistTitle"+data.checklist_id);
 					title.setAttribute("class","d-flex justify-content-between");
+					title.style.fontSize="18px";
+					title.style.fontWeight="bold";
 					title.innerHTML = data.checklist_title;
+					title.onclick = function(){
+						//체크리스트 타이틀 수정 클릭이벤트 달아주기
+						checklistTitleRename(data.checklist_id);
+					}
 					let deleteBtn = document.createElement("button");
 					deleteBtn.setAttribute("class","btn ml-2 fa fa-times col-rg");
 					deleteBtn.style.cursor="pointer";
@@ -402,8 +408,9 @@ function cardCheckListSet(id,cardid){
 					button.innerHTML = " item";
 					button.onclick=function(){
 						//add item버튼 클릭이벤트 달아주기
+						document.querySelector(".additem"+data.checklist_id).style.display="none";
 						let itemInput = document.createElement("input");
-						itemInput.setAttribute("class","mb-2 mt-2");
+						itemInput.setAttribute("class","form-control mb-2 mt-2");
 						itemInput.setAttribute("id","new_item");
 						itemInput.setAttribute("type","text");
 						itemInput.style.width="100%";
@@ -426,22 +433,32 @@ function cardCheckListSet(id,cardid){
 										},
 										dataType : "json",
 										success : function(data){
+											location.reload();
 											//input박스 지워주고 체크로 만들기 + add item버튼 다시 보이게하기
-											new_item.remove();
+											//new_item.remove();
 											
-											let input = document.createElement("input");
-											input.setAttribute("type","checkbox");
-											input.setAttribute("class","mt-1 mb-1 checkitem"+data.checklist_id);
-											input.onclick=function(){
+											//let input = document.createElement("input");
+											//input.setAttribute("type","checkbox");
+											//input.setAttribute("class","mt-1 mb-1 checkitem"+data.checklist_id);
+											//input.onclick=function(){
 												//체크박스 이벤트 걸어주기
-												checkItem(data.checklist_id,data.item_id);
-											}
-											let br = document.createElement("br");
+												//checkItem(data.checklist_id,data.item_id);
+											//}
+											//let i = document.createElement("i");
+											//i.setAttribute("class","ml-5 fa fa-times");
+											//i.style.color="#ced4da";
+											//i.style.cursor="pointer";
+											//i.onclick = function(){
+												//아이템 개별삭제 이벤트 걸어주기
+												//ckItemDelete(data.item_id);
+											//}
+											//let br = document.createElement("br");
 											
-											document.querySelector("#checkbody"+data.checklist_id).append(input);
-											document.querySelector("#checkbody"+data.checklist_id).append( newitem);
-											document.querySelector("#checkbody"+data.checklist_id).append(br);
-											document.querySelector(".additem"+data.checklist_id).style.display="block";
+											//document.querySelector("#checkbody"+data.checklist_id).append(input);
+											//document.querySelector("#checkbody"+data.checklist_id).append(newitem);
+											//document.querySelector("#checkbody"+data.checklist_id).append(i);
+											//document.querySelector("#checkbody"+data.checklist_id).append(br);
+											//document.querySelector(".additem"+data.checklist_id).style.display="block";
 										},
 										error : function(){
 											console.log("AjaxAddCheckListItem 실패");
@@ -453,6 +470,23 @@ function cardCheckListSet(id,cardid){
 						document.querySelector("#checkbody"+data.checklist_id).append(itemInput);
 						document.querySelector("#new_item").focus();
 						event.target.style.display="none"; //add item버튼 없애주기
+						
+						//body클릭시 아이템추가 취소되도록
+						var body = document.querySelector("body");
+						var clickCnt = 0;
+						body.addEventListener("click", checklist_additemCancel);
+						function checklist_additemCancel(){
+							clickCnt += 1;
+							if(event.target == event.currentTarget.querySelector("#new_item"))
+								return ;
+							if(new_item.value == "" && clickCnt > 1){
+								new_item.remove();
+								document.querySelector(".additem"+data.checklist_id).style.display="block";
+								//클릭이벤트 없애주기
+								body.removeEventListener("click",checklist_additemCancel);
+							}
+						}
+						
 					}
 					
 					title.append(deleteBtn);
@@ -513,9 +547,83 @@ function cardCheckListSet(id,cardid){
     });
 }
 
+//체크리스트 타이틀 수정
+function checklistTitleRename(checklist_id){
+	let origin = document.querySelector("#checklistTitle"+checklist_id);
+	let appendTarget = origin.parentElement;
+	let originName = origin.innerText;
+	origin.style.visibility="hidden";
+	
+	let input = document.createElement("input");
+	input.setAttribute("class","form-control");
+	input.setAttribute("id","checkListNewName");
+	input.addEventListener("keyup",function(){
+		if(window.event.keyCode == 13){
+			//엔터키가 눌렸을때
+			let newName = checkListNewName.value;
+			if(newName == ""){
+				checkListNewName.style.border="2px solid red";
+				checkListNewName.setAttribute("placeholder","Please name it.");
+				checkListNewName.focus();
+			}else{
+				$.ajax({
+					url : "AjaxCheckListRename",
+					data : {
+						checklist_id : checklist_id,
+						checklist_title : newName 					
+					},
+					type : "POST",
+					dataType : "json",
+					success : function(data){
+						checkListNewName.remove();
+						let deleteBtn = document.createElement("button");
+						deleteBtn.setAttribute("class","btn ml-2 fa fa-times col-rg");
+						deleteBtn.style.cursor="pointer";
+						deleteBtn.onclick = function(){
+							//체크리스트 삭제 클릭이벤트 달아주기
+							checklistDelete(data.checklist_id);
+						}
+						origin.innerHTML = "";
+						origin.innerHTML = data.checklist_title;
+						origin.append(deleteBtn);  
+						origin.style.visibility="visible";
+						//클릭 이벤트 없애주기
+						document.querySelector("body").removeEventListener("click",checklist_renameCancel);
+					},
+					error : function(){
+						console.log("AjaxCheckListRename 체크리스트이름수정 실패");
+					}
+				})
+			}
+		}
+	});
+	appendTarget.prepend(input);
+	checkListNewName.focus();
+	
+	//body클릭시 이름수정 취소되도록
+	var body = document.querySelector("body");
+	var clickCnt = 0;
+	body.addEventListener("click", checklist_renameCancel);
+	function checklist_renameCancel(){
+		clickCnt += 1;
+		if(event.target == event.currentTarget.querySelector("#checklistTitle"+checklist_id))
+			return ;
+		if(event.target == event.currentTarget.querySelector("#checkListNewName"))
+			return ;
+		if(checkListNewName.value == "" && clickCnt > 1){
+			document.querySelector("#checkListNewName").remove();
+			origin.style.visibility="visible";
+			//클릭이벤트 없애주기
+			body.removeEventListener("click",checklist_renameCancel);
+		}
+	}
+	
+}
+
 //리스트이름수정
 function renameList(listid){
 	let appendTarget = document.querySelector(".listnameAppendTarget"); //input박스 붙여줄 곳
+	let originName = document.querySelector(".listName"+listid).innerText;
 	document.querySelector(".listName"+listid).remove();
 	
 	let input = document.createElement("input");
@@ -554,6 +662,8 @@ function renameList(listid){
 							h4.innerHTML=newListname;
 							
 							appendTarget.prepend(h4);
+							//클릭이벤트 없애주기
+							document.querySelector("body").removeEventListener("click",list_renameCancel);
 						}else if(data == "NO"){
 							console.log("리스트이름수정실패");
 						}
@@ -567,6 +677,29 @@ function renameList(listid){
 	})
 	appendTarget.prepend(input);
 	input.focus();
+	
+	//body클릭시 이름수정 취소되도록
+	var body = document.querySelector("body");
+	var clickCnt = 0;
+	body.addEventListener("click", list_renameCancel); 
+	function list_renameCancel(){ 
+		clickCnt += 1;
+		if(event.target == event.currentTarget.querySelector(".listName"+listid))
+			return ;
+		if(event.target == event.currentTarget.querySelector("#NewListName"))
+			return ;
+		if(NewListName.value == "" && clickCnt > 1){
+			document.querySelector("#NewListName").remove();
+			let h4 = document.createElement("h4");
+			h4.setAttribute("class","listName"+listid+" mt-5 mb-4 ml-4");
+			h4.onclick=function(){renameList(listid)}
+			h4.innerHTML=originName;
+			
+			appendTarget.prepend(h4);
+			//클릭이벤트 없애주기
+			body.removeEventListener("click",list_renameCancel);
+		}
+	}
 }
 
 //카드내용수정하기버튼
@@ -606,13 +739,14 @@ function contentsSave(cardid){
 //카드이름수정하기
 function renameCard(cardId){
 	let appendTarget = document.querySelector("#cardTitleAppendTarget");
+	let originName = document.querySelector("#card_Title").innerText;
 	document.querySelector("#card_Title").remove();
 	
 	let input = document.createElement("input");
 	input.setAttribute("id","NewCardName")
 	input.setAttribute("type","text");
 	input.setAttribute("class","form-control mb-3 mt-5");
-	input.style.width="90%";
+	input.style.width="70%";
 	input.style.height="90%";
 	input.style.textAlign="center";
 	input.addEventListener("keyup",function(){
@@ -646,6 +780,7 @@ function renameCard(cardId){
 							
 							appendTarget.prepend(h4);
 							document.querySelector(".cardName"+cardId).innerHTML=newCardname;
+							document.querySelector("body").removeEventListener("click",card_renameCancel);
 						}else if(data == "NO"){
 							console.log("리스트이름수정실패");
 						}
@@ -659,6 +794,31 @@ function renameCard(cardId){
 	})
 	appendTarget.prepend(input);
 	input.focus();
+	
+	//body클릭시 카드이름수정 취소되도록
+	var body = document.querySelector("body");
+	var clickCnt = 0;
+	body.addEventListener("click", card_renameCancel);
+	function card_renameCancel(){
+		clickCnt += 1;
+		if(event.target == event.currentTarget.querySelector("#card_Title"))
+			return ;
+		if(event.target == event.currentTarget.querySelector("#NewCardName"))
+			return ;
+		if(NewCardName.value == "" && clickCnt > 1){
+			document.querySelector("#NewCardName").remove();
+			let h4 = document.createElement("h4");
+			h4.setAttribute("id","card_Title");
+			h4.setAttribute("class","cardName mt-5 mb-4");
+			h4.onclick=function(){renameCard(cardId)}
+			h4.innerHTML=originName;
+			
+			appendTarget.prepend(h4);
+			document.querySelector(".cardName"+cardId).innerHTML=originName;
+			//클릭이벤트 없애주기
+			body.removeEventListener("click",card_renameCancel);
+		}
+	}
 }
 
 //체크리스트 전체 삭제
@@ -688,7 +848,7 @@ function addItemBtn(ckid){
 	document.querySelector(".additem"+ckid).style.display="none";
 	
 	let itemInput = document.createElement("input");
-	itemInput.setAttribute("class","mb-2 mt-2");
+	itemInput.setAttribute("class","form-control mb-2 mt-2");
 	itemInput.setAttribute("id","new_item");
 	itemInput.setAttribute("type","text");
 	itemInput.style.width="100%";
@@ -720,12 +880,23 @@ function addItemBtn(ckid){
 							//체크박스 이벤트 걸어주기
 							checkItem(data.checklist_id,data.item_id);
 						}
+						let i = document.createElement("i");
+						i.setAttribute("class","ml-5 fa fa-times");
+						i.style.color="#ced4da";
+						i.style.cursor="pointer";
+						i.onclick = function(){
+							//아이템 개별삭제 이벤트 걸어주기
+							ckItemDelete(data.item_id);
+						}
 						let br = document.createElement("br");
 						
 						document.querySelector("#checkbody"+ckid).append(input);
-						document.querySelector("#checkbody"+ckid).append( newitem);
+						document.querySelector("#checkbody"+ckid).append(newitem);
+						document.querySelector("#checkbody"+ckid).append(i);
 						document.querySelector("#checkbody"+ckid).append(br);
 						document.querySelector(".additem"+ckid).style.display="block";
+						//클릭이벤트 없애주기
+						document.querySelector("body").removeEventListener("click",checklist_additemCancel);
 					},
 					error : function(){
 						alert("체크리스트 아이템 추가가 실패하였습니다.");
@@ -738,6 +909,42 @@ function addItemBtn(ckid){
 	document.querySelector("#checkbody"+ckid).append(itemInput);
 	document.querySelector("#new_item").focus();
 	event.target.style.display="none"; //add item버튼 없애주기
+	
+	//body클릭시 아이템추가 취소되도록
+	var body = document.querySelector("body");
+	var clickCnt = 0;
+	body.addEventListener("click", checklist_additemCancel);
+	function checklist_additemCancel(){
+		clickCnt += 1;
+		if(event.target == event.currentTarget.querySelector("#new_item"))
+			return ;
+		if(new_item.value == "" && clickCnt > 1){
+			new_item.remove();
+			document.querySelector(".additem"+ckid).style.display="block";
+			//클릭이벤트 없애주기
+			body.removeEventListener("click",checklist_additemCancel);
+		}
+	}
+}
+
+//체크리스트 아이템 삭제
+function ckItemDelete(item_id){
+	$.ajax({
+		url : "AjaxCheckListItemDelete",
+		type : "POST",
+		data : {
+			item_id : item_id
+		},
+		dataType : "text",
+		success : function(data){
+			if(data == "YES"){
+				window.location.reload();
+			}
+		},
+		error : function(){
+			console.log("AjaxCheckListItemDelete 체크리스트 아이템 삭제 실패");
+		}
+	})
 }
 
 //체크리스트 아이템
@@ -784,5 +991,80 @@ function checkItem(ckid,itemid){
 			console.log("AjaxCheckListItemStatusUpdate 아이템상태변경 실패");
 		}
 	})
+}
+
+//체크리스트 아이템 수정
+function itemTitleRename(item_id){
+	let appendTarget = event.target.parentElement;
+	let checkBox = event.target.previousElementSibling;
+	let delbtn = event.target.nextElementSibling;
+	let eventTarget = event.target;
+	eventTarget.style.display = "none";
+	checkBox.style.display = "none";
+	delbtn.style.display = "none";
+	
+	let itemName = document.createElement("input");
+	itemName.setAttribute("id","ckItemRename");
+	itemName.setAttribute("class","form-control");
+	itemName.style.width="300px";
+	itemName.style.height="20px";
+	itemName.addEventListener("keyup",function(){
+		if (window.event.keyCode == 13) {
+			// 엔터키가 눌렸을때
+			let newItem = ckItemRename.value;
+			if(newItem == ""){
+				newItem.style.border="2px solid red";
+				newItem.setAttribute("placeholder","Please name it.");
+				newItem.focus();
+			}else{
+				$.ajax({
+					url : "AjaxCheckListItemRename",
+					type : "POST",
+					data : {
+						item_id : item_id,
+						item_title : newItem
+					},
+					dataType : "json",
+					success : function(data){
+						console.log(data);
+						eventTarget.innerHTML = "";
+						eventTarget.innerHTML = data.item_title;
+						ckItemRename.remove();
+						checkBox.style.display = "inline-block";
+						eventTarget.style.display = "inline-block";
+						delbtn.style.display = "inline-block";
+						//클릭이벤트 없애주기
+						document.querySelector("body").removeEventListener("click",checklistItem_updateCancel);
+					},
+					error : function(){
+						console.log("AjaxCheckListItemRename 실패");
+					}
+				})
+			}
+		}
+	})
+	appendTarget.append(itemName);
+	ckItemRename.focus();
+	
+	//body클릭시 아이템수정 취소되도록
+	var body = document.querySelector("body");
+	var clickCnt = 0;
+	body.addEventListener("click", checklistItem_updateCancel); 
+	function checklistItem_updateCancel(){
+		clickCnt += 1;
+		if(event.target == event.currentTarget.querySelector("#ckItemTitle"+item_id))
+			return ;
+		if(event.target == event.currentTarget.querySelector("#ckItemRename"))
+			return ;
+		if(ckItemRename.value == "" && clickCnt > 1){
+			ckItemRename.remove();
+			checkBox.style.display = "inline-block";
+			eventTarget.style.display = "inline-block";
+			delbtn.style.display = "inline-block";
+			//클릭이벤트 없애주기
+			body.removeEventListener("click",checklistItem_updateCancel);
+		}
+	}
+	
 }
 

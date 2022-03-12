@@ -122,9 +122,8 @@ document.getElementById("WsName").onclick=function(){ workspaceRename() };
 function workspaceRename(){
     let appendTarget = event.target.parentElement;
 	let wkid = event.target.getAttribute("data-wkid");
+	let originName = event.target.innerHTML; //원래이름
     event.target.remove();
-    // let target = event.target;
-    // target.innerHTML="";
     let WsRename = document.createElement("input");
     WsRename.style.width="260px";
     WsRename.style.height="50px";
@@ -170,20 +169,34 @@ function workspaceRename(){
 						console.log("AjaxWorkspaceRename 아작스 실패");
 					}
 				})
-                
-				
             }
         }
     });
     appendTarget.append(WsRename);
     document.getElementById("WsRename").focus();
-	document.body.onclick=function(){
-		if(event.target != document.querySelector("#WsRename") && event.target != document.querySelector("#WsName")){
-			if(WsRename.value == ""){
-				console.log("f");
-			}else{
-				
-			}		
+
+	//body클릭시 이름수정 취소되도록
+	var body = document.querySelector("body");
+	var clickCnt = 0;
+	body.addEventListener("click", workspace_renameCancel); 
+	function workspace_renameCancel(){
+		clickCnt += 1;
+		if(event.target == event.currentTarget.querySelector("#WsName"))
+			return ;
+		if(event.target == event.currentTarget.querySelector("#WsRename"))
+			return ;
+		if(WsRename.value == "" && clickCnt > 1){
+			document.querySelector("#WsRename").remove();
+			let origin = document.createElement("h3");
+            origin.setAttribute("class","mt-4");
+            origin.setAttribute("id","WsName");
+            origin.onclick=function(){
+                workspaceRename();
+            }
+            origin.innerHTML=originName;
+            document.querySelector(".workspaceNAME").append(origin);
+			//클릭이벤트 없애주기
+			body.removeEventListener("click",workspace_renameCancel);
 		}
 	}
 }

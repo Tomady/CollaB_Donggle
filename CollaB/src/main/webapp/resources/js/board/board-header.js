@@ -82,6 +82,7 @@ function changeWKIMG(newWKname){
 //워크스페이스 이름변경
 document.getElementById("WsName").onclick=function(){ workspaceRename(); }
 function workspaceRename(){
+	let origin = event.target.innerText;
     let target = event.target;
     let wkid = document.getElementById("WsName").getAttribute("data-wkId");
     target.innerHTML="";
@@ -129,10 +130,29 @@ function workspaceRename(){
     });
     target.append(WsRename);
     document.getElementById("WsRename").focus();
+
+	//body클릭시 이름수정 취소되도록
+	var body = document.querySelector("body");
+	var clickCnt = 0;
+	body.addEventListener("click", workspace_renameCancel); 
+	function workspace_renameCancel(){
+		clickCnt += 1;
+		if(event.target == event.currentTarget.querySelector("#WsName"))
+			return ;
+		if(event.target == event.currentTarget.querySelector("#WsRename"))
+			return ;
+		if(WsRename.value == "" && clickCnt > 1){
+			document.querySelector("#WsRename").remove();
+			document.getElementById("WsName").innerHTML=origin;
+		}
+		//클릭이벤트 없애주기
+		body.removeEventListener("click",workspace_renameCancel);
+	}
 }
 
 //보드 이름변경
 document.getElementById("BorName").onclick=function(){
+	let origin = event.target.innerText;
     let target = event.target;
     let boardid = document.getElementById("BorName").getAttribute("data-boardId");
     target.innerHTML="";
@@ -163,7 +183,6 @@ document.getElementById("BorName").onclick=function(){
                 	dataType : "json",
                 	type : "POST",
                 	success : function(data){
-                		console.log(data);
                 		document.querySelector("#BorRename").remove(); //이름적는input태그지워주고
                 		target.innerHTML=newBORName;
                 		document.querySelector(".sidebar_board"+data.board_id).innerHTML = "&nbsp;&nbsp;"+newBORName;
@@ -177,6 +196,24 @@ document.getElementById("BorName").onclick=function(){
     });
     target.append(BorRename);
     document.getElementById("BorRename").focus();
+
+	//body클릭시 이름수정 취소되도록
+	var body = document.querySelector("body");
+	var clickCnt = 0;
+	body.addEventListener("click", board_renameCancel); 
+	function board_renameCancel(){
+		clickCnt += 1;
+		if(event.target == event.currentTarget.querySelector("#BorName"))
+			return ;
+		if(event.target == event.currentTarget.querySelector("#BorRename"))
+			return ;
+		if(BorRename.value == "" && clickCnt > 1){
+			document.querySelector("#BorRename").remove();
+			BorName.innerText = origin;
+			//클릭이벤트 없애주기
+			body.removeEventListener("click",board_renameCancel);
+		}
+	}
 }
 
 //즐겨찾기 버튼 클릭 했을 때
@@ -469,31 +506,39 @@ function closeInvite(){
     document.querySelector(".showInvite").style.display="none";
 }
 
+//보드참여멤버 필터div 열기
+function showFilterDiv(){
+	document.querySelector(".filtermenu").style.display="block";
+}
+
+//보드참여멤버 필터div 닫기
+function closeFilterDiv(){
+	document.querySelector(".filtermenu").style.display="none";
+	window.location.reload();
+}
+
 //보드참여멤버 필터적용
 function filterApply(){
 	const cards = document.querySelectorAll(".caaard"); //해당 페이지의 모든 카드들
-	cards.forEach((card)=>{
-		card.style.display="block";
-	})
+	const checks = document.querySelectorAll(".filterMember"); //해당 페이지의 모든 필터 체크박스
 	
-	const filterMembers = 'input[name="filterMember"]:checked'; 
-	const members = document.querySelectorAll(filterMembers); //체크된 멤버들
-	const ids = new Array(filterMembers.length);
-
-	for(let i=0; i<members.length; i++){
-		ids[i] = members[i].getAttribute("data-memid"); //체크된 멤버들의 id를 ids배열에 담음
-		console.log("체크된 멤버들==="+members[i]);
-	}	
-	console.log("======"+ids);
-	
-	//해당페이지의 모든 카드들의 data-manager 속성이 체크된 멤버들의 id와 같다면 display : block, 아니면 display : none
+	//페이지 내 모든 카드를 none으로 만들기
 	cards.forEach((card)=>{
-		ids.forEach((id)=>{
-			if(card.getAttribute("data-manager") != id){
-				card.style.display = "none";
+		card.setAttribute("style","display:none;");
+	});
+	
+	//카드반복
+	cards.forEach((card)=>{
+		//유저반복
+		checks.forEach((check)=>{
+			if(check.checked){
+				if(card.dataset.manager == check.dataset.memid){
+					card.setAttribute("style","display: block;");
+					return;
+				}
 			}
 		})
-	})				
+	})
 } 
  
 

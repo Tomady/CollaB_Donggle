@@ -4,8 +4,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import co.Donggle.CollaB.calendar.service.calendarMapper;
-import co.Donggle.CollaB.calendar.service.calendarService;
 import co.Donggle.CollaB.card.service.CardVO;
 
 @Repository("calendarDao")
