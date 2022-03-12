@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="co.Donggle.CollaB.memberPage.service.MemberPageUserMapper">
+	
+	<select id="memberPageUserSearch"
+	parameterType="co.Donggle.CollaB.user.service.UserVO"
+	resultType="co.Donggle.CollaB.user.service.UserVO">
+		select * from user_info
+		where email like '%'||#{email}||'%'
+	</select>
+	
+	<select id="memberPageUserSelect"
+	resultType="co.Donggle.CollaB.user.service.UserVO"
+	parameterType="co.Donggle.CollaB.user.service.UserVO">
+		select * from user_info 
+		where id = #{id}
+	</select>
+	
+	<select id="memberPageUserEmailSelect"
+	resultType="co.Donggle.CollaB.user.service.UserVO"
+	parameterType="co.Donggle.CollaB.user.service.UserVO">
+		select * from user_info
+		where email = #{email}
+	</select>
+</mapper>
