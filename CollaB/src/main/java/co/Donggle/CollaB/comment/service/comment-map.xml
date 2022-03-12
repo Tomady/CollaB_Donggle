@@ -11,4 +11,22 @@
 		and A.card_id = #{card_id}
 		ORDER BY COMMENT_GROUP ASC
 	</select>
+	
+	<select id="commentLikeUserIdSelect"
+	resultType="co.Donggle.CollaB.comment.service.CommentVO"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		select * from comment_like
+		where comment_id = #{comment_id}
+	</select>
+	
+	<insert id="commentInsert"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		<selectKey keyProperty="comment_id" order="BEFORE" resultType="int">
+			SELECT NVL(MAX(comment_id),0)+1 FROM card_comment
+		</selectKey>
+		
+		insert into card_comment (comment_id, comment_group, comment_content, card_id, id)
+		values(#{comment_id},#{comment_group},#{comment_content},#{card_id},#{id})
+		
+	</insert>
 </mapper>

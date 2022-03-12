@@ -17,4 +17,16 @@ public class CommentServiceImpl implements CommentService {
 		return map.commentCardIdselectResultUserNameUserNickName(vo);
 	}
 
+	@Override
+	public CommentVO commentLikeUserIdSelect(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentLikeUserIdSelect(vo);
+	}
+
+	@Override
+	public int commentInsert(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentInsert(vo);
+	}
+
 }

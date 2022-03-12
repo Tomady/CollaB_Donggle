@@ -80,6 +80,7 @@ public class LoginController {
 			session.setAttribute("name", vo.getName());
 			session.setAttribute("email", vo.getEmail());
 			session.setAttribute("nickname", vo.getNickname());
+			session.setAttribute("prof_pic", vo.getProf_pic());
 			String nickname = vo.getNickname();
 			return nickname;
 		} else {

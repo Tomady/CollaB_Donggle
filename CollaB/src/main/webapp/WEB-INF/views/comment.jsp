@@ -493,13 +493,21 @@
 .fas__menu {
 	display: none;
 	position: absolute;
-	left: -46px;
-	top: 0px;
+	left: 18px;
+	top: -3px;
 	width: 45px;
 	height: 50px;
-	border-radius: 1px;
+	border-radius: 7px;
+	border: 1px solid black;
+	
 }
-
+.fas__menu__btnC{
+	border-radius: 7px 7px 0 0;
+	border-bottom: 1px solid black;  
+}
+.fas__menu__btnD{
+border-radius:  0 0 7px 7px;
+}
 .fas__menu__btnC, .fas__menu__btnD {
 	width: 100%;
 	height: 50%;
@@ -507,7 +515,7 @@
 	line-height: 25px;
 	/* background-color: #e3eaef; */
 	background-color: #fff;
-	border: 1px solid #b1b6b9;
+	
 }
 
 .fas__menu__btn:first-child {
@@ -567,7 +575,7 @@
 	justify-content: space-between;
 	height: 50px;
 	align-items: center;
-	padding: 0 10px;
+ 	padding: 0 10px; 
 }
 
 .input__Box__btns__left {
@@ -662,6 +670,7 @@
 
 .comment__class__1 {
 	display: flex;
+/* 	padding-right: 5px; */
 }
 
 .comment__row__left {
@@ -679,15 +688,21 @@
 	font-size: 14px;
 	line-height: 20px;
 	border-radius: 1px;
+	display: flex;
+	justify-content: center;
+	border-radius: 4px;
 }
 
 .recomment__btn i {
-	margin-right: 5px;
-	font-size: 15px;
+	display: inline-block;
+	margin-top: 1.8px;
+ 	font-size: 15px; 
+ 	margin-right: 5px; 
 }
 
 .recomment__num {
 	display: inline-block;
+	
 }
 
 .comment__row__right {
@@ -733,6 +748,7 @@
 	justify-content: space-between;
 	font-size: 13px;
 	font-weight: 500;
+	margin-top: 15px;
 }
 
 .comment__class__1__underline {
@@ -752,13 +768,13 @@
 
 .class2 li:last-child {
 	border-bottom: 1px dotted rgb(235, 235, 235);
-	padding-bottom: 15px;
-	margin-bottom: 15px;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 .recomment__row {
-	margin-bottom: 15px;
-	padding-bottom: 15px;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
 	display: flex;
 	width: 100%;
 	display: flex
@@ -798,6 +814,9 @@
 .recomment__wrap {
 	padding: 0 10px 0 0;
 	background-color: rgb(248, 248, 248);
+	display: none;
+	border-radius: 20px;
+	margin-top: 10px;
 }
 
 .recomment__wrap .comment__input__Box {
@@ -806,7 +825,7 @@
 
 .recomment__input__box {
 	/* border-top: 1px dotted rgb(216, 216, 216); */
-	padding: 15px 0px 25px 0px;
+	padding: 15px 0px 20px 0px;
 	display: flex;
 	width: 100%;
 }
@@ -816,7 +835,7 @@
 }
 
 .recomment__box {
- 	padding-top: 15px; 
+/* 	padding-top: 10px; */
 }
 </style>
 								<!-- 댓글 end -->
@@ -830,7 +849,7 @@
 									<div class="card-body">
 										<div class="comment__input__row">
 											<img class="mr-3 rounded-circle" width="40" height="40px"
-												src="resources/assets/img/avatar/avatar-1.png" alt="avatar">
+												src="${prof_pic}" alt="avatar">
 											<div class="comment__input__Box">
 												<div class="textarea__Box">
 													<textarea name="" id=""
@@ -843,7 +862,8 @@
 																class="file__icon fa fa-paperclip ml-1 files"></label> <input
 																type="file" id="input_file" class="input_file"
 																style="display: none;">
-															<button id="emoji-button" class="emoji_button_class1">😀</button>
+															<button id="emoji-button" data="1"
+																class="emoji_button_class1 emojibutEl">😀</button>
 															<div class="comment__input__filetext filetext__class1"></div>
 														</div>
 														<div class="input__Box__btns__right">
@@ -858,171 +878,7 @@
 										<ul
 											class="comment__box mt-4 list-unstyled list-unstyled-border">
 
-											<li class="comment__row">
-												<div class="comment__class__1">
-													<div class="comment__row__left">
-														<img class="mr-3 rounded-circle" width="40" height="40px"
-															src="resources/assets/img/avatar/avatar-1.png"
-															alt="avatar">
-														<div class="recomment__btn">
-															<i class="fas fa-comment-medical"></i><span
-																class="recomment__num">5</span>
-														</div>
-													</div>
-													<div class="comment__row__right">
-														<div class="comment__writer__box">
-															<div class="comment__writer">김은지</div>
-															<div class="fas__fa__menu">
-																<div class="fas fa-bars">
-																	<div class="fas__menu">
-																		<div class="fas__menu__btnC">수정</div>
-																		<div class="fas__menu__btnD">삭제</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<div class="comment__context">댓글댓글댓글</div>
-														<div class="comment__context__file">
-															파일명 : <a href="#">kakao.jsp</a>
-														</div>
-														<div class="comment__info">
-															<span class="comment__date">2022/02/22</span> <span
-																class="comment__right"> <span class="goodBtnRow">
-																	<span class="goodBtnRow__icon">👍🏻</span> <sapn
-																		class="goodBtnRow__num">0</sapn>
-															</span> <span class="badBtnRow"> <span
-																	class="badBtnRow__icon">👎🏻</span> <span
-																	class="badBtnRow__num">0</span>
-															</span>
-															</span> </span>
-														</div>
-													</div>
-												</div>
-												<div class="recomment__wrap">
-													<ul
-														class="recomment__box list-unstyled list-unstyled-border class2">
-														<li class="recomment__row">
-															<div class="recomment__left">
-																<div class="recomment__icon"></div>
-																<img class="mr-3 rounded-circle imgHd" width="40"
-																	height="40px" src="" alt="avatar">
-															</div>
-															<div class="recomment__right">
-																<img class="mr-3 rounded-circle" width="40"
-																	height="40px"
-																	src="resources/assets/img/avatar/avatar-1.png"
-																	alt="avatar">
-																<div class="recomment__content">
-																	<div class="comment__writer__box">
-																		<div class="comment__writer">김은지</div>
-																		<div class="fas__fa__menu">
-																			<div class="fas fa-bars">
-																				<div class="fas__menu">
-																					<div class="fas__menu__btnC">수정</div>
-																					<div class="fas__menu__btnD">삭제</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																	<div class="comment__context">댓글댓글댓글</div>
-																	<div class="comment__context__file">
-																		파일명 : <a href="#">kakao.jsp</a>
-																	</div>
-																	<div class="comment__info">
-																		<span class="comment__date">2022/02/22</span> <span
-																			class="comment__right recommentgoodbadBtn"> <span
-																			class="goodBtnRow"> <span
-																				class="goodBtnRow__icon">👍🏻</span> <sapn
-																					class="goodBtnRow__num">0</sapn>
-																		</span> <span class="badBtnRow"> <span
-																				class="badBtnRow__icon">👎🏻</span> <span
-																				class="badBtnRow__num">0</span>
-																		</span>
-																		</span> </span>
-																	</div>
-																</div>
-															</div>
-														</li>
-														<li class="recomment__row">
-															<div class="recomment__left">
-																<div class="recomment__icon"></div>
-																<img class="mr-3 rounded-circle imgHd" width="40"
-																	height="40px" src="" alt="avatar">
-															</div>
-															<div class="recomment__right">
-																<img class="mr-3 rounded-circle" width="40"
-																	height="40px"
-																	src="resources/assets/img/avatar/avatar-1.png"
-																	alt="avatar">
-																<div class="recomment__content">
-																	<div class="comment__writer__box">
-																		<div class="comment__writer">김은지</div>
-																		<div class="fas__fa__menu">
-																			<div class="fas fa-bars">
-																				<div class="fas__menu">
-																					<div class="fas__menu__btnC">수정</div>
-																					<div class="fas__menu__btnD">삭제</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																	<div class="comment__context">댓글댓글댓글</div>
-																	<div class="comment__context__file">
-																		파일명 : <a href="#">kakao.jsp</a>
-																	</div>
-																	<div class="comment__info">
-																		<span class="comment__date">2022/02/22</span> <span
-																			class="comment__right recommentgoodbadBtn"> <span
-																			class="goodBtnRow"> <span
-																				class="goodBtnRow__icon">👍🏻</span> <span
-																				class="goodBtnRow__num">0</span>
-																		</span> <span class="badBtnRow"> <span
-																				class="badBtnRow__icon">👎🏻</span> <span
-																				class="badBtnRow__num">0</span>
-																		</span>
-																		</span>
-
-																	</div>
-																</div>
-															</div>
-														</li>
-													</ul>
-													<div class="recomment__input__box">
-														<div class="recomment__left">
-															<div class="recomment__icon"></div>
-															<img class="mr-3 rounded-circle imgHd" width="40"
-																height="22px" src="" alt="avatar">
-														</div>
-														<div class="comment__input__row">
-															<img class="mr-3 rounded-circle" width="40" height="40px"
-																src="resources/assets/img/avatar/avatar-1.png"
-																alt="avatar">
-															<div class="comment__input__Box">
-																<div class="textarea__Box">
-																	<textarea name="" id=""
-																		class="textareaEl textareaEl__class2"></textarea>
-																</div>
-																<div class="input__Box__Btns__none">
-																	<div class="input__Box__Btns">
-																		<div class="input__Box__btns__left">
-																			<label for="input_file__re"
-																				class="file__icon fa fa-paperclip ml-1 files"></label>
-																			<input type="file" id="input_file__re"
-																				class="input_file" style="display: none;">
-																			<button id="emoji-button" class="emoji_button_class2">😀</button>
-																			<div
-																				class="comment__input__filetext filetext__class2"></div>
-																		</div>
-																		<div class="input__Box__btns__right">
-																			<div class="save_btn" onclick="test()">SAVE</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</li>
+											
 										</ul>
 
 									</div>
@@ -1054,7 +910,7 @@
 					<img class="mr-3 rounded-circle" width="40" height="40px"
 						src="resources/assets/img/avatar/avatar-1.png" alt="avatar">
 					<div class="recomment__btn">
-						<i class="fas fa-comment-medical"></i><span class="recomment__num">5</span>
+						<i class="fas fa-comment-medical"></i><span class="recomment__num">0</span>
 					</div>
 				</div>
 				<div class="comment__row__right">
@@ -1085,36 +941,23 @@
 				</div>
 			</div>
 			<div class="recomment__wrap">
-				<ul class="recomment__box mt-4 list-unstyled list-unstyled-border class2">
+				<ul
+					class="recomment__box mt-4 list-unstyled list-unstyled-border class2">
 				</ul>
 				<div class="recomment__input__box">
 					<div class="recomment__left">
 						<div class="recomment__icon"></div>
-						<img class="mr-3 rounded-circle imgHd" width="40" height="22px"
+						<img class="mr-3 rounded-circle imgHd" width="20" height="22px"
 							src="" alt="avatar">
 					</div>
 					<div class="comment__input__row">
 						<img class="mr-3 rounded-circle" width="40" height="40px"
-							src="resources/assets/img/avatar/avatar-1.png" alt="avatar">
+							src="${prof_pic}" alt="avatar">
 						<div class="comment__input__Box">
 							<div class="textarea__Box">
 								<textarea name="" id="" class="textareaEl textareaEl__class2"></textarea>
 							</div>
-							<div class="input__Box__Btns__none">
-								<div class="input__Box__Btns">
-									<div class="input__Box__btns__left">
-										<label for="input_file__re"
-											class="file__icon fa fa-paperclip ml-1 files"></label> <input
-											type="file" id="input_file__re" class="input_file"
-											style="display: none;">
-										<button id="emoji-button" class="emoji_button_class2">😀</button>
-										<div class="comment__input__filetext filetext__class2"></div>
-									</div>
-									<div class="input__Box__btns__right">
-										<div class="save_btn" onclick="test()">SAVE</div>
-									</div>
-								</div>
-							</div>
+
 						</div>
 					</div>
 				</div>
@@ -1123,12 +966,31 @@
 
 	</div>
 
+	<div style="display: none;" id="recommentBtnsTemplate">
+		<div class="input__Box__Btns__none">
+			<div class="input__Box__Btns">
+				<div class="input__Box__btns__left">
+					<label for="input_file__re"
+						class="file__icon fa fa-paperclip ml-1 files"></label> <input
+						type="file" id="input_file__re" class="input_file"
+						style="display: none;">
+					<button id="emoji-button" class="emoji_button_class2 emojibutEl">😀</button>
+					<div class="comment__input__filetext filetext__class2"></div>
+				</div>
+				<div class="input__Box__btns__right">
+					<div class="save_btn" onclick="test()">SAVE</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
 	<div style="display: none;" id="recommentTemplate"
 		class="class2Temaplate">
 		<li class="recomment__row">
 			<div class="recomment__left">
 				<div class="recomment__icon"></div>
-				<img class="mr-3 rounded-circle imgHd" width="40" height="40px"
+				<img class="mr-3 rounded-circle imgHd" width="20" height="40px"
 					src="" alt="avatar">
 			</div>
 			<div class="recomment__right">
@@ -1158,7 +1020,7 @@
 						</span> <span class="badBtnRow"> <span class="badBtnRow__icon">👎🏻</span>
 								<span class="badBtnRow__num">0</span>
 						</span>
-						</span> 
+						</span>
 					</div>
 				</div>
 			</div>
@@ -1172,16 +1034,16 @@
 			<img src="" alt="" class="img_preview">
 		</div>
 	</div>
-
+	<input type="hidden" id="currentUserId" value="${id }">
 	<input type="hidden" id="currentCardId" value="${card_id }">
 	<script
 		src="https://cdn.jsdelivr.net/npm/emoji-button@0.6.0/dist/index.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-	<script>
+	<script id="script">
 	
 
 	const currentCardId = $('#currentCardId').val();
-	
+	const currentUserId = $('#currentUserId').val();
 	CommentApp = {
 			
 			init : async function(){
@@ -1201,7 +1063,7 @@
 		},
 		
 		createComment : function(data){
-			
+			let recommentNum = 0;
 			let prevComment_group;
 			for(let comment of data){
 			
@@ -1217,25 +1079,40 @@
 				let group = comment.comment_group;
 				
 			
-				if(prevComment_group == comment.comment_group){
-	
+				if(prevComment_group == group){
+					recommentNum++ 
 					template = $('#recommentTemplate')
 					template.find('.recomment__row').attr('data-id', id)
-				
+					template.find('.recomment__row').attr('data-group', group)
 					template.find('.recomment__right>img').attr('src', src)
-					template.find('.comment__writer').text(nickname)
-					template.find('.comment__context').text(content)
-							
-				}else{
 					
+				}else{
+// 					if(recommentNum != 0){
+								
+// 						let comment__row = $('.comment__box').find('.comment__row')
+						
+// 						for(let commentbox of comment__row){
+							
+// 							if($(commentbox).attr('data-group')== prevComment_group){
+// 								$(commentbox).find('.recomment__btn').find('.recomment__num').text(recommentNum)
+// 							}
+							
+// 						}
+// 					}
+					recommentNum = 0;
 					template = $('#commentPlusTemplate');
 					template.find('.comment__row').attr('data-id', id)
 					template.find('.comment__row').attr('data-group', group)
 					template.find('.comment__row__left>img').attr('src', src)
-					template.find('.comment__writer').text(nickname)
-					template.find('.comment__context').text(content)
+			
 					
 				}
+				template.find('.comment__writer').text(nickname)
+				template.find('.comment__context').text(content)
+				template.find('.comment__date').text(cdate)
+				template.find('.file__icon').attr('for', 'fileInput'+group)
+				template.find('.input_file').attr('id', 'fileInput'+group)
+				prevComment_group = group
 				
 				if(comment.file_name != null){
 					let fileId = comment.file_id;
@@ -1250,97 +1127,231 @@
 					template.find('.comment__context__file').css('display', 'none')
 				}
 				
-				template.find('.comment__date').text(cdate)
-				template.find('.goodBtnRow__num').text(good)
-				template.find('.badBtnRow__num').text(bad)
+				let comment_like = CommentApp.ajaxComment_likeSelect(commentId)
+				
+				if(comment_like){
+				
+					template.find('.goodBtnRow__num').text(comment_like.comment_good)
+					template.find('.badBtnRow__num').text(comment_like.comment_bad)
+				}else{
+
+					template.find('.goodBtnRow__num').text(0)
+					template.find('.badBtnRow__num').text(0)
+				}
+				
+		
 				
 				if(template.attr('class') == 'class1Temaplate'){
 				
-			
 					$('.comment__box').append(template.html())
 				}else{
-			
-					let comments = $('.comment__row');
-			
-					for(let i=0; i<comments.length; i++){
-				
-						if($(comments[i]).attr('data-group') == group){
-							console.log(i)
-
-							$(comments[i]).find('.recomment__box').append(template.html())
+					
+					
+					let comment__row = $('.comment__box').find('.comment__row')
+					
+					for(let commentbox of comment__row){
+						
+						if($(commentbox).attr('data-group')== group){
+							let recommentNumb = Number($(commentbox).find('.recomment__num').text());
+							recommentNumb += 1;
 							
+							$(commentbox).find('.recomment__num').text(recommentNumb);
+							$(commentbox).find('.recomment__box').append(template.html())
 						}
-
+						
+					}
+					
+				}								
+			}
+			CommentApp.bindEvents();
+		},
+		
+		ajaxComment_likeSelect : function(commentId){
+			let result;
+			$.ajax({
+				url : 'ajaxComment_likeSelect.do',
+				type : 'post',
+				dataType : 'json',
+				async : false,
+				data : {
+					 comment_id : commentId
+				},
+				success : function(data){
+					
+					if(data != null){
+						result = data;
+					}else{
+						result = false;
 					}
 				}
-				prevComment_group = comment.comment_group
-		
 				
-			}
+			})
+			
+			return result;
+		},
+		
+		bindEvents : function(){
+			$(document).on('click', '.recomment__btn', CommentApp.recommentEvt)
+		},
+		
+		recommentEvt : function(event){
+			$(event.target).closest('.comment__row').find('.recomment__wrap').slideToggle()
 		}
+		
 		
 	}
 
 	 $(function(){
 		 CommentApp.init();
 	 })
-	
+	function ajaxCommentGroup(){
+		
+		
+	}
     function commentCreate() {
       let textareaElVal = $(event.target).closest('.comment__input__Box').find('.textareaEl').val()
-      textareaElVal = textareaElVal.replace(/(?:\r\n|\r|\n)/g, '<br />');
-	
-      
+      let file = $('.input_file');
+      textareaElVal = textareaElVal.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+	 
+	  
+	  
+      if(file.val()){
+    	  console.log("파일있음")
+      }else{
+    	  ajaxCommentCreate(textareaElVal)
+      }
+	  
     }
 
-
+    function ajaxCommentCreate(textareaElVal){
+    	let flag = false;
+    	$.ajax({
+    		url : 'ajaxCommentCreate.do',
+    		type : 'post',
+    		dataType : 'text',
+    		async : false,
+    		data : {
+    			id : currentUserId,
+    			card_id : currentCardId,
+    			comment_content : textareaElVal
+    		},
+    		success : function(data){
+    			flag = (data == "true") ? true : false;
+    		}
+    	})
+    	
+    	return flag;
+    }
+    
     window.addEventListener('DOMContentLoaded', () => {
+
       EmojiButton(document.querySelector('.emoji_button_class1'), function (emoji) {
+    	
         document.querySelector('.textareaEl__class1').value += emoji;
       });
+      
+   
 
-      EmojiButton(document.querySelector('.emoji_button_class2'), function (emoji) {
-        document.querySelector('.textareaEl__class2').value += emoji;
-      });
     });
 
-  
-    function textareaHeight(textEl) {
-      var textEle = $(textEl);
-      textEle[0].style.height = '20px';
-      var textEleHeight = textEle.prop('scrollHeight');
-      textEle.css('height', textEleHeight);
-    };
-    var textEle = $('.textareaEl');
-    textEle.on('keydown keyup', function (e) {
-      textareaHeight(e.target);
-    });
-
-    textEle.on('focus', function (e) {
-      console.log($(e.target))
-      $(e.target).closest('.comment__input__Box').find('.input__Box__Btns__none').slideDown(200)
  
-    })
+ 
 
+ $(document).on('keydown keyup', '.textareaEl', textareaHeightFn)
+ $(document).on('focus', '.textareaEl__class1', textareaFocusFn)
+ $(document).on('focus', '.textareaEl__class2', textarea2FocusFn)
+ $(document).on('change', '.input_file', inputFileFn)
+ 	// 텍스트 크기 이벤
+    function textareaHeightFn(event){
+    	var textEle = $(event.target);
+    	textEle[0].style.height = '20px';
+    	var textEleHeight = textEle.prop('scrollHeight');
+    	textEle.css('height', textEleHeight)
+    }
+ // 텍스트 히든 창 노출 이벤
+ function textareaFocusFn(event){
+    	$(event.target).closest('.comment__input__Box').find('.input__Box__Btns__none').slideDown(200)
+    }
+ 
+ function textarea2FocusFn(event){	
+	 let parentEl = $(event.target).closest('.comment__input__Box');
+		
+	 let tgEl = $(event.target)
+	 
+	 
+	 if(parentEl.find('.input__Box__Btns__none').length){
+		 console.log("return;")
+		 
+	 }else{
+		 
+		 let tgElClass = $('.targetClass')
+		 if(tgElClass.length){
+			 
+			 
+			 tgElClass.closest('.comment__input__Box').find('.input__Box__Btns__none').slideUp(200)
+		
+			 tgElClass.removeClass('targetClass')
+			 setTimeout(function() {
+				 tgElClass.closest('.comment__input__Box').find('.input__Box__Btns__none').remove();
+		    	 }, 200);  	
+			 
+			 setTimeout(function() {
+					let btnsEl = $('#recommentBtnsTemplate');
+					tgEl.addClass('targetClass')
+				
+					 $(event.target).parent().parent().append(btnsEl.html())
+					 $(event.target).parent().parent().find('.input__Box__Btns__none').slideDown(200)
+					 
+					 EmojiButton(document.querySelector('.emoji_button_class2'), function (emoji) {
+						   
+						 document.querySelector('.targetClass').value += emoji;
+				
+				 	 });
+			 }, 200);  
 
+			 
+		 }else{
+			let btnsEl = $('#recommentBtnsTemplate');
+			tgEl.addClass('targetClass')
+			 $(event.target).parent().parent().append(btnsEl.html())
+			 $(event.target).parent().parent().find('.input__Box__Btns__none').slideDown(200)
+			 
+			 EmojiButton(document.querySelector('.emoji_button_class2'), function (emoji) {
+				   
+				 document.querySelector('.targetClass').value += emoji;
+		
+		 	 });
+			 
+		 }
+	 }
 
+ }
 
-    $('.input_file').on('change', function (e) {
-      readText(e.target)
-    })
+ function inputFileFn(event){
+	 console.log("dkfjdlfkjdkfj")
+	 readText(event.target)
+ }
+ // 파일 
+
   
 
     function readText(input) {
+	
       let tgInput = input;
       if (input.files && input.files[0]) {
-        $(tgInput).parent().find('.comment__input__filetext').text("파일명 : " + input.files[0].name)
+    	  console.log("여기")
+    	  console.log($(tgInput).closest('.input__Box__Btns'))
+        $(tgInput).closest('.input__Box__Btns').find('.comment__input__filetext').text("파일명 : " + input.files[0].name)
       }
     }
-
-    $('.comment__input__filetext').on('click', function (e) {
-
-      let input = e.target.parentNode.querySelector('.input_file');
+ // 파일
+ $(document).on('click', '.comment__input__filetext', fileClickFn)
+ 
+ 	function fileClickFn(e){
+	  let input = e.target.parentNode.querySelector('.input_file');
 
       console.log(input.files[0].type.match(/image\//))
+      
       if (!input.files[0].type.match(/image\//)) {
         return;
       }
@@ -1351,8 +1362,8 @@
         $('.img__box__wrap').css('display', 'block')
       }
       reader.readAsDataURL(input.files[0])
-
-    })
+ }
+   
 
 
     $(document).on('click', '.goodBtnRow', goodBtnRowFn)
@@ -1374,15 +1385,13 @@
     }
 
 
-    let menubtn = $('.fas__fa__menu');
-
-    menubtn.on('click', menuShowFn)
+  
+	$(document).on('click', '.fas__fa__menu', menuShowFn)
+    
 
 
     function menuShowFn(e) {
-      $(e.target).find('.fas__menu').show()
-
-
+      $(e.target).find('.fas__menu').toggle()
     }
 
 
@@ -1408,9 +1417,16 @@
         $('.textareaEl__class1').closest('.comment__input__Box').find('.input__Box__Btns__none').slideUp(200)
       }
       
-      if (!tgPoint.closest('.comment__input__Box').length && $('.textareaEl__class2').val() == '' && $(
-          '.filetext__class2').text() == '') {
+      console.log(tgPoint.hasClass('comment__input__Box'))
+      if (!tgPoint.closest('.comment__input__Box').length && $('.targetClass').val() == '' && $(
+          '.filetext__class2').text() == ''&& !tgPoint.hasClass('.emoji-picker')) {
         $('.textareaEl__class2').closest('.comment__input__Box').find('.input__Box__Btns__none').slideUp(200)
+     
+        setTimeout(function() {
+          $('.textareaEl__class2').closest('.comment__input__Box').find('.input__Box__Btns__none').remove();
+          let targetClass = $('.targetClass')
+          targetClass.removeClass('targetClass')
+        	}, 200);
       }
    
       
