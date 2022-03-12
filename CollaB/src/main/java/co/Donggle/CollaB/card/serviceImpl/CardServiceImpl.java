@@ -149,4 +149,10 @@ public class CardServiceImpl implements CardService {
 	public int deleteCards(ListVO vo) {
 		return map.deleteCards(vo);
 	}
+
+	@Override
+	public List<CardVO> boardCardsSelectList(int board_id) {
+		return map.boardCardsSelectList(board_id);
+	}
+
 }

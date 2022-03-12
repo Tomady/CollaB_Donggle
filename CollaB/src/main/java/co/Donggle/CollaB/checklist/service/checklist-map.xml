@@ -42,4 +42,12 @@
 		SELECT * FROM CHECKLIST
 		WHERE CHECKLIST_ID = #{checklist_id}
 	</select>
+	
+	<update id="checklistUpdateTitle"
+	parameterType="co.Donggle.CollaB.checklist.service.checklistVO">
+		UPDATE CHECKLIST
+		SET CHECKLIST_TITLE = #{checklist_title}
+		WHERE CHECKLIST_ID = #{checklist_id}
+	</update>
+	
 </mapper>

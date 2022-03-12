@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.Donggle.CollaB.card.service.CardVO;
@@ -54,14 +55,12 @@ public class checklistController {
 	}
 	
 	// 아이템 삭제하기
-	@RequestMapping("/itemdelete")
-	public String itemdelete(int item_id) {
-		int r = itemInfoDao.deleteitem(item_id);
-		if (r > 0) {
-			return "redirect:checklist.do";
-		} else {
-			return "redirect:cheklist.do";
-		}
+	@ResponseBody
+	@RequestMapping("/AjaxCheckListItemDelete")
+	public String AjaxCheckListItemDelete(itemInfoVO vo) {
+		int n = itemInfoDao.deleteitem(vo);
+		
+		return n > 0 ? "YES" : "NO";
 	}
 	
 	//카드상세조회 _ 체크리스트삭제 : 매개값 - 체크리스트아이디
@@ -82,5 +81,22 @@ public class checklistController {
 		
 		return n > 0 ? "YES" : "NO";
 	}
-
+	
+	//체크리스트 타이틀 수정
+	@ResponseBody
+	@RequestMapping("/AjaxCheckListRename")
+	public checklistVO AjaxCheckListRename(checklistVO vo) {
+		checklistDao.checklistUpdateTitle(vo);
+		
+		return checklistDao.selectCheckList(vo);	 
+	}
+	
+	//체크리스트 아이템 수정
+	@ResponseBody
+	@RequestMapping("/AjaxCheckListItemRename")
+	public itemInfoVO AjaxCheckListItemRename(itemInfoVO vo) {
+		itemInfoDao.modifyitem(vo);
+		
+		return itemInfoDao.selectItem(vo);
+	}
 }

@@ -277,19 +277,19 @@
                   	data-name="${workspace.workspace_title}" data-id="${workspace.workspace_id}">
 	            	<div class="row ml-5 mr-5">
 						<div class="col-lg-5 d-flex justify-content-between " 
-						style="border:5px solid rgb(199,174,247); border-radius:10px;">
+						style="border:5px solid rgb(206 185 248); border-radius:10px;">
 							<!-- 워크스페이스 하나 클릭시 boards페이지로 이동 -->
 							<div class="btn" style="width:90%;);"
 							onclick="location.href='Boards?wkid=${workspace.workspace_id}'">
 							<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 								style="text-align: right; display: table-cell;">
 								<span class="ml-4 mt-3" 
-								style="color:rgb(199,174,247); font-size:25px; font-weight: bold;">${workspace.workspace_title}</span>
+								style="color:rgb(206 185 248); font-size:25px; font-weight: bold;">${workspace.workspace_title}</span>
 							</div>
 							<div class="row card-header"></div>
 							</div>
 							<!-- 워크스페이스 탈퇴버튼 -->
-							<div class="fa fa-times mt-3" onclick="workspaceJoinDelete(${workspace.workspace_id})"></div>
+							<div class="fa fa-times mt-3" style="color:rgb(206 185 248);" onclick="workspaceJoinDelete(${workspace.workspace_id})"></div>
 						</div>
 						<!-- 해당 워크스페이스의 보드목록 출력버튼-->
                     	<button class="btn mt-5 ml-2 fa fa-chevron-down" onclick="showBoards()">&nbsp;&nbsp;Boards</button>
@@ -325,7 +325,7 @@
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
-												 color:white;">${board.board_Title}</span>
+												 color:#ffeeee;">${board.board_Title}</span>
 											</div>
 											<div class="row card-header"></div>
 										</div>
@@ -339,7 +339,7 @@
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
-												color:white;">${board.board_Title}</span>
+												color:#fde9d6;">${board.board_Title}</span>
 											</div>
 											<div class="row card-header"></div>
 										</div>
@@ -353,7 +353,7 @@
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
-												color:rgb(247, 123, 123);">${board.board_Title}</span>
+												color:rgb(230 201 32);">${board.board_Title}</span>
 											</div>
 											<div class="row card-header"></div>
 										</div>
@@ -362,12 +362,12 @@
 								<!-- 보드색깔지정 : green -->
 								<c:if test="${board.board_thema == 'green'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(86, 161, 111);"
+										<div class="card board" style="background-color:#21ca3d;"
 										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
-												color:white;">${board.board_Title}</span>
+												color:#c9ffd2;">${board.board_Title}</span>
 											</div>
 											<div class="row card-header"></div>
 										</div>
@@ -376,12 +376,12 @@
 								<!-- 보드색깔지정 : skyblue -->
 								<c:if test="${board.board_thema == 'skyblue'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(123, 243, 247);"
+										<div class="card board" style="background-color:#99fcff;"
 										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
-												color:white;">${board.board_Title}</span>
+												color:#4ac1ff;">${board.board_Title}</span>
 											</div>
 											<div class="row card-header"></div>
 										</div>
@@ -395,7 +395,7 @@
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
-												color:rgb(123, 243, 247);">${board.board_Title}</span>
+												color:#d4e2ff;">${board.board_Title}</span>
 											</div>
 											<div class="row card-header"></div>
 										</div>
@@ -409,7 +409,7 @@
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
-												color:rgb(255, 245, 157);">${board.board_Title}</span>
+												color:#dddefa;">${board.board_Title}</span>
 											</div>
 											<div class="row card-header"></div>
 										</div>
@@ -418,12 +418,12 @@
 								<!-- 보드색깔지정 : purple -->
 								<c:if test="${board.board_thema == 'purple'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(171, 127, 252);"
+										<div class="card board" style="background-color:#b28df6;"
 										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
-												color:rgb(250, 167, 243);">${board.board_Title}</span>
+												color:#803bff;">${board.board_Title}</span>
 											</div>
 											<div class="row card-header"></div>
 										</div>
@@ -432,12 +432,12 @@
 								<!-- 보드색깔지정 : pink -->
 								<c:if test="${board.board_thema == 'pink'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:rgb(250, 167, 243);"
+										<div class="card board" style="background-color:#ffd2fb;"
 										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
-												color:rgb(171, 127, 252);">${board.board_Title}</span>
+												color:rgb(250, 167, 243);">${board.board_Title}</span>
 											</div>
 											<div class="row card-header"></div>
 										</div>
@@ -451,7 +451,7 @@
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
-												color:rgb(247, 123, 123);">${board.board_Title}</span>
+												color:#e6e4e4;">${board.board_Title}</span>
 											</div>
 											<div class="row card-header"></div>
 										</div>
@@ -465,7 +465,7 @@
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
-												color:rgb(252, 187, 127);">${board.board_Title}</span>
+												color:#e4e4e4;">${board.board_Title}</span>
 											</div>
 											<div class="row card-header"></div>
 										</div>

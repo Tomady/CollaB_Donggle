@@ -37,4 +37,9 @@ public class checklistServiceImpl implements checklistService {
 	public checklistVO selectCheckList(checklistVO vo) {
 		return checklistMapper.selectCheckList(vo);
 	}
+
+	@Override
+	public int checklistUpdateTitle(checklistVO vo) {
+		return checklistMapper.checklistUpdateTitle(vo);
+	}
 }

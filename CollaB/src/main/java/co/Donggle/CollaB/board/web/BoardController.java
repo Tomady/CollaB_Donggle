@@ -17,6 +17,7 @@ import co.Donggle.CollaB.board.service.BoardVO;
 import co.Donggle.CollaB.card.service.CardService;
 import co.Donggle.CollaB.card.service.CardVO;
 import co.Donggle.CollaB.checklist.service.itemInfoService;
+import co.Donggle.CollaB.checklist.service.itemInfoVO;
 import co.Donggle.CollaB.list.service.ListService;
 import co.Donggle.CollaB.list.service.ListVO;
 import co.Donggle.CollaB.recent.service.RecentService;
@@ -331,10 +332,12 @@ public class BoardController {
 		String userId = (String)session.getAttribute("id");
 		
 		BoardVO boardvo = new BoardVO();
+		CardVO cardvo = new CardVO();
 		boardvo.setId(userId);
 		boardvo.setBoard_id(board_id);
 		int workspace_id = boardDao.boardWorkspaceID(boardvo);
 		boardvo.setWorkspace_id(workspace_id);
+		cardvo.setBoard_id(board_id);
 		
 		//해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID - 사이드
 		model.addAttribute("workspace", boardDao.selectBoard(boardvo));
@@ -362,6 +365,21 @@ public class BoardController {
 		return "board/dashboard";
 	}
 
+	//dashboard 페이지 그릴때 바로 실행 - 해당 보드 내 카드 정보 모두 출력
+	@ResponseBody
+	@RequestMapping("/AjaxBoardCardsSelectList")
+	public List<CardVO> AjaxBoardCardsSelectList(@RequestParam("board_id") int board_id) {
+		
+		return cardDao.boardCardsSelectList(board_id);
+	}
+	
+	//dashboard 페이지 그릴때 바로 실행 - 해당 보드 내 아이템 정보 모두 출력 
+	@ResponseBody
+	@RequestMapping("AjaxCardItemsAll")
+	public List<itemInfoVO> AjaxCardItemsAll(@RequestParam("card_id") int card_id) {
+		
+		return itemInfoDao.cardItemsAll(card_id);
+	}
 //workspaceList페이지에서 사용자가 워크스페이스 클릭시 해당 워크스페이스의 boards페이지로 이동
 //	@RequestMapping("/goBoards")
 //	public String goBoards(HttpServletRequest hsrq,
