@@ -10,6 +10,7 @@
    .boardColor{width: 3%; height: 50px; margin-left: 5%;}
    .default{margin-right: 6%; height: 50px; margin-left: 5%;}
    .boardColor:hover, .default:hover{cursor: pointer;}
+   .caaard{box-shadow: 2px 2px 2px 1px #adb5bd;}
 </style>
 <script type="text/javascript">
 //페이지 그려줄때 테마적용, 사이드바 워크스페이스 이미지적용

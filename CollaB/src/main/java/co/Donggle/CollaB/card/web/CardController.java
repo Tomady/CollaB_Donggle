@@ -1,17 +1,21 @@
 package co.Donggle.CollaB.card.web;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import co.Donggle.CollaB.board.service.BoardService;
 import co.Donggle.CollaB.board.service.BoardVO;
@@ -19,6 +23,8 @@ import co.Donggle.CollaB.card.service.CardService;
 import co.Donggle.CollaB.card.service.CardVO;
 import co.Donggle.CollaB.checklist.service.checklistService;
 import co.Donggle.CollaB.checklist.service.itemInfoService;
+import co.Donggle.CollaB.fileinfo.service.FileInfoService;
+import co.Donggle.CollaB.fileinfo.service.FileInfoVO;
 import co.Donggle.CollaB.list.service.ListService;
 import co.Donggle.CollaB.list.service.ListVO;
 import co.Donggle.CollaB.user.service.UserService;
@@ -33,6 +39,8 @@ public class CardController {
 	@Autowired checklistService checklistDao;
 	@Autowired itemInfoService itemInfoDao;
 	@Autowired UserService userDao;
+	@Autowired FileInfoService fileInfoDao;
+	@Autowired String saveDirectory;
 	
 	//카드 생성
 	@ResponseBody
@@ -224,4 +232,67 @@ public class CardController {
 		
 		return n > 0 ? "YES" : "NO";
 	}
+	
+	//카드 파일업로드
+	@ResponseBody
+	@RequestMapping("/AjaxCardFileUpload")
+	public FileInfoVO AjaxCardFileUpload(FileInfoVO vo, MultipartFile file, HttpSession session) {
+		String filename = file.getOriginalFilename();
+		String pfilename = getRandomIntString(16);
+		String userId = (String)session.getAttribute("id");
+		pfilename = pfilename+filename.substring(filename.lastIndexOf("."));
+		File target = new File(saveDirectory,pfilename);
+		int n = 0;
+		
+		vo.setFile_name(filename);
+		vo.setPfile_name(pfilename);
+		vo.setId(userId);
+		if(!new File(saveDirectory).exists()) {
+			new File(saveDirectory).mkdir();
+		}
+		try {
+			FileCopyUtils.copy(file.getBytes(), target);
+			n = fileInfoDao.cardFileUpload(vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		if(n == 0) {
+			return null;
+		}
+		
+		return  fileInfoDao.cardFileSelect(vo);
+	}
+	
+	private static String getRandomIntString(int length) {
+	      StringBuffer sb = new StringBuffer();
+	      Random random = new Random();
+
+	      for (int i = 1; i <= length; i++) {
+	         if(random.nextBoolean()) {
+	            sb.append((char) ((int) (random.nextInt(26)) + 65));
+	         }else {
+	            sb.append((random.nextInt(10)));
+	         }
+	         if (i % 4 == 0 && i != length) {
+	            sb.append("-");
+	         }
+	      }
+	      
+	      return sb.toString();
+	   }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

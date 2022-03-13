@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.Donggle.CollaB.fileinfo.service.FileInfoMapper">
+	<select id="cardFileSelect"
+	parameterType="co.Donggle.CollaB.fileinfo.service.FileInfoVO"
+	resultType="co.Donggle.CollaB.fileinfo.service.FileInfoVO">
+	 	SELECT * 
+	 	FROM FILE_INFO 
+	 	WHERE FILE_ID = #{file_id}
+	</select>
+	
+	<insert id="cardFileUpload"
+	parameterType="co.Donggle.CollaB.fileinfo.service.FileInfoVO">
+		<selectKey keyProperty="file_id" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(FILE_ID),0)+1 FROM FILE_INFO
+		</selectKey>
+		INSERT INTO FILE_INFO
+		VALUES(#{file_id},#{file_name},#{pfile_name},#{card_id},#{id},sysdate,0)
+	</insert>
+</mapper>
