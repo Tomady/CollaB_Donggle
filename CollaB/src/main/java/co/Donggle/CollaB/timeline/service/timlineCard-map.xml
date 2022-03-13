@@ -17,5 +17,11 @@
 		VALUES (#{card_id}, #{card_title}, #{card_start_date}, #{card_end_date}, #{list_id})
 	</insert>
 		
+	<select id="timeCardSelect" resultType="co.Donggle.CollaB.timeline.service.TimelineCardVO">
+		select CARD_ID, CARD_TITLE, CARD_START_DATE, list_id, CARD_END_DATE + 1 AS CARD_END_DATE
+		from card
+		where list_id = #{list_id}
+		and card_start_date is not null
+	</select>
 
 </mapper>
