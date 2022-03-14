@@ -155,6 +155,22 @@ public class calendarController {
 		return "dateUpdate";
 	}
 	
+	// 리스트 등록
+	@RequestMapping(value = "/calListInsert", method = RequestMethod.POST)
+	@ResponseBody
+	public String calListInsert(HttpSession session, ListVO vo) {
+		String id = (String) session.getAttribute("id");
+		vo.setId(id);
+		listDao.insertList(vo);
+		return "calListInsert";
+	}
 	
+	// 카드 등록
+	@RequestMapping(value = "/calCardInsert", method = RequestMethod.POST)
+	@ResponseBody
+	public String calCardInsert(calendarVO vo) {
+		calendarDao.calCardInsert(vo);
+		return "calCardInsert";
+	}
 	
 }
