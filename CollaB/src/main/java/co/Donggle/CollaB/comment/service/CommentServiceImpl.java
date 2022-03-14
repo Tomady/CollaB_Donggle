@@ -29,4 +29,34 @@ public class CommentServiceImpl implements CommentService {
 		return map.commentInsert(vo);
 	}
 
+	@Override
+	public CommentVO commentMaxGroupSelect(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentMaxGroupSelect(vo);
+	}
+
+	@Override
+	public int commentFileInsert(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentFileInsert(vo);
+	}
+
+	@Override
+	public List<CommentVO> commentFileSelectList() {
+		// TODO Auto-generated method stub
+		return map.commentFileSelectList();
+	}
+
+	@Override
+	public int recommentInsert(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.recommentInsert(vo);
+	}
+
+	@Override
+	public CommentVO recommentMaxOrderSelect(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.recommentMaxOrderSelect(vo);
+	}
+
 }
