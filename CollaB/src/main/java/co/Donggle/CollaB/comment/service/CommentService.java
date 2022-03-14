@@ -19,4 +19,7 @@ public interface CommentService {
 	int commentBadDelete(CommentVO vo);
 	CommentVO commentGoodSelectSum(CommentVO vo);
 	CommentVO commentBadSelectSum(CommentVO vo);
+	int commentDelete(CommentVO vo);
+	int commentFileDelete(CommentVO vo);
+	List<CommentVO> commentGroupListSelect(CommentVO vo);
 }

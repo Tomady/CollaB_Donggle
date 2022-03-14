@@ -98,12 +98,14 @@
 	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
 		delete comment_like_good
 		where id = #{id}
+		and comment_id = #{comment_id}
 	</delete>
 	
 	<delete id="commentBadDelete" 
 	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
 		delete comment_like_bad
 		where id = #{id}
+		and comment_id = #{comment_id}
 	</delete>
 	
 	<insert id="commentBadInsert"
@@ -122,5 +124,25 @@
 	resultType="co.Donggle.CollaB.comment.service.CommentVO">
 		select count(*) as sum from comment_like_bad
         where comment_id = #{comment_id}
+	</select>
+	
+	<delete id="commentDelete"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		delete card_comment
+		where id = #{id}
+		and comment_id = #{comment_id}
+	</delete>
+	
+	<delete id="commentFileDelete"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		delete comment_file_info
+		where comment_id = #{comment_id}
+	</delete>
+	
+	<select id="commentGroupListSelect"
+	resultType="co.Donggle.CollaB.comment.service.CommentVO"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		select * from card_comment
+		where comment_group = #{comment_group}
 	</select>
 </mapper>

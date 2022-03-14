@@ -107,6 +107,24 @@ public class CommentServiceImpl implements CommentService {
 		return map.commentBadSelectSum(vo);
 	}
 
+	@Override
+	public int commentDelete(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentDelete(vo);
+	}
+
+	@Override
+	public int commentFileDelete(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentFileDelete(vo);
+	}
+
+	@Override
+	public List<CommentVO> commentGroupListSelect(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentGroupListSelect(vo);
+	}
+
 	
 
 

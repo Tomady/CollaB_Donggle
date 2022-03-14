@@ -309,7 +309,8 @@ margin: 0;
 	margin: 10vmax auto;
 	border-radius: 10px;
 	padding: 10px;
-	background: rgba(41, 40, 40, 1);
+ 	background: rgba(41, 40, 40, 1); 
+/* 	background: #9F90D9; */
 }
 
 .modals2-content {
