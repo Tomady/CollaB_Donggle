@@ -6,12 +6,16 @@
 <head>
 <meta charset="UTF-8">
 <title>CollaB</title>
+<!-- General CSS Files -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
 
+<!-- Template CSS -->
+<link rel="stylesheet" href="resources/assets/css/style.css">
+<link rel="stylesheet" href="resources/assets/css/components.css">
 
 <link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
-	crossorigin="anonymous">
+	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 <style type="text/css">
@@ -139,7 +143,7 @@ transition-duration: 0.2s;
 	justify-content: flex-end;
 	align-items: center;
 	overflow: hidden;
-	height: 850px;
+	height: 950px;
 	transition: 0.5s;
 	width: 100%;
 	min-width: 1130px;
@@ -416,13 +420,13 @@ body .options .option .label .info .sub {
 			<div class="logo">CollaB</div>
 			<ul>
 				<c:if test="${empty id }">
-					<li><a href="login.do">로그인</a></li>
+					<li><a href="login.do">Sign in</a></li>
 				</c:if>
 				<c:if test="${empty id }">
-					<li><a href="joinForm.do">회원가입</a></li>
+					<li><a href="joinForm.do">Sign up</a></li>
 				</c:if>
 				<c:if test="${not empty id}">
-					<li><a href="javascript:logout()">로그아웃</a></li>
+					<li><a href="javascript:logout()">Sign out</a></li>
 				</c:if>
 				<c:if test="${not empty id}">
 					<li><a href="#">ㅇㅇ?</a></li>
@@ -432,10 +436,10 @@ body .options .option .label .info .sub {
 	</nav>
 	
 	<div class="container-scroller">
-		<div class="container_content ">
-			<h1>초연결 업무 플랫폼 CollaB</h1>
-			<h5>업무를 위한 모든 서비스를 한 공간에서 이용해보세요</h5>
-			<button type="button" onclick="location.href='WorkspaceList'">CollaB 시작하기</button>
+		<div class="container_content mt-3">
+			<h1 style="font-size:80px;">CollaB</h1>
+			<h5>Super-connected business platform</h5>
+			<button class="mb-3 mt-3" onclick="location.href='WorkspaceList'">Let's get started !</button>
 		</div>
 		
 		<!-- 슬라이드 -->
@@ -509,9 +513,10 @@ body .options .option .label .info .sub {
 				</div>
 			</div>
 		</div>
+		<h4 class="mb-5 mt-3">Use all the services for work in one space</h4>
 	</div>
 
-	<div class="body">
+	<div class="body mt-5">
 		<div class="body_content">body content</div>
 		<div class="img">
 			<img src="resources/img/index__body.svg" alt="">
