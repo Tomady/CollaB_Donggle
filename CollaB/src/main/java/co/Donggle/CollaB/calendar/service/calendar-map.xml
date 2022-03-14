@@ -31,5 +31,13 @@
 		WHERE L.BOARD_ID = #{board_id}
 		AND L.LIST_ID = #{list_id}
 	</select>
+	
+	<insert id="calCardInsert" parameterType="co.Donggle.CollaB.calendar.service.calendarVO">
+		<selectKey keyProperty="card_id" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(CARD_ID),0)+1 FROM CARD
+		</selectKey>
+		INSERT INTO CARD(CARD_ID, CARD_TITLE, LIST_ID, CARD_START_DATE, CARD_END_DATE)
+		VALUES(#{card_id},#{card_title},#{list_id},#{card_start_date},#{card_end_date})
+	</insert>
 
 </mapper>

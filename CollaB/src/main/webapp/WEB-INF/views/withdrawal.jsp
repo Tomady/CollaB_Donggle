@@ -236,7 +236,7 @@ label {
 						class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img
 							alt="image" src="resources/assets/img/avatar/avatar-1.png"
 							class="rounded-circle mr-1">
-							<div class="d-sm-none d-lg-inline-block">Hi, Circle</div></a>
+							<div class="d-sm-none d-lg-inline-block">Hi, ${nickname}</div></a>
 						<div class="dropdown-menu dropdown-menu-right">
 							<!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
 							<a class="dropdown-item has-icon" href="myPageMain.do"> <i

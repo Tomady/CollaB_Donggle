@@ -355,8 +355,9 @@ function createCard(obj){
     let target = document.querySelector(".cardArea"+obj.list_id);
 
     let firstDIV = document.createElement("div");
-    firstDIV.setAttribute("class","card card-"+obj.card_label+" ml-2 mr-2");
+    firstDIV.setAttribute("class","caaard card card-"+obj.card_label+" ml-2 mr-2");
     firstDIV.style.cursor="pointer";
+    firstDIV.style.boxShadow="2px 2px 2px 1px #adb5bd";
     firstDIV.setAttribute("id","card"+obj.card_id);
     firstDIV.onclick = function(){
     	location.href="cardDetail?list="+obj.list_id+"&card="+obj.card_id;

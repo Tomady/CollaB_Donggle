@@ -32,12 +32,20 @@ public class calendarServiceImpl implements calendarService {
 
 	@Override
 	public List<CardVO> calendarAllCard(int boardId) {
+		
 		return calendarMapper.calendarAllCard(boardId);
 	}
 
 	@Override
 	public List<CardVO> listPlanList(CardVO vo) {
+
 		return calendarMapper.listPlanList(vo);
+	}
+
+	@Override
+	public int calCardInsert(calendarVO vo) {
+
+		return calendarMapper.calCardInsert(vo);
 	}
 
 }

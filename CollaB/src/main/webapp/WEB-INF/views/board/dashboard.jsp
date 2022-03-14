@@ -219,6 +219,11 @@ document.addEventListener("DOMContentLoaded", function(){
 							front.style.backgroundColor = "rgb(255,90,40)";
 							front.style.height = "30px";
 							front.style.width = yes/totalCnt*200+"px";
+							front.style.color="white";
+							front.style.lineHeight="2.3";
+							if(String(yes/totalCnt*100) != 0){
+								front.innerText = yes/totalCnt*100+"%";
+							}
 							
 							//만든거 조립하기
 							label.append(color);
@@ -388,9 +393,10 @@ document.addEventListener("DOMContentLoaded", function(){
                       <th style="background-color: rgb(248, 248, 248);">Members</th>
                       <td>${boardMemberCnt}</td>
                       <th style="background-color: rgb(248, 248, 248);">Project State</th>
-                      <td>
+                      <td class="d-flex">
                       	<div id="project_state" style="background-color: #dee2e6; 
                       	border-radius:50%; width:35px; height: 35px;"></div>
+                      	<span id="percentage" class="ml-2" style="line-height:2.5"></span>
                       </td>
                     </tr>
                   </tbody>
@@ -439,7 +445,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		nodata=100;
 	}
 	let state = Math.ceil(yesItem/itemTotalCnt*100); //현재 진척도
-	
+	percentage.innerHTML = "("+state+"%)";
 	if(state < 25){
 		project_state.style.backgroundColor="red";
 	}else if(state < 50){
@@ -457,7 +463,7 @@ document.addEventListener("DOMContentLoaded", function(){
       labels: ["Done","Remaining Work","No Work"],
       datasets: [{
         label: "Population (millions)",
-        backgroundColor: ["rgb(102, 250, 110)","rgb(255, 131, 131)","#dee2e6"],
+        backgroundColor: ["#a6fbab","#ffb7b7","#dee2e6"],
         data: [yesItem,noItem,nodata]
       }]
     },

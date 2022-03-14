@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <title>Insert title here</title>
 <style>  
     .cardDetail{
@@ -93,6 +94,20 @@
    	  transition: all 0.2s;
       opacity: 1;
     }
+    .thumbnail{
+      box-shadow : 2px 2px 2px 1px #adb5bd;
+      width : 200px;
+      height : 80px;
+      border : solid 1px #D3D3D3;
+      line-height : 80px;
+      border-radius : 10px;
+      overflow: hidden;
+    }
+	.thumbnail img {
+	  width: 100%;
+	  height: 100%;
+	  object-fit: cover;
+	}
 </style>
 <script type="text/javascript">
 //페이지 그려줌과 동시에 실행
@@ -536,11 +551,23 @@ document.addEventListener("DOMContentLoaded", function(){
                       <div class="card-header" style="font-size: large;">
                         <i class="fa fa-paperclip ml-1 files">&nbsp;&nbsp;Attachments</i>
                       </div>
-                      <div class="card-body">
+                      <div class="card-body" id="file_append_target">
                         <!--여기서부터-->
                         <div class="card">
-                          <div class="card-body">
-                            <div>파일이름<button class="btn ml-2 fa fa-times"></button></div>
+                          <div class="card-body d-flex">
+                          	<div style="box-shadow:2px 2px 2px 1px #adb5bd; width:200px; 
+                          	height:80px; border:solid 1px #D3D3D3; line-height:80px; 
+                          	border-radius:10px;" class="mr-2 text-center thumbnail">
+                          		<h5 style="display:inline-block;">ㅇㅋㅇㅋ</h5>
+                          	</div>
+                            <div class="ml-2 mt-3">
+								<div class="row">
+									<span>&nbsp;&nbsp;&nbsp;파일이름</span>
+								</div>
+								<div class="row">
+									<button class="btn ml-1">Delete</button>
+								</div>
+							</div>
                           </div>
                         </div>
                         <!--여기까지가 하나의 첨부파일-->
@@ -596,13 +623,86 @@ document.addEventListener("DOMContentLoaded", function(){
                     </ul>
                   </div>
                 </div>
+              </div>
             </div>
-          </div>
        	  </div>
         </section>
       </div>
     </div>
   </div>
+<script type="text/javascript">
+//카드 파일업로드
+$("#input-file").on("change", function(){
+	var form = new FormData();
+	form.append("file", $("#input-file")[0].files[0]);
+	form.append("card_id", $("#selectedCard").attr("data-cardId"));
+	$.ajax({
+		url : "AjaxCardFileUpload",
+		type : "POST",
+		data : form,
+		dataType : "json",
+		contentType : false,
+		processData : false,
+		success : function(data){
+			let file_end = (data.file_name).substring((data.file_name).lastIndexOf(".")+1); //확장자명
+			
+			let card = document.createElement("div");
+			card.setAttribute("class","card");
+			let hhhhead = document.createElement("div");
+			hhhhead.setAttribute("class","card-body d-flex");
+			let thumbnail = document.createElement("div");
+			thumbnail.setAttribute("class","mr-2 text-center thumbnail");
+			
+			let cardbody = document.createElement("div");
+			cardbody.setAttribute("class","ml-2 mt-3");
+			let frow = document.createElement("div");
+			frow.setAttribute("class","row");
+			let filename = document.createElement("span");
+			filename.innerHTML = "&nbsp;&nbsp;&nbsp;"+data.file_name;
+			let srow = document.createElement("div");
+			let delbtn = document.createElement("button");
+			delbtn.setAttribute("class","btn");
+			delbtn.innerHTML = "Delete";
+			
+			let input = document.querySelector("#input-file");
+			if(!input.files[0].type.match(/image\//)){
+				let img = document.createElement("img");
+				getFileSrc(input,img);
+				thumbnail.append(img);
+			}else{
+				let thumbname = document.createElement("h5");
+				thumbname.style.display="inline-block";
+				thumbname.innerText=file_end;
+				thumbnail.append(thumbname);
+			}
+			
+			frow.append(filename);
+			srow.append(delbtn);
+			cardbody.append(frow);
+			cardbody.append(srow);
+			hhhhead.append(thumbnail);
+			hhhhead.append(cardbody);
+			card.append(hhhhead);
+			
+			file_append_target.prepend(card);
+		},
+		error : function(){
+			console.log("AjaxCardFileUpload 실패");
+		}
+	})
+})
+ 
+function getFileScr(input, img){
+      var reader = new FileReader();
+      
+      reader.onload = function (e) {
+      	img.setAttribute("src", e.target.result)
+      }
+      reader.readAsDataURL(input.files[0])
+
+ }
+ </script>
+ 
  <!-- 은지 코드 -->
  <script src="resources/js/card/card-details.js"></script>
 </body>

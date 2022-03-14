@@ -78,6 +78,8 @@ public class calendarController {
 		mv.addObject("boardOthers",userDao.outsideBoardMembers(vo));
 		// 해당 보드의 리스트 목록(캘린더 페이지에 리스트 목록)
 		mv.addObject("lists", lists);
+		// 해당 보드가 포함된 워크스페이스 아이디 - 보드헤더
+		mv.addObject("workspaceID", workspaceid);
 			
 		System.out.println(lists);
 			
@@ -153,6 +155,22 @@ public class calendarController {
 		return "dateUpdate";
 	}
 	
+	// 리스트 등록
+	@RequestMapping(value = "/calListInsert", method = RequestMethod.POST)
+	@ResponseBody
+	public String calListInsert(HttpSession session, ListVO vo) {
+		String id = (String) session.getAttribute("id");
+		vo.setId(id);
+		listDao.insertList(vo);
+		return "calListInsert";
+	}
 	
+	// 카드 등록
+	@RequestMapping(value = "/calCardInsert", method = RequestMethod.POST)
+	@ResponseBody
+	public String calCardInsert(calendarVO vo) {
+		calendarDao.calCardInsert(vo);
+		return "calCardInsert";
+	}
 	
 }

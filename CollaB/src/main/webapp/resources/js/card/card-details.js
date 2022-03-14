@@ -433,32 +433,9 @@ function cardCheckListSet(id,cardid){
 										},
 										dataType : "json",
 										success : function(data){
+											//클릭이벤트 없애주기
+											document.querySelector("body").removeEventListener("click",checklist_additemCancel);
 											location.reload();
-											//input박스 지워주고 체크로 만들기 + add item버튼 다시 보이게하기
-											//new_item.remove();
-											
-											//let input = document.createElement("input");
-											//input.setAttribute("type","checkbox");
-											//input.setAttribute("class","mt-1 mb-1 checkitem"+data.checklist_id);
-											//input.onclick=function(){
-												//체크박스 이벤트 걸어주기
-												//checkItem(data.checklist_id,data.item_id);
-											//}
-											//let i = document.createElement("i");
-											//i.setAttribute("class","ml-5 fa fa-times");
-											//i.style.color="#ced4da";
-											//i.style.cursor="pointer";
-											//i.onclick = function(){
-												//아이템 개별삭제 이벤트 걸어주기
-												//ckItemDelete(data.item_id);
-											//}
-											//let br = document.createElement("br");
-											
-											//document.querySelector("#checkbody"+data.checklist_id).append(input);
-											//document.querySelector("#checkbody"+data.checklist_id).append(newitem);
-											//document.querySelector("#checkbody"+data.checklist_id).append(i);
-											//document.querySelector("#checkbody"+data.checklist_id).append(br);
-											//document.querySelector(".additem"+data.checklist_id).style.display="block";
 										},
 										error : function(){
 											console.log("AjaxAddCheckListItem 실패");
@@ -780,6 +757,7 @@ function renameCard(cardId){
 							
 							appendTarget.prepend(h4);
 							document.querySelector(".cardName"+cardId).innerHTML=newCardname;
+							//클릭이벤트 없애주기
 							document.querySelector("body").removeEventListener("click",card_renameCancel);
 						}else if(data == "NO"){
 							console.log("리스트이름수정실패");
@@ -1067,4 +1045,16 @@ function itemTitleRename(item_id){
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
