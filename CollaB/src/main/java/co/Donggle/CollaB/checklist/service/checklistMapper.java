@@ -13,6 +13,8 @@ public interface checklistMapper {
 	List<CardVO> totalCheckList(CardVO vo);
 	//카드상세조회 _ 체크리스트 삭제
 	int chklistDelete(CardVO vo);
+	//카드상세조회 _ 체크리스트 타이틀 수정
+	int checklistUpdateTitle(checklistVO vo);
 	
 	checklistVO selectCheckList(checklistVO vo); //체크리스트 한건조회
 }

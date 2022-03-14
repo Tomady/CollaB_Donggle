@@ -10,6 +10,7 @@
    .boardColor{width: 3%; height: 50px; margin-left: 5%;}
    .default{margin-right: 6%; height: 50px; margin-left: 5%;}
    .boardColor:hover, .default:hover{cursor: pointer;}
+   .caaard{box-shadow: 2px 2px 2px 1px #adb5bd;}
 </style>
 <script type="text/javascript">
 //페이지 그려줄때 테마적용, 사이드바 워크스페이스 이미지적용
@@ -256,7 +257,8 @@ document.addEventListener("DOMContentLoaded", function(){
                </div>
              </div>
              <div class="ml-1 dropdown">
-               <button class="btn btn-secondary dropdown-toggle InviteBTN boardheaderbtn fa fa-user-plus" type="button" 
+               <button class="btn btn-secondary dropdown-toggle InviteBTN boardheaderbtn fa fa-user-plus" 
+               type="button" 
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="showInvite()">
                Invite
                </button>
@@ -286,13 +288,16 @@ document.addEventListener("DOMContentLoaded", function(){
            <div class="btn-group col-rg">
              <button class="btn btn-outline-secondary dropdown-toggle boardheaderFilter" 
              type="button" data-toggle="dropdown" aria-haspopup="true" 
-             aria-expanded="false">Filter </button>
-             <div class="dropdown-menu dropdown-menu-right filtermenu" style="overflow: scroll; height: 300px;">
+             aria-expanded="false" onclick="showFilterDiv()">Filter </button>
+             <div class="dropdown-menu dropdown-menu-right filtermenu" 
+             style="overflow: scroll; height: 300px; display:none;">
+             	<span class="fa fa-times ml-2 mt-1" title="close" style="cursor:pointer;"
+                 onclick="closeFilterDiv()"></span>
                <div class="dropdown-title Members">Your Partners 👫</div>
                <c:forEach items="${boardJoinMembers}" var="boardmember">
                  <a class="dropdown-item" href="#">
                  	<input type="checkbox" name="filterMember" data-memid="${boardmember.id}"
-                 	onclick="filterApply()"> ${boardmember.id}(${boardmember.name})
+                 	onclick="filterApply()" class="filterMember"> ${boardmember.id}(${boardmember.name})
                  </a>						                 	
                </c:forEach>
              </div>
@@ -344,7 +349,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	                   </div>
 	                 </c:if>
 	                 </c:forEach>
-                   <div class="last card-header"> 
+                   <div class="last card-header addCard${list.list_id}"> 
                      <div class="addCardBtn">
                        <h4 class="fas fa-plus ADDCARDBTN" style="cursor:pointer;"
                        onclick="nameCard(${list.list_id})">&nbsp;&nbsp;Add Card</h4>

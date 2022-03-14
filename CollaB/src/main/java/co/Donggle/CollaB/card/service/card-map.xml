@@ -181,4 +181,13 @@
 		DELETE CARD
 		WHERE LIST_ID = #{list_id}
 	</delete>
+	
+	<select id="boardCardsSelectList"
+	parameterType="int"
+	resultType="co.Donggle.CollaB.card.service.CardVO">
+		SELECT C.*
+		FROM LIST L JOIN CARD C
+		ON ( L.LIST_ID = C.LIST_ID)
+		WHERE L.BOARD_ID = #{board_id}
+	</select>
 </mapper>

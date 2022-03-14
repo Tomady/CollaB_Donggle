@@ -391,7 +391,6 @@
                </div>
             </div>
             <!-- 리스트 추가 모달 끝 -->
-		
 	</div>
 
 	<script>
@@ -515,6 +514,7 @@
 					+ "message : " + request.responseText
 					+ "\n" + "error : " + error);
 				}
+
 			});
 		}
 

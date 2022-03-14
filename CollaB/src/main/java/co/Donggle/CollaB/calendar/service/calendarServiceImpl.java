@@ -4,8 +4,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import co.Donggle.CollaB.calendar.service.calendarMapper;
-import co.Donggle.CollaB.calendar.service.calendarService;
 import co.Donggle.CollaB.card.service.CardVO;
 
 @Repository("calendarDao")
@@ -34,12 +32,20 @@ public class calendarServiceImpl implements calendarService {
 
 	@Override
 	public List<CardVO> calendarAllCard(int boardId) {
+		
 		return calendarMapper.calendarAllCard(boardId);
 	}
 
 	@Override
 	public List<CardVO> listPlanList(CardVO vo) {
+
 		return calendarMapper.listPlanList(vo);
+	}
+
+	@Override
+	public int calCardInsert(calendarVO vo) {
+
+		return calendarMapper.calCardInsert(vo);
 	}
 
 }

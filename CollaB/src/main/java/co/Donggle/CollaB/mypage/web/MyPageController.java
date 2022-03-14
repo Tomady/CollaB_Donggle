@@ -17,10 +17,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import co.Donggle.CollaB.mypage.service.MyPageVO;
 import co.Donggle.CollaB.mypage.serviceImpl.MyPageServiceImpl;
+import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 
 @Controller
 public class MyPageController {
-	
+	@Autowired WorkspaceJoinService workspaceJoinDao;
 	@Autowired
 	private MyPageServiceImpl MypageDao;
 	
@@ -36,7 +37,8 @@ public class MyPageController {
 				String id = (String) session.getAttribute("id");
 				vo.setId(id);
 				model.addAttribute("user_info", MypageDao.userSelect(vo) );
-				return "myPage/myPageMain";
+				model.addAttribute("myWorkspaceList",workspaceJoinDao.workspaceJoinList(id));
+				return "myPageMain";
 			}
 			
 			// 마이페이지 프로필 수정 페이지
@@ -45,7 +47,8 @@ public class MyPageController {
 				String id = (String) session.getAttribute("id");
 				vo.setId(id);
 				model.addAttribute("user_info", MypageDao.userSelect(vo) );
-				return "myPage/myProfile";
+				model.addAttribute("myWorkspaceList",workspaceJoinDao.workspaceJoinList(id));
+				return "myProfile";
 			}
 			
 			// 마이페이지 프로필 수정 처리
@@ -80,7 +83,8 @@ public class MyPageController {
 				String id = (String) session.getAttribute("id");
 				vo.setId(id);
 				model.addAttribute("user_info", MypageDao.userSelect(vo) );
-				return "myPage/myInfo";
+				model.addAttribute("myWorkspaceList",workspaceJoinDao.workspaceJoinList(id));
+				return "myInfo";
 			}
 			
 			// 마이페이지 정보 수정 처리
@@ -100,7 +104,8 @@ public class MyPageController {
 				String id = (String) session.getAttribute("id");
 				vo.setId(id);
 				model.addAttribute("user_info", MypageDao.userSelect(vo) );
-				return "myPage/newPw";
+				model.addAttribute("myWorkspaceList",workspaceJoinDao.workspaceJoinList(id));
+				return "newPw";
 			}
 			
 			// 마이페이지 비밀번호 변경 처리
@@ -119,7 +124,7 @@ public class MyPageController {
 			// 회원탈퇴 페이지
 			@RequestMapping("/withdrawal")
 			public String withdrawal() {
-				return "myPage/withdrawal";
+				return "withdrawal";
 			}
 			
 			// 회원탈퇴처리

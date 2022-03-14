@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="co.Donggle.CollaB.comment.service.CommentMapper">
+	<select id="commentCardIdselectResultUserNameUserNickName"
+	resultType="co.Donggle.CollaB.comment.service.CommentVO"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		 select distinct A.*, B.name, B.nickname, B.prof_pic
+		from card_comment A, user_info B
+		where A.id = B.id
+		and A.card_id = #{card_id}
+		ORDER BY COMMENT_GROUP, COMMENT_ORDER
+	</select>
+	
+	<select id="commentLikeUserIdSelect"
+	resultType="co.Donggle.CollaB.comment.service.CommentVO"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		select * from comment_like
+		where comment_id = #{comment_id}
+	</select>
+	
+	<insert id="commentInsert" useGeneratedKeys="true" keyProperty="comment_id"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		<selectKey keyProperty="comment_id" order="BEFORE" resultType="int">
+			SELECT NVL(MAX(comment_id),0)+1 FROM card_comment
+		</selectKey>
+		
+		insert into card_comment (comment_id, comment_group, comment_content, card_id, id, comment_date)
+		values(#{comment_id},#{comment_group},#{comment_content},#{card_id},#{id},#{comment_date})
+		
+	</insert>
+	
+	<select id="commentMaxGroupSelect"
+	resultType="co.Donggle.CollaB.comment.service.CommentVO"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		SELECT NVL(MAX(comment_group),0)+1 as comment_group FROM card_comment
+		where card_id = #{card_id}
+	</select>
+	
+	<insert id="commentFileInsert"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		<selectKey keyProperty="file_id" order="BEFORE" resultType="int">
+			SELECT NVL(MAX(file_id),0)+1 FROM comment_file_info
+		</selectKey>
+		insert into comment_file_info
+		values(#{file_id},#{file_name},#{pfile_name},#{file_date},#{comment_id})
+	</insert>
+	
+	<select id="commentFileSelectList" resultType="co.Donggle.CollaB.comment.service.CommentVO">
+		select * from comment_file_info
+	</select>
+	
+	
+
+	<insert id="recommentInsert" useGeneratedKeys="true" keyProperty="comment_id"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		<selectKey keyProperty="comment_id" order="BEFORE" resultType="int">
+			SELECT NVL(MAX(comment_id),0)+1 FROM card_comment
+		</selectKey>
+		
+		insert into card_comment 
+		values(#{comment_id},#{comment_order},#{comment_group},#{comment_content},#{comment_class},#{card_id},#{id},#{comment_date})
+		
+	</insert>
+	
+	<select id="recommentMaxOrderSelect"
+	resultType="co.Donggle.CollaB.comment.service.CommentVO"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		select nvl(max(comment_order), 0)+1 as comment_order from card_comment
+		where card_id = #{card_id}
+		and comment_group = #{comment_group}
+	
+	</select>
+	
+	
+</mapper>

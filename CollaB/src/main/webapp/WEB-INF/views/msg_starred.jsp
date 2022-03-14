@@ -404,15 +404,15 @@ function unread(){
         <ul class="navbar-nav navbar-right">
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
             <img alt="image" src="resources/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
-            <div class="d-sm-none d-lg-inline-block">Hi, Circle</div></a>
+            <div class="d-sm-none d-lg-inline-block">Hi,${nickname}</div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
-              <a class="dropdown-item has-icon" onclick="mainHead_gotoMypage()">
+              <a class="dropdown-item has-icon" href="/CollaB/myPageMain">
                 <i class="far fa-user"></i> Mypage
               </a>
               <div class="dropdown-divider"></div>
               <!--로그아웃처리 : 세션값삭제-->
-              <a class="dropdown-item has-icon text-danger" onclick="mainHead_logout()">
+              <a class="dropdown-item has-icon text-danger" href="logout.do">
                 <i class="fas fa-sign-out-alt"></i> Logout
               </a>
             </div>
@@ -500,7 +500,7 @@ function unread(){
       <div class="main-sidebar">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand mt-4">
-            <a href="#">Message</a>
+            <a href="WorkspaceList">Colla B</a>
           </div>
           <ul class="sidebar-menu mt-3">
             <li id="newMsgMenu" onclick="newMsgSend('my_modal')">

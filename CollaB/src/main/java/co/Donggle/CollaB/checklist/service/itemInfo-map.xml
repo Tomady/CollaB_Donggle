@@ -16,7 +16,9 @@
 	</insert>
 	
 	<update id="modifyitem" parameterType="co.Donggle.CollaB.checklist.service.itemInfoVO">
-	
+		UPDATE ITEM_INFO
+		SET ITEM_TITLE = #{item_title}
+		WHERE ITEM_ID = #{item_id}
 	</update>
 	
 	<update id="modifyitemyn" parameterType="co.Donggle.CollaB.checklist.service.itemInfoVO">
@@ -73,5 +75,15 @@
                                                    ON(C.LIST_ID = L.LIST_ID)
                                                    WHERE L.BOARD_ID = #{BOARD_ID}))
 		AND I.ITEM_STATUS = 'Y'
+	</select>
+	
+	<select id="cardItemsAll" parameterType="int"
+	resultType="co.Donggle.CollaB.checklist.service.itemInfoVO">
+		SELECT I.*
+		FROM CHECKLIST K JOIN ITEM_INFO I
+		ON ( K.CHECKLIST_ID = I.CHECKLIST_ID)
+		JOIN CARD D
+		ON ( K.CARD_ID = D.CARD_ID)
+		WHERE K.CARD_ID = #{card_id}
 	</select>
 </mapper>

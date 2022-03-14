@@ -98,6 +98,160 @@ document.addEventListener("DOMContentLoaded", function(){
 			img.setAttribute("src","resources/img/workspace_default_profile.png");
 		}
 	}
+	
+	//[Ajax]해당 보드의 모든 카드가져옴
+	let boardId = document.querySelector("#star").dataset.boardid;
+	$.ajax({
+		url : "AjaxBoardCardsSelectList",
+		type : "POST",
+		data : {
+			board_id : boardId
+		},
+		dataType : "json",
+		success : function(cards){
+			for(let card of cards){
+				//카드의 시작일 
+				let startStemp = card.card_start_date;
+				var start = new Date(startStemp);
+				var startMonth = start.getMonth()+1;
+				if(String(start.getMonth()+1).length == 1){
+					startMonth = "0"+(start.getMonth()+1);
+				}
+				var startDay = start.getDate();
+				if(String(start.getDate()).length == 1){
+					startDay = "0"+(start.getDate());
+				}
+				//카드의 종료일
+				let endStemp = card.card_end_date; //카드의 종료일
+				var end = new Date(endStemp);
+				var endMonth = end.getMonth()+1;
+				if(String(end.getMonth()+1).length == 1){
+					endMonth = "0"+(end.getMonth()+1);
+				}
+				var endDay = end.getDate();
+				if(String(end.getDate()).length == 1){
+					endDay = "0"+(end.getDate());
+				}
+				//시작일, 종료일 년-월-일 붙이기
+				var startDate = (start.getFullYear())+"-"+startMonth+"-"+startDay;
+				var endDate = (end.getFullYear())+"-"+endMonth+"-"+endDay;
+				//[Ajax]해당 카드가 가지고 있는 아이템 전부 조회
+				$.ajax({
+					url : "AjaxCardItemsAll",
+					type : "POST",
+					data : {
+						card_id : card.card_id
+					},
+					dataType : "json",
+					success : function(items){
+						//여기서 아이템이 있는 카드만 표에 그리도록 하기
+						if(items.length > 0){
+							let totalCnt = 0; //아이템 총 개수
+							let yes = 0; //체크된 아이템
+							let no = 0; //체크되지 않은 아이템
+							for(let item of items){
+								totalCnt += 1;
+								if(item.item_status == "Y"){
+									yes += 1;
+								}else if(item.item_status == "N"){
+									no += 1;
+								}
+							} 
+							//표에 그려주기
+							let tr = document.createElement("tr");
+							let name = document.createElement("td");
+							name.innerHTML = card.card_title;
+							let state = document.createElement("td");
+							if(no == 0){
+								state.innerHTML = "완료";
+							}else if(no > 0){
+								state.innerHTML = "진행";
+							}
+							let label = document.createElement("td");
+							let color = document.createElement("div");
+							color.style.width = "50px";
+							color.style.height = "15px";
+							color.style.borderRadius = "10px";
+							if(card.card_label == "light"){
+								color.style.backgroundColor = "white";
+								color.style.border = "gray 1px solid";
+							}else if(card.card_label == "danger"){
+								color.style.backgroundColor = "rgb(253, 38, 38)";
+							}else if(card.card_label == "warning"){
+								color.style.backgroundColor = "rgb(255, 184, 52)";
+							}else if(card.card_label == "success"){
+								color.style.backgroundColor = "rgb(58, 231, 95)";
+							}else if(card.card_label == "info"){
+								color.style.backgroundColor = "rgb(0, 217, 255)";
+							}else if(card.card_label == "primary"){
+								color.style.backgroundColor = "rgb(85, 73, 248)";
+							}else if(card.card_label == "secondary"){
+								color.style.backgroundColor = "rgb(165, 165, 165)";
+							}else if(card.card_label == "dark"){
+								color.style.backgroundColor = "rgb(7, 7, 7)";
+							}else{
+								color.innerHTML = "-";
+							}
+							let manager = document.createElement("td");
+							if(card.manager != null){
+								manager.innerHTML = card.manager;
+							}else{
+								manager.innerHTML = "-";
+							}
+							let start_date = document.createElement("td");
+							if(card.card_start_date != null){
+								start_date.innerHTML = startDate;
+							}else{
+								start_date.innerHTML = "-";
+							}
+							let due_date = document.createElement("td");
+							if(card.card_end_date != null){
+								due_date.innerHTML =  endDate;
+							}else{
+								due_date.innerHTML = "-";
+							}
+							let progress = document.createElement("td");
+							let back = document.createElement("div");
+							back.style.backgroundColor = "rgb(221,221,221)";
+							back.style.width = "200px";
+							back.style.height = "30px";
+							let front = document.createElement("div");
+							front.style.backgroundColor = "rgb(255,90,40)";
+							front.style.height = "30px";
+							front.style.width = yes/totalCnt*200+"px";
+							front.style.color="white";
+							front.style.lineHeight="2.3";
+							if(String(yes/totalCnt*100) != 0){
+								front.innerText = yes/totalCnt*100+"%";
+							}
+							
+							//만든거 조립하기
+							label.append(color);
+							back.append(front);
+							progress.append(back);
+							
+							tr.append(name);
+							tr.append(state);
+							tr.append(label);
+							tr.append(manager);
+							tr.append(start_date);
+							tr.append(due_date);
+							tr.append(progress);
+							
+							dashboardCardsInfo.append(tr);
+						}
+					},
+					error : function(){
+						console.log("AjaxCardItemsAll 실패");
+					}
+				})
+			}			
+		},
+		error : function(){
+			console.log("AjaxBoardCardsSelectList 실패");
+		}
+		
+	})
 })
 </script>
 </head>
@@ -239,9 +393,10 @@ document.addEventListener("DOMContentLoaded", function(){
                       <th style="background-color: rgb(248, 248, 248);">Members</th>
                       <td>${boardMemberCnt}</td>
                       <th style="background-color: rgb(248, 248, 248);">Project State</th>
-                      <td>
+                      <td class="d-flex">
                       	<div id="project_state" style="background-color: #dee2e6; 
                       	border-radius:50%; width:35px; height: 35px;"></div>
+                      	<span id="percentage" class="ml-2" style="line-height:2.5"></span>
                       </td>
                     </tr>
                   </tbody>
@@ -256,7 +411,7 @@ document.addEventListener("DOMContentLoaded", function(){
                   <hr>
                   <!--진행상황 상세 : 카드별로-->
                   <div class="card" style="height: 630px; overflow: scroll; overflow-x: hidden;">
-                    <table class="table table-hover">
+                    <table class="table table-hover text-center">
                       <thead>
                         <tr>
                           <th>Card Name</th>
@@ -268,23 +423,8 @@ document.addEventListener("DOMContentLoaded", function(){
                           <th>Progress</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td>카드이름</td>
-                          <td>진행/완료</td>
-                          <td>
-                            <div style="background-color: rgb(248, 59, 59); 
-                            width: 50px; height: 15px; border-radius: 10px;"></div>
-                          </td>
-                          <td>매니저</td>
-                          <td>2022/03/09</td>
-                          <td>2022/03/12</td>
-                          <td>
-                            <div style="background-color: rgb(221, 221, 221); width: 200px; height: 30px;">
-                              <div style="background-color: rgb(255, 90, 40); height: 30px; width: 100px;"></div>
-                            </div>
-                          </td>
-                        </tr>
+                      <tbody id="dashboardCardsInfo">
+                        <!-- 아작스로 가져온 값 붙이기 -->
                       </tbody>
                     </table>
                   </div>
@@ -305,7 +445,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		nodata=100;
 	}
 	let state = Math.ceil(yesItem/itemTotalCnt*100); //현재 진척도
-	
+	percentage.innerHTML = "("+state+"%)";
 	if(state < 25){
 		project_state.style.backgroundColor="red";
 	}else if(state < 50){
@@ -323,7 +463,7 @@ document.addEventListener("DOMContentLoaded", function(){
       labels: ["Done","Remaining Work","No Work"],
       datasets: [{
         label: "Population (millions)",
-        backgroundColor: ["rgb(102, 250, 110)","rgb(255, 131, 131)","#dee2e6"],
+        backgroundColor: ["#a6fbab","#ffb7b7","#dee2e6"],
         data: [yesItem,noItem,nodata]
       }]
     },

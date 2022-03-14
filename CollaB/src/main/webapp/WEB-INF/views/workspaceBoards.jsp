@@ -157,7 +157,9 @@
 					row.style.textAlign="right";
 					row.style.display = "table-cell";
 					let span = document.createElement("span");
+					span.setAttribute("id","borRename"+data.board_id);
 					span.setAttribute("class","ml-4");
+					span.innerHTML = data.board_Title;
 					span.style.fontWeight="bold";
 					//보드이름수정 클릭함수걸기
 					span.addEventListener("click",function(){ 
@@ -178,8 +180,6 @@
 					                input.setAttribute("placeholder","Please name it.");
 					                input.focus();
 					            }else{
-					                document.querySelector("#boardNewName").remove();
-					                target.innerHTML=newBName;
 					                // ajax로 보드 이름변경해주기
 					                $.ajax({
 					                	url : "AjaxBoardRename",
@@ -190,7 +190,8 @@
 					                	dataType : "json",
 					                	type : "POST",
 					                	success : function(data){
-					                		console.log(data);
+					                		document.querySelector("#boardNewName").remove();
+							                target.innerHTML=data.board_Title;
 					                	},
 					                	error : function(){
 					                		console.log("boards페이지 AjaxBoardRename 실패");
@@ -198,11 +199,30 @@
 					                })
 					            }
 					        }
+					    	
 					    });
 					    target.append(input);
 					    document.getElementById("boardNewName").focus();
+					    
+					    //body클릭시 이름수정 취소되도록
+				        var body = document.querySelector("body");
+				    	var clickCnt = 0;
+				    	body.addEventListener("click", board_renameCancel);
+				    	function board_renameCancel(){
+				    		clickCnt += 1;
+				    		if(event.target == event.currentTarget.querySelector("#borRename"))
+				    			return ;
+				    		if(event.target == event.currentTarget.querySelector("#boardNewName"))
+				    			return ;
+				    		if(boardNewName.value == "" && clickCnt > 1){
+				    			document.querySelector("#boardNewName").remove();
+				    			let originName = document.querySelector("#borRename"+data.board_id);
+				    			originName.innerHTML = data.board_Title;
+				    			//클릭 이벤트 없애주기
+				    			body.removeEventListener("click",board_renameCancel);
+				    		}
+				    	}
 					});
-					span.innerHTML = data.board_Title;
 					let i = document.createElement("i");
 					i.setAttribute("class","fa fa-times");
 					i.setAttribute("aria-hidden","true");
@@ -241,61 +261,61 @@
 					})
 					
 					if(data.board_thema == ""){
-						card.style.backgroundColor="rgb(245, 245, 245)";
+						card.style.border="3px solid rgb(245, 245, 245)";
 						secRow.style.backgroundColor="rgb(245, 245, 245)";
 					}else if(data.board_thema == "red"){
-						i.style.color="white";
-						span.style.color="white";
+						i.style.color="#ffeeee";
+						span.style.color="#ffeeee";
 						card.style.backgroundColor="rgb(247, 123, 123)";
 						secRow.style.backgroundColor="rgb(247, 123, 123)";
 					}else if(data.board_thema == "orange"){
-						i.style.color="white";
-						span.style.color="white";
+						i.style.color="#fde9d6";
+						span.style.color="#fde9d6";
 						card.style.backgroundColor="rgb(252, 187, 127)";
 						secRow.style.backgroundColor="rgb(252, 187, 127)";
 					}else if(data.board_thema == "yellow"){
-						i.style.color="rgb(247, 123, 123)";
-						span.style.color="rgb(247, 123, 123)";
+						i.style.color="rgb(230 201 32)";
+						span.style.color="rgb(230 201 32)";
 						card.style.backgroundColor="rgb(255, 245, 157)";
 						secRow.style.backgroundColor="rgb(255, 245, 157)";
 					}else if(data.board_thema == "green"){
-						i.style.color="white";
-						span.style.color="white";
-						card.style.backgroundColor="rgb(86, 161, 111)";
-						secRow.style.backgroundColor="rgb(86, 161, 111)";
+						i.style.color="#075314";
+						span.style.color="#075314";
+						card.style.backgroundColor="#76c483";
+						secRow.style.backgroundColor="#76c483";
 					}else if(data.board_thema == "skyblue"){
-						i.style.color="white";
-						span.style.color="white";
-						card.style.backgroundColor="rgb(123, 243, 247)";
-						secRow.style.backgroundColor="rgb(123, 243, 247)";
+						i.style.color="#4ac1ff";
+						span.style.color="#4ac1ff";
+						card.style.backgroundColor="#99fcff";
+						secRow.style.backgroundColor="#99fcff";
 					}else if(data.board_thema == "blue"){
-						i.style.color="rgb(123, 243, 247)";
-						span.style.color="rgb(123, 243, 247)";
+						i.style.color="#d4e2ff";
+						span.style.color="#d4e2ff";
 						card.style.backgroundColor="rgb(121, 162, 250)";
 						secRow.style.backgroundColor="rgb(121, 162, 250)";
 					}else if(data.board_thema == "darkblue"){
-						i.style.color="rgb(255, 245, 157)";
-						span.style.color="rgb(255, 245, 157)";
+						i.style.color="#dddefa";
+						span.style.color="#dddefa";
 						card.style.backgroundColor="rgb(123, 125, 247)";
 						secRow.style.backgroundColor="rgb(123, 125, 247)";
 					}else if(data.board_thema == "purple"){
-						i.style.color="rgb(250, 167, 243)";
-						span.style.color="rgb(250, 167, 243)";
-						card.style.backgroundColor="rgb(171, 127, 252)";
-						secRow.style.backgroundColor="rgb(171, 127, 252)";
+						i.style.color="#803bff";
+						span.style.color="#803bff";
+						card.style.backgroundColor="#b28df6";
+						secRow.style.backgroundColor="#b28df6";
 					}else if(data.board_thema == "pink"){
-						i.style.color="rgb(171, 127, 252)";
-						span.style.color="rgb(171, 127, 252)"
-						card.style.backgroundColor="rgb(250, 167, 243)";
-						secRow.style.backgroundColor="rgb(250, 167, 243)";
+						i.style.color="rgb(250, 167, 243)";
+						span.style.color="rgb(250, 167, 243)"
+						card.style.backgroundColor="#ffd2fb";
+						secRow.style.backgroundColor="#ffd2fb";
 					}else if(data.board_thema == "gray"){
-						i.style.color="rgb(247, 123, 123)";
-						span.style.color="rgb(247, 123, 123)";
+						i.style.color="#e6e4e4";
+						span.style.color="#e6e4e4";
 						card.style.backgroundColor="rgb(184, 184, 184)";
 						secRow.style.backgroundColor="rgb(184, 184, 184)";
 					}else if(data.board_thema == "darkgray"){
-						i.style.color="rgb(252, 187, 127)";
-						span.style.color="rgb(252, 187, 127)";
+						i.style.color="#e4e4e4";
+						span.style.color="#e4e4e4";
 						card.style.backgroundColor="rgb(116, 115, 115)";
 						secRow.style.backgroundColor="rgb(116, 115, 115)";
 					}else if(data.board_thema == "black"){
@@ -320,6 +340,37 @@
 			}
 		})
 	});
+	function sidebarWorkspace(){
+		if(sidebar_wk_icon.className=="fa fa-caret-up ml-3"){
+			sidebar_wk_icon.className="fa fa-caret-down ml-3";
+		}else if(sidebar_wk_icon.className=="fa fa-caret-down ml-3"){
+			sidebar_wk_icon.className="fa fa-caret-up ml-3";
+		}
+		const wkitems = document.querySelectorAll(".sidebar_workspace_item");
+		wkitems.forEach((wk)=>{
+			if(wk.style.display == "none"){
+				wk.style.display = "block";
+			}else if(wk.style.display == "block"){
+				wk.style.display = "none";
+			}
+		})
+	}
+
+	function sidebarBoard(){
+		if(sidebar_bo_icon.className=="fa fa-caret-up ml-5"){
+			sidebar_bo_icon.className="fa fa-caret-down ml-5";
+		}else if(sidebar_bo_icon.className=="fa fa-caret-down ml-5"){
+			sidebar_bo_icon.className="fa fa-caret-up ml-5";
+		}
+		const boitems = document.querySelectorAll(".sidebar_board_item");
+		boitems.forEach((bo)=>{
+			if(bo.style.display == "none"){
+				bo.style.display = "block";
+			}else if(bo.style.display == "block"){
+				bo.style.display = "none";
+			}
+		})
+	}
 </script>
 </head>
 <body style="background-color: #ECE9FE; overflow:scroll; overflow-x:hidden;">
@@ -371,7 +422,7 @@
         <ul class="navbar-nav navbar-right">
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
             <img alt="image" src="resources/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
-            <div class="d-sm-none d-lg-inline-block">Hi, Circle</div></a>
+            <div class="d-sm-none d-lg-inline-block">Hi, ${nickname}</div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
               <a class="dropdown-item has-icon" href="myPageMain.do">
@@ -500,16 +551,17 @@
                 <span>Files</span>
               </a>
             </li>
-            <li class="menu-header">Your Workspaces</li>
+            <li id="sidebar_workspace" class="menu-header mt-3" onclick="sidebarWorkspace()" style="cursor:pointer;">Your Workspaces<i id="sidebar_wk_icon" class="fa fa-caret-down ml-3" style="font-size:15px;"></i></li>
             <c:forEach items="${workspaceList}" var="workspace">
-            <li>
-            	<a class="nav-link" href="Boards?wkid=${workspace.workspace_id}"><span id="sidebar_workspace${workspace.workspace_id}">&nbsp;&nbsp;${workspace.workspace_title}</span></a>
+            <li class="sidebar_workspace_item" style="display:none;">
+            	<a class="nav-link" href="Boards?wkid=${workspace.workspace_id}">
+            	<span id="sidebar_workspace${workspace.workspace_id}">&nbsp;&nbsp;${workspace.workspace_title}</span></a>
             </li>
             </c:forEach>
             <c:if test="${boardStar ne null}">
-            <li class="menu-header">Your Boards</li>
+            <li id="sidebar_board" class="menu-header" onclick="sidebarBoard()" style="cursor:pointer;">Your Boards<i id="sidebar_bo_icon" class="fa fa-caret-down ml-5" style="font-size:15px;"></i></li>
             <c:forEach items="${boardStar}" var="starBoard">
-            	<li>
+            	<li class="sidebar_board_item" style="display:none;">
             	  <a class="nav-link d-flex justify-content-between sidebar_boardStar${starBoard.board_id}" href="boardDetail?boardID=${starBoard.board_id}">
 	                <span class="sidebar_board${starBoard.board_id}">&nbsp;&nbsp;${starBoard.board_Title}</span>
 	                <span class="sidebarstar${starBoard.board_id} fas fa-star col-rg text-right" style="color:yellow;"></span>
@@ -517,7 +569,7 @@
             	</li>
             </c:forEach>
             <c:forEach items="${unStarBoards}" var="board">
-	            <li>
+	            <li class="sidebar_board_item" style="display:none;">
 	              <a class="nav-link d-flex justify-content-between sidebar_boardStar${board.board_id}" href="boardDetail?boardID=${board.board_id}">
 	                <span class="sidebar_board${board.board_id}">&nbsp;&nbsp;${board.board_Title}</span>
 	              </a>
@@ -545,7 +597,7 @@
                       </div>
                     </div>  
                   </div>
-                  <div class="card-body ml-5 mr-5" style="height: 100vh;">
+                  <div class="card-body ml-5 mr-5" style="height: 75vh;">
                     <!-- 검색창 -->
                     <div class="row d-flex justify-content-end mr-5 ml-5">
                       <form action="#">

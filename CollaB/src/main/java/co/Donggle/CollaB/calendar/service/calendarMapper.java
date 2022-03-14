@@ -11,5 +11,6 @@ public interface calendarMapper {
 	int updateCalendar(calendarVO vo); // 일정 변경
 	List<CardVO> listPlanList(CardVO vo); // 리스트별 일정 목록 가져오기
 	List<CardVO> calendarAllCard(int boardId); // 해당 보드의 모든 카드
+	int calCardInsert(calendarVO vo); // 캘린더 페이지에서 카드 등록하기
 
 }
