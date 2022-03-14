@@ -49,18 +49,6 @@ public class CommentController {
 		return commentDao.commentCardIdselectResultUserNameUserNickName(vo);
 	}
 	
-	@RequestMapping("/ajaxComment_likeSelect.do")
-	@ResponseBody
-	public CommentVO ajaxComment_likeSelect(CommentVO vo) {
-		vo = commentDao.commentLikeUserIdSelect(vo);
-		if(vo == null) {
-			return null;
-		}else {
-			return vo;
-		}
-		
-		 
-	}
 	
 	@RequestMapping("/ajaxCommentInsert.do")
 	@ResponseBody
@@ -230,7 +218,91 @@ public class CommentController {
 		return n;
 		
 	}
+		@RequestMapping("/ajaxGoodBtnChk.do")
+		@ResponseBody
+		public String ajaxGoodBtnChk(CommentVO vo) {
+			vo = commentDao.commentGoodSelect(vo);
+			System.out.println("vo : "+vo);
+			if(vo== null) {
+				return "No";
+			}else {
+				return "Yes";
+			}
 			
+		}
+
+		@RequestMapping("/ajaxBadBtnChk.do")
+		@ResponseBody
+		public String ajaxBadBtnChk(CommentVO vo) {
+			vo = commentDao.commentBadSelect(vo);
+			if(vo == null) {
+				return "No";
+			}else {
+				return "Yes";
+			}
+		}
+		
+		@RequestMapping("/ajaxGoodInsert.do")
+		@ResponseBody
+		public String ajaxGoodInsert(CommentVO vo) {
+			
+			int chk = commentDao.commentGoodInsert(vo);
+			if(chk == 0) {
+				return "No";
+				
+			}else {
+				return "Yes";
+			}
+		}
+		@RequestMapping("/ajaxGoodDelete.do")
+		@ResponseBody
+		public String ajaxGoodDelete(CommentVO vo) {
+			int chk = commentDao.commentGoodDelete(vo);
+			
+			if(chk == 0) {
+				return "No";
+						
+			}else {
+				return "Yes";
+			}
+		}
+		@RequestMapping("/ajaxBadInsert.do")
+		@ResponseBody
+		public String ajaxBadInsert(CommentVO vo) {
+			
+			int chk = commentDao.commentBadInsert(vo);
+			if(chk == 0) {
+				return "No";
+			}else {
+				return "Yes";
+			}
+		}
+		
+		@RequestMapping("/ajaxBadDelect.do")
+		@ResponseBody
+		public String ajaxBadDelect(CommentVO vo) {
+			int chk = commentDao.commentBadDelete(vo);
+			if(chk == 0) {
+				return "No";
+			}else {
+				
+				return "Yes";
+			}
+		}
+		
+		@RequestMapping("/ajaxCommentGoodSum.do")
+		@ResponseBody
+		public int ajaxCommentGoodSum(CommentVO vo) {
+			vo = commentDao.commentGoodSelectSum(vo);
+			return vo.getSum();
+		}
+		
+		@RequestMapping("/ajaxCommentBadSum.do")
+		@ResponseBody
+		public int ajaxCommentBadSum(CommentVO vo) {
+			vo = commentDao.commentBadSelectSum(vo);
+			return vo.getSum();
+		}
 	
 //	@RequestMapping("/commentDownload.do")
 //	public void commentDownload(HttpServletRequest req, HttpServletResponse resp,String pfile_name) throws IOException {

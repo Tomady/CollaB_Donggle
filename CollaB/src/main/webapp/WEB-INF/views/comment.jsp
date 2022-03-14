@@ -80,8 +80,8 @@
 	color: gray;
 }
 
-.card-body {
-	border: 5px solid rgb(248, 248, 248);
+.comment__card__body {
+	border: 5px solid rgb(235, 235, 235);
 	border-radius: 20px;
 }
 </style>
@@ -841,7 +841,7 @@
 
 .recomment__wrap {
 	padding: 0 10px 0 10px;
-	background-color: rgb(248, 248, 248);
+	background-color: rgb(235, 235, 235);
 	display: none;
 	border-radius: 20px;
 	margin-top: 10px;
@@ -879,7 +879,7 @@
 									<h4 class="cardName ml-2">
 										Activity <i class="fa fa-comment" aria-hidden="true"></i>
 									</h4>
-									<div class="card-body">
+									<div class="card-body comment__card__body">
 										<div class="comment__input__row">
 											<img class="mr-3 rounded-circle" width="40" height="40px"
 												src="${prof_pic}" alt="avatar">
@@ -934,7 +934,7 @@
 		<li class="comment__row">
 			<div class="comment__class__1">
 				<div class="comment__row__left">
-					<img class="mr-3 rounded-circle" width="40" height="40px"
+					<img class="mr-3 rounded-circle" width="30" height="30px"
 						src="resources/assets/img/avatar/avatar-1.png" alt="avatar">
 					<div class="recomment__btn">
 						<i class="fas fa-comment-medical"></i><span class="recomment__num">0</span>
@@ -1134,6 +1134,7 @@
 					recommentNum++ 
 					template = $('#recommentTemplate')
 					template.find('.recomment__row').attr('data-id', id)
+					template.find('.recomment__row').attr('data-commentId', commentId)
 					template.find('.recomment__row').attr('data-group', group)
 					template.find('.recomment__row').attr('data-order', comment_order)
 					template.find('.recomment__right>img').attr('src', src)
@@ -1143,6 +1144,7 @@
 					recommentNum = 0;
 					template = $('#commentPlusTemplate');
 					template.find('.comment__row').attr('data-id', id)
+					template.find('.comment__row').attr('data-commentId', commentId)
 					template.find('.comment__row').attr('data-group', group)
 					template.find('.comment__row__left>img').attr('src', src)
 			
@@ -1154,6 +1156,7 @@
 				template.find('.comment__date').text(cdate)
 				template.find('.file__icon').attr('for', 'fileInput'+group)
 				template.find('.input_file').attr('id', 'fileInput'+group)
+				template.find('.comment__info').attr('data-commentId', commentId)
 								
 				
 				prevComment_group = group
@@ -1181,20 +1184,21 @@
 				}else{
 					template.find('.comment__context__file').css('display', 'none')
 				}
+				let commentBadSum = CommentApp.ajaxCommentBadSum(commentId) 
+				let commentGoodSum = CommentApp.ajaxCommentGoodSum(commentId)
 				
-				let comment_like = CommentApp.ajaxComment_likeSelect(commentId)
-				
-				if(comment_like){
-				
-					template.find('.goodBtnRow__num').text(comment_like.comment_good)
-					template.find('.badBtnRow__num').text(comment_like.comment_bad)
-				}else{
-
+				if(commentGoodSum == 0){
 					template.find('.goodBtnRow__num').text(0)
-					template.find('.badBtnRow__num').text(0)
+				}else{
+					template.find('.goodBtnRow__num').text(commentGoodSum)
 				}
 				
-		
+				if(commentBadSum == 0){
+					template.find('.badBtnRow__num').text(0)
+				}else{
+					template.find('.badBtnRow__num').text(commentBadSum)
+				}
+
 				
 				if(template.attr('class') == 'class1Temaplate'){
 				
@@ -1224,22 +1228,22 @@
 			CommentApp.bindEvents();
 		},
 		
-		ajaxComment_likeSelect : function(commentId){
+		ajaxCommentGoodSum : function(commentId){
 			let result;
 			$.ajax({
-				url : 'ajaxComment_likeSelect.do',
+				url : 'ajaxCommentGoodSum.do',
 				type : 'post',
-				dataType : 'json',
+				dataType : 'text',
 				async : false,
 				data : {
 					 comment_id : commentId
 				},
 				success : function(data){
-					
+				
 					if(data != null){
 						result = data;
 					}else{
-						result = false;
+						result = 0;
 					}
 				}
 				
@@ -1247,6 +1251,28 @@
 			
 			return result;
 		},
+		
+		ajaxCommentBadSum : function(commentId){
+			
+			let result;
+			
+			$.ajax({
+				url : 'ajaxCommentBadSum.do',
+				type : 'post',
+				dataType : 'text',
+				async : false,
+				data : {
+					comment_id : commentId
+				},
+				success : function(data){
+					result = data
+				}
+			})
+			
+			return result;
+		}
+		
+		,
 		
 		bindEvents : function(){
 			$(document).on('click', '.recomment__btn', CommentApp.recommentEvt)
@@ -1807,17 +1833,26 @@
    
 
     });
-
+    $(document).on('click', '.context__file__prev__imgBox', commentImgprevFn)
  $(document).on('keydown keyup', '.textareaEl', textareaHeightFn)
  $(document).on('focus', '.textareaEl__class1', textareaFocusFn)
  $(document).on('focus', '.textareaEl__class2', textarea2FocusFn)
  $(document).on('change', '.input_file', inputFileFn)
  
  
+ 
  	//파일 a태그 눌렀을때 이벤 
- 	function fileContentFn(){
-	 
- }
+ 	function commentImgprevFn(event){
+  
+      let src = $(event.target).attr('src');
+
+      var image = $('.img_preview');
+      image.attr('src', src)
+      
+      $('.img__box__wrap').css('display', 'block')
+ 
+ 
+    }
  
  
  	// 텍스트 크기 이벤
@@ -1929,22 +1964,156 @@
 
     $(document).on('click', '.goodBtnRow', goodBtnRowFn)
     $(document).on('click', '.badBtnRow', badBtnRowFn)
+	
+    function badBtnRowFn(e){
+    	
+    	  let userId = ajaxGetSessionUserId();
+    	  let targetCommentId = $(e.target).closest('.comment__info').attr("data-commentid")
+    	  let badBtnRow__num = $(e.target).parent().find('.badBtnRow__num');
+    	  let badBtnRow__numVal = Number(badBtnRow__num.text())
+    	  let targetChkd = ajaxBadBtnChk(targetCommentId, userId)
+    
+    	  if(targetChkd == "No"){
+    		  badBtnRow__numVal = badBtnRow__numVal +1; 
+			  	ajaxBadInsert(targetCommentId, userId)
+    	  }else{
+    		  badBtnRow__numVal = badBtnRow__numVal -1;
+    		  ajaxBadDelect(targetCommentId, userId)
+    	  }
+    	  badBtnRow__num.text(badBtnRow__numVal)
+    }
+    
+	function ajaxBadDelect(targetCommentId, userId){
+		
+		$.ajax({
+			url : 'ajaxBadDelect.do',
+			type : 'post',
+			dataType : 'text',
+			data : {
+				comment_id : targetCommentId,
+				id : userId
+			},
+			success : function(data){
+				console.log(data)
+			}
+		})
+		
+	}
 
+    
+ 
     function goodBtnRowFn(e) {
-
-      let btnParent = $(e.target).parent();
-      let goodBtnRow__num = btnParent.find('.goodBtnRow__num');
-      let goodBtnRow__numVal = Number(goodBtnRow__num.text())
-      goodBtnRow__num.text(goodBtnRow__numVal + 1);
+    	  let userId = ajaxGetSessionUserId();
+		  let targetCommentId = $(e.target).closest('.comment__info').attr("data-commentid")
+		
+	  
+	      let goodBtnRow__num = $(e.target).parent().find('.goodBtnRow__num');
+	   
+	     
+	      let goodBtnRow__numVal = Number(goodBtnRow__num.text())
+	    
+	  
+		  let targetChkd = ajaxGoodBtnChk(targetCommentId, userId)
+		  console.log(targetChkd)
+		  if(targetChkd == "No"){
+			  
+			  	goodBtnRow__numVal = goodBtnRow__numVal+1; 
+			  	ajaxGoodInsert(targetCommentId, userId)
+		  }else{
+			  
+			  goodBtnRow__numVal = goodBtnRow__numVal-1;
+		 		ajaxGoodDelete(targetCommentId, userId)
+	    }
+		  goodBtnRow__num.text(goodBtnRow__numVal);
+	  }
+    
+    function ajaxBadBtnChk(targetCommentId, userId){
+    		let result;
+    	$.ajax({
+    		url : 'ajaxBadBtnChk.do',
+    		type : 'post',
+    		dataType : 'text',
+    		async : false,
+    		data : {
+    			comment_id : targetCommentId,
+    			id : userId
+    		},
+    		success : function(data){
+    			result = data;
+    		}
+    	})
+    	return result;
+    	
     }
-
-    function badBtnRowFn(e) {
-      let btnParent = $(e.target).parent();
-      let goodBtnRow__num = btnParent.find('.badBtnRow__num');
-      let goodBtnRow__numVal = Number(goodBtnRow__num.text())
-      goodBtnRow__num.text(goodBtnRow__numVal + 1);
+    
+  
+    function ajaxGoodDelete(targetCommentId, userId){
+    	
+    	$.ajax({
+    		url : 'ajaxGoodDelete.do',
+    		type : 'post',
+    		dataType : 'text',
+    		data : {
+    			comment_id : targetCommentId,
+    			id : userId
+    		},
+    		success : function(data){
+    			console.log(data)
+    		}
+    	})
     }
-
+    function ajaxBadInsert(targetCommentId, userId){
+    		console.log("?DFDfkdl")
+    		$.ajax({
+    			url : 'ajaxBadInsert.do',
+    			type : 'post',
+    			dataType : 'text',
+    			data : {
+    				comment_id : targetCommentId,
+        			id : userId
+    			},
+    			success : function(data){
+    				console.log(data)
+    			}
+    		})
+    	}
+    function ajaxGoodInsert(targetCommentId, userId){
+    	
+    	$.ajax({
+    		url : 'ajaxGoodInsert.do',
+    		type : 'post',
+    		dataType : 'text',
+    		data : {
+    			comment_id : targetCommentId,
+    			id : userId
+    		},
+    		success : function(data){
+    			console.log(data)
+    		}
+    	})
+    }
+    
+    function ajaxGoodBtnChk(targetCommentId, userId){
+    	let result;
+    	$.ajax({
+    		url : 'ajaxGoodBtnChk.do',
+    		type : 'post',
+    		dataType: 'text',
+    		async : false,
+    		data : {
+    			comment_id : targetCommentId,
+    			id : userId
+    		}, 
+    		success : function(data){
+    			console.log("data : "+ data)
+    			result = data;
+    		
+    		}
+    	
+    	})
+    	return result;
+    }
+  
 
   
 	$(document).on('click', '.fas__fa__menu', menuShowFn)
@@ -1998,6 +2167,8 @@
 
     })
 
+    
+    
 
     $('.fas__menu__btnC').on('click', function () {
       console.log('수정')

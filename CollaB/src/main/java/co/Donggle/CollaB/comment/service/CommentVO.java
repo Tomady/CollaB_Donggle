@@ -19,11 +19,9 @@ public class CommentVO {
 	private String id;
 	private Date comment_date;
 	
-	
+	private int sum;
 	// commentLikeVO
-	private int comment_num;
-	private int comment_good;
-	private int comment_bad;
+
 //	private int comment_id;
 //	private String id;
 	

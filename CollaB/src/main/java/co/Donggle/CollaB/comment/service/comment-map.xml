@@ -72,5 +72,55 @@
 	
 	</select>
 	
+	<select id="commentGoodSelect"
+	resultType="co.Donggle.CollaB.comment.service.CommentVO"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		select * from comment_like_good
+		where id = #{id}
+		and comment_id = #{comment_id}
+	</select>
 	
+	<select id="commentBadSelect"
+	resultType="co.Donggle.CollaB.comment.service.CommentVO"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		select * from comment_like_bad
+		where id = #{id}
+		and comment_id = #{comment_id}
+	</select>
+	
+	<insert id="commentGoodInsert"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		insert into comment_like_good
+		values(#{comment_id},#{id})
+	</insert>
+	
+	<delete id="commentGoodDelete"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		delete comment_like_good
+		where id = #{id}
+	</delete>
+	
+	<delete id="commentBadDelete" 
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		delete comment_like_bad
+		where id = #{id}
+	</delete>
+	
+	<insert id="commentBadInsert"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		insert into comment_like_bad
+		values(#{comment_id},#{id})
+	</insert>
+	
+	<select id="commentGoodSelectSum"
+	resultType="co.Donggle.CollaB.comment.service.CommentVO">
+		select count(*) as sum from comment_like_good
+        where comment_id = #{comment_id}
+	</select>
+	
+	<select id="commentBadSelectSum"
+	resultType="co.Donggle.CollaB.comment.service.CommentVO">
+		select count(*) as sum from comment_like_bad
+        where comment_id = #{comment_id}
+	</select>
 </mapper>
