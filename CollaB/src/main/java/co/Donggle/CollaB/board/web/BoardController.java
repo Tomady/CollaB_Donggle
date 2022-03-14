@@ -206,7 +206,7 @@ public class BoardController {
 		model.addAttribute("starYesOrNo", boardDao.boardStarYesOrNo(vo));
 		// 해당 보드의 아이디 - 보드헤더
 		model.addAttribute("boardID", bId);
-		// 해당 보드가 포함된 워크스페이스 아이디
+		// 해당 보드가 포함된 워크스페이스 아이디 - 보드헤더
 		model.addAttribute("workspaceID", workspaceId);
 		// 해당 보드가 포함된 워크스페이스의 모든 멤버-아이디,이름,닉네임,비밀번호,이메일,프로필이미지,연락처,회사,토큰,권한
 		model.addAttribute("workspaceJoinMembers", userDao.workspaceJoinMembers(vo));
@@ -361,6 +361,8 @@ public class BoardController {
 		model.addAttribute("itemsCnt",itemInfoDao.itemInfoTotalCnt(board_id));
 		//해당보드의 모든 체크리스트 아이템 중 상태가 Y인 아이템 개수
 		model.addAttribute("YesItemCnt",itemInfoDao.itemInfoYesState(board_id));
+		// 해당 보드가 포함된 워크스페이스 아이디 - 보드헤더
+		model.addAttribute("workspaceID", workspace_id);
 
 		return "board/dashboard";
 	}

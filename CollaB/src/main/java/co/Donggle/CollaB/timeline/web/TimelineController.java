@@ -82,6 +82,8 @@ public class TimelineController {
 		model.addAttribute("boardJoinMembers", userDao.boardJoinMembers(vo));
 		// 해당워크스페이스멤버 - 해당보드멤버 = 같은워크스페이스 사용하지만 해당 보드에는 없는사람 - 보드헤더
 		model.addAttribute("boardOthers", userDao.outsideBoardMembers(vo));
+		// 해당 보드가 포함된 워크스페이스 아이디 - 보드헤더
+		model.addAttribute("workspaceID", workspaceId);
 
 		return "timeline/timeline";
 	}
