@@ -79,6 +79,11 @@
 	font-size: medium;
 	color: gray;
 }
+
+.card-body {
+	border: 5px solid rgb(248, 248, 248);
+	border-radius: 20px;
+}
 </style>
 
 
@@ -499,15 +504,17 @@
 	height: 50px;
 	border-radius: 7px;
 	border: 1px solid black;
-	
 }
-.fas__menu__btnC{
+
+.fas__menu__btnC {
 	border-radius: 7px 7px 0 0;
-	border-bottom: 1px solid black;  
+	border-bottom: 1px solid black;
 }
-.fas__menu__btnD{
-border-radius:  0 0 7px 7px;
+
+.fas__menu__btnD {
+	border-radius: 0 0 7px 7px;
 }
+
 .fas__menu__btnC, .fas__menu__btnD {
 	width: 100%;
 	height: 50%;
@@ -515,7 +522,6 @@ border-radius:  0 0 7px 7px;
 	line-height: 25px;
 	/* background-color: #e3eaef; */
 	background-color: #fff;
-	
 }
 
 .fas__menu__btn:first-child {
@@ -575,7 +581,7 @@ border-radius:  0 0 7px 7px;
 	justify-content: space-between;
 	height: 50px;
 	align-items: center;
- 	padding: 0 10px; 
+	padding: 0 10px;
 }
 
 .input__Box__btns__left {
@@ -666,11 +672,12 @@ border-radius:  0 0 7px 7px;
 .comment__row {
 	display: flex;
 	flex-direction: column;
+	border-bottom: 1px dotted black;
 }
 
 .comment__class__1 {
 	display: flex;
-/* 	padding-right: 5px; */
+	/* 	padding-right: 5px; */
 }
 
 .comment__row__left {
@@ -696,13 +703,12 @@ border-radius:  0 0 7px 7px;
 .recomment__btn i {
 	display: inline-block;
 	margin-top: 1.8px;
- 	font-size: 15px; 
- 	margin-right: 5px; 
+	font-size: 15px;
+	margin-right: 5px;
 }
 
 .recomment__num {
 	display: inline-block;
-	
 }
 
 .comment__row__right {
@@ -730,16 +736,38 @@ border-radius:  0 0 7px 7px;
 	margin-bottom: 5px;
 	font-size: 14px;
 	color: #98a6ad;
+	min-height: 70px;
+}
+
+.comment__context__file__prev {
+	display: none;
+	align-items: center;
+	border: 3px solid rgb(248, 248, 248);
+	border-radius: 10px;
+	padding: 5px 5px;
+}
+
+.context__file__prev__imgBox {
+	margin-right: 3px;
+	width: 50px;
+	height: 50px;
+	overflow: hidden;
+}
+
+.context__file__prev__imgBox img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .comment__context__file {
 	margin-bottom: 10px;
-	font-size: 15px;
+	font-size: 13px;
 }
 
 .comment__context__file a {
 	text-decoration: underline;
-	font-size: 15px;
+	font-size: 13px;
 	font-weight: 600;
 }
 
@@ -763,11 +791,11 @@ border-radius:  0 0 7px 7px;
 }
 
 .class2 li {
-	border-bottom: 1px dotted rgb(235, 235, 235);
+	border-bottom: 1px dotted rgb(190, 190, 190);
 }
 
 .class2 li:last-child {
-	border-bottom: 1px dotted rgb(235, 235, 235);
+	border-bottom: 1px dotted rgb(190, 190, 190);
 	padding-bottom: 10px;
 	margin-bottom: 10px;
 }
@@ -812,7 +840,7 @@ border-radius:  0 0 7px 7px;
 }
 
 .recomment__wrap {
-	padding: 0 10px 0 0;
+	padding: 0 10px 0 10px;
 	background-color: rgb(248, 248, 248);
 	display: none;
 	border-radius: 20px;
@@ -835,14 +863,19 @@ border-radius:  0 0 7px 7px;
 }
 
 .recomment__box {
-/* 	padding-top: 10px; */
+	/* 	padding-top: 10px; */
+	
+}
+
+.commentContainer {
+	margin: 0 auto;
 }
 </style>
 								<!-- 댓글 end -->
 								<!--카드댓글 #394eea -->
 								<!--////////////////////////재의님 여기예요~!!!/////////////////////-->
 								<!-- <div class="comment__input__top__img"><img id="img_preview" class="img_preview" /></div> -->
-								<div class="col-lg-4 mt-5">
+								<div class="col-lg-4 mt-5 commentContainer">
 									<h4 class="cardName ml-2">
 										Activity <i class="fa fa-comment" aria-hidden="true"></i>
 									</h4>
@@ -860,8 +893,8 @@ border-radius:  0 0 7px 7px;
 														<div class="input__Box__btns__left">
 															<label for="input_file"
 																class="file__icon fa fa-paperclip ml-1 files"></label> <input
-																type="file" id="input_file" class="input_file"
-																style="display: none;">
+																type="file" id="input_file" name="file"
+																class="input_file" style="display: none;">
 															<button id="emoji-button" data="1"
 																class="emoji_button_class1 emojibutEl">😀</button>
 															<div class="comment__input__filetext filetext__class1"></div>
@@ -878,7 +911,7 @@ border-radius:  0 0 7px 7px;
 										<ul
 											class="comment__box mt-4 list-unstyled list-unstyled-border">
 
-											
+
 										</ul>
 
 									</div>
@@ -893,14 +926,8 @@ border-radius:  0 0 7px 7px;
 		</div>
 	</div>
 	<!--이미지 미리보기-->
-	<style>
-.imgpreview {
-	width: 100px;
-	height: 100px;
-	border: 1px solid blue;
-}
-</style>
-	<div class="imgpreview"></div>
+
+
 	<!--이미지 미리보기-->
 	<div class="class1Temaplate" style="display: none;"
 		id="commentPlusTemplate">
@@ -925,9 +952,19 @@ border-radius:  0 0 7px 7px;
 							</div>
 						</div>
 					</div>
+
 					<div class="comment__context"></div>
+					<div class="comment__context__file__prev">
+						<div class="context__file__prev__imgBox">
+							<img alt="" src="">
+						</div>
+						<div class="context__file__prev__text">
+							파일명 : <a href="#" class="fileContent"></a>
+						</div>
+
+					</div>
 					<div class="comment__context__file">
-						파일명 : <a href="#"></a>
+						파일명 : <a href="#" class="fileContent"></a>
 					</div>
 					<div class="comment__info">
 						<span class="comment__date"></span> <span class="comment__right">
@@ -978,7 +1015,7 @@ border-radius:  0 0 7px 7px;
 					<div class="comment__input__filetext filetext__class2"></div>
 				</div>
 				<div class="input__Box__btns__right">
-					<div class="save_btn" onclick="test()">SAVE</div>
+					<div class="save_btn" onclick="createRecomment()">SAVE</div>
 				</div>
 			</div>
 		</div>
@@ -1009,8 +1046,17 @@ border-radius:  0 0 7px 7px;
 						</div>
 					</div>
 					<div class="comment__context"></div>
+					<div class="comment__context__file__prev" style="border: 3px solid #cbc6c6;">
+						<div class="context__file__prev__imgBox">
+							<img alt="" src="">
+						</div>
+						<div class="context__file__prev__text">
+							파일명 : <a href="#" class="fileContent"></a>
+						</div>
+
+					</div>
 					<div class="comment__context__file">
-						파일명 : <a href="#"></a>
+						파일명 : <a href="#" class="fileContent"></a>
 					</div>
 					<div class="comment__info">
 						<span class="comment__date"></span> <span
@@ -1034,16 +1080,16 @@ border-radius:  0 0 7px 7px;
 			<img src="" alt="" class="img_preview">
 		</div>
 	</div>
-	<input type="hidden" id="currentUserId" value="${id }">
+	<input type="hidden" id="currentUserProfPic" value="${prof_pic }">
 	<input type="hidden" id="currentCardId" value="${card_id }">
 	<script
 		src="https://cdn.jsdelivr.net/npm/emoji-button@0.6.0/dist/index.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script id="script">
 	
-
+	
 	const currentCardId = $('#currentCardId').val();
-	const currentUserId = $('#currentUserId').val();
+	const currentUserProfPic = $('#currentUserProfPic').val();
 	CommentApp = {
 			
 			init : async function(){
@@ -1062,9 +1108,13 @@ border-radius:  0 0 7px 7px;
 				})
 		},
 		
+		
+		
 		createComment : function(data){
 			let recommentNum = 0;
 			let prevComment_group;
+			let commentFiles = CommentApp.ajaxFileSelectList();
+			
 			for(let comment of data){
 			
 				let template;
@@ -1073,32 +1123,23 @@ border-radius:  0 0 7px 7px;
 				let id = comment.id;
 				let commentId = comment.comment_id;
 				let content = comment.comment_content;
-				let cdate = comment.comment_date;
+				let sdate = new Date(comment.comment_date);
 				let good = comment.comment_good;
 				let bad = comment.comment_bad;
 				let group = comment.comment_group;
 				
-			
-				if(prevComment_group == group){
+				let cdate = getDateStr(sdate)
+				let comment_order = comment.comment_order;
+				if(prevComment_group == group && comment_order != 0){
 					recommentNum++ 
 					template = $('#recommentTemplate')
 					template.find('.recomment__row').attr('data-id', id)
 					template.find('.recomment__row').attr('data-group', group)
+					template.find('.recomment__row').attr('data-order', comment_order)
 					template.find('.recomment__right>img').attr('src', src)
 					
 				}else{
-// 					if(recommentNum != 0){
-								
-// 						let comment__row = $('.comment__box').find('.comment__row')
-						
-// 						for(let commentbox of comment__row){
-							
-// 							if($(commentbox).attr('data-group')== prevComment_group){
-// 								$(commentbox).find('.recomment__btn').find('.recomment__num').text(recommentNum)
-// 							}
-							
-// 						}
-// 					}
+				
 					recommentNum = 0;
 					template = $('#commentPlusTemplate');
 					template.find('.comment__row').attr('data-id', id)
@@ -1106,23 +1147,37 @@ border-radius:  0 0 7px 7px;
 					template.find('.comment__row__left>img').attr('src', src)
 			
 					
+				
 				}
 				template.find('.comment__writer').text(nickname)
-				template.find('.comment__context').text(content)
+				template.find('.comment__context').html(content)
 				template.find('.comment__date').text(cdate)
 				template.find('.file__icon').attr('for', 'fileInput'+group)
 				template.find('.input_file').attr('id', 'fileInput'+group)
-				prevComment_group = group
+								
 				
-				if(comment.file_name != null){
-					let fileId = comment.file_id;
-					let filename = comment.file_name;
-					let pfile_name = comment.pfile_name;
+				prevComment_group = group
+				let commnetFileInfo = commentFileChk(commentFiles, commentId)
+			
+				if(commnetFileInfo){
+					let fileId = commnetFileInfo.file_id;
+					let filename = commnetFileInfo.file_name;
+					let pfile_name = commnetFileInfo.pfile_name;
 					
-					template.find('.comment__context__file').attr('data', fileId)
-					template.find('.comment__context__file>a').text(nickname)
-					template.find('.comment__context__file>a').attr('href', pfile_name)
 					
+					if(checkFile(filename)){
+						template.find('.comment__context__file__prev').css("display", "flex");
+						template.find('.context__file__prev__imgBox>img').attr("src", "resources/commentFile/"+pfile_name)
+						template.find('.context__file__perv__text').attr("data", fileId)
+						template.find('.fileContent').text(filename)
+						template.find('.fileContent').attr("href", "commentDownload.do?pfile_name="+pfile_name+"&file_name="+filename)
+					}else{
+						template.find('.comment__context__file').attr('data', fileId).css("display", "block")
+						template.find('.comment__context__file>a').text(filename)
+						template.find('.comment__context__file>a').attr('href', "commentDownload.do?pfile_name="+pfile_name+"&file_name="+filename)
+					}
+				
+	
 				}else{
 					template.find('.comment__context__file').css('display', 'none')
 				}
@@ -1161,7 +1216,10 @@ border-radius:  0 0 7px 7px;
 						
 					}
 					
-				}								
+				}
+				
+				CommentApp.templateRemoveFn(template)
+				
 			}
 			CommentApp.bindEvents();
 		},
@@ -1196,9 +1254,91 @@ border-radius:  0 0 7px 7px;
 		
 		recommentEvt : function(event){
 			$(event.target).closest('.comment__row').find('.recomment__wrap').slideToggle()
+		},
+		
+		ajaxFileSelectList : function(commentId){
+			let result;
+			$.ajax({
+				url : 'ajaxFileSelectList.do',
+				type : 'post',
+				dataType : 'json',
+				async : false,
+				data : {
+					 comment_id : commentId
+				},
+				success : function(data){
+					if(data == "false"){
+						
+					}else{
+						result = data;
+					}
+					
+				}
+			})
+			
+			return result;
+		},
+		
+		templateRemoveFn : function(template){
+			
+			if(template.attr("id") == commentPlusTemplate){
+				
+				template.find('.comment__row').removeAttr('data-id')
+				template.find('.comment__row').removeAttr('data-group')
+				template.find('.comment__row__left>img').attr('src', '')
+			}else{
+			
+				template.find('.recomment__row').removeAttr('data-id')
+				template.find('.recomment__row').removeAttr('data-group')
+				template.find('.recomment__right>img').attr('src', '')
+			}
+		
+			template.find('.comment__writer').text('')
+			template.find('.comment__context').html('')
+			template.find('.comment__date').text('')
+			template.find('.file__icon').removeAttr('for')
+			template.find('.input_file').removeAttr('id')
+			
+			
+			template.find('.comment__context__file__prev').css("display", "none");
+			template.find('.context__file__prev__imgBox>img').removeAttr("src")
+			template.find('.context__file__perv__text').removeAttr("data")
+			template.find('.fileContent').text('')
+			template.find('.fileContent').removeAttr("href")
+				
+				
+				
+			template.find('.comment__context__file').removeAttr('data').css("display", "none")
+			template.find('.comment__context__file>a').text('')
+			template.find('.comment__context__file>a').removeAttr('href')
+		
 		}
 		
 		
+	}
+	
+	function checkFile(str){
+		 
+		 var ext =  str.split('.').pop().toLowerCase();
+		 if($.inArray(ext, ['jpg' , 'jpeg', 'gif', 'bmp', 'png', 'tiff', 'svg', 'ico']) == -1) {
+
+		     return null;
+		 }
+
+		 return true;
+
+		}
+	function commentFileChk(commentFiles, commentId){
+
+		for(let data of commentFiles){
+			
+			if(data.comment_id === commentId){
+				
+				return data;
+			}
+		}
+		
+		return null;
 	}
 
 	 $(function(){
@@ -1208,32 +1348,446 @@ border-radius:  0 0 7px 7px;
 		
 		
 	}
+	
+	function getDateStr(date){
+	    var sYear = date.getFullYear();
+	    var sMonth = date.getMonth() + 1;
+	    var sDate = date.getDate();
+
+	    sMonth = sMonth > 9 ? sMonth : "0" + sMonth;
+	    sDate  = sDate > 9 ? sDate : "0" + sDate;
+	    return sYear +"/"+ sMonth +"/"+ sDate;
+	}
+	
     function commentCreate() {
+      let today = new Date();   
       let textareaElVal = $(event.target).closest('.comment__input__Box').find('.textareaEl').val()
-      let file = $('.input_file');
+      let file = $('#input_file')
+      console.log(file)
       textareaElVal = textareaElVal.replace(/(?:\r\n|\r|\n)/g, '<br/>');
-	 
-	  
+	  let commentMaxGroup = ajaxCommentMaxGroup();
+  	  let dateTypedate = today;
+	  let comment_date = getDateStr(today)
+	  let currentUserNickname = ajaxGetSessionUserNickname();
+	  let currentUserId = ajaxGetSessionUserId();
 	  
       if(file.val()){
-    	  console.log("파일있음")
+    	  let result = formCommentFileInsert(textareaElVal, commentMaxGroup, currentUserId, dateTypedate, file)
+    
+    	  if(result){
+    		  commentFileCreateRow(textareaElVal, commentMaxGroup, currentUserId, comment_date, file, result)
+    		 console.log(result)
+    	  }else{
+    		  // 실패시 문구
+    	  }
+    	  
       }else{
-    	  ajaxCommentCreate(textareaElVal)
+    		
+    		  let result = ajaxCommentInsert(textareaElVal, commentMaxGroup, currentUserId, dateTypedate)
+    	  if(result){
+    		 commentCreateRow(textareaElVal, commentMaxGroup, currentUserId, currentUserNickname, comment_date)
+    	  }
       }
 	  
     }
+    
+    function createRecomment(evert){
+     let today = new Date();  
+   	 let target = $(event.target); 
+   	 let file = target.closest('.input__Box__Btns').find('.input_file')
+   	 let targetGroup = target.closest('.comment__row').attr('data-group')
+   	 let textareaElVal = target.closest('.comment__input__Box').find('.textareaEl').val()
+   	 textareaElVal = textareaElVal.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+   	 let comment_date = getDateStr(today)
+   	 let currentUserNickname = ajaxGetSessionUserNickname();
+   	 let currentUserId = ajaxGetSessionUserId();
+   	 let targetOrder = ajaxRecommentMaxOrder(targetGroup);
+   	 let nickname = ajaxGetSessionUserNickname()
+   	 
+   	 let targetappend = target.closest('.recomment__wrap').find('.recomment__box')
+   	 if(file.val()){
+   		 let result = formRecommentFileInsert(textareaElVal, targetGroup, currentUserId, today, file, targetOrder)
+   		 console.log(result)
+   		 if(result){
+   			 recommentFileCreateRow(textareaElVal, targetGroup, currentUserId, comment_date, file, result, targetappend, target)
+   		 }
+   	 }else{
+   		let result = ajaxRecommentInsert(textareaElVal, targetGroup, currentUserId, today, targetOrder)
+   		console.log(result)
+   		recommentCreateRow(result, nickname, textareaElVal, comment_date, targetappend, target)
+   	 }
+    }
+    
+    function recommentFileCreateRow(textareaElVal, targetGroup, currentUserId, comment_date, file, result, targetappend, target){
+    	
+		let template = $('#recommentTemplate');
+		
+    	let nickname = ajaxGetSessionUserNickname();
+    	let fileName = result.file_name;
+		
+		template.find('.recomment__row').attr('data-id', result.id)
+		template.find('.recomment__row').attr('data-group', result.comment_group)
+		template.find('.recomment__row').attr('data-order', result.comment_order)
+		template.find('.recomment__right>img').attr('src', currentUserProfPic)
+    	
+    	template.find('.comment__writer').text(nickname)
+		template.find('.comment__context').html(textareaElVal)
+		template.find('.comment__date').text(comment_date)
+		template.find('.file__icon').attr('for', 'fileInput'+result.comment_group)
+		template.find('.input_file').attr('id', 'fileInput'+result.comment_group)
+		
+    	if(checkFile(fileName)){
+    	let img = template.find('.context__file__prev__imgBox').find('img')
+    	img.attr("class", "imgTarget");
+    	file.attr("class", "fileTarget");
+    	prevRowFileRead()
+    	template.find('.fileContent').text(fileName)
+    	template.find('.fileContent').attr("href", "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)	
+    	template.find('.context__file__perv__text').attr("data", result.file_id)
+    	template.find('.comment__context__file__prev').css("display", "flex");
+		
+    	}else{
+    		template.find('.comment__context__file').attr('data', result.file_id).css("display", "block")
+			template.find('.comment__context__file>a').text(result.file_name)
+			template.find('.comment__context__file>a').attr('href', "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)
+    	}
+    	
+		targetappend.append(template.html())
+		
+	
+		
+		let textareaEl = target.closest('.comment__input__Box').find('.textareaEl')
+		target.closest('.input__Box__Btns').find('.input_file__re').val('')
+		target.closest('.input__Box__Btns').find('.comment__input__filetext').text('')
+		textareaEl.val('')
+    	textareaEl[0].style.height = '20px';
+	
+    	CommentApp.templateRemoveFn(template)
+    	
+    	
+    }
+    
+    function formRecommentFileInsert(textareaElVal, targetGroup, currentUserId, today, file, targetOrder){
+    	var form = new FormData()
+		let result = null;
+    	let commentGroup = $('<input>').val(targetGroup)
+    	let commentOrder = $('<input>').val(targetOrder)
+    	let commentContent = $('<input>').val(textareaElVal)
+    	let userId = $('<input>').val(currentUserId)
+    	let date = $('<input>').val(today)
+    	let cardId = $('<input>').val(currentCardId)
+    	form.append("comment_group",commentGroup.val())
+    	
+    	form.append("comment_content",commentContent.val())
+    	
+    	form.append("id", userId.val())
+    	
+    	form.append("comment_date", date.val())
+    	
+    	form.append("card_id", cardId.val())
+    	
+    	form.append("comment_order", commentOrder.val())
+    	
+    	form.append("file", file[0].files[0]);
+ 
+    	
+    	result = ajaxRecommentFileInsert(form)
+    	return result;
+    }
+    
+    function ajaxRecommentFileInsert(form){
+    	let flag = null;
+    	$.ajax({
+    		url : 'ajaxReCommentFileInsert.do',
+    		type : 'post',
+    		dataType : 'json',
+    		data : form,
+    		contentType :false,
+    		processData : false,
+    		async : false,
+    		success : function(data){
+    			flag = (data != null) ? data : null 
+    		}
+    	})
+    	
+    	return flag;
+    }
+    
+    function recommentCreateRow(result, nickname, textareaElVal, comment_date, targetappend, target){
+    	let template = $('#recommentTemplate')
+		template.find('.recomment__row').attr('data-id', result.id)
+		template.find('.recomment__row').attr('data-group', result.comment_group)
+		template.find('.recomment__row').attr('data-order', result.comment_order)
+		template.find('.recomment__right>img').attr('src', currentUserProfPic)
+		
+		template.find('.comment__writer').text(nickname)
+		template.find('.comment__context').html(textareaElVal)
+		template.find('.comment__date').text(comment_date)
+		template.find('.file__icon').attr('for', 'fileInput'+result.comment_group)
+		template.find('.input_file').attr('id', 'fileInput'+result.comment_group)
+		
+		targetappend.append(template.html())
+		
+		CommentApp.templateRemoveFn(template)
+		
+		let textareaEl = target.closest('.comment__input__Box').find('.textareaEl')
+		textareaEl.val('')
+    	textareaEl[0].style.height = '20px';
+    	
+		
+    }
+	
+    function ajaxRecommentInsert(textareaElVal, targetGroup, currentUserId, today, targetOrder){
+   	 	let result;
+    	$.ajax({
+    		url : 'ajaxRecommentInsert.do',
+    		type : 'post',
+    		dataType : 'json',
+    		async : false,
+    		data : {
+    			comment_group : targetGroup,
+    			comment_content : textareaElVal,
+    			card_id : currentCardId,
+    			id : currentUserId,
+    			comment_date : today,
+    			comment_order : targetOrder		
+    		},
+    		success : function(data){
+    			result = (data != null)? data : null;
+    		}
+    		
+    	})
+    	return result;
+    }
+    
+    function ajaxRecommentMaxOrder(targetGroup){
+    	
+    	let targetOrder;
+    	$.ajax({
+    		url : 'ajaxRecommentMaxOrder.do',
+    		type : 'post',
+    		dataType: 'text',
+    		async : false,
+    		data : {
+    			comment_group : targetGroup,
+    				card_id : currentCardId
+    		},
+    		success : function(data){
+    			console.log("num : "+ data)
+    			targetOrder = data;
+    		}
+    	})
+    	
+    	return targetOrder;
+    }
+    
+    function commentFileCreateRow(textareaElVal, commentMaxGroup, currentUserId, comment_date, file, result){
+    	let template = $('#commentPlusTemplate');
+    	
+    	let nickname = ajaxGetSessionUserNickname();
+    	let fileName = result.file_name;
+    	
+    	template.find('.comment__writer').text(nickname)
+    	template.find('.comment__context').html(textareaElVal)
+    		
+    	template.find('.comment__row').attr('data-id', result.id)
+		template.find('.comment__row').attr('data-group', result.comment_group)
+    	template.find('.comment__row__left>img').attr("src", currentUserProfPic)
+					
+		template.find('.comment__date').text(comment_date)
+		template.find('.file__icon').attr('for', 'fileInput'+result.comment_group)
+		template.find('.input_file').attr('id', 'fileInput'+result.comment_group)
+    	
+    	if(checkFile(fileName)){
+    	let img = template.find('.context__file__prev__imgBox').find('img')
+    	img.attr("class", "imgTarget");
+    	file.attr("class", "fileTarget");
+    	prevRowFileRead()
+    	template.find('.fileContent').text(fileName)
+    	template.find('.fileContent').attr("href", "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)	
+    	template.find('.context__file__perv__text').attr("data", result.file_id)
+    	template.find('.comment__context__file__prev').css("display", "flex");
+		
+    	}else{
+    		template.find('.comment__context__file').attr('data', result.file_id).css("display", "block")
+			template.find('.comment__context__file>a').text(result.file_name)
+			template.find('.comment__context__file>a').attr('href', "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)
+    	}
+    	
+    	$('.comment__box').append(template.html())
+    	
+    	CommentApp.templateRemoveFn(template)
+    	
+    	inputresultRemove()
+    }
+    
+    function inputresultRemove(){
+    	let textareaEl = $('.textareaEl').val('');
+    	textareaEl[0].style.height = '20px';
+    	$('.filetext__class1').text('')
+    	$('#input_file').val('')
+    	
+    }
+    
+    
+	function prevRowFileRead(){
+		  var file = document.querySelector('.fileTarget')
 
-    function ajaxCommentCreate(textareaElVal){
+	      var reader = new FileReader();
+	     
+	      reader.onload = function (e) {
+	    	  let imgtarget = $('.imgTarget')
+	    	  imgtarget.attr('src', e.target.result)
+	    	  let filetarget =$('.fileTarget')
+	    	  imgtarget.removeClass('imgTarget')
+	    	  filetarget.removeClass('fileTarget')
+	      }
+	      reader.readAsDataURL(file.files[0])
+	 }
+    
+    function formCommentFileInsert(textareaElVal, commentMaxGroup, currentUserId, dateTypedate, file){
+    	var form = new FormData()
+		let result = null;
+    	let commentGroup = $('<input>')
+    	let commentContent = $('<input>')
+    	let userId = $('<input>')
+    	let date = $('<input>')
+    	let cardId = $('<input>')
+    	form.append("comment_group",commentGroup.attr({
+    		type : "hidden",
+    		name : "comment_group",
+    		value : commentMaxGroup
+    	}).val())
+    	
+    	form.append("comment_content",commentContent.attr({
+    		type : "hidden",
+    		name : "comment_content",
+    		value : textareaElVal
+    	}).val())
+    	
+    	form.append("id", userId.attr({
+    		type : "hidden",
+    		name : "id",
+    		value : currentUserId
+    	}).val())
+    	
+    	form.append("comment_date", date.attr({
+    		type : "hidden",
+    		name : "comment_date",
+    		value : dateTypedate
+    	}).val())
+    	
+    	form.append("card_id", cardId.attr({
+    		type : "hidden",
+    		name : "card_id",
+    		value : currentCardId
+    	}).val())
+    	
+    	form.append("file", $("#input_file")[0].files[0]);
+ 
+    	
+    	result = ajaxCommentFileInsert(form)
+    	return result;
+    }
+    
+    function ajaxCommentFileInsert(form){
+    	let flag = null;
+    	$.ajax({
+    		url : 'ajaxCommentFileInsert.do',
+    		type : 'post',
+    		dataType : 'json',
+    		data : form,
+    		contentType :false,
+    		processData : false,
+    		async : false,
+    		success : function(data){
+    			flag = (data != null) ? data : null 
+    		}
+    	})
+    	
+    	return flag;
+    }
+    
+    function ajaxGetSessionUserNickname(){
+    	let currentUserNickname;
+    	
+    	$.ajax({
+    		url : 'ajaxGetSessionUserNickname.do',
+    		type : 'post',
+    		dataType : 'text',
+    		async : false,
+    		success : function(data){
+    			currentUserNickname = (data !="false")? data : false;
+    		}
+    	})
+    	return currentUserNickname;
+    }
+    
+    function ajaxGetSessionUserId(){
+    	let currentUserId;
+    	$.ajax({
+    		url : 'ajaxGetSessionUserId.do',
+    		type : 'post',
+    		dataType : 'text',
+    		async : false,
+    		success : function(data){
+    			currentUserId = (data != "false") ? data : false;
+    		}
+    	})
+    	
+    	return currentUserId;
+    }
+    
+    function commentCreateRow(textareaElVal, commentMaxGroup, currentUserId, currentUserNickname, comment_date){
+    	
+    	let comment__box = $('.comment__box')
+    	
+    	
+    	let template = $('#commentPlusTemplate');
+    	template.find('.comment__row').attr("data-id", currentUserId);
+    	template.find('.comment__row').attr("data-group", commentMaxGroup);
+    	template.find('.comment__row__left>img').attr("src", currentUserProfPic);
+    	template.find('.comment__writer').text(currentUserNickname);
+    	template.find('.comment__context').text(textareaElVal);
+    	template.find('.comment__date').text(comment_date);
+    	comment__box.append(template.html());
+    }
+    
+    
+    function ajaxCommentMaxGroup(){
+    	let commentMaxGroup;
+    	
+    	$.ajax({
+    		url : 'ajaxCommentMaxGroup.do',
+    		type : 'post',
+    		dataType : 'text',
+    		async : false,
+    		data : {
+    			card_id : currentCardId
+    		},
+    		success : function(data){
+    			console.log("num : "+ data )
+    			commentMaxGroup = data;
+    		}
+    	})
+    	
+    	return commentMaxGroup;
+    }
+
+    function ajaxCommentInsert(textareaElVal, commentMaxGroup, currentUserId, comment_date){
+    
     	let flag = false;
     	$.ajax({
-    		url : 'ajaxCommentCreate.do',
+    		url : 'ajaxCommentInsert.do',
     		type : 'post',
     		dataType : 'text',
     		async : false,
     		data : {
     			id : currentUserId,
     			card_id : currentCardId,
-    			comment_content : textareaElVal
+    			comment_content : textareaElVal,
+    			comment_group : commentMaxGroup,
+    			comment_date : comment_date
     		},
     		success : function(data){
     			flag = (data == "true") ? true : false;
@@ -1254,13 +1808,18 @@ border-radius:  0 0 7px 7px;
 
     });
 
- 
- 
-
  $(document).on('keydown keyup', '.textareaEl', textareaHeightFn)
  $(document).on('focus', '.textareaEl__class1', textareaFocusFn)
  $(document).on('focus', '.textareaEl__class2', textarea2FocusFn)
  $(document).on('change', '.input_file', inputFileFn)
+ 
+ 
+ 	//파일 a태그 눌렀을때 이벤 
+ 	function fileContentFn(){
+	 
+ }
+ 
+ 
  	// 텍스트 크기 이벤
     function textareaHeightFn(event){
     	var textEle = $(event.target);
@@ -1339,7 +1898,7 @@ border-radius:  0 0 7px 7px;
 	
       let tgInput = input;
       if (input.files && input.files[0]) {
-    	  console.log("여기")
+    	  
     	  console.log($(tgInput).closest('.input__Box__Btns'))
         $(tgInput).closest('.input__Box__Btns').find('.comment__input__filetext').text("파일명 : " + input.files[0].name)
       }
@@ -1356,9 +1915,11 @@ border-radius:  0 0 7px 7px;
         return;
       }
       var reader = new FileReader();
+     
       reader.onload = function (e) {
         var image = $('.img_preview');
         image.attr('src', e.target.result)
+      
         $('.img__box__wrap').css('display', 'block')
       }
       reader.readAsDataURL(input.files[0])

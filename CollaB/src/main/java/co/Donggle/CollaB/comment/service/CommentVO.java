@@ -27,7 +27,7 @@ public class CommentVO {
 //	private int comment_id;
 //	private String id;
 	
-	// commentFileInfoVO
+//	 commentFileInfoVO
 	private int file_id;
 	private String file_name;
 	private String pfile_name;
