@@ -64,7 +64,6 @@ public class CardController {
 		CardVO cardvo = new CardVO();
 		cardvo.setCard_id(cardID);
 		int n = 0;
-		System.out.println("=====컨트롤러 들어오나?====="+cardID);
 		
 		List<CardVO> commentids = cardDao.selectCommentIds(cardvo); //해당 카드내의 댓글 아이디 목록
 		List<CardVO> fileids = cardDao.selectFileIds(cardvo); //해당 카드에 첨부된 파일 아이디 목록
@@ -137,6 +136,8 @@ public class CardController {
 		model.addAttribute("checkItems",itemInfoDao.selectedCardItemList());
 		//해당 보드에 초대되어있는 모든 멤버-아이디,이름,닉네임,비번,이메일,프로필사진,전화번호,회사,토큰,워크스페이스아이디,보드아이디 - 보드헤더
 		model.addAttribute("boardJoinMembers",userDao.boardJoinMembers(vo));
+		//해당 카드의 파일리스트
+		model.addAttribute("fileinfoList",fileInfoDao.cardFileSelectList(cardId));
 		
 		return "card/cardDetail";
 	}
@@ -245,7 +246,7 @@ public class CardController {
 		int n = 0;
 		
 		vo.setFile_name(filename);
-		vo.setPfile_name(pfilename);
+		vo.setPfile_name("c:/imgFile/"+pfilename);
 		vo.setId(userId);
 		if(!new File(saveDirectory).exists()) {
 			new File(saveDirectory).mkdir();
@@ -280,7 +281,16 @@ public class CardController {
 	      }
 	      
 	      return sb.toString();
-	   }
+	}
+	
+	//카드 첨부파일 삭제
+	@ResponseBody
+	@RequestMapping("/AjaxCardFileDelete")
+	public String AjaxCardFileDelete(FileInfoVO vo) {
+		int n = fileInfoDao.cardFileDelete(vo);
+		
+		return n > 0 ? "YES" : "NO";
+	}
 	
 	
 	

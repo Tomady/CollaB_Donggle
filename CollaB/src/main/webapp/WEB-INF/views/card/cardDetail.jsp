@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -107,6 +108,10 @@
 	  width: 100%;
 	  height: 100%;
 	  object-fit: cover;
+	}
+	.filedelbtn:hover, .filedownbtn:hover {
+	  text-decoration : underline;
+	  cursor : pointer;	
 	}
 </style>
 <script type="text/javascript">
@@ -522,14 +527,14 @@ document.addEventListener("DOMContentLoaded", function(){
     	                        <c:if test="${item.item_status eq 'Y'}">
         		                    <input type="checkbox" checked="checked" onclick="checkItem(${item.checklist_id},${item.item_id})"
    	    		                    class="ckitem${item.item_id} mt-1 mb-1 checkitem${item.checklist_id}">
-   	    		                    <span id="ckItemTitle${item.item_id}" onclick="itemTitleRename(${item.item_id})">${item.item_title}</span>
+   	    		                    <span id="ckItemTitle${item.item_id}" class="ckitem${item.item_id}" onclick="itemTitleRename(${item.item_id})">${item.item_title}</span>
        			                    <i class="ml-5 fa fa-times ckitem${item.item_id}" style="color:#ced4da; 
        			                    cursor:pointer;" onclick="ckItemDelete(${item.item_id})"></i><br>
                 	            </c:if>
                     	        <c:if test="${item.item_status eq 'N'}">
                        		    	<input type="checkbox" onclick="checkItem(${item.checklist_id},${item.item_id})"
    	                    		    class="ckitem${item.item_id} mt-1 mb-1 checkitem${item.checklist_id}">
-   	                    		    <span id="ckItemTitle${item.item_id}" onclick="itemTitleRename(${item.item_id})">${item.item_title}</span>
+   	                    		    <span id="ckItemTitle${item.item_id}" class="ckitem${item.item_id}" onclick="itemTitleRename(${item.item_id})">${item.item_title}</span>
        	                		    <i class="ml-5 fa fa-times ckitem${item.item_id}" style="color:#ced4da; 
  	                		    	cursor:pointer;" onclick="ckItemDelete(${item.item_id})"></i><br>
                             	</c:if>
@@ -537,7 +542,7 @@ document.addEventListener("DOMContentLoaded", function(){
                             </c:forEach>
                           </div>
                           <button class="btn btn-secondary fa fa-plus ml-4 mb-5 additem${check.checklist_id}" 
-                          style="width:15%;" onclick="addItemBtn(${check.checklist_id})"> item</button>
+                          style="width:15%;" onclick="addCheckListItems(${check.checklist_id})"> item</button>
                         </div>
                         <!--여기까지가 하나의 체크리스트-->
                       	</c:forEach>
@@ -545,31 +550,39 @@ document.addEventListener("DOMContentLoaded", function(){
                     </div>
                    </div>
                   <!--카드아이템 : 파일첨부-->
-                  <div class="row">
+                  <div class="row mb-5">
                     <div class="card">
                       <div style="width: 740px;"></div>
                       <div class="card-header" style="font-size: large;">
                         <i class="fa fa-paperclip ml-1 files">&nbsp;&nbsp;Attachments</i>
                       </div>
                       <div class="card-body" id="file_append_target">
+                      <c:forEach items="${fileinfoList}" var="file">
                         <!--여기서부터-->
-                        <div class="card">
+                        <div class="card" id="file${file.file_id}">
                           <div class="card-body d-flex">
                           	<div style="box-shadow:2px 2px 2px 1px #adb5bd; width:200px; 
                           	height:80px; border:solid 1px #D3D3D3; line-height:80px; 
                           	border-radius:10px;" class="mr-2 text-center thumbnail">
-                          		<h5 style="display:inline-block;">ㅇㅋㅇㅋ</h5>
+                          	<c:if test="${fn:substringAfter(file.pfile_name,'.') eq 'jpg' 
+                          	|| fn:substringAfter(file.pfile_name,'.') eq 'png' 
+                          	|| fn:substringAfter(file.pfile_name,'.') eq 'gif'}">
+                          		<img src="${file.pfile_name}">
+                          	</c:if>
+                          		<h5 style="display:inline-block;">${fn:substringAfter(file.pfile_name,'.')}</h5>
                           	</div>
-                            <div class="ml-2 mt-3">
-								<div class="row">
-									<span>&nbsp;&nbsp;&nbsp;파일이름</span>
+                            <div class="ml-3 mt-2">
+								<div class="row mb-2">
+									<span>&nbsp;&nbsp;&nbsp;${file.file_name}</span>
 								</div>
 								<div class="row">
-									<button class="btn ml-1">Delete</button>
+									<span class="btn filedelbtn" onclick="fileDelete(${file.file_id})">Delete</span>
+									<span class="btn filedownbtn" onclick="fileDownload(${file.file_id})">Download</span>
 								</div>
 							</div>
                           </div>
                         </div>
+                      </c:forEach>
                         <!--여기까지가 하나의 첨부파일-->
                       </div>
                     </div>
@@ -644,28 +657,40 @@ $("#input-file").on("change", function(){
 		contentType : false,
 		processData : false,
 		success : function(data){
+			console.log(data);
 			let file_end = (data.file_name).substring((data.file_name).lastIndexOf(".")+1); //확장자명
 			
 			let card = document.createElement("div");
 			card.setAttribute("class","card");
+			card.setAttribute("id","file"+data.file_id);
 			let hhhhead = document.createElement("div");
 			hhhhead.setAttribute("class","card-body d-flex");
 			let thumbnail = document.createElement("div");
 			thumbnail.setAttribute("class","mr-2 text-center thumbnail");
 			
 			let cardbody = document.createElement("div");
-			cardbody.setAttribute("class","ml-2 mt-3");
+			cardbody.setAttribute("class","ml-3 mt-2");
 			let frow = document.createElement("div");
-			frow.setAttribute("class","row");
+			frow.setAttribute("class","row mb-2");
 			let filename = document.createElement("span");
 			filename.innerHTML = "&nbsp;&nbsp;&nbsp;"+data.file_name;
 			let srow = document.createElement("div");
-			let delbtn = document.createElement("button");
-			delbtn.setAttribute("class","btn");
+			srow.setAttribute("class","row");
+			let delbtn = document.createElement("span");
+			delbtn.setAttribute("class","btn filedelbtn");
 			delbtn.innerHTML = "Delete";
+			delbtn.onclick = function(){
+				fileDelete(file_id);
+			}
+			let downbtn = document.querySelector("span");
+			downbtn.setAttribute("class","btn filedownbtn");
+			downbtn.innerHTML = "Download";
+			downbtn.onclick = function(){
+				fileDownload(file_id);
+			}
 			
 			let input = document.querySelector("#input-file");
-			if(!input.files[0].type.match(/image\//)){
+			if(input.files[0].type.match(/image\//)){
 				let img = document.createElement("img");
 				getFileSrc(input,img);
 				thumbnail.append(img);
@@ -678,6 +703,7 @@ $("#input-file").on("change", function(){
 			
 			frow.append(filename);
 			srow.append(delbtn);
+			srow.append(downbtn);
 			cardbody.append(frow);
 			cardbody.append(srow);
 			hhhhead.append(thumbnail);
@@ -692,14 +718,13 @@ $("#input-file").on("change", function(){
 	})
 })
  
-function getFileScr(input, img){
+function getFileSrc(input,img){
       var reader = new FileReader();
       
       reader.onload = function (e) {
       	img.setAttribute("src", e.target.result)
       }
       reader.readAsDataURL(input.files[0])
-
  }
  </script>
  

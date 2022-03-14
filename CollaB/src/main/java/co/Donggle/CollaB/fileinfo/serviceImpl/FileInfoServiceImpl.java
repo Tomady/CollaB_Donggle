@@ -1,5 +1,7 @@
 package co.Donggle.CollaB.fileinfo.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,5 +21,15 @@ public class FileInfoServiceImpl implements FileInfoService {
 	@Override
 	public int cardFileUpload(FileInfoVO vo) {
 		return map.cardFileUpload(vo);
+	}
+
+	@Override
+	public List<FileInfoVO> cardFileSelectList(int card_id) {
+		return map.cardFileSelectList(card_id);
+	}
+
+	@Override
+	public int cardFileDelete(FileInfoVO vo) {
+		return map.cardFileDelete(vo);
 	}
 }
