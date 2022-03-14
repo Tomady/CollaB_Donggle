@@ -36,4 +36,12 @@
 		ON(A.ID = B.ID)
 		WHERE BOARD_ID = #{board_id}
 	</select>
+	
+	<select id="cardManagerSelect" parameterType="int" resultType="string">
+		SELECT NICKNAME
+		FROM USER_INFO
+		WHERE ID = (SELECT MANAGER
+                    FROM CARD
+                    WHERE CARD_ID = #{card_id})
+	</select>
 </mapper>
