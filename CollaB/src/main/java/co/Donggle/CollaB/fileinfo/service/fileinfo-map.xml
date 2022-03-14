@@ -17,4 +17,18 @@
 		INSERT INTO FILE_INFO
 		VALUES(#{file_id},#{file_name},#{pfile_name},#{card_id},#{id},sysdate,0)
 	</insert>
+	
+	<select id="cardFileSelectList" parameterType="int"
+	resultType="co.Donggle.CollaB.fileinfo.service.FileInfoVO">
+		SELECT * 
+		FROM FILE_INFO 
+		WHERE CARD_ID = #{card_id}
+		ORDER BY FILE_ID DESC
+	</select>
+	
+	<delete id="cardFileDelete"
+	parameterType="co.Donggle.CollaB.fileinfo.service.FileInfoVO">
+		DELETE FILE_INFO
+		WHERE FILE_ID = #{file_id}
+	</delete>
 </mapper>
