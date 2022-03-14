@@ -1036,7 +1036,7 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 
 			<div class="row">
 				<div class="col-12">
-					<div class="card">
+					<div class="card" style="height: 100vh;">
 						<div class="section-body">
 							<div class="card-header d-flex justify-content-center"
 								style="text-align: center;">
