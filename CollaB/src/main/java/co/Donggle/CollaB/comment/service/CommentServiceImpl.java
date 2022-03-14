@@ -59,4 +59,58 @@ public class CommentServiceImpl implements CommentService {
 		return map.recommentMaxOrderSelect(vo);
 	}
 
+	@Override
+	public CommentVO commentGoodSelect(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentGoodSelect(vo);
+	}
+
+	@Override
+	public int commentGoodInsert(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentGoodInsert(vo);
+	}
+
+	@Override
+	public int commentGoodDelete(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentGoodDelete(vo);
+	}
+
+	@Override
+	public int commentBadInsert(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentBadInsert(vo);
+	}
+
+	@Override
+	public CommentVO commentBadSelect(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentBadSelect(vo);
+	}
+
+	@Override
+	public int commentBadDelete(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentBadDelete(vo);
+	}
+
+	@Override
+	public CommentVO commentGoodSelectSum(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentGoodSelectSum(vo);
+	}
+
+	@Override
+	public CommentVO commentBadSelectSum(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentBadSelectSum(vo);
+	}
+
+	
+
+
+
+	
+
 }
