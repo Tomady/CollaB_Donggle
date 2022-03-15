@@ -1,7 +1,5 @@
 package co.Donggle.CollaB.fileHistory.service;
 
+public interface FileHistoryMapper {
 
-
-public interface FileHistoryService {
-	
 }

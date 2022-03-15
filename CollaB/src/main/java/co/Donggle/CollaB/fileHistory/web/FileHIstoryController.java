@@ -21,7 +21,7 @@ public class FileHIstoryController {
 	@Autowired WorkspaceService workspaceDao;
 	@Autowired BoardService boardDao;
 	
-	@RequestMapping("/fileHistory.do")
+	@RequestMapping("/filehistory.do")
 	public String fileHistory(WorkspaceVO wkvo, Model model, HttpSession session, BoardVO vo) {
 		String userId = (String) session.getAttribute("id");
 		vo.setId(userId);
