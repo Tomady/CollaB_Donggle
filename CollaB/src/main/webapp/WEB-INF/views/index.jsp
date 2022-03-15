@@ -418,7 +418,7 @@ body .options .option .label .info .sub {
 		</div>
 
 		<div class="nav_b">
-			<div class="logo">CollaB</div>
+			<div class="logo"><img src="resources/img/logo3334.png" width="200px;"></div>
 			<ul>
 				<c:if test="${empty id }">
 					<li><a href="login.do">Sign in</a></li>

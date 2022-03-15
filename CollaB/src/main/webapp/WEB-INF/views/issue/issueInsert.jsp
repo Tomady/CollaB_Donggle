@@ -249,7 +249,7 @@
     	let issueTitle = $("#issueTitle").val();
         let issueCategory = $("#issueCategory option:selected").val();
         let issueContent = $("#issueContent").val();
-        let chkLiTitle = $('#listName').text();
+        let checklist_title = $('#listName').text();
         let items = $('.items').find('li');
         let itemTitle = [];
         
@@ -261,13 +261,11 @@
           itemTitle.push(val);
         }
         
-        //itemTitle = JSON.stringify(itemTitle);
-        
         let data = {
           issueTitle,
           issueCategory,
           issueContent,
-          chkLiTitle,
+          checklist_title,
           itemTitle
         }
 
@@ -277,10 +275,12 @@
             type : "POST",
             url : "issueInsert.do",    
             data : data,
-  		  	dataType : "json"
-            
+  		  	dataType : "text",
+  		  	success : function(result){
+  		  		alert('등록 성공!');
+  		  		location.href = "issueBoard.do?workspace_id=" + result;
+  		  	}
          })
-       
     }
     
     $(function() {
@@ -401,9 +401,6 @@
 		} else if (name == '9') {
 			img.setAttribute("src", "resources/img/9.jpg");
 			img2.setAttribute("src", "resources/img/9.jpg");
-		} else{
-			img.setAttribute("src","resources/img/workspace_default_profile.png");
-			img2.setAttribute("src","resources/img/workspace_default_profile.png");
 		}
 	}
 </script>
