@@ -10,22 +10,22 @@
 	<context:property-placeholder location="classpath:Config/db.properties"/>
 	
 	<!-- aws DB 접속 -->
-	<!-- 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="${driver}" />
 		<property name="url" value="${url}" />
 		<property name="username" value="${user}" />
 		<property name="password" value="${password}" />
 	</bean>
-	-->
 	
 	<!-- dbcp -->
+	<!-- 
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="${driver}" />
 		<property name="url" value="${url}" />
 		<property name="username" value="${user}" />
 		<property name="password" value="${password}" />
 	</bean>
+	 -->
 	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />

@@ -929,7 +929,7 @@ function checkItem(ckid,itemid){
 //체크리스트 아이템 수정
 function itemTitleRename(item_id){
 	let eventTarget = event.target;
-	let originVal = eventTarget.value;
+	let originVal = eventTarget.innerHTML;
 	eventTarget.innerHTML = "";
 	
 	let itemName = document.createElement("input");
@@ -959,7 +959,7 @@ function itemTitleRename(item_id){
 						console.log(data);
 						document.querySelector("#ckItemRename").remove();
 						eventTarget.innerHTML = "";
-						eventTarget.innerHTML = data.item_title;
+						eventTarget.innerHTML = " "+data.item_title;
 						//클릭이벤트 없애주기
 						document.querySelector("body").removeEventListener("click",checklistItem_updateCancel);
 					},
@@ -985,7 +985,7 @@ function itemTitleRename(item_id){
 			return ;
 		if(ckItemRename.value == "" && clickCnt > 1){
 			ckItemRename.remove();
-			eventTarget.innerHTML = originVal;
+			eventTarget.innerHTML = " "+originVal;
 			//클릭이벤트 없애주기
 			body.removeEventListener("click",checklistItem_updateCancel);
 		}
@@ -994,6 +994,7 @@ function itemTitleRename(item_id){
 
 //카드첨부파일 삭제
 function fileDelete(file_id){
+	let cardId = $("#selectedCard").attr("data-cardId");
 	$.ajax({
 		url : "AjaxCardFileDelete",
 		type : "POST",
@@ -1004,25 +1005,10 @@ function fileDelete(file_id){
 		success : function(data){
 			console.log(data);
 			document.querySelector("#file"+file_id).remove();
+			document.querySelector(".files"+cardId).style.color="#e9ecef";
 		},
 		error : function(){
 			console.log("AjaxCardFileDelete 실패");
 		}
 	})
 }
-
-//카드첨부파일 다운로드
-function fileDownload(file_id){
-
-}
-
-
-
-
-
-
-
-
-
-
-

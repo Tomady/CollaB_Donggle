@@ -6,8 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class IssueItemVO {
-	private int itemId;
-	private String itemTitle;
-	private String itemStatus;
-	private int chkLiId;
+	private int item_id;
+	private String item_title;
+	private String item_status;
+	private int checklist_id;
+	private int issueid;
 }

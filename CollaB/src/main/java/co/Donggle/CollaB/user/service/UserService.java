@@ -11,4 +11,6 @@ public interface UserService {
 	List<UserVO> boardJoinMembers(BoardVO vo);
 	//해당워크스페이스멤버 - 해당보드멤버 = 같은워크스페이스 사용하지만 해당 보드에는 없는사람
 	List<UserVO> outsideBoardMembers(BoardVO vo);
+	//해당카드의 매니저 - 아이디로 조회
+	String cardManagerSelect(int cardId);
 }
