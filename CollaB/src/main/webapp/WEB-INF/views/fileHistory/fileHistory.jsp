@@ -2,71 +2,70 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style type="text/css">
-.off-screen {
-	display: none;
-}
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<style type="text/css">
+		.off-screen {
+			display: none;
+		}
 
-#pagebtn {
-	width: 500px;
-	text-align: center;
-	margin: 0 auto;
-	height: 50px;
-	line-height: 60px;
-	padding: 200px;
-}
+		#pagebtn {
+			width: 500px;
+			text-align: center;
+			margin: 0 auto;
+			height: 50px;
+			line-height: 60px;
+			padding: 200px;
+		}
 
-#pagebtn a {
-	all: initial;
-	display: inline-block;
-	margin-right: 10px;
-	border-radius: 3px;
-	border: none;
-	font-family: Tahoma;
-	background: #f9fafe;
-	color: #000;
-	text-decoration: none;
-	height: 40px;
-	width: 40px;
-	text-align: center;
-	line-height: 40px;
-	transition: all .5s;
-}
+		#pagebtn a {
+			all: initial;
+			display: inline-block;
+			margin-right: 10px;
+			border-radius: 3px;
+			border: none;
+			font-family: Tahoma;
+			background: #f9fafe;
+			color: #000;
+			text-decoration: none;
+			height: 40px;
+			width: 40px;
+			text-align: center;
+			line-height: 40px;
+			transition: all .5s;
+		}
 
-#pagebtn a:hover {
-	background-color: #6553C1;
-}
+		#pagebtn a:hover {
+			background-color: #6553C1;
+		}
 
-#pagebtn a.active {
-	background: #6553C1;
-	color: #fff;
-}
+		#pagebtn a.active {
+			background: #6553C1;
+			color: #fff;
+		}
 
-.tr_off{
-display: none;
-}
-
-</style>
+		.tr_off {
+			display: none;
+		}
+	</style>
 </head>
+
 <body>
 	<div class="main-content">
 		<section class="section">
-
 			<div class="row">
 				<div class="col-12">
 					<div class="card" style="">
 						<div class="section-body">
-							<div class="card-header d-flex justify-content-center"
-								style="text-align: center;">
+							<div class="card-header d-flex justify-content-center" style="text-align: center;">
 								<div id="workspace-body"
 									class="card-body col-lg-3 mt-5 mb-5 d-flex justify-content-center">
 									<div class="row workspaceNAME">
 										<img class="img-fluid mr-2 mt-2 wkimg-body">
-										<h3 class="mt-4" id="WsName"
-											data-wkid="${workspace.workspace_id}">${workspace.workspace_title}</h3>
+										<h3 class="mt-4" id="WsName" data-wkid="${workspace.workspace_id}">
+											${workspace.workspace_title}</h3>
 									</div>
 								</div>
 							</div>
@@ -74,89 +73,75 @@ display: none;
 								<div class="tableTopMenu">
 									<div class="tableTopMenu__left"></div>
 									<div class="tableTopMenu__right">
-										<!-- <select class="selectEl" name="" id="">
-                          <option value="">제목</option>
-                          <option value="">제목</option>
-                        </select>
-                        <input type="text" placeholder="이름 검색">
-                        <button type="button">검색</button> -->
+										<!-- 
+										<select class="selectEl" name="" id="">
+											<option value="">제목</option>
+											<option value="">제목</option>
+										</select>
+										<input type="text" placeholder="이름 검색">
+										<button type="button">검색</button>
+										-->
 									</div>
 								</div>
-
 
 								<div class="clearfix mb-3"></div>
 
 								<div class="table-responsive" style="text-align: center;">
-									   <table class="table table-striped">
-                        <thead>
-                          <tr>
-                            <th width="">파일이름</th>
-                            <th>카드이름</th>
-                            <th width="">날짜</th>
-                            <th width="">조회수</th>
-                            <th></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                
-                          <tr class="" data-a="1">
-                            <td class="filehistory__title">최종프로젝트</td>
-                            <td>최종프로젝트</td>
-                            <td>2022-03-06</td>
-                            <td>15</td> 
-                            <td ><button class="btn btn-dark" type="button">Download</button></td>
-                          </tr>
-                
-                          <tr class="tr_off" data="1"> 
-                              <td>f</td>
-                              <td>s</td>
-                              <td>s</td>
-                              <td>s</td>
-                              <td><button class="btn btn-secondary" type="button">Download</button></td>
-                          </tr>
-                   
-                      
+									<table class="table table-striped">
+										<thead>
+											<tr>
+												<th width="">파일이름</th>
+												<th>카드이름</th>
+												<th width="">날짜</th>
+												<th width="">조회수</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="" data-a="1">
+												<td class="filehistory__title">최종프로젝트</td>
+												<td>최종프로젝트</td>
+												<td>2022-03-06</td>
+												<td>15</td>
+												<td><button class="btn btn-dark" type="button">Download</button></td>
+											</tr>
 
-
-
- 
-                        </tbody>
-                      </table>
+											<tr class="tr_off" data="1">
+												<td>f</td>
+												<td>s</td>
+												<td>s</td>
+												<td>s</td>
+												<td><button class="btn btn-secondary" type="button">Download</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
 								</div>
-
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
-
-
-
 		</section>
 	</div>
 </body>
-<input type="hidden" id="hWorkspace_id"
-	value="${workspace.workspace_id}">
+<input type="hidden" id="hWorkspace_id" value="${workspace.workspace_id}">
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
+	$('.filehistory__title').on("click", function (e) {
 
-
-$('.filehistory__title').on("click", function (e) {
-
-    let a = $(event.target).parent().attr("data-a")
-    let all = $('[data="'+a+'"').toggle();
-})
-
-
+		let a = $(event.target).parent().attr("data-a")
+		let all = $('[data="' + a + '"').toggle();
+	})
 
 	//워크프페이스 프로필이미지
 	let name = $('#hWorkspace_id').val();
 
-	$(function() {
+	$(function () {
 		console.log(name)
 		changeWKIMG(name);
 	})
+
 	function changeWKIMG(newWKname) {
 		let name = newWKname.substring(0, 1);
 		let img = document.querySelector(".wkimg");
@@ -271,81 +256,82 @@ $('.filehistory__title').on("click", function (e) {
 			img2.setAttribute("src", "resources/img/9.jpg");
 		} else {
 			img.setAttribute("src",
-					"resources/img/workspace_default_profile.png");
+				"resources/img/workspace_default_profile.png");
 			img2.setAttribute("src",
-					"resources/img/workspace_default_profile.png");
+				"resources/img/workspace_default_profile.png");
 		}
 	}
 
 	// 수정할 부분 있어서 일단 주석처리 했습니다!
-// 	var pagenumber = 3
-// 	var pageCount = 5
-// 	var currentPage = 1;
+	// 	var pagenumber = 3
+	// 	var pageCount = 5
+	// 	var currentPage = 1;
 
-// 	function page(pagenumber, pageCount, currentPage) {
-// 		console.log(currentPage);
-// 		var tableEl = $('.table-striped');
+	// 	function page(pagenumber, pageCount, currentPage) {
+	// 		console.log(currentPage);
+	// 		var tableEl = $('.table-striped');
 
-// 		var tr = tableEl.find('tbody tr');
-// 		var trtotal = tr.length;
+	// 		var tr = tableEl.find('tbody tr');
+	// 		var trtotal = tr.length;
 
-// 		var pagetotal = Math.ceil(trtotal / pagenumber);
-// 		var pageGroup = Math.ceil(currentPage / pageCount);
+	// 		var pagetotal = Math.ceil(trtotal / pagenumber);
+	// 		var pageGroup = Math.ceil(currentPage / pageCount);
 
-// 		var last = pageGroup * pageCount;
-// 		if (last > pagetotal)
-// 			last = pagetotal;
-// 		var first;
+	// 		var last = pageGroup * pageCount;
+	// 		if (last > pagetotal)
+	// 			last = pagetotal;
+	// 		var first;
 
-// 		if (last % pageCount == 0) {
-// 			first = last - (pageCount - 1);
-// 		} else {
-// 			first = last + 1 - last % pageCount
-// 		}
+	// 		if (last % pageCount == 0) {
+	// 			first = last - (pageCount - 1);
+	// 		} else {
+	// 			first = last + 1 - last % pageCount
+	// 		}
 
-// 		var next = last + 1;
-// 		var prev = first - 1;
+	// 		var next = last + 1;
+	// 		var prev = first - 1;
 
-// 		$('#pagebtn').remove();
-// 		tableEl.after('<div id="pagebtn">');
-// 		if (prev > 0) {
-// 			$('<a href="#"></a>').attr('data', 'prev').html("<").appendTo(
-// 					'#pagebtn');
-// 		}
+	// 		$('#pagebtn').remove();
+	// 		tableEl.after('<div id="pagebtn">');
+	// 		if (prev > 0) {
+	// 			$('<a href="#"></a>').attr('data', 'prev').html("<").appendTo(
+	// 					'#pagebtn');
+	// 		}
 
-// 		for (let i = first; i <= last; i++) {
-// 			$('<a href="#"></a>').attr('data', i).html(i).appendTo('#pagebtn');
-// 		}
-// 		if (last < pagetotal) {
-// 			$('<a href="#"></a>').attr('data', 'next').html(">").appendTo(
-// 					'#pagebtn');
-// 		}
-// 		var paginglink = $('#pagebtn a');
-// 		paginglink.removeClass('active');
-// 		$("[data=" + currentPage + "]").addClass("active")
-// 		var startval = (currentPage - 1) * pagenumber;
-// 		var endval = startval + pagenumber;
+	// 		for (let i = first; i <= last; i++) {
+	// 			$('<a href="#"></a>').attr('data', i).html(i).appendTo('#pagebtn');
+	// 		}
+	// 		if (last < pagetotal) {
+	// 			$('<a href="#"></a>').attr('data', 'next').html(">").appendTo(
+	// 					'#pagebtn');
+	// 		}
+	// 		var paginglink = $('#pagebtn a');
+	// 		paginglink.removeClass('active');
+	// 		$("[data=" + currentPage + "]").addClass("active")
+	// 		var startval = (currentPage - 1) * pagenumber;
+	// 		var endval = startval + pagenumber;
 
-// 		tr.css('opacity', '0.0').addClass('off-screen').slice(startval, endval)
-// 				.removeClass('off-screen').animate({
-// 					opacity : 1
-// 				}, 500);
+	// 		tr.css('opacity', '0.0').addClass('off-screen').slice(startval, endval)
+	// 				.removeClass('off-screen').animate({
+	// 					opacity : 1
+	// 				}, 500);
 
-// 		paginglink.on('click', function(e) {
-// 			e.preventDefault();
-// 			var thisval = $(this);
-// 			var data = thisval.attr("data");
-// 			var selectedPage = thisval.text();
-// 			if (data == "next")
-// 				selectedPage = next;
-// 			if (data == "prev")
-// 				selectedPage = prev;
+	// 		paginglink.on('click', function(e) {
+	// 			e.preventDefault();
+	// 			var thisval = $(this);
+	// 			var data = thisval.attr("data");
+	// 			var selectedPage = thisval.text();
+	// 			if (data == "next")
+	// 				selectedPage = next;
+	// 			if (data == "prev")
+	// 				selectedPage = prev;
 
-// 			page(pagenumber, pageCount, selectedPage);
+	// 			page(pagenumber, pageCount, selectedPage);
 
-// 		});
+	// 		});
 
-// 	}
-// 	page(pagenumber, pageCount, currentPage);
+	// 	}
+	// 	page(pagenumber, pageCount, currentPage);
 </script>
+
 </html>

@@ -546,7 +546,7 @@
               </a>
             </li>
             <li>
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="filehistory">
                 <i class="fas fa-th"></i>
                 <span>Files</span>
               </a>
