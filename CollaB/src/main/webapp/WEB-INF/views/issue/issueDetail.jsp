@@ -107,7 +107,19 @@
 	display: flex;
 	margin-left: 25%;
 }
+.replyGroup{
+	margin: auto;
+	width: 600px;
+}
+#originalReply{
+	width: 600px;
+	border: 1px solid red;
+	margin: 10px;
+}
 
+#myReplyBtn{
+	float: right;
+}
 #replyBtn {
 	background-color: #9F90D9;
 	border: 1px solid #9F90D9;
@@ -115,6 +127,9 @@
 
 #insertBtn:hover, #insertBtn:focus {
 	background-color: #6553C1 !important;
+}
+#nickname{
+	float: left;
 }
 </style>
 </head>
@@ -204,12 +219,27 @@
 								<div class="card-footer text-center pt-0">
 									<div class="form-group">
 										<div class="reply-box">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" id="replyContent"
 												placeholder="댓글을 입력해주세요." style="margin-right: 20px;">
-											<button class="btn btn-primary" id="replyBtn">등록</button>
+											<button class="btn btn-primary" id="replyBtn" >등록</button>
 										</div>
 									</div>
+									
+									<c:forEach items="${reply }" var="re">
+										<div class="replyGroup">
+											<div id="originalReply">
+												<span id="nickname" data-replyid="${re.replyid }">${re.id }</span>
+												<span>${re.replycomment }</span>
+												<span id="myReplyBtn">${re.replydate }
+													<c:if test="${re.id == id}">
+														<button id="replyDel">삭제</button>
+													</c:if>
+												</span>
+											</div>
+										</div>
+									</c:forEach>
 								</div>
+								
 							</div>
 						</div>
 					</div>
@@ -217,6 +247,51 @@
 	</div>
 
 	<script type="text/javascript">
+	
+		// 댓글 등록 ajax
+		$("#replyBtn").click(function(){
+			$.ajax({
+				url : "AjaxIssueReply",
+				type : "POST",
+				data : {
+					  replycomment : $("#replyContent").val()
+					, issueid : ${issue.issueId}
+				},
+				dataType : "text",
+				success : function(result){
+					if(result == "true"){
+						console.log("등록 성공");
+						location.reload();
+					}else{
+						console.log("안 됐 다");
+					}
+				},
+			
+			})
+		});
+		
+		// 댓글 삭제 ajax
+		$("#replyDel").click(function(){
+			let replyid = $("#nickname").data('replyid');
+			$.ajax({
+				url : "AjaxDelReply",
+				type : "post",
+				data : { 
+					replyid : replyid
+				},
+				dataType : "text",
+				success : function(result){
+					if(result == "true"){
+						alert("삭제 완료");
+						location.reload();
+					}else{
+						console.log("댓글 삭제 실패");
+					}
+				}
+			})
+		});
+		
+	
 		// 체크박스 체크 방지
 		$(document).ready(function func() {
 			$("input[type=checkbox]").bind("click", false);
