@@ -25,6 +25,7 @@ public class CardVO {
 	
 	//user_info
 	private String name;
+	private String nickname;
 	private String prof_pic;
 	
 	// 카드삭제

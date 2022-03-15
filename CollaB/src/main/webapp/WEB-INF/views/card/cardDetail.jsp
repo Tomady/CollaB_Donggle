@@ -110,7 +110,7 @@
 	  object-fit: cover;
 	}
 	.filedelbtn:hover, .filedownbtn:hover {
-	  text-decoration : underline;
+	  text-decoration : underline !important;
 	  cursor : pointer;	
 	}
 </style>
@@ -369,7 +369,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     </div>
                      <c:if test="${card.manager ne null}">
 	                    <div class="ml-2 mt-1 text-right card-owner" style="font-weight:bold; height:50px;">
-	                     	${card.manager}<img style="height: 20px; width: 20px;" 
+	                     	<img style="height: 25px; width: 25px;" 
 	                       class="rounded-circle mr-1 ml-1 mb-1 profimg${card.card_id}">
 		                </div>
                      </c:if>
@@ -405,8 +405,10 @@ document.addEventListener("DOMContentLoaded", function(){
                       <h4 id="card_Title" class="cardName mt-5 mb-4" onclick="renameCard(${cardinfo.card_id})">${cardinfo.card_title}</h4>
                       <!-- 책임자 존재할때만 뜨도록 -->
                       <c:if test="${cardinfo.manager ne null}">
-                      	<span class="btn mt-5 mb-5 ml-5">Member.  ${cardinfo.manager}
-                      </span>
+                      	<span class="btn mt-5 mb-5 ml-5" style="font-size:17px;">📌Manager. ${manager}</span>
+                      </c:if>
+                      <c:if test="${cardinfo.manager eq null}">
+                      	<span class="btn mt-5 mb-5 ml-5" style="font-size:17px; visibility:hidden"></span>
                       </c:if>
                   </div>
                   <!--카드메뉴-->
@@ -567,17 +569,17 @@ document.addEventListener("DOMContentLoaded", function(){
                           	<c:if test="${fn:substringAfter(file.pfile_name,'.') eq 'jpg' 
                           	|| fn:substringAfter(file.pfile_name,'.') eq 'png' 
                           	|| fn:substringAfter(file.pfile_name,'.') eq 'gif'}">
-                          		<img src="${file.pfile_name}">
+                          		<img src="resources/cardFile/${file.pfile_name}">
                           	</c:if>
                           		<h5 style="display:inline-block;">${fn:substringAfter(file.pfile_name,'.')}</h5>
-                          	</div>
+                          	</div> 
                             <div class="ml-3 mt-2">
 								<div class="row mb-2">
 									<span>&nbsp;&nbsp;&nbsp;${file.file_name}</span>
 								</div>
 								<div class="row">
 									<span class="btn filedelbtn" onclick="fileDelete(${file.file_id})">Delete</span>
-									<span class="btn filedownbtn" onclick="fileDownload(${file.file_id})">Download</span>
+									<a class="btn filedownbtn" href="cardFileDownload?file_name=${file.file_name}&pfile_name=${file.pfile_name}">Download</a>
 								</div>
 							</div>
                           </div>
@@ -646,6 +648,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <script type="text/javascript">
 //카드 파일업로드
 $("#input-file").on("change", function(){
+	let cardId = $("#selectedCard").attr("data-cardId");
 	var form = new FormData();
 	form.append("file", $("#input-file")[0].files[0]);
 	form.append("card_id", $("#selectedCard").attr("data-cardId"));
@@ -680,14 +683,13 @@ $("#input-file").on("change", function(){
 			delbtn.setAttribute("class","btn filedelbtn");
 			delbtn.innerHTML = "Delete";
 			delbtn.onclick = function(){
-				fileDelete(file_id);
+				fileDelete(data.file_id);
 			}
-			let downbtn = document.querySelector("span");
+			let downbtn = document.querySelector("a");
+			downbtn.removeAttribute("data-toggle");
 			downbtn.setAttribute("class","btn filedownbtn");
+			downbtn.setAttribute("href","cardFileDownload?file_name="+data.file_name+"&pfile_name="+data.pfile_name);
 			downbtn.innerHTML = "Download";
-			downbtn.onclick = function(){
-				fileDownload(file_id);
-			}
 			
 			let input = document.querySelector("#input-file");
 			if(input.files[0].type.match(/image\//)){
@@ -711,6 +713,7 @@ $("#input-file").on("change", function(){
 			card.append(hhhhead);
 			
 			file_append_target.prepend(card);
+			document.querySelector(".files"+cardId).style.color="tomato";
 		},
 		error : function(){
 			console.log("AjaxCardFileUpload 실패");

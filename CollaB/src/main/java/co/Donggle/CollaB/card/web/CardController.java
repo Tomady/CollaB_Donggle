@@ -1,11 +1,14 @@
 package co.Donggle.CollaB.card.web;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,7 @@ import co.Donggle.CollaB.card.service.CardService;
 import co.Donggle.CollaB.card.service.CardVO;
 import co.Donggle.CollaB.checklist.service.checklistService;
 import co.Donggle.CollaB.checklist.service.itemInfoService;
+import co.Donggle.CollaB.dy.VO.UserInfo;
 import co.Donggle.CollaB.fileinfo.service.FileInfoService;
 import co.Donggle.CollaB.fileinfo.service.FileInfoVO;
 import co.Donggle.CollaB.list.service.ListService;
@@ -40,7 +44,7 @@ public class CardController {
 	@Autowired itemInfoService itemInfoDao;
 	@Autowired UserService userDao;
 	@Autowired FileInfoService fileInfoDao;
-	@Autowired String saveDirectory;
+	@Autowired String cardSaveDirectory;
 	
 	//카드 생성
 	@ResponseBody
@@ -138,6 +142,8 @@ public class CardController {
 		model.addAttribute("boardJoinMembers",userDao.boardJoinMembers(vo));
 		//해당 카드의 파일리스트
 		model.addAttribute("fileinfoList",fileInfoDao.cardFileSelectList(cardId));
+		//해당 카드의 매니저
+		model.addAttribute("manager",userDao.cardManagerSelect(cardId));
 		
 		return "card/cardDetail";
 	}
@@ -242,14 +248,14 @@ public class CardController {
 		String pfilename = getRandomIntString(16);
 		String userId = (String)session.getAttribute("id");
 		pfilename = pfilename+filename.substring(filename.lastIndexOf("."));
-		File target = new File(saveDirectory,pfilename);
+		File target = new File(cardSaveDirectory,pfilename);
 		int n = 0;
 		
 		vo.setFile_name(filename);
-		vo.setPfile_name("c:/imgFile/"+pfilename);
+		vo.setPfile_name(pfilename);
 		vo.setId(userId);
-		if(!new File(saveDirectory).exists()) {
-			new File(saveDirectory).mkdir();
+		if(!new File(cardSaveDirectory).exists()) {
+			new File(cardSaveDirectory).mkdir();
 		}
 		try {
 			FileCopyUtils.copy(file.getBytes(), target);
@@ -292,17 +298,26 @@ public class CardController {
 		return n > 0 ? "YES" : "NO";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//카드 첨부파일 다운로드
+	@RequestMapping("/cardFileDownload")
+	public void AjaxCardFileDownload(FileInfoVO vo, HttpServletResponse response) throws Exception {
+		try {
+			String path = cardSaveDirectory+"\\"+vo.getPfile_name();
+			
+			//File file = new File(path);
+			response.setHeader("Content-Disposition", "attachment;filename=" + vo.getFile_name());
+			
+			FileInputStream fileInputStream = new FileInputStream(path);
+			OutputStream out = response.getOutputStream();
+		
+			int read = 0;
+				byte[] buffer = new byte[1024];
+				while((read = fileInputStream.read(buffer)) != -1) {
+					out.write(buffer, 0, read);
+				}
+				
+		} catch (Exception e) {
+			throw new Exception("download error");
+		}
+	}
 }

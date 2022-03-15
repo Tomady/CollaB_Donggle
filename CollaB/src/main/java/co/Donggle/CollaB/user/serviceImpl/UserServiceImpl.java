@@ -30,4 +30,9 @@ public class UserServiceImpl implements UserService {
 		return map.outsideBoardMembers(vo);
 	}
 
+	@Override
+	public String cardManagerSelect(int cardId) {
+		return map.cardManagerSelect(cardId);
+	}
+
 }
