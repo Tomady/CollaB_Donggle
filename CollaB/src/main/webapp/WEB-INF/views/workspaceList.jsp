@@ -224,7 +224,7 @@
       <ul class="navbar-nav navbar-right mr-5">
         <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
           <img alt="image" src="resources/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
-          <div class="d-sm-none d-lg-inline-block">Hi, Circle</div></a>
+          <div class="d-sm-none d-lg-inline-block">Hi, ${nickname}</div></a>
           <div class="dropdown-menu dropdown-menu-right">
             <!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
             <a class="dropdown-item has-icon" href="myPageMain.do">
@@ -362,12 +362,12 @@
 								<!-- 보드색깔지정 : green -->
 								<c:if test="${board.board_thema == 'green'}">
 									<div class="col-12 col-md-6 col-lg-3 mt-4">
-										<div class="card board" style="background-color:#21ca3d;"
+										<div class="card board" style="background-color:#76c483;"
 										onclick="location.href='boardDetail?boardID=${board.board_id}'">
 											<div class="row col-rg mr-2 mt-1 d-flex justify-content-between"
 											style="text-align: right; display: table-cell;">
 												<span class="ml-4" style="font-weight: bold;
-												color:#c9ffd2;">${board.board_Title}</span>
+												color:#075314;">${board.board_Title}</span>
 											</div>
 											<div class="row card-header"></div>
 										</div>

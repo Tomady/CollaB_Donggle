@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <title>Insert title here</title>
 <style>  
     .cardDetail{
@@ -93,6 +95,24 @@
    	  transition: all 0.2s;
       opacity: 1;
     }
+    .thumbnail{
+      box-shadow : 2px 2px 2px 1px #adb5bd;
+      width : 200px;
+      height : 80px;
+      border : solid 1px #D3D3D3;
+      line-height : 80px;
+      border-radius : 10px;
+      overflow: hidden;
+    }
+	.thumbnail img {
+	  width: 100%;
+	  height: 100%;
+	  object-fit: cover;
+	}
+	.filedelbtn:hover, .filedownbtn:hover {
+	  text-decoration : underline !important;
+	  cursor : pointer;	
+	}
 </style>
 <script type="text/javascript">
 //페이지 그려줌과 동시에 실행
@@ -349,7 +369,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     </div>
                      <c:if test="${card.manager ne null}">
 	                    <div class="ml-2 mt-1 text-right card-owner" style="font-weight:bold; height:50px;">
-	                     	${card.manager}<img style="height: 20px; width: 20px;" 
+	                     	<img style="height: 25px; width: 25px;" 
 	                       class="rounded-circle mr-1 ml-1 mb-1 profimg${card.card_id}">
 		                </div>
                      </c:if>
@@ -385,8 +405,10 @@ document.addEventListener("DOMContentLoaded", function(){
                       <h4 id="card_Title" class="cardName mt-5 mb-4" onclick="renameCard(${cardinfo.card_id})">${cardinfo.card_title}</h4>
                       <!-- 책임자 존재할때만 뜨도록 -->
                       <c:if test="${cardinfo.manager ne null}">
-                      	<span class="btn mt-5 mb-5 ml-5">Member.  ${cardinfo.manager}
-                      </span>
+                      	<span class="btn mt-5 mb-5 ml-5" style="font-size:17px;">📌Manager. ${manager}</span>
+                      </c:if>
+                      <c:if test="${cardinfo.manager eq null}">
+                      	<span class="btn mt-5 mb-5 ml-5" style="font-size:17px; visibility:hidden"></span>
                       </c:if>
                   </div>
                   <!--카드메뉴-->
@@ -507,14 +529,14 @@ document.addEventListener("DOMContentLoaded", function(){
     	                        <c:if test="${item.item_status eq 'Y'}">
         		                    <input type="checkbox" checked="checked" onclick="checkItem(${item.checklist_id},${item.item_id})"
    	    		                    class="ckitem${item.item_id} mt-1 mb-1 checkitem${item.checklist_id}">
-   	    		                    <span id="ckItemTitle${item.item_id}" onclick="itemTitleRename(${item.item_id})">${item.item_title}</span>
+   	    		                    <span id="ckItemTitle${item.item_id}" class="ckitem${item.item_id}" onclick="itemTitleRename(${item.item_id})">${item.item_title}</span>
        			                    <i class="ml-5 fa fa-times ckitem${item.item_id}" style="color:#ced4da; 
        			                    cursor:pointer;" onclick="ckItemDelete(${item.item_id})"></i><br>
                 	            </c:if>
                     	        <c:if test="${item.item_status eq 'N'}">
                        		    	<input type="checkbox" onclick="checkItem(${item.checklist_id},${item.item_id})"
    	                    		    class="ckitem${item.item_id} mt-1 mb-1 checkitem${item.checklist_id}">
-   	                    		    <span id="ckItemTitle${item.item_id}" onclick="itemTitleRename(${item.item_id})">${item.item_title}</span>
+   	                    		    <span id="ckItemTitle${item.item_id}" class="ckitem${item.item_id}" onclick="itemTitleRename(${item.item_id})">${item.item_title}</span>
        	                		    <i class="ml-5 fa fa-times ckitem${item.item_id}" style="color:#ced4da; 
  	                		    	cursor:pointer;" onclick="ckItemDelete(${item.item_id})"></i><br>
                             	</c:if>
@@ -522,7 +544,7 @@ document.addEventListener("DOMContentLoaded", function(){
                             </c:forEach>
                           </div>
                           <button class="btn btn-secondary fa fa-plus ml-4 mb-5 additem${check.checklist_id}" 
-                          style="width:15%;" onclick="addItemBtn(${check.checklist_id})"> item</button>
+                          style="width:15%;" onclick="addCheckListItems(${check.checklist_id})"> item</button>
                         </div>
                         <!--여기까지가 하나의 체크리스트-->
                       	</c:forEach>
@@ -530,19 +552,39 @@ document.addEventListener("DOMContentLoaded", function(){
                     </div>
                    </div>
                   <!--카드아이템 : 파일첨부-->
-                  <div class="row">
+                  <div class="row mb-5">
                     <div class="card">
                       <div style="width: 740px;"></div>
                       <div class="card-header" style="font-size: large;">
                         <i class="fa fa-paperclip ml-1 files">&nbsp;&nbsp;Attachments</i>
                       </div>
-                      <div class="card-body">
+                      <div class="card-body" id="file_append_target">
+                      <c:forEach items="${fileinfoList}" var="file">
                         <!--여기서부터-->
-                        <div class="card">
-                          <div class="card-body">
-                            <div>파일이름<button class="btn ml-2 fa fa-times"></button></div>
+                        <div class="card" id="file${file.file_id}">
+                          <div class="card-body d-flex">
+                          	<div style="box-shadow:2px 2px 2px 1px #adb5bd; width:200px; 
+                          	height:80px; border:solid 1px #D3D3D3; line-height:80px; 
+                          	border-radius:10px;" class="mr-2 text-center thumbnail">
+                          	<c:if test="${fn:substringAfter(file.pfile_name,'.') eq 'jpg' 
+                          	|| fn:substringAfter(file.pfile_name,'.') eq 'png' 
+                          	|| fn:substringAfter(file.pfile_name,'.') eq 'gif'}">
+                          		<img src="resources/cardFile/${file.pfile_name}">
+                          	</c:if>
+                          		<h5 style="display:inline-block;">${fn:substringAfter(file.pfile_name,'.')}</h5>
+                          	</div> 
+                            <div class="ml-3 mt-2">
+								<div class="row mb-2">
+									<span>&nbsp;&nbsp;&nbsp;${file.file_name}</span>
+								</div>
+								<div class="row">
+									<span class="btn filedelbtn" onclick="fileDelete(${file.file_id})">Delete</span>
+									<a class="btn filedownbtn" href="cardFileDownload?file_name=${file.file_name}&pfile_name=${file.pfile_name}">Download</a>
+								</div>
+							</div>
                           </div>
                         </div>
+                      </c:forEach>
                         <!--여기까지가 하나의 첨부파일-->
                       </div>
                     </div>
@@ -596,13 +638,99 @@ document.addEventListener("DOMContentLoaded", function(){
                     </ul>
                   </div>
                 </div>
+              </div>
             </div>
-          </div>
        	  </div>
         </section>
       </div>
     </div>
   </div>
+<script type="text/javascript">
+//카드 파일업로드
+$("#input-file").on("change", function(){
+	let cardId = $("#selectedCard").attr("data-cardId");
+	var form = new FormData();
+	form.append("file", $("#input-file")[0].files[0]);
+	form.append("card_id", $("#selectedCard").attr("data-cardId"));
+	$.ajax({
+		url : "AjaxCardFileUpload",
+		type : "POST",
+		data : form,
+		dataType : "json",
+		contentType : false,
+		processData : false,
+		success : function(data){
+			console.log(data);
+			let file_end = (data.file_name).substring((data.file_name).lastIndexOf(".")+1); //확장자명
+			
+			let card = document.createElement("div");
+			card.setAttribute("class","card");
+			card.setAttribute("id","file"+data.file_id);
+			let hhhhead = document.createElement("div");
+			hhhhead.setAttribute("class","card-body d-flex");
+			let thumbnail = document.createElement("div");
+			thumbnail.setAttribute("class","mr-2 text-center thumbnail");
+			
+			let cardbody = document.createElement("div");
+			cardbody.setAttribute("class","ml-3 mt-2");
+			let frow = document.createElement("div");
+			frow.setAttribute("class","row mb-2");
+			let filename = document.createElement("span");
+			filename.innerHTML = "&nbsp;&nbsp;&nbsp;"+data.file_name;
+			let srow = document.createElement("div");
+			srow.setAttribute("class","row");
+			let delbtn = document.createElement("span");
+			delbtn.setAttribute("class","btn filedelbtn");
+			delbtn.innerHTML = "Delete";
+			delbtn.onclick = function(){
+				fileDelete(data.file_id);
+			}
+			let downbtn = document.querySelector("a");
+			downbtn.removeAttribute("data-toggle");
+			downbtn.setAttribute("class","btn filedownbtn");
+			downbtn.setAttribute("href","cardFileDownload?file_name="+data.file_name+"&pfile_name="+data.pfile_name);
+			downbtn.innerHTML = "Download";
+			
+			let input = document.querySelector("#input-file");
+			if(input.files[0].type.match(/image\//)){
+				let img = document.createElement("img");
+				getFileSrc(input,img);
+				thumbnail.append(img);
+			}else{
+				let thumbname = document.createElement("h5");
+				thumbname.style.display="inline-block";
+				thumbname.innerText=file_end;
+				thumbnail.append(thumbname);
+			}
+			
+			frow.append(filename);
+			srow.append(delbtn);
+			srow.append(downbtn);
+			cardbody.append(frow);
+			cardbody.append(srow);
+			hhhhead.append(thumbnail);
+			hhhhead.append(cardbody);
+			card.append(hhhhead);
+			
+			file_append_target.prepend(card);
+			document.querySelector(".files"+cardId).style.color="tomato";
+		},
+		error : function(){
+			console.log("AjaxCardFileUpload 실패");
+		}
+	})
+})
+ 
+function getFileSrc(input,img){
+      var reader = new FileReader();
+      
+      reader.onload = function (e) {
+      	img.setAttribute("src", e.target.result)
+      }
+      reader.readAsDataURL(input.files[0])
+ }
+ </script>
+ 
  <!-- 은지 코드 -->
  <script src="resources/js/card/card-details.js"></script>
 </body>

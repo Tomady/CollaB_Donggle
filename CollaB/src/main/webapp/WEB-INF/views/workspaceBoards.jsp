@@ -279,10 +279,10 @@
 						card.style.backgroundColor="rgb(255, 245, 157)";
 						secRow.style.backgroundColor="rgb(255, 245, 157)";
 					}else if(data.board_thema == "green"){
-						i.style.color="#c9ffd2";
-						span.style.color="#c9ffd2";
-						card.style.backgroundColor="#21ca3d";
-						secRow.style.backgroundColor="#21ca3d";
+						i.style.color="#075314";
+						span.style.color="#075314";
+						card.style.backgroundColor="#76c483";
+						secRow.style.backgroundColor="#76c483";
 					}else if(data.board_thema == "skyblue"){
 						i.style.color="#4ac1ff";
 						span.style.color="#4ac1ff";
@@ -340,6 +340,37 @@
 			}
 		})
 	});
+	function sidebarWorkspace(){
+		if(sidebar_wk_icon.className=="fa fa-caret-up ml-3"){
+			sidebar_wk_icon.className="fa fa-caret-down ml-3";
+		}else if(sidebar_wk_icon.className=="fa fa-caret-down ml-3"){
+			sidebar_wk_icon.className="fa fa-caret-up ml-3";
+		}
+		const wkitems = document.querySelectorAll(".sidebar_workspace_item");
+		wkitems.forEach((wk)=>{
+			if(wk.style.display == "none"){
+				wk.style.display = "block";
+			}else if(wk.style.display == "block"){
+				wk.style.display = "none";
+			}
+		})
+	}
+
+	function sidebarBoard(){
+		if(sidebar_bo_icon.className=="fa fa-caret-up ml-5"){
+			sidebar_bo_icon.className="fa fa-caret-down ml-5";
+		}else if(sidebar_bo_icon.className=="fa fa-caret-down ml-5"){
+			sidebar_bo_icon.className="fa fa-caret-up ml-5";
+		}
+		const boitems = document.querySelectorAll(".sidebar_board_item");
+		boitems.forEach((bo)=>{
+			if(bo.style.display == "none"){
+				bo.style.display = "block";
+			}else if(bo.style.display == "block"){
+				bo.style.display = "none";
+			}
+		})
+	}
 </script>
 </head>
 <body style="background-color: #ECE9FE; overflow:scroll; overflow-x:hidden;">
@@ -391,7 +422,7 @@
         <ul class="navbar-nav navbar-right">
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
             <img alt="image" src="resources/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
-            <div class="d-sm-none d-lg-inline-block">Hi, Circle</div></a>
+            <div class="d-sm-none d-lg-inline-block">Hi, ${nickname}</div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
               <a class="dropdown-item has-icon" href="myPageMain.do">
@@ -520,16 +551,17 @@
                 <span>Files</span>
               </a>
             </li>
-            <li class="menu-header">Your Workspaces</li>
+            <li id="sidebar_workspace" class="menu-header mt-3" onclick="sidebarWorkspace()" style="cursor:pointer;">Your Workspaces<i id="sidebar_wk_icon" class="fa fa-caret-down ml-3" style="font-size:15px;"></i></li>
             <c:forEach items="${workspaceList}" var="workspace">
-            <li>
-            	<a class="nav-link" href="Boards?wkid=${workspace.workspace_id}"><span id="sidebar_workspace${workspace.workspace_id}">&nbsp;&nbsp;${workspace.workspace_title}</span></a>
+            <li class="sidebar_workspace_item" style="display:none;">
+            	<a class="nav-link" href="Boards?wkid=${workspace.workspace_id}">
+            	<span id="sidebar_workspace${workspace.workspace_id}">&nbsp;&nbsp;${workspace.workspace_title}</span></a>
             </li>
             </c:forEach>
             <c:if test="${boardStar ne null}">
-            <li class="menu-header">Your Boards</li>
+            <li id="sidebar_board" class="menu-header" onclick="sidebarBoard()" style="cursor:pointer;">Your Boards<i id="sidebar_bo_icon" class="fa fa-caret-down ml-5" style="font-size:15px;"></i></li>
             <c:forEach items="${boardStar}" var="starBoard">
-            	<li>
+            	<li class="sidebar_board_item" style="display:none;">
             	  <a class="nav-link d-flex justify-content-between sidebar_boardStar${starBoard.board_id}" href="boardDetail?boardID=${starBoard.board_id}">
 	                <span class="sidebar_board${starBoard.board_id}">&nbsp;&nbsp;${starBoard.board_Title}</span>
 	                <span class="sidebarstar${starBoard.board_id} fas fa-star col-rg text-right" style="color:yellow;"></span>
@@ -537,7 +569,7 @@
             	</li>
             </c:forEach>
             <c:forEach items="${unStarBoards}" var="board">
-	            <li>
+	            <li class="sidebar_board_item" style="display:none;">
 	              <a class="nav-link d-flex justify-content-between sidebar_boardStar${board.board_id}" href="boardDetail?boardID=${board.board_id}">
 	                <span class="sidebar_board${board.board_id}">&nbsp;&nbsp;${board.board_Title}</span>
 	              </a>
@@ -565,7 +597,7 @@
                       </div>
                     </div>  
                   </div>
-                  <div class="card-body ml-5 mr-5" style="height: 100vh;">
+                  <div class="card-body ml-5 mr-5" style="height: 75vh;">
                     <!-- 검색창 -->
                     <div class="row d-flex justify-content-end mr-5 ml-5">
                       <form action="#">

@@ -540,15 +540,3 @@ function filterApply(){
 		})
 	})
 } 
- 
-
-
-
-
-
-
-
-
-
-
-

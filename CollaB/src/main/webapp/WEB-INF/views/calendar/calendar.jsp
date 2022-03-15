@@ -26,8 +26,8 @@
 
 #calendarCard {
 	border: 1px solid #ECE9FE;
-	height: 600px;
-	overflow: scroll;
+	/*height: 1000px;
+	overflow: scroll;*/
 }
 
 .calendar {
@@ -49,6 +49,7 @@
 .boardColor:hover, .default:hover {
 	cursor: pointer;
 }
+
 </style>
 <script type="text/javascript">
 	//페이지 그려줌과 동시에 실행
@@ -312,7 +313,7 @@
 								<c:forEach items="${lists }" var="list" varStatus="status">
 									<div class="card">
 										<div class="card-body" style="background-color: #FAFAFA;" data-listId="${list.list_id}" id="list + ${list.list_id}" onclick="listPlan()">
-											<a href="">${list.list_title }</a>
+											<p data-listId="${list.list_id}" id="list + ${list.list_id}" onclick="listPlan()">${list.list_title }</p>
 										</div>
 									</div>
 								</c:forEach>
@@ -320,14 +321,88 @@
 							<div class="col-lg-10">
 								<div id='calendar'></div>
 							</div>
+							<div class="row ml-2 mt-2">
+								<button type="button" class="btn btn-primary" id="addCardBtn"
+								   data-toggle="modal" data-target="#addCardModal">Add
+								   Card</button>
+								<button type="button" class="btn btn-primary ml-2"
+								   id="addListBtn">Add List</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
+		<!-- 카드 추가 모달 -->
+				<div class="modal fade show" id="addCardModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Add Card</h5>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<label>Title</label> 
+									<input type="text" class="form-control" name="card_title" id="card_title">
+								</div>
+								<div class="form-group">
+									<label>List</label> 
+									<select class="form-control" name="list_id" id="list_id">
+										<option value="">Choose a list</option>
+										<c:forEach items="${lists }" var="list" varStatus="status">
+	                        				<option value="${list.list_id}">${list.list_title}</option>
+	                      				</c:forEach>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Start Date</label>
+									<input type="date" class="form-control" name="card_start_date" id="card_start_date">
+								</div>
+								<div class="form-group">
+									<label>Due Date</label> 
+									<input type="date" class="form-control" name="card_end_date" id="card_end_date">
+								</div>
+							</div>
+							<div class="modal-footer text-right">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal"
+									id="closeAddCard">Close</button>
+								<button type="button" class="btn btn-primary" id="saveCardBtn">Save</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+            <!-- 리스트 추가 모달 -->
+				<div class="modal fade" id="addListModal" tabindex="-1" aria-labelledby="listModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Add List</h5>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<label>Title</label> 
+									<input type="text" class="form-control" name="list_title" id="list_title">
+									<input type="hidden" name="id" id="id" value="${id}">
+									<input type="hidden" name="board_id" id="board_id">
+								</div>
+							</div>
+							<div class="modal-footer text-right">
+								<button type="button" class="btn btn-secondary" id="closeAddList">Close</button>
+								<button type="button" class="btn btn-primary" id="saveListBtn">Save</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			<!-- 리스트 추가 모달 끝 -->
 	</div>
 
 	<script>
+		let calendar;
+		let list_idd = '${lists[0].list_id}';
+
 		//풀캘린더 일정 DB 연동
 		document.addEventListener('DOMContentLoaded', function() {
 			let boardId = document.querySelector("#boardDetailBODY")
@@ -337,11 +412,17 @@
 			xhtp.send();
 			xhtp.onload = function() {
 				let dbData = JSON.parse(xhtp.responseText);
+				
 				console.log(xhtp.responseText);
 				console.log(dbData);
+				
+				if(dbData.length == 0) {
+					console.log("fff")
+					dbData = {}
+				}
 				var calendarEl = document.getElementById('calendar');
 
-				var calendar = new FullCalendar.Calendar(calendarEl, {
+				calendar = new FullCalendar.Calendar(calendarEl, {
 					initialView : 'dayGridMonth',
 					nowIndicator : true,
 					headerToolbar : {
@@ -371,7 +452,10 @@
 
 		// 리스트 클릭하면 해당 리스트의 카드만 캘린더에 불러오기
 		function listPlan() {
-			// let listId = document.getElementById("list + ${list.list_id}");
+			// 기존 달력 삭제
+			calendar.destroy();
+
+			list_idd = event.target.dataset.listid;
 			let listId = event.target.dataset.listid;
 			console.log("data: ");
 			console.log(listId);
@@ -387,7 +471,7 @@
 
 				var calendarEl = document.getElementById('calendar');
 
-				var calendar = new FullCalendar.Calendar(calendarEl, {
+				calendar = new FullCalendar.Calendar(calendarEl, {
 					initialView : 'dayGridMonth',
 					nowIndicator : true,
 					headerToolbar : {
@@ -405,16 +489,18 @@
 					eventDrop : function(info) {
 						updateDate(info);
 					},
+					eventClick : function(info) {
+						moveCard(info);
+					},
 					dayMaxEvents : true, // allow "more" link when too many events
 					events : dbData
 				});
 				calendar.render();
-			}
+			} 
 		}
 
 		// 날짜 변경
 		function updateDate(info) {
-
 			var data = {
 				card_id : info.event.id,
 				card_start_date : info.event.start,
@@ -422,30 +508,107 @@
 			}
 			console.log(data);
 
-			$
-					.ajax({
-						url : '/CollaB/dateUpdate',
-						headers : {
-							'Content-Type' : 'application/json'
-						},
-						type : 'POST',
-						data : JSON.stringify(data),
-						dataType : 'text',
-						success : function(data) {
-							console.log(data);
-							alert("일정변경을 성공했습니다.");
-						},
-						error : function(request, status, error) {
-							alert("code : " + request.status + "\n"
-									+ "message : " + request.responseText
-									+ "\n" + "error : " + error);
-						}
-					});
-		}
+			$.ajax({
+				url : '/CollaB/dateUpdate',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				type : 'POST',
+				data : JSON.stringify(data),
+				dataType : 'text',
+				success : function(data) {
+					console.log(data);
+					alert("The schedule has changed.");
+				},
+				error : function(request, status, error) {
+				alert("code : " + request.status + "\n"
+					+ "message : " + request.responseText
+					+ "\n" + "error : " + error);
+				}
 
-		function moveCard(info) {
-			location.href = "cardDetail?list=13&card=" + info.event.id
+			});
 		}
+		
+		// 해당 카드 상세보기 페이지로 가기
+		function moveCard(info) {
+			var lid = info.event.classNames
+			location.href = "cardDetail?list="+lid+"&card=" + info.event.id
+		}
+		
+		// 리스트 추가 모달 열고 닫기
+		$('#addListBtn').on('click', function () {
+			$('#addListModal').modal('show');
+		})
+
+		$('#closeAddList').on('click', function () {
+			$('#addListModal').modal('hide');
+		})
+
+		// list 추가 처리
+		$('#saveListBtn').on('click', function(){
+			let boardId = document.querySelector("#boardDetailBODY").getAttribute("data-boardId");
+
+			if($('#list_title').val().length==0){alert("Please enter the list title"); $('#list_title').focus(); return false; }
+			
+			$.ajax({ // 아이디, 리스트타이틀, 보드아이디
+				url: '/CollaB/calListInsert',
+				type: 'post',
+				data: {
+					id: $('#id').val(),
+					list_title: $('#list_title').val(),
+					board_id: boardId
+				},
+				dataType: 'text',
+				success: function(data){
+					alert('List registration is complete.');
+					console.log(data);
+					$('#addListModal').modal('hide');
+					location.reload();
+				},
+				error: function(error){
+					console.log(error);
+				}
+			})
+		})
+
+		// 카드 추가 모달 열고 닫기
+		$('#addCardBtn').on('click', function(){
+			$('#addCardModal').modal('show');
+		})
+
+		$('#closeAddCard').on('click', function(){
+			$('#addCardModal').modal('hide');
+		})
+
+		// 카드 추가 처리
+		$('#saveCardBtn').on('click', function(){
+			if($('#card_title').val().length==0){alert("Please enter the card title"); $('#card_title').focus(); return false; }
+            if($('#list_id').val()==""){alert("Please choose a list"); $('#list_id').focus(); return false; }
+            if($('#card_start_date').val()==""){alert("Please choose the start date"); $('#card_start_date').focus(); return false; }
+            if($('#card_end_date').val()==""){alert("Please choose the end date."); $('#card_end_date').focus(); return false; }
+			
+			$.ajax({ // 카드아이디, 카드타이틀, 리스트아이디, 시작일, 종료일
+				url: '/CollaB/calCardInsert',
+				type: 'post',
+				data: {
+					card_title: $('#card_title').val(),
+					list_id: $('#list_id').val(),
+					card_start_date: $('#card_start_date').val(),
+					card_end_date: $('#card_end_date').val()
+				},
+				dataType: 'text',
+				success: function(data){
+					alert('Card registration is complete.');
+					$('#addCardModal').modal('hide');
+					location.reload();
+				},
+				error: function(error){
+					console.log(error);
+				}
+			})
+		})
+		
+
 	</script>
 	<script src="resources/js/board/board-header.js"></script>
 </body>

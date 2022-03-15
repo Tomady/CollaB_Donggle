@@ -74,9 +74,11 @@
 }
 
 .tableTopMenu__right {
-	
-}
 
+}
+label{
+margin: 0;
+}
 .tableTopMenu__right button {
 	padding: 0;
 	margin: 0;
@@ -307,7 +309,8 @@
 	margin: 10vmax auto;
 	border-radius: 10px;
 	padding: 10px;
-	background: rgba(41, 40, 40, 1);
+ 	background: rgba(41, 40, 40, 1); 
+/* 	background: #9F90D9; */
 }
 
 .modals2-content {
@@ -474,6 +477,7 @@
 }
 
 .member-id {
+	width: calc(91% -80px);
 	margin-right: 100px;
 	color: #fff;
 }
@@ -619,13 +623,18 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 	overflow: auto;
 	min-height: 192px;
 }
-.Workspace__boards::-webkit-scrollbar, .footerRow-content::-webkit-scrollbar{
+
+.Workspace__boards::-webkit-scrollbar, .footerRow-content::-webkit-scrollbar
+	{
 	width: 10px;
 }
-.Workspace__boards::-webkit-scrollbar-thumb, .footerRow-content::-webkit-scrollbar-thumb{
+
+.Workspace__boards::-webkit-scrollbar-thumb, .footerRow-content::-webkit-scrollbar-thumb
+	{
 	background: #dee2e7;;
 	border-radius: 6px;
 }
+
 .Workspace__boards__header {
 	width: 100%;
 	display: flex;
@@ -734,6 +743,7 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 	border-radius: 5px;
 	background-color: #fff;
 	box-shadow: 1px 1px 5px gray;
+	position: relative;
 	/* max-height: 310px; */
 	/* overflow: auto; */
 }
@@ -781,10 +791,12 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 
 .change__adminRow:hover:not([disabled]), .change__userRow:hover:not([disabled])
 	{
+	border-radius: 4px;
 	background-color: #dee2e7;
 }
 
 .change__adminRow[disabled], .change__userRow[disabled] {
+	border-radius: 4px;
 	background-color: #dee2e7;
 	cursor: default;
 	/* color: #bdc1c7; */
@@ -821,8 +833,7 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 	border-radius: 5px;
 	background-color: #fff;
 	box-shadow: 1px 1px 5px gray;
-	/* max-height: 310px; */
-	/* overflow: auto; */
+	
 }
 
 .remove__member__header {
@@ -851,32 +862,39 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 }
 
 .remove__member__body {
-	padding: 25px 0 10px 0;
 	width: 100%;
 	height: 100%;
 }
 
+.remove__memberRow:hover {
+	border-radius: 4px;
+	background-color: #dee2e7;
+	cursor: pointer;
+}
+
 .remove__memberRow {
+	margin-top: 5px;
+	padding: 5px 10px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	width: 100%;
-	height: 100%;
+	height: auto;
 }
 
 .remove__member__con {
-	height: 100%;
+	height: 25px;
 	width: 100%;
-	text-align: center;
-	font-size: 16px;
+	font-size: 15px;
+	line-height: 25px;
+	box-sizing: content-box;
+	font-weight: 600;
 }
 
 .remove__member__Btn {
 	display: flex;
-	width: 80%;
-	margin: 0 auto;
-	align-items: center;
-	justify-content: center;
+	width: 100%;
+	height: 100%
 }
 
 .yesBtn {
@@ -935,6 +953,76 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 .displaynone {
 	display: none;
 }
+
+.permissionChange__toolTip {
+	visibility: hidden;
+	/* width: 120px; */
+	background-color: #dee2e7;
+	text-align: center;
+	border-radius: 6px;
+	padding: 7px 10px;
+	position: absolute;
+	z-index: 1000;
+	top: -50px;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: #6c757d;
+	left: 50%;
+}
+
+.permissionChange__toolTip::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #dee2e7;
+}
+
+.permissionChange__toolTip__title {
+	margin-bottom: 5px;
+}
+
+.permissionChange__Btns button {
+	border: none;
+	padding: 0;
+	width: 35px;
+	height: 20px;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.permissionChange__Btns__yes {
+	background-color: #6777ef;
+	color: #ffffff;
+	margin-right: 5px;
+}
+
+.permissionChange__Btns__No {
+	background-color: darkorange;
+	color: #ffffff;
+}
+
+.swal-modal {
+	border-radius: 10px;
+}
+
+.swal-title {
+	font-size: 20px;
+	color: black;
+}
+
+.swal-text {
+	font-weight: bold;
+	color: black;
+}
+
+.searchNoen{
+	opacity: 0.0;
+	display: none;
+}
 </style>
 </head>
 
@@ -948,7 +1036,7 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 
 			<div class="row">
 				<div class="col-12">
-					<div class="card">
+					<div class="card" style="height: 100vh;">
 						<div class="section-body">
 							<div class="card-header d-flex justify-content-center"
 								style="text-align: center;">
@@ -964,8 +1052,8 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 							<div class="card-body">
 								<div class="tableTopMenu">
 									<div class="tableTopMenu__left">
-										<input type="text" placeholder="이름 검색">
-										<button type="button">검색</button>
+										<input type="text" id="nameSearchInput" placeholder="이름 검색">
+										<button type="button" onclick="nameSearch()">검색</button>
 									</div>
 									<div class="tableTopMenu__right">
 										<label for="modal-2" class="modal2_label"><button
@@ -983,11 +1071,7 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 													<div class="tabletdRow">
 														<div class="tdDetails">
 															<div class="theadTh">Name</div>
-															<!-- 															<div class="user__img"></div> -->
-															<!-- 															<div class="user__name">Name</div> -->
 														</div>
-
-
 														<div class="thOptions">
 															<a href="#" class="">Boards</a> <a href="#" class="">Author</a>
 															<a href="#" class="">Remove</a>
@@ -1027,7 +1111,16 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 			</div>
 
 			<div class="pop_over_author">
+
 				<div class="Change__permissions">
+					<div class="permissionChange__toolTip">
+						<div class="permissionChange__toolTip__title">Change ?</div>
+						<div class="permissionChange__Btns">
+							<button class="permissionChange__Btns__yes">Yes</button>
+							<button class="permissionChange__Btns__No">No</button>
+
+						</div>
+					</div>
 					<div class="Change__permissions__header">
 						<span class="header__hiddenBox"></span> <span
 							class="Change__permissions__headerCon">Change permissions</span>
@@ -1036,6 +1129,7 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 					</div>
 					<div class="change__permissions__body">
 						<div class="change__adminRow" disabled='disabled'>
+
 							<div class="change__admin">
 								Admin <span class="adminchkicon"> <ion-icon
 										name="checkmark-outline"></ion-icon>
@@ -1046,6 +1140,7 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 								have admin rights on all boards in this Workspace.</div>
 						</div>
 						<div class="change__userRow">
+
 							<div class="change__user">
 								User <span class="userchkicon"> <ion-icon
 										name="checkmark-outline"></ion-icon>
@@ -1063,23 +1158,29 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 				<div class="remove__member">
 					<div class="remove__member__header">
 						<span class="header__hiddenBox"></span> <span
-							class="remove__member__headerCon">Change permissions</span> <span
+							class="remove__member__headerCon">Remove memeber</span> <span
 							class="remove__member__cancelBtn cancelB"><i
 							class="fas fa-times"></i></span>
 					</div>
 					<div class="remove__member__body">
 						<div class="remove__memberRow">
-							<div class="remove__member__con">workspace에서 나가기를 원하십니까?</div>
-							<div class="remove__member__Btn">
-								<div class="yesBtn">확인</div>
-								<div class="noBtn cancelB">취소</div>
-							</div>
+							<div class="remove__member__con">Remove from Workspace</div>
+							<div class="remove__member__Btn">Remove all access to the
+								Workspace. The member will remain on all their boards in this
+								Workspace. They will receive a notification.</div>
 						</div>
 					</div>
 				</div>
 			</div>
+
+
+
 		</section>
 	</div>
+
+
+
+
 
 
 	<input type="checkbox" id="modal-1" class="hs" />
@@ -1122,174 +1223,20 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 							<i class="fas fa-search"></i>
 						</div>
 						<div class="bodyRow-search-input">
-							<input type="text" placeholder="검색하기"> <span
-								class="underline"></span>
+							<input type="text" id="workspaceInviteInputVal"
+								placeholder="검색하기"> <span class="underline"></span>
 						</div>
 						<div class="bodyRow-search-resultBtn">
-							<button type="button">검색</button>
+							<button type="button" id="inviteBtn"
+								onclick="workspaceInviteBtnFn()">검색</button>
 						</div>
 					</div>
-					<div class="bodyRow-content">
-						<div class="bodyRow-member">
-							<div class="member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="member-id">ha1000@naver.com</div>
-							<div class="member-plusBtn">
-								<button type="button" id="plusBtn">추가하기</button>
-							</div>
-						</div>
-						<div class="bodyRow-member">
-							<div class="member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="member-id">ha2000@naver.com</div>
-							<div class="member-plusBtn">
-								<button type="button" id="plusBtn">추가하기</button>
-							</div>
-						</div>
-						<div class="bodyRow-member">
-							<div class="member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="member-id">ha3000@naver.com</div>
-							<div class="member-plusBtn">
-								<button type="button" id="plusBtn">추가하기</button>
-							</div>
-						</div>
-						<div class="bodyRow-member">
-							<div class="member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="member-id">ha1000@naver.com</div>
-							<div class="member-plusBtn">
-								<button type="button" id="plusBtn">추가하기</button>
-							</div>
-						</div>
-						<div class="bodyRow-member">
-							<div class="member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="member-id">ha2000@naver.com</div>
-							<div class="member-plusBtn">
-								<button type="button" id="plusBtn">추가하기</button>
-							</div>
-						</div>
-						<div class="bodyRow-member">
-							<div class="member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="member-id">ha3000@naver.com</div>
-							<div class="member-plusBtn">
-								<button type="button" id="plusBtn">추가하기</button>
-							</div>
-						</div>
-						<div class="bodyRow-member">
-							<div class="member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="member-id">ha1000@naver.com</div>
-							<div class="member-plusBtn">
-								<button type="button" id="plusBtn">추가하기</button>
-							</div>
-						</div>
-						<div class="bodyRow-member">
-							<div class="member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="member-id">ha2000@naver.com</div>
-							<div class="member-plusBtn">
-								<button type="button" id="plusBtn">추가하기</button>
-							</div>
-						</div>
-						<div class="bodyRow-member">
-							<div class="member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="member-id">ha3000@naver.com</div>
-							<div class="member-plusBtn">
-								<button type="button" id="plusBtn">추가하기</button>
-							</div>
-						</div>
-					</div>
+					<div class="bodyRow-content"></div>
 				</div>
 				<div class="footerRow">
-					<div class="footerRow-content">
-						<div class="footerRow-member">
-							<div class="result-member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="result-member-id">ha4000@naver.com</div>
-							<div class="result-member-minusBtn">
-								<i class="fas fa-minus-square" id="minusBtn"></i>
-							</div>
-						</div>
-						<div class="footerRow-member">
-							<div class="result-member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="result-member-id">ha5000@naver.com</div>
-							<div class="result-member-minusBtn">
-								<i class="fas fa-minus-square" id="minusBtn"></i>
-							</div>
-						</div>
-						<div class="footerRow-member">
-							<div class="result-member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="result-member-id">ha6000@naver.com</div>
-							<div class="result-member-minusBtn">
-								<i class="fas fa-minus-square" id="minusBtn"></i>
-							</div>
-						</div>
-						<div class="footerRow-member">
-							<div class="result-member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="result-member-id">ha7000@naver.com</div>
-							<div class="result-member-minusBtn">
-								<i class="fas fa-minus-square" id="minusBtn"></i>
-							</div>
-						</div>
-						<div class="footerRow-member">
-							<div class="result-member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="result-member-id">ha4000@naver.com</div>
-							<div class="result-member-minusBtn">
-								<i class="fas fa-minus-square" id="minusBtn"></i>
-							</div>
-						</div>
-						<div class="footerRow-member">
-							<div class="result-member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="result-member-id">ha5000@naver.com</div>
-							<div class="result-member-minusBtn">
-								<i class="fas fa-minus-square" id="minusBtn"></i>
-							</div>
-						</div>
-						<div class="footerRow-member">
-							<div class="result-member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="result-member-id">ha6000@naver.com</div>
-							<div class="result-member-minusBtn">
-								<i class="fas fa-minus-square" id="minusBtn"></i>
-							</div>
-						</div>
-						<div class="footerRow-member">
-							<div class="result-member-img">
-								<img src="../assets/img/avatar/avatar-1.png" alt="">
-							</div>
-							<div class="result-member-id">ha7000@naver.com</div>
-							<div class="result-member-minusBtn">
-								<i class="fas fa-minus-square" id="minusBtn"></i>
-							</div>
-						</div>
-					</div>
+					<div class="footerRow-content"></div>
 				</div>
-				<div class="modal2-resultBtn">초대 보내기</div>
+				<div class="modal2-resultBtn" onclick="workspaceInviteResultBtn()">초대 보내기</div>
 			</div>
 		</div>
 	</div>
@@ -1297,9 +1244,9 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 	<div style="display: none;" id="memPlusTemplate">
 		<div class="footerRow-member">
 			<div class="result-member-img">
-				<img src="../assets/img/avatar/avatar-1.png" alt="">
+				<img src="" alt="">
 			</div>
-			<div class="result-member-id">ha3310@naver.com</div>
+			<div class="result-member-id"></div>
 			<div class="result-member-minusBtn">
 				<i class="fas fa-minus-square" id="minusBtn"></i>
 			</div>
@@ -1309,9 +1256,9 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 	<div style="display: none;" id="memMinusTemplate">
 		<div class="bodyRow-member">
 			<div class="member-img">
-				<img src="../assets/img/avatar/avatar-1.png" alt="">
+				<img src="" alt="">
 			</div>
-			<div class="member-id">ha3310@naver.com</div>
+			<div class="member-id"></div>
 			<div class="member-plusBtn">
 				<button type="button" id="plusBtn">추가하기</button>
 			</div>
@@ -1350,7 +1297,7 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 
-	
+const currentWorkspaceId = $('#hWorkspace_id').val();	
 
 const boardBg = {
 		red : "rgb(247,123,123)",
@@ -1368,24 +1315,18 @@ const boardBg = {
 		base : "#ECE9FE"
 }
 
-
 	$(function() {
-
-		let name = "${workspace.workspace_title}";
-		
-		changeWKIMG(name);
-		
-		let workspaceId = $('#hWorkspace_id').val();
-
-
-		ajaxMemPageUserList(workspaceId)
-
+			App.init();		
 	})
 
 	function ajaxMemPageUserList(workspaceId) {
+	
+		let flag = false;
+	
 		$.ajax({
 			url : 'ajaxMemPageUserList.do',
 			type : 'post',
+			async: false,
 			data : {	
 				workspace_id : workspaceId
 			},
@@ -1394,35 +1335,50 @@ const boardBg = {
 				let usersAuthor = data.userAuthor;
 				
 				
-				createTrRow(userList, usersAuthor)
+				flag = createTrRow(userList, usersAuthor)
 			}
 			
 		})
+		return flag;
 	}
 
 	
 	
 	function createTrRow(userList, usersAuthor){
-
+		
 		let tbodyEl = $('.tbodyEl');
 		
-		userList
 		for(let user of userList){
 			let tr = $('<tr>')
 			let td = $('<td>')
 			tbodyEl.append(tr.append(td.append(trRow(user, usersAuthor).html())))
 		}	
+		return true;
 	}
-	
+	function ajaxSessionId(){
+		let currentId;
+		
+		$.ajax({
+			url : 'ajaxSessionId.do',
+			dataType : 'text',
+			type : 'post',
+			async: false,
+			success : function(data){
+				
+				currentId = data;
+			}
+		})
+		return currentId;
+	}
+	///여기
 	function trRow(user, usersAuthor){
 		
-		
 		let userTrTemplate = $('.userTrTemplate');
-		
+		let sessionId = ajaxSessionId();
 		let userId = user.id;
-
+		let userRemoveBtnText = "Remove...";
 		let boardsNub = ajaxBoardsNub(userId);
-		
+		 
 		var userAuthorVal;
 		for(let userAuthor of usersAuthor){
 			
@@ -1433,9 +1389,14 @@ const boardBg = {
 	
 		userTrTemplate.find('.tabletdRow').attr('data', user.id);
 		userTrTemplate.find('.user__img>img').attr('src', user.prof_pic);
-		userTrTemplate.find('.user__name').text(user.name);
+		userTrTemplate.find('.user__name').text(user.nickname);
 		userTrTemplate.find('.userAuthor').text(userAuthorVal)
 		userTrTemplate.find('.boardsNum>span').text(boardsNub);
+		if(user.id == sessionId){
+			userRemoveBtnText = "Leave";
+		
+		}
+		userTrTemplate.find('.userRemoveBtn').text(userRemoveBtnText);
 		
 		return userTrTemplate;
 	}
@@ -1449,20 +1410,17 @@ const boardBg = {
 			dataType : 'json',
 			async: false,
 			data : {
-				id : userId
+				id : userId,
+				workspace_id : currentWorkspaceId
 			},
-			success : function(data){
+			success : function(data){		
 				
 					num = data.length;
-				
-			
+					
 			}
 		})
-	
 		return num;
 	}
-	
-
 	
 	
 	//워크프페이스 프로필이미지
@@ -1637,13 +1595,10 @@ const boardBg = {
 			if(board.workspace_id == workspaceId){
 				let boardsListRowTemplate = $('.boardsListRowTemplate')
 			
-				console.log()
 				boardsListRowTemplate.find('.boardsList__row__img').css('background-color', boardBg[board.board_thema])
-				boardsListRowTemplate.find('.boardsList__row__name').text(board.board_Title)
+				boardsListRowTemplate.find('.boardsList__row__name').attr("data", board.board_id).text(board.board_Title)
 				Workspace__boards__body__boardsList.append(boardsListRowTemplate.html());	
-				
-				
-				
+		
 			}
 		}
 	}
@@ -1657,7 +1612,8 @@ const boardBg = {
 			async: false,
 			type :  'post',
 			data : {
-				id : userId
+				id : userId,
+				workspace_id : currentWorkspaceId
 			},
 			success : function(data){
 				result = data;
@@ -1671,15 +1627,28 @@ const boardBg = {
 		let userId = $('.target').closest('.tabletdRow').attr('data')
 		
 		let data = ajaxMemBoardsListRow(userId);
-		console.log(data)
+		
 		MemBoardsListRowCreate(data, tagName)
 		
 	}
 
-	function ajaxMemChangePermission(userId, hWorkspace_id){
+	// permissions 클릭시 노출 author 
+		function authorChkdFn(author, tagName){
+	
+
+		if(author.includes("ADMIN") || author.includes("admin")){
+			$('.change__adminRow').attr('disabled', true);
+			$('.change__userRow').attr('disabled', false);
+		}else if(author.includes("USER") || author.includes("user")){
+			$('.change__adminRow').attr('disabled', false);
+			$('.change__userRow').attr('disabled', true);
+		}
+	}
+	
+		function ajaxMemPermissionsList(userId, hWorkspace_id){
 		let result;
 		$.ajax({
-			url : 'ajaxMemChangePermission.do',
+			url : 'ajaxMemPermissionsList.do',
 			type : 'post',
 			dataType : 'json',
 			async: false,
@@ -1696,24 +1665,12 @@ const boardBg = {
 		return result;
 	}
 	
-	function authorChkdFn(author, tagName){
-	
-
-		if(author.includes("ADMIN") || author.includes("admin")){
-			$('.change__adminRow').attr('disabled', true);
-			$('.change__userRow').attr('disabled', false);
-		}else if(author.includes("USER") || author.includes("user")){
-			$('.change__adminRow').attr('disabled', false);
-			$('.change__userRow').attr('disabled', true);
-		}
-	}
-	
 	
 	function authorContentInputFn(tagName, target){
 		let userId = $('.target').closest('.tabletdRow').attr('data')
 		let hWorkspace_id = $('#hWorkspace_id').val()
 	
-		let data = ajaxMemChangePermission(userId, hWorkspace_id);
+		let data = ajaxMemPermissionsList(userId, hWorkspace_id);
 
 		authorChkdFn(data.permissions, tagName);
 	}
@@ -1770,84 +1727,630 @@ const boardBg = {
 
 	$(document).on('click', '.change__adminRow', changeadminFn)
 	$(document).on('click', '.change__userRow', changeuserFn)
-
-	function changeadminFn() {
+	
+		// permissions ChangeFn end
 		
-		changeadmin()
+		 function changeuserFn(){
+			let targetCurrentPermission = "USER";	
+			 if($('.change__userRow').attr('disabled') !='disabled'){
+				 swal({
+						title: "권한을 "+targetCurrentPermission+"로 변경 하시겠습니까?",
+						icon : "warning",
+						buttons : ["취소", "확인"]
+					})
+					.then(function(value) {
+						if(value) {
+							
+							permissionChangFn(targetCurrentPermission)
+							
+						}
+					})
+			 }
 		
-		if (!$('.change__adminRow').attr('disabled')) {
-			$('.change__adminRow').attr('disabled', true);
-			$('.change__userRow').attr('disabled', false);
 		}
-	}
+	
+	
+		 function changeadminFn(){
+			 let targetCurrentPermission = "ADMIN";
+			 if($('.change__adminRow').attr('disabled') !='disabled'){
+				 swal({
+						title: "권한을 "+targetCurrentPermission+"로 변경 하시겠습니까?",
+						icon : "warning",
+						buttons : ["취소", "확인"]
+					})
+					.then(function(value) {
+						if(value) {
+							
+				permissionChangFn(targetCurrentPermission)
+							
+						}
+					})
+			 }					
+		}
+	
+		function permissionChangFn(targetCurrentPermission){
 
-	function changeuserFn() {
-		if (!$('.change__userRow').attr('disabled')) {
-			$('.change__adminRow').attr('disabled', false);
-			$('.change__userRow').attr('disabled', true);
+			let currentUserPermissinChk = ajaxCuerrentUserPermissionChk()
+
+				if(currentUserPermissinChk){
+					let targetUserId = $('.target').closest('.tabletdRow').attr('data');
+					targetUserPermissionChange(targetUserId, targetCurrentPermission)
+				}else{
+					swal({
+		                icon: 'error',
+		                title:'권한이 없습니다.',
+		                text: '',
+		            })
+				}
+			
 		}
-	}
+
 	
-	function changeadmin(){
-		let userId = $('.target').closest('.tabletdRow').attr('data');
+		function targetUserPermissionChange(targetUserId, targetCurrentPermission){
+			let flag = false;
+			let currentWorkspacePermissionChk = ajaxCurrentWorkspacePermissionChk()
 	
-// 		ajaxChangeadmin(userId)<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	}
+			if(targetCurrentPermission == "USER" && currentWorkspacePermissionChk){
+				flag = ajaxTargetUserPermissionChange(targetUserId, currentWorkspaceId, targetCurrentPermission);
+			}else if(targetCurrentPermission == "ADMIN"){
+				flag = ajaxTargetUserPermissionChange(targetUserId, currentWorkspaceId, targetCurrentPermission);
+			}
+			
+			if(flag){
+				$('.target').text(targetCurrentPermission)
+				
+				if(targetCurrentPermission=="ADMIN"){
+				
+					$('.change__adminRow').attr('disabled', true);
+					$('.change__userRow').attr('disabled', false);
+				}else{
+			
+					$('.change__adminRow').attr('disabled', false);
+					$('.change__userRow').attr('disabled', true);
+				}
+				swal({
+	                icon: 'success',
+	                title: targetCurrentPermission+'로 권한 변경 완료.',
+	                text: '',
+	            })
+			}else{
+				swal({
+	                icon: 'error',
+	                title:'최소 한명의 ADMIN 권한자가 있어야 합니다.',
+	                text: '',
+	            })
+			}
+		}
 	
+		function ajaxTargetUserPermissionChange(targetUserId, currentWorkspaceId, targetCurrentPermission){
+			let flag = false;
+			$.ajax({
+				url : 'ajaxTargetUserPermissionChange.do',
+				type : 'post',
+				dataType : 'text',
+				async: false,
+				data : {
+					workspace_id : currentWorkspaceId,
+					id : targetUserId,
+					permissions : targetCurrentPermission
+				},
+				success : function(data){
+					flag = data;
+				}
+				
+			})
+			return flag;
+		}
+			
+		 function ajaxCurrentWorkspacePermissionChk(){
+			 let flag = false;
+			 
+			 $.ajax({
+				url : 'ajaxCurrentWorkspacePermissionChk.do',
+				type : 'post',
+				dataType : 'text',
+				async: false,
+				data : {
+					workspace_id : currentWorkspaceId
+				},
+				success : function(data){
+					flag = (data=="true") ? true : false;
+				}
+			 })
+			 return flag;
+			 
+		 }
+		 function ajaxCuerrentUserPermissionChk(){
+			let flag = false;
+			
+			$.ajax({
+				url : 'ajaxCuerrentUserPermissionChk.do',
+				type : 'post',
+				dataType : 'text',
+				async: false,
+				data : {
+					workspace_id : currentWorkspaceId
+				},
+				success : function(data){
+					
+					flag = (data=="true") ? true : false
+					
+				}
+			})
+			return flag;
+		}
+
+	
+	// permissions ChangeFn end
 
 	function labelClick() {
 		$('.modal2_label').click();
 	}
+	// boards remove Btn start
+	function ajaxSessionIdChk(targetUserId){
+		let flag = false;
+		$.ajax({
+			url : 'ajaxSessionIdChk.do',
+			dataType : 'text',
+			async: false,
+			type : 'post',
+			data : {
+				chkId : targetUserId
+			},
+			success : function(data){
+				
+				flag = (data == "true") ? true : false;
+			}
+			
+		})
+		
+		return flag;
+	}
+	function ajaxMemPageBoardRemove(targetBoardId, currentWorkspaceId){
+		let flag = false;
+		$.ajax({
+			url : "ajaxMemPageBoardRemove.do",
+			dataType : 'text',
+			type : 'post',
+			async: false,
+			data : {
+				board_id : targetBoardId,
+				workspace_id : currentWorkspaceId
+			},
+			success : function(data){
+				flag = (data == "true") ? true : false;
+			}
+			
+		})
+		return flag;
+	}
 	
-	function boardsRemoveFn(e){
-		console.log("removeBtn"+$(e.target))
+	function boardRemoveFn(targetBoardId, targetRowEl){
+		console.log("oK")
+		let removeResult = ajaxMemPageBoardRemove(targetBoardId, currentWorkspaceId)
+		if(removeResult){
+			targetRowEl.remove();
+			swal({
+                icon: 'success',
+                title:'탈퇴완료',
+                text: '',
+            })
+		}else{
+			swal({
+                icon: 'error',
+                title:'시스템 에러',
+                text: '',
+            })
+		}
+	}
+	
+	function boardsRemoveFn(){
+		let targetEl = $(event.target)
+		let targetRowEl = targetEl.closest('.Workspace__boards__body__boardsList__row')
+		let targetUserId = $('.target').closest('.tabletdRow').attr('data');
+		let targetBoardTitle = targetRowEl.find('.boardsList__row__name').text();
+		let chkd = ajaxSessionIdChk(targetUserId)
+		if(chkd){
+			swal({
+				title: '',
+				text: targetBoardTitle+'를 나가시겠습니까?',
+				icon : "info",
+				buttons : ["취소", "확인"]
+			})
+			.then(function(value) {
+				if(value) {
+					let targetBoardId = targetEl.closest('.Workspace__boards__body__boardsList__row').find('.boardsList__row__name').attr('data');
+					boardRemoveFn(targetBoardId , targetRowEl)
+				}
+			})
+		
+		
+		}else{
+			swal({
+                icon: 'error',
+                title:'권한이 없습니다.',
+                text: '',
+            })
+		}
+		
+	}
+	
+	function bodyRowChkFn(user, bodyBoxRowData){
+		let flag = true;
+		for(let rowData of bodyBoxRowData){
+			if($(rowData).attr('data') == user.id){
+				flag = false;
+			}
+			
+		}
+		return flag;
+	}
+	function footerRowChkFn(user, footerBoxRowData){
+		let flag = true;
+
+		for(let rowData of footerBoxRowData){
+	
+			if($(rowData).attr('data') == user.id){
+				
+				flag = false;
+			}
+		}
+	
+		return flag;
+	}
+	//workspace inviteBtnFn start
+	function createInviteUserRow(data){
+		
+		let bodyRow = $('.bodyRow-content');
+		let footerBoxRowData = $('.footerRow').find('.footerRow-member')
+		let bodyBoxRowData = bodyRow.find('.bodyRow-member')
+	
+		
+		
+		for(let user of data){
+			let workspaceChk = 	ajaxWorkspaceInviteInputValWorkspaceChk(user, currentWorkspaceId)
+			if(workspaceChk){
+				let bodyFlag = bodyRowChkFn(user, bodyBoxRowData)
+				
+				let footerFlag = footerRowChkFn(user, footerBoxRowData)
+				if(bodyFlag && footerFlag){
+					let workspaceInviteUserTemplate = $('#memMinusTemplate');
+					workspaceInviteUserTemplate.find('.bodyRow-member').attr('data', user.id)
+					workspaceInviteUserTemplate.find('.member-img>img').attr('src', user.prof_pic)
+					workspaceInviteUserTemplate.find('.member-id').text(user.email)
+					bodyRow.append(workspaceInviteUserTemplate.html());
+					
+				}
+			}
+		}
 		
 	}
 
+	function ajaxWorkspaceInviteInputValSearch(workspaceInviteInputVal){
+		
+		$.ajax({
+			url : 'ajaxWorkspaceInviteInputValSearch.do',
+			type : 'post',
+			dataType : 'json',
+			data : {
+				email : workspaceInviteInputVal
+			},
+			success : function(data){
+				createInviteUserRow(data)
+			}
+		})
+	}
+
+	function ajaxWorkspaceInviteInputValWorkspaceChk(user, currentWorkspaceId){
+		let falg = false;
+		$.ajax({
+			url : 'ajaxWorkspaceInviteInputValWorkspaceChk.do',
+			type: 'post',
+			dataType : 'text',
+			async: false,
+			data : {
+				id : user.id,
+				workspace_id : currentWorkspaceId
+			},
+			success : function(data){
+				falg = (data =="true") ? true : false;
+			}
+			
+		})
+		return falg;
+	}
+	
+	function workspaceInviteBtnFn(){
+		let workspaceInviteInputVal = $('#workspaceInviteInputVal').val()
+		
+	
+		ajaxWorkspaceInviteInputValSearch(workspaceInviteInputVal)
+		$('#workspaceInviteInputVal').val('')
+	}
+	
 	$(document).on('click', '#minusBtn', minusBtnHandle);
 	$(document).on('click', '#plusBtn', plusBtnHandle);
-	$(document).on('click', '.boardsList__row__removeBtn', boardsRemoveFn)
+	$(document).on('click', '.boardsList__row__removeBtn', boardsRemoveFn);
+	$(document).on('click', '.remove__memberRow', workSpaceUserOutFn)
 	
+	//workSpaceUserOutFn strat
+	function ajaxWorkspaceLeave(targetId){
+		
+		$.ajax({
+			url : 'ajaxWorkspaceLeave.do',
+			dataType : 'text',
+			type : 'post',
+			data : {
+				id : targetId,
+				workspace_id : currentWorkspaceId
+			},
+			success : function(data){
+				if(data == "true"){
+					$('.target').closest('.tabletdRow').parent().parent().remove()
+					swal({
+		                icon: 'success',
+		                title:'Workspace가 탈퇴 되었습니다.',
+		                text: '',
+		            })
+		            
+		            // return 어디로 시켜야할지 정해야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				}else{
+					swal({
+		                icon: 'error',
+		                title:'시스템 에러',
+		                text: '',
+		            })
+				}
+			}
+		})
+	}
+	function ajaxWorkspaceTargetUserRemove(targetId, targetNickName){
+		console.log(targetId)
+		$.ajax({
+			url : 'ajaxWorkspaceTargetUserRemove.do',
+			dataType : 'text',
+			type : 'post',
+			data : {
+				id : targetId,
+				workspace_id : currentWorkspaceId
+			},
+			success : function(data){
+				if(data == "true"){
+					$('.target').closest('.tabletdRow').parent().parent().remove()
+					swal({
+		                icon: 'success',
+		                title: targetNickName+'님이 추방되었습니다.',
+		                text: '',
+		            })
+		            
+		            // return 어디로 시켜야할지 정해야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				}else{
+					swal({
+		                icon: 'error',
+		                title:'시스템 에러',
+		                text: '',
+		            })
+				}
+			}
+		})
+	}
 	
+	function targetUserWorkspaceRemove(targetId, targetNickName){
+		swal({
+            icon: 'warning',
+            title: targetNickName+'님을 추방하겠습니까?',
+            text: '',
+        	buttons : ["취소", "확인"]
+        })
+        .then(function(value) {
+			if(value) {
+				ajaxWorkspaceTargetUserRemove(targetId, targetNickName)
+				
+			}
+        })
+	}
+	
+	function workSpaceUserOutFn(){
+		let targetId = $('.target').closest('.tabletdRow').attr('data');
+		let targetNickName = $('.target').closest('.tabletdRow').find('.user__name').text();
+		let currentId = ajaxSessionId();
+		if(targetId==currentId){
+			swal({
+                icon: 'warning',
+                title:'현재 WorkSpace를 나가시겠습니까?',
+                text: '',
+            	buttons : ["취소", "확인"]
+            })
+            .then(function(value) {
+			if(value) {
+				ajaxWorkspaceLeave(targetId)
+				
+			}
+		})
+		
+		return;
+		}
+		let currentUserPermission = ajaxCuerrentUserPermissionChk();
+		if(currentUserPermission){
+			
+			targetUserWorkspaceRemove(targetId, targetNickName)
+			
+		}else{
+			swal({
+                icon: 'error',
+                title:'권한이 없습니다.',
+                text: ''
+            })
+		}
+		
+		
+		let targetEl = $(event.target);
+		console.log(targetEl)
+	}
+	//workSpaceUserOutFn end
 	
 	function plusBtnHandle() {
-		let memberimg = $(this).parent().prev().prev().find('img').attr('src')
-		let memberid = $(this).parent().prev().text();
-
-		let thismember = $(this).closest('.bodyRow-member');
+		let targetParentEl = $(event.target).closest('.bodyRow-member');
+		let memberimg = targetParentEl.find('.member-img>img').attr('src')
+		
+		console.log(memberimg)
+		let memberEmail = targetParentEl.find('.member-id').text()
+	
+		let memberId = targetParentEl.attr('data')
 		let memTemplate = $('#memPlusTemplate');
 		let members = $('.footerRow-content');
+		
+		memTemplate.find('.footerRow-member').attr('data', memberId)
 		memTemplate.find('.result-member-img').find('img').attr('src',
 				memberimg)
 	
-		memTemplate.find('.result-member-id').text(memberid)
+		memTemplate.find('.result-member-id').text(memberEmail)
 		members.append(memTemplate.html())
-		thismember.remove();
+		targetParentEl.remove();
 	}
 
 	function minusBtnHandle() {
-		let memberimg = $(this).parent().prev().prev().find('img').attr('src')
-		let memberid = $(this).parent().prev().text()
-		let thismember = $(this).closest('.footerRow-member')
+		console.log("minus")
+		let targetParentEl = $(event.target).closest('.footerRow-member');
+		console.log(targetParentEl)
+		
+		let memberimg = targetParentEl.find('.result-member-img>img').attr('src');
+		console.log(memberimg)
+		
+		
+		let memberEmail = targetParentEl.find('.result-member-id').text();
+	
+		let memberid = targetParentEl.attr('data')
+		
 
 		let memTemplate = $('#memMinusTemplate')
 		let members = $('.bodyRow-content')
-		memTemplate.find('.member-img').attr('src', memberimg)
-		memTemplate.find('.member-id').text(memberid)
+		memTemplate.find('.bodyRow-member').attr('data', memberid)
+		memTemplate.find('.member-img>img').attr('src', memberimg)
+		memTemplate.find('.member-id').text(memberEmail)
 		members.append(memTemplate.html())
-		thismember.remove();
+		targetParentEl.remove();
 	}
 
-	var pagenumber = 10
+	function ajaxWorkspaceMemberInvite(userInfo){
+		let flag = false;
+		let inviteUserId = $(userInfo).attr('data');
+		let inviteUserEmail = $(userInfo).find('.result-member-id').text()
+		console.log(inviteUserId)
+		console.log(inviteUserEmail)
+		$.ajax({
+			
+			url : 'ajaxWorkspaceMemberInvite.do',
+			type : 'post',
+			dataType : 'text',
+			async: false,
+			data : {
+				id : inviteUserId,
+				email : inviteUserEmail,
+				workspace_id : currentWorkspaceId
+			},
+			success : function(data){
+				console.log("data : "+ data)
+				flag = (data =="true") ? true : false;
+				
+			}
+			
+		})
+	
+			return flag;
+	}
+	
+	function workspaceMemberInviteSubmit(userRow){
+		let chk = 0;
+		for(let userInfo of userRow){
+		let flagChk = ajaxWorkspaceMemberInvite(userInfo);
+		if(flagChk) chk++;
+		}
+		console.log("chk : "+ chk)
+		
+		if(chk != 0){
+			swal({
+	            icon: 'success',
+	            title:'총 : '+ chk+ '권의 초대장이 정상 발송',
+	            text: '',
+	        })
+	        
+	        $('.modals2-content').find('.bodyRow-member').remove();
+	        $('.modals2-content').find('.footerRow-member').remove();
+	        $('.headerTop-icon').click();
+		}else{
+			swal({
+	            icon: 'error',
+	            title:'시스템 에러',
+	            text: '',
+	        })
+	        $('.modals2-content').find('.bodyRow-member').remove();
+	        $('.modals2-content').find('.footerRow-member').remove();
+	        $('.headerTop-icon').click();
+			
+		}
+	}
+	
+	$('.headerTop-icon').on("click", function(){
+		   $('.modals2-content').find('.bodyRow-member').remove();
+	        $('.modals2-content').find('.footerRow-member').remove();
+	})
+	// 초대 보내기
+	
+	function workspaceInviteResultBtn(){
+		let targetClosestEl = $(event.target).closest('.modals2-content');
+		let userRow = targetClosestEl.find('.footerRow-member')
+		swal({
+                icon: 'warning',
+                title:'',
+                text: '선택하신 멤버를 해당 워크스페이스로 초대하시겠습니까?',
+            	buttons : ["취소", "확인"]
+            })
+            .then(function(value) {
+			if(value) {
+				workspaceMemberInviteSubmit(userRow)
+				
+			}
+		})
+	}
+	
+	function nameSearch(){
+		let searchTrEl = $('.user__name')
+		for(let val of searchTrEl){
+			$(val).parent().parent().parent().removeClass('searchNoen')
+		}
+		
+		let nameSearchInput = $("#nameSearchInput").val()
+		for(let val of searchTrEl){
+			if($(val).text().includes(nameSearchInput)){
+				continue;
+			}
+			$(val).parent().parent().parent().addClass('searchNoen')
+		}
+		$("#nameSearchInput").val('')
+		page(pagenumber, pageCount, currentPage);
+	}
+	
+    $("#nameSearchInput").on("keyup",function(key){
+        if(key.keyCode==13) {
+        	nameSearch();
+        }
+    });
+
+	$('#workspaceInviteInputVal').on("keyup",function(key){
+		if(key.keyCode==13){
+			workspaceInviteBtnFn();
+		}
+	})
+
+	var pagenumber = 5	
 	var pageCount = 3
 	var currentPage = 1;
 
-	var tableEl = $('.table-responsive');
-	var tr = tableEl.find('tbody tr');
-	var trtotal = tr.length;
-
 	function page(pagenumber, pageCount, currentPage) {
-
+		var tableEl = $('.table-striped');
+		var tr = tableEl.find('tbody>tr');
+		var trtotal = tr.length;	
 		if (trtotal == 0)
 			return;
 		var pagetotal = Math.ceil(trtotal / pagenumber);
@@ -1903,7 +2406,7 @@ const boardBg = {
 
 		});
 	}
-	page(pagenumber, pageCount, currentPage);
+	
 
 	const label = $('.label');
 	const options = $('.optionItem');
@@ -1919,5 +2422,29 @@ const boardBg = {
 			$(e.target).parent().parent().removeClass('active');
 		})
 	})
+	
+	
+App = {
+		init : async function(){
+			let name = "${workspace.workspace_title}";
+			
+			changeWKIMG(name);
+			
+			let workspaceId = $('#hWorkspace_id').val();
+
+
+			let flag = ajaxMemPageUserList(workspaceId)
+			if(flag){
+				App.pageFn();
+			}
+			
+		},
+		
+		pageFn : function(){
+			page(pagenumber, pageCount, currentPage);
+		}
+}
+
 </script>
+<script src="resources/js/jay/confirmForm.js"></script>
 </html>

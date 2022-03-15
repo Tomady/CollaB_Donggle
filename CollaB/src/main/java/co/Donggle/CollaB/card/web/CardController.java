@@ -1,17 +1,24 @@
 package co.Donggle.CollaB.card.web;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import co.Donggle.CollaB.board.service.BoardService;
 import co.Donggle.CollaB.board.service.BoardVO;
@@ -19,6 +26,9 @@ import co.Donggle.CollaB.card.service.CardService;
 import co.Donggle.CollaB.card.service.CardVO;
 import co.Donggle.CollaB.checklist.service.checklistService;
 import co.Donggle.CollaB.checklist.service.itemInfoService;
+import co.Donggle.CollaB.dy.VO.UserInfo;
+import co.Donggle.CollaB.fileinfo.service.FileInfoService;
+import co.Donggle.CollaB.fileinfo.service.FileInfoVO;
 import co.Donggle.CollaB.list.service.ListService;
 import co.Donggle.CollaB.list.service.ListVO;
 import co.Donggle.CollaB.user.service.UserService;
@@ -33,6 +43,8 @@ public class CardController {
 	@Autowired checklistService checklistDao;
 	@Autowired itemInfoService itemInfoDao;
 	@Autowired UserService userDao;
+	@Autowired FileInfoService fileInfoDao;
+	@Autowired String cardSaveDirectory;
 	
 	//카드 생성
 	@ResponseBody
@@ -56,7 +68,6 @@ public class CardController {
 		CardVO cardvo = new CardVO();
 		cardvo.setCard_id(cardID);
 		int n = 0;
-		System.out.println("=====컨트롤러 들어오나?====="+cardID);
 		
 		List<CardVO> commentids = cardDao.selectCommentIds(cardvo); //해당 카드내의 댓글 아이디 목록
 		List<CardVO> fileids = cardDao.selectFileIds(cardvo); //해당 카드에 첨부된 파일 아이디 목록
@@ -129,6 +140,10 @@ public class CardController {
 		model.addAttribute("checkItems",itemInfoDao.selectedCardItemList());
 		//해당 보드에 초대되어있는 모든 멤버-아이디,이름,닉네임,비번,이메일,프로필사진,전화번호,회사,토큰,워크스페이스아이디,보드아이디 - 보드헤더
 		model.addAttribute("boardJoinMembers",userDao.boardJoinMembers(vo));
+		//해당 카드의 파일리스트
+		model.addAttribute("fileinfoList",fileInfoDao.cardFileSelectList(cardId));
+		//해당 카드의 매니저
+		model.addAttribute("manager",userDao.cardManagerSelect(cardId));
 		
 		return "card/cardDetail";
 	}
@@ -223,5 +238,86 @@ public class CardController {
 		int n = cardDao.cardManagerSetting(cardvo);
 		
 		return n > 0 ? "YES" : "NO";
+	}
+	
+	//카드 파일업로드
+	@ResponseBody
+	@RequestMapping("/AjaxCardFileUpload")
+	public FileInfoVO AjaxCardFileUpload(FileInfoVO vo, MultipartFile file, HttpSession session) {
+		String filename = file.getOriginalFilename();
+		String pfilename = getRandomIntString(16);
+		String userId = (String)session.getAttribute("id");
+		pfilename = pfilename+filename.substring(filename.lastIndexOf("."));
+		File target = new File(cardSaveDirectory,pfilename);
+		int n = 0;
+		
+		vo.setFile_name(filename);
+		vo.setPfile_name(pfilename);
+		vo.setId(userId);
+		if(!new File(cardSaveDirectory).exists()) {
+			new File(cardSaveDirectory).mkdir();
+		}
+		try {
+			FileCopyUtils.copy(file.getBytes(), target);
+			n = fileInfoDao.cardFileUpload(vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		if(n == 0) {
+			return null;
+		}
+		
+		return  fileInfoDao.cardFileSelect(vo);
+	}
+	
+	private static String getRandomIntString(int length) {
+	      StringBuffer sb = new StringBuffer();
+	      Random random = new Random();
+
+	      for (int i = 1; i <= length; i++) {
+	         if(random.nextBoolean()) {
+	            sb.append((char) ((int) (random.nextInt(26)) + 65));
+	         }else {
+	            sb.append((random.nextInt(10)));
+	         }
+	         if (i % 4 == 0 && i != length) {
+	            sb.append("-");
+	         }
+	      }
+	      
+	      return sb.toString();
+	}
+	
+	//카드 첨부파일 삭제
+	@ResponseBody
+	@RequestMapping("/AjaxCardFileDelete")
+	public String AjaxCardFileDelete(FileInfoVO vo) {
+		int n = fileInfoDao.cardFileDelete(vo);
+		
+		return n > 0 ? "YES" : "NO";
+	}
+	
+	//카드 첨부파일 다운로드
+	@RequestMapping("/cardFileDownload")
+	public void AjaxCardFileDownload(FileInfoVO vo, HttpServletResponse response) throws Exception {
+		try {
+			String path = cardSaveDirectory+"\\"+vo.getPfile_name();
+			
+			//File file = new File(path);
+			response.setHeader("Content-Disposition", "attachment;filename=" + vo.getFile_name());
+			
+			FileInputStream fileInputStream = new FileInputStream(path);
+			OutputStream out = response.getOutputStream();
+		
+			int read = 0;
+				byte[] buffer = new byte[1024];
+				while((read = fileInputStream.read(buffer)) != -1) {
+					out.write(buffer, 0, read);
+				}
+				
+		} catch (Exception e) {
+			throw new Exception("download error");
+		}
 	}
 }

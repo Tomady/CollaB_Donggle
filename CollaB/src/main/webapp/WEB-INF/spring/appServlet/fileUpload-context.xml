@@ -3,13 +3,26 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
-      <property name="maxUploadSize" value="10737418240" />
-      <property name="defaultEncoding" value="utf-8" />
-   </bean>
-   
-   <bean class="java.lang.String" id="saveDirectory">
-		<constructor-arg value="c://imgFile//"/>
+	<bean
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+		id="multipartResolver">
+		<property name="maxUploadSize" value="10737418240" />
+		<property name="defaultEncoding" value="utf-8" />
+	</bean>
+	
+	<bean class="java.lang.String" id="saveDirectory">
+		<constructor-arg value="c://imgFile//" />
+	</bean>
+	
+	<bean class="java.lang.String" id="commentSaveDirectory">
+		<constructor-arg value="c://commentFile//" />
 	</bean>
 
+	<bean class="java.lang.String" id="commentRelativeSaveDirectory">
+		<constructor-arg value="C:\Collab\CollaB_Donggle\CollaB\src\main\webapp\resources\commentFile" />
+	</bean>
+	
+	<bean class="java.lang.String" id="cardSaveDirectory">
+		<constructor-arg value="C:\Donggle\CollaB_Donggle\CollaB\src\main\webapp\resources\cardFile" />
+	</bean>
 </beans>
