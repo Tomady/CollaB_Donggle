@@ -103,6 +103,7 @@ public class calendarController {
 				map.put("start", test(vo.getCard_start_date()));
 				map.put("end", test(vo.getCard_end_date()));
 				map.put("id", String.valueOf(vo.getCard_id()));
+				map.put("classNames", String.valueOf(vo.getList_id()));
 				list.add(map);				
 			}
 		}
@@ -132,6 +133,7 @@ public class calendarController {
 				map.put("start", test(vo.getCard_start_date()));
 				map.put("end", test(vo.getCard_end_date()));
 				map.put("id", String.valueOf(vo.getCard_id()));
+				map.put("classNames", String.valueOf(vo.getList_id()));
 				list.add(map);				
 			}
 		}
