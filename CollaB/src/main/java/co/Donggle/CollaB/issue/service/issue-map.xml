@@ -24,7 +24,7 @@
 	
 	<update id="updateIssue" parameterType="co.Donggle.CollaB.issue.service.IssueVO">
 		UPDATE ISSUE
-		SET ISSUETITLE = #{issueTitle}, ISSUECATEGORY = #{issueCategory}, ISSUECONTENT = #{issueContent}, ISSUESTATUS = 'TO DO'
+		SET ISSUETITLE = #{issueTitle}, ISSUECATEGORY = #{issueCategory}, ISSUECONTENT = #{issueContent}, ISSUESTATUS = #{issueStatus}
 		WHERE ISSUEID = #{issueId}
 	</update>
 	

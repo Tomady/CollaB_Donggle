@@ -25,7 +25,7 @@
          
           <div class="section-body">
           
-            <div class="row mt-4">
+            <div class="row">
               <div class="col-12">
                 <div class="card">
 
@@ -64,7 +64,7 @@
                         </thead>
                         <tbody>
                          <c:forEach items="${issues }" var="issue">
-                          <tr>
+                          <tr data-issueid="${issue.issueId }" class="issueTr">
                             <td>${issue.issueId }</td>
                             <td>
                               <div class="badge badge-success">${issue.issueStatus }</div>
@@ -73,8 +73,8 @@
                             <td>${issue.issueCategory }</td>
                             <td>
                               <div class="progress mb-3">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                                  aria-valuemax="100" style="background-color:#6553C1"></div>
+                                <div class="progress-bar bar${issue.issueId }" role="progressbar" aria-valuemin="0"
+                                  aria-valuemax="100"></div>
                               </div>
                             </td>
                           </tr>
@@ -132,6 +132,63 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <script>
+  
+  // progress bar 
+  // aria-valuenow=""
+  // style="width: ;"
+  // .progress-bar
+  
+  document.addEventListener("DOMContentLoaded", function(){
+	  let workspace_id = document.querySelector("#WsName").getAttribute("data-wkid");
+	  $.ajax({
+		  url : "AjaxIssueItemsAvg",
+		  type : "POST",
+		  data : {
+			  workspace_id : workspace_id
+		  },
+		  dataType : "json",
+		  success : function(datas) {
+			  console.log(datas);
+			 
+			  const issueTr = document.querySelectorAll(".issueTr");
+			 const issueIds = [];
+			 const itemCnt = [];
+			 const itemLength = [];
+			 
+			 issueTr.forEach((tr)=>{
+			 	issueIds.push(tr.dataset.issueid);
+			 	itemCnt.push(0);
+			 	itemLength.push(0);
+			 })
+			 console.log(itemCnt);
+			 console.log(issueIds); //해당 페이지에 이슈게시글 아이디
+			 
+			 for(let i = 0; i<issueIds.length; i++){
+				 for(let data of datas){
+					 if(data.issueid == issueIds[i]) {
+						 if(data.item_status == "Y") {
+							 itemCnt[i] += 1;							 
+						 }
+						 itemLength[i] += 1;
+					 }
+				 }
+				 let width = itemCnt[i]/itemLength[i]*100;
+				 document.querySelector(".bar"+issueIds[i]).style.width = width+"%";
+				 document.querySelector(".bar"+issueIds[i]).setAttribute("aria-valuenow",width);
+				 document.querySelector(".bar"+issueIds[i]).style.backgroundColor = "#6553C1";
+				 console.log("해당 차트"+document.querySelector(".bar"+issueIds[i]));
+				 console.log("해당 차트의 넓이"+width);
+			 }
+			 
+			
+		  },
+		  error : function(){
+			  console.log("AjaxIssueItemsAvg 실패");
+		  }
+	  })
+	  
+  })  
+  
     var pagenumber = 5
     var pageCount = 3
     var currentPage = 1;
@@ -331,15 +388,12 @@
 		} else if (name == '9') {
 			img.setAttribute("src", "resources/img/9.jpg");
 			img2.setAttribute("src", "resources/img/9.jpg");
-		}else{
-			img.setAttribute("src","resources/img/workspace_default_profile.png");
-			img2.setAttribute("src","resources/img/workspace_default_profile.png");
 		}
 	}
 
   //status 배지 색상 변경
     $(document).ready(function(){
-    	const badge = document.getElementsByClassName('badge badge-success');
+    	const badge = document.getElementsByClassName('badge');
     	
     	for(let i = 0; i < badge.length; i++){
     		if(badge[i].innerText === 'TO DO'){
@@ -348,6 +402,8 @@
     	}
 		
 	}); 
+  
+ 
   </script>
 </body>
 </html>

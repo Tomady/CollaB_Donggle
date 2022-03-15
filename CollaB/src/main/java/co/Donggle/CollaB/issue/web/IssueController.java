@@ -8,12 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpSession;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.Donggle.CollaB.board.service.BoardService;
 import co.Donggle.CollaB.board.service.BoardVO;
-
 import co.Donggle.CollaB.issue.service.IssueCheckListMapper;
 import co.Donggle.CollaB.issue.service.IssueCheckListVO;
 import co.Donggle.CollaB.issue.service.IssueItemMapper;
@@ -34,16 +31,13 @@ import co.Donggle.CollaB.workspace.service.WorkspaceVO;
 
 @Controller
 public class IssueController {
-
-	
 	@Autowired BoardService boardDao;
 	@Autowired WorkspaceJoinService workspaceJoinDao;
 	@Autowired WorkspaceService workspaceDao;
 	@Autowired IssueMapper issueDao;
-	@Autowired IssueCheckListMapper chkDao;
 	@Autowired IssueItemMapper itemDao;
+	@Autowired IssueCheckListMapper chkListDao;
 
-	
 	// 이슈게시판 이동
 	@RequestMapping("/issueBoard.do")
 	public String issueBoard(HttpSession session, 
@@ -88,6 +82,7 @@ public class IssueController {
 		
 		return "issue/issueInsert";
 	}
+	
 	// 이슈 글 등록
 	@ResponseBody
 	@PostMapping("/issueInsert.do")
@@ -104,16 +99,16 @@ public class IssueController {
 		System.out.println("issue id = " + vo.getIssueId());
 
 		// 체크리스트 등록
-		cvo.setIssueId(vo.getIssueId());
-		int chklistChk = chkDao.insertChkLi(cvo);
+		cvo.setIssue_id(vo.getIssueId());
+		int chklistChk = chkListDao.insertChkLi(cvo);
 		System.out.println(chklistChk);
 
 		// 아이템 등록
 		for (String str : items) {
 			IssueItemVO ivo = new IssueItemVO();
 			System.out.println("되어라!" + str);
-			ivo.setChkLiId(cvo.getChkLiId());
-			ivo.setItemTitle(str);
+			ivo.setChecklist_id(cvo.getChecklist_id());
+			ivo.setItem_title(str);
 			itemDao.insertItem(ivo);
 		}
 		// 이슈 등록 검사
@@ -129,25 +124,66 @@ public class IssueController {
 
 
 	// 이슈 글 수정 버튼 실행
-	
 	@RequestMapping("/issueUpdate.do")
-	public String issueUpdate(Model model, HttpSession session, IssueVO vo) {
+	public String issueUpdate(Model model, HttpSession session, IssueVO vo, HttpServletRequest req) {
 		String id = (String) session.getAttribute("id");
+		int count = 0;
+		
 		vo.setId(id);
-		int edit = issueDao.updateIssue(vo);
+		
+		System.out.println("이 값은 어디에 있나효? : " + req.getParameter("item_id"));
+		System.out.println("콘솔에 어디에 있느나요? : " + req.getParameter("item_status"));
+		
+		String[] itemId = req.getParameterValues("item_id");
+		String[] itemStatus = req.getParameterValues("item_status");
+		
+		for(int i=0; i<itemId.length; i++) {
+			IssueItemVO itemVO = new IssueItemVO();
+			
+			if(itemStatus[i].equals("Y")) {
+				count += 1;
+			}
+			
+			if(count == itemId.length) {
+				vo.setIssueStatus("DONE");
+			} else {
+				vo.setIssueStatus("TO DO");
+			}
+			
+			itemVO.setItem_id(Integer.parseInt(itemId[i]));
+			itemVO.setItem_status(itemStatus[i]);
+			
+			int n = itemDao.updateItem(itemVO);
+			
+			if(n > 0) {
+				System.out.println("수정 완");
+			} else {
+				System.out.println("업데이트 실패");
+			}
+		}
 
 		System.out.println(vo.getIssueTitle());
 		System.out.println(vo.getIssueContent());
 
+		int edit = issueDao.updateIssue(vo);
+		System.out.println("이슈 아이디: " + vo.getIssueId());
+		System.out.println("이슈 타이틀: " + vo.getIssueTitle());
+		System.out.println("이슈 카테고리: " + vo.getIssueCategory());
+		System.out.println("이슈 컨텐츠: " + vo.getIssueContent());
+		
 		model.addAttribute("issues", edit);
-
+		// 값 넘어오는 거부터 확인하고 수정해보아라
 		if (edit > 0) {
 			System.out.println("수정 완");
 		} else {
 			System.out.println("수정 실패");
 		}
 
-		return "redirect:issueBoard.do";
+		int workspaceid = (int)session.getAttribute("enterWorkspaceId");
+		String url = "redirect:issueBoard.do?workspace_id=" + workspaceid;
+		System.out.println("워크스페이스 : " + workspaceid);
+		
+		return url;
 	}
 
 	// 이슈 글 수정 페이지 이동
@@ -164,6 +200,23 @@ public class IssueController {
 		vo.setIssueId(issueId);
 		
 		model.addAttribute("issue", ivo);
+		
+		// checklist 받아오기
+		IssueCheckListVO chkVO = new IssueCheckListVO();
+		chkVO.setIssue_id(issueId);
+		chkVO = chkListDao.chklistSelect(chkVO);
+		
+		model.addAttribute("checkList", chkVO);
+		
+		if(chkVO == null) {
+			System.out.println("null 값 넘어옴");
+		}
+		
+		// itemlist 받아오기
+		IssueItemVO iIssueItemVO = new IssueItemVO();
+		iIssueItemVO.setChecklist_id(chkVO.getChecklist_id());
+		model.addAttribute("itemList", itemDao.issueItems(iIssueItemVO));
+				
 		//사이드바에서 필요한 내용 - 은지가 추가했어용~~ 놀라지마세요 아람걸>_0
 		model.addAttribute("workspace",workspaceDao.searchWorkspace(wkvo));
 		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(id));
@@ -182,14 +235,35 @@ public class IssueController {
 		BoardVO boardvo = new BoardVO();
 		System.out.println("로그인 된 아이디는" + id);
 		
+		
 		wkvo.setWorkspace_id(wkid);
 		boardvo.setId(id);
 		boardvo.setWorkspace_id(wkid);
 		vo.setId(id);
 		vo.setIssueId(issueId);
 		
+		
 		model.addAttribute("issue", issueDao.issueSelect(vo));
-		//사이드바에서 필요한 내용 - 은지가 추가했어용~~ 놀라지마세요 아람걸>_0
+		
+		// dy
+		// checklist 받아오기
+		IssueCheckListVO chkVO = new IssueCheckListVO();
+		chkVO.setIssue_id(issueId);
+		chkVO = chkListDao.chklistSelect(chkVO);
+		
+		model.addAttribute("checkList", chkVO);
+		
+		if(chkVO == null) {
+			System.out.println("null 값 넘어옴");
+		}
+		
+		// itemlist 받아오기
+		IssueItemVO iIssueItemVO = new IssueItemVO();
+		iIssueItemVO.setChecklist_id(chkVO.getChecklist_id());
+		model.addAttribute("itemList", itemDao.issueItems(iIssueItemVO));
+		
+		
+		// 사이드바에서 필요한 내용 - 은지가 추가했어용~~ 놀라지마세요 아람걸>_0
 		model.addAttribute("workspace",workspaceDao.searchWorkspace(wkvo));
 		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(id));
 		model.addAttribute("boardStar", boardDao.selectBoardStar(boardvo));
@@ -216,5 +290,19 @@ public class IssueController {
 		}
 
 		return result;
+	}
+	
+	//이슈게시판 아이템 진척도 계산
+	@ResponseBody
+	@RequestMapping("/AjaxIssueItemsAvg")
+	public List<IssueItemVO> AjaxIssueItemsAvg(@RequestParam("workspace_id") int wkid) {
+		System.out.println("워크스페이스 아이디 : " + wkid);
+		List<IssueItemVO> list = itemDao.issueItemSelect(wkid);
+		
+		for(IssueItemVO vo : list) {
+			System.out.println("이슈 아이디 나오라구! " + vo.getIssueid());
+		}
+				
+	  return list;
 	}
 }
