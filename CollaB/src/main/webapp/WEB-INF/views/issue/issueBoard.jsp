@@ -1,21 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>이슈게시판</title>
 <style>
-#gogo {
-	cursor: pointer;
-}
-
-.wkimg-body {
-	width: 60px;
-	height: 60px;
-	border-radius: 5px;
-	border: 3px solid rgb(228, 227, 227);
+   #gogo{
+      cursor: pointer;
+   }
+   .wkimg-body {
+   width: 60px;
+   height: 60px;
+   border-radius: 5px;
+   border: 3px solid rgb(228, 227, 227);
 }
 </style>
 </head>
@@ -32,16 +31,16 @@
 
                   <div class="card-body">
                   <div class="card-header d-flex justify-content-center"
-								style="text-align: center;">
-								<div id="workspace-body"
-									class="card-body col-lg-3 mt-5 mb-5 d-flex justify-content-center">
-									<div class="row workspaceNAME">
-										<img class="img-fluid mr-2 mt-2 wkimg-body">
-										<h3 class="mt-4" id="WsName"
-											data-wkid="${workspace.workspace_id}">${workspace.workspace_title}</h3>
-									</div>
-								</div>
-							</div>
+                        style="text-align: center;">
+                        <div id="workspace-body"
+                           class="card-body col-lg-3 mt-5 mb-5 d-flex justify-content-center">
+                           <div class="row workspaceNAME">
+                              <img class="img-fluid mr-2 mt-2 wkimg-body">
+                              <h3 class="mt-4" id="WsName"
+                                 data-wkid="${workspace.workspace_id}">${workspace.workspace_title}</h3>
+                           </div>
+                        </div>
+                     </div>
                     <div class="float-left">
                       <a href="goIssueInsert.do?workspace_id=${workspace.workspace_id}" class="btn btn-icon icon-left btn-primary"
                         style="background-color:#6553C1; box-shadow: 0 2px 6px #ECE9FE;"><i class="far fa-edit"></i>
@@ -106,19 +105,30 @@
       margin: 0 auto;
     }
 
-	<!-- 페이징 처리 -->
-	<style>
-.off-screen {
-	display: none;
-}
+    #pagebtn a {
+      margin-top: 30px;
+      display: inline-block;
+      padding: 6px 12px; 
+      margin-right: 10px;
+      border-radius: 3px;
+      border: none;
 
-#pagebtn {
-	width: 500px;
-	text-align: center;
-	margin: 0 auto;
-}
+      
+      font-family: Tahoma;
+      background: #f9fafe;
+      color: #000;
+      text-decoration: none;
+    }
+    #pagebtn a:hover{
+      background-color: #6553C1;
+    }
 
-</style>
+    #pagebtn a.active {
+      background: #6553C1;   
+      color: #fff;
+    }
+
+  </style>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <script>
@@ -129,412 +139,269 @@
   // .progress-bar
   
   document.addEventListener("DOMContentLoaded", function(){
-	  let workspace_id = document.querySelector("#WsName").getAttribute("data-wkid");
-	  $.ajax({
-		  url : "AjaxIssueItemsAvg",
-		  type : "POST",
-		  data : {
-			  workspace_id : workspace_id
-		  },
-		  dataType : "json",
-		  success : function(datas) {
-			  console.log(datas);
-			 
-			  const issueTr = document.querySelectorAll(".issueTr");
-			 const issueIds = [];
-			 const itemCnt = [];
-			 const itemLength = [];
-			 
-			 issueTr.forEach((tr)=>{
-			 	issueIds.push(tr.dataset.issueid);
-			 	itemCnt.push(0);
-			 	itemLength.push(0);
-			 })
-			 console.log(itemCnt);
-			 console.log(issueIds); //해당 페이지에 이슈게시글 아이디
-			 
-			 for(let i = 0; i<issueIds.length; i++){
-				 for(let data of datas){
-					 if(data.issueid == issueIds[i]) {
-						 if(data.item_status == "Y") {
-							 itemCnt[i] += 1;							 
-						 }
-						 itemLength[i] += 1;
-					 }
-				 }
-				 let width = itemCnt[i]/itemLength[i]*100;
-				 document.querySelector(".bar"+issueIds[i]).style.width = width+"%";
-				 document.querySelector(".bar"+issueIds[i]).setAttribute("aria-valuenow",width);
-				 document.querySelector(".bar"+issueIds[i]).style.backgroundColor = "#6553C1";
-				 console.log("해당 차트"+document.querySelector(".bar"+issueIds[i]));
-				 console.log("해당 차트의 넓이"+width);
-			 }
-			 
-			
-		  },
-		  error : function(){
-			  console.log("AjaxIssueItemsAvg 실패");
-		  }
-	  })
-	  
+     let workspace_id = document.querySelector("#WsName").getAttribute("data-wkid");
+     $.ajax({
+        url : "AjaxIssueItemsAvg",
+        type : "POST",
+        data : {
+           workspace_id : workspace_id
+        },
+        dataType : "json",
+        success : function(datas) {
+           console.log(datas);
+          
+           const issueTr = document.querySelectorAll(".issueTr");
+          const issueIds = [];
+          const itemCnt = [];
+          const itemLength = [];
+          
+          issueTr.forEach((tr)=>{
+             issueIds.push(tr.dataset.issueid);
+             itemCnt.push(0);
+             itemLength.push(0);
+          })
+          console.log(itemCnt);
+          console.log(issueIds); //해당 페이지에 이슈게시글 아이디
+          
+          for(let i = 0; i<issueIds.length; i++){
+             for(let data of datas){
+                if(data.issueid == issueIds[i]) {
+                   if(data.item_status == "Y") {
+                      itemCnt[i] += 1;                      
+                   }
+                   itemLength[i] += 1;
+                }
+             }
+             let width = itemCnt[i]/itemLength[i]*100;
+             document.querySelector(".bar"+issueIds[i]).style.width = width+"%";
+             document.querySelector(".bar"+issueIds[i]).setAttribute("aria-valuenow",width);
+             document.querySelector(".bar"+issueIds[i]).style.backgroundColor = "#6553C1";
+             console.log("해당 차트"+document.querySelector(".bar"+issueIds[i]));
+             console.log("해당 차트의 넓이"+width);
+          }
+          
+         
+        },
+        error : function(){
+           console.log("AjaxIssueItemsAvg 실패");
+        }
+     })
+     
   })  
   
     var pagenumber = 5
     var pageCount = 3
     var currentPage = 1;
 
-#pagebtn a:hover {
-	background-color: #6553C1;
-}
+    var tableEl = $('.table-responsive');
+    var tr = tableEl.find('tbody tr');
+    var trtotal = tr.length;
 
-#pagebtn a.active {
-	background: #6553C1;
-	color: #fff;
-}
-</style>
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-		crossorigin="anonymous"></script>
-	<script>
-		var pagenumber = 5
-		var pageCount = 3
-		var currentPage = 1;
+    function page(pagenumber, pageCount, currentPage) {
 
-		var tableEl = $('.table-responsive');
-		var tr = tableEl.find('tbody tr');
-		var trtotal = tr.length;
+      if (trtotal == 0) return;
+      var pagetotal = Math.ceil(trtotal / pagenumber);
+      var pageGroup = Math.ceil(currentPage / pageCount);
+      var last = pageGroup * pageCount;
+      if (last > pagetotal) {
+        last = pagetotal;
+      }
+      var first;
+      if (last % pageCount == 0) {
+        first = last - (pageCount - 1);
+      } else {
+        first = last + 1 - last % pageCount
+      }
+      var next = last + 1;
+      var prev = first - 1;
+      $('#pagebtn').remove();
+      tableEl.after('<div id="pagebtn">');
+      if (prev > 0) {
+        $('<a href="#"></a>')
+          .attr('data', 'prev')
+          .html("<")
+          .appendTo('#pagebtn');
+      }
 
-		function page(pagenumber, pageCount, currentPage) {
+      for (let i = first; i <= last; i++) {
+        $('<a href="#"></a>')
+          .attr('data', i)
+          .html(i)
+          .appendTo('#pagebtn');
+      }
+      if (last < pagetotal) {
+        $('<a href="#"></a>')
+          .attr('data', 'next')
+          .html(">")
+          .appendTo('#pagebtn');
+      }
+      var paginglink = $('#pagebtn a');
+      paginglink.removeClass('active');
+      $("[data=" + currentPage + "]").addClass("active")
+      var startval = (currentPage - 1) * pagenumber;
+      var endval = startval + pagenumber;
 
-			if (trtotal == 0)
-				return;
-			var pagetotal = Math.ceil(trtotal / pagenumber);
-			var pageGroup = Math.ceil(currentPage / pageCount);
-			var last = pageGroup * pageCount;
-			if (last > pagetotal) {
-				last = pagetotal;
-			}
-			var first;
-			if (last % pageCount == 0) {
-				first = last - (pageCount - 1);
-			} else {
-				first = last + 1 - last % pageCount
-			}
-			var next = last + 1;
-			var prev = first - 1;
-			$('#pagebtn').remove();
-			tableEl.after('<div id="pagebtn">');
-			if (prev > 0) {
-				$('<a href="#"></a>').attr('data', 'prev').html("<").appendTo(
-						'#pagebtn');
-			}
+      tr.css('opacity', '0.0')
+        .addClass('off-screen')
+        .slice(startval, endval)
+        .removeClass('off-screen')
+        .animate({
+          opacity: 1
+        }, 500);
 
-			for (let i = first; i <= last; i++) {
-				$('<a href="#"></a>').attr('data', i).html(i).appendTo(
-						'#pagebtn');
-			}
-			if (last < pagetotal) {
-				$('<a href="#"></a>').attr('data', 'next').html(">").appendTo(
-						'#pagebtn');
-			}
-			var paginglink = $('#pagebtn a');
-			paginglink.removeClass('active');
-			$("[data=" + currentPage + "]").addClass("active")
-			var startval = (currentPage - 1) * pagenumber;
-			var endval = startval + pagenumber;
 
-			tr.css('opacity', '0.0').addClass('off-screen').slice(startval,
-					endval).removeClass('off-screen').animate({
-				opacity : 1
-			}, 500);
 
-			paginglink.on('click', function(e) {
-				e.preventDefault();
-				var thisval = $(this);
-				var data = thisval.attr("data");
-				var selectedPage = thisval.text();
-				if (data == "next")
-					selectedPage = next;
-				if (data == "prev")
-					selectedPage = prev;
+      paginglink.on('click', function (e) {
+        e.preventDefault();
+        var thisval = $(this);
+        var data = thisval.attr("data");
+        var selectedPage = thisval.text();
+        if (data == "next") selectedPage = next;
+        if (data == "prev") selectedPage = prev;
 
-				page(pagenumber, pageCount, selectedPage);
 
-			});
 
-		}
-		page(pagenumber, pageCount, currentPage);
+        page(pagenumber, pageCount, selectedPage);
 
-		$(function() {
-			let name = "${workspace.workspace_title}";
-			changeWKIMG(name);
-		})
+      });
 
-		//워크프페이스 프로필이미지
-		function changeWKIMG(newWKname) {
-			let name = newWKname.substring(0, 1);
-			let img = document.querySelector(".wkimg");
-			let img2 = document.querySelector(".wkimg-body");
-			if (name == 'a' || name == 'A') {
-				img.setAttribute("src", "resources/img/a.jpg");
-				img2.setAttribute("src", "resources/img/a.jpg");
-			} else if (name == 'b' || name == 'B') {
-				img.setAttribute("src", "resources/img/b.jpg");
-				img2.setAttribute("src", "resources/img/b.jpg");
-			} else if (name == 'c' || name == 'C') {
-				img.setAttribute("src", "resources/img/c.jpg");
-				img2.setAttribute("src", "resources/img/c.jpg");
-			} else if (name == 'd' || name == 'D') {
-				img.setAttribute("src", "resources/img/d.jpg");
-				img2.setAttribute("src", "resources/img/d.jpg");
-			} else if (name == 'e' || name == 'E') {
-				img.setAttribute("src", "resources/img/e.jpg");
-				img2.setAttribute("src", "resources/img/e.jpg");
-			} else if (name == 'f' || name == 'F') {
-				img.setAttribute("src", "resources/img/f.jpg");
-				img2.setAttribute("src", "resources/img/f.jpg");
-			} else if (name == 'g' || name == 'G') {
-				img.setAttribute("src", "resources/img/g.jpg");
-				img2.setAttribute("src", "resources/img/g.jpg");
-			} else if (name == 'h' || name == 'H') {
-				img.setAttribute("src", "resources/img/h.jpg");
-				img2.setAttribute("src", "resources/img/h.jpg");
-			} else if (name == 'i' || name == 'I') {
-				img.setAttribute("src", "resources/img/i.jpg");
-				img2.setAttribute("src", "resources/img/i.jpg");
-			} else if (name == 'j' || name == 'J') {
-				img.setAttribute("src", "resources/img/j.jpg");
-				img2.setAttribute("src", "resources/img/j.jpg");
-			} else if (name == 'k' || name == 'K') {
-				img.setAttribute("src", "resources/img/k.jpg");
-				img2.setAttribute("src", "resources/img/k.jpg");
-			} else if (name == 'l' || name == 'L') {
-				img.setAttribute("src", "resources/img/l.jpg");
-				img2.setAttribute("src", "resources/img/l.jpg");
-			} else if (name == 'm' || name == 'M') {
-				img.setAttribute("src", "resources/img/m.jpg");
-				img2.setAttribute("src", "resources/img/m.jpg");
-			} else if (name == 'n' || name == 'N') {
-				img.setAttribute("src", "resources/img/n.jpg");
-				img2.setAttribute("src", "resources/img/n.jpg");
-			} else if (name == 'o' || name == 'O') {
-				img.setAttribute("src", "resources/img/o.jpg");
-				img2.setAttribute("src", "resources/img/o.jpg");
-			} else if (name == 'p' || name == 'P') {
-				img.setAttribute("src", "resources/img/p.jpg");
-				img2.setAttribute("src", "resources/img/p.jpg");
-			} else if (name == 'q' || name == 'Q') {
-				img.setAttribute("src", "resources/img/q.jpg");
-				img2.setAttribute("src", "resources/img/q.jpg");
-			} else if (name == 'r' || name == 'R') {
-				img.setAttribute("src", "resources/img/r.jpg");
-				img2.setAttribute("src", "resources/img/r.jpg");
-			} else if (name == 's' || name == 'S') {
-				img.setAttribute("src", "resources/img/s.jpg");
-				img2.setAttribute("src", "resources/img/s.jpg");
-			} else if (name == 't' || name == 'T') {
-				img.setAttribute("src", "resources/img/t.jpg");
-				img2.setAttribute("src", "resources/img/t.jpg");
-			} else if (name == 'u' || name == 'U') {
-				img.setAttribute("src", "resources/img/u.jpg");
-				img2.setAttribute("src", "resources/img/u.jpg");
-			} else if (name == 'v' || name == 'V') {
-				img.setAttribute("src", "resources/img/v.jpg");
-				img2.setAttribute("src", "resources/img/v.jpg");
-			} else if (name == 'w' || name == 'W') {
-				img.setAttribute("src", "resources/img/w.jpg");
-				img2.setAttribute("src", "resources/img/w.jpg");
-			} else if (name == 'x' || name == 'X') {
-				img.setAttribute("src", "resources/img/x.jpg");
-				img2.setAttribute("src", "resources/img/x.jpg");
-			} else if (name == 'y' || name == 'Y') {
-				img.setAttribute("src", "resources/img/y.jpg");
-				img2.setAttribute("src", "resources/img/y.jpg");
-			} else if (name == 'z' || name == 'Z') {
-				img.setAttribute("src", "resources/img/z.jpg");
-				img2.setAttribute("src", "resources/img/z.jpg");
-			} else if (name == '0') {
-				img.setAttribute("src", "resources/img/0.jpg");
-				img2.setAttribute("src", "resources/img/0.jpg");
-			} else if (name == '1') {
-				img.setAttribute("src", "resources/img/1.jpg");
-				img2.setAttribute("src", "resources/img/1.jpg");
-			} else if (name == '2') {
-				img.setAttribute("src", "resources/img/2.jpg");
-				img2.setAttribute("src", "resources/img/2.jpg");
-			} else if (name == '3') {
-				img.setAttribute("src", "resources/img/3.jpg");
-				img2.setAttribute("src", "resources/img/3.jpg");
-			} else if (name == '4') {
-				img.setAttribute("src", "resources/img/4.jpg");
-				img2.setAttribute("src", "resources/img/4.jpg");
-			} else if (name == '5') {
-				img.setAttribute("src", "resources/img/5.jpg");
-				img2.setAttribute("src", "resources/img/5.jpg");
-			} else if (name == '6') {
-				img.setAttribute("src", "resources/img/6.jpg");
-				img2.setAttribute("src", "resources/img/6.jpg");
-			} else if (name == '7') {
-				img.setAttribute("src", "resources/img/7.jpg");
-				img2.setAttribute("src", "resources/img/7.jpg");
-			} else if (name == '8') {
-				img.setAttribute("src", "resources/img/8.jpg");
-				img2.setAttribute("src", "resources/img/8.jpg");
-			} else if (name == '9') {
-				img.setAttribute("src", "resources/img/9.jpg");
-				img2.setAttribute("src", "resources/img/9.jpg");
-			} else {
-				img.setAttribute("src",
-						"resources/img/workspace_default_profile.png");
-				img2.setAttribute("src",
-						"resources/img/workspace_default_profile.png");
-			}
-		}
 
-		//status 배지 색상 변경
-		$(document)
-				.ready(
-						function() {
-							const badge = document
-									.getElementsByClassName('badge badge-success');
 
     }
     page(pagenumber, pageCount, currentPage);
     
     $(function() {
-		let name = "${workspace.workspace_title}";
-		changeWKIMG(name);
-	})
-	
+      let name = "${workspace.workspace_title}";
+      changeWKIMG(name);
+   })
+   
     //워크프페이스 프로필이미지
-	function changeWKIMG(newWKname) {
-		let name = newWKname.substring(0, 1);
-		let img = document.querySelector(".wkimg");
-		let img2 = document.querySelector(".wkimg-body");
-		if (name == 'a' || name == 'A') {
-			img.setAttribute("src", "resources/img/a.jpg");
-			img2.setAttribute("src", "resources/img/a.jpg");
-		} else if (name == 'b' || name == 'B') {
-			img.setAttribute("src", "resources/img/b.jpg");
-			img2.setAttribute("src", "resources/img/b.jpg");
-		} else if (name == 'c' || name == 'C') {
-			img.setAttribute("src", "resources/img/c.jpg");
-			img2.setAttribute("src", "resources/img/c.jpg");
-		} else if (name == 'd' || name == 'D') {
-			img.setAttribute("src", "resources/img/d.jpg");
-			img2.setAttribute("src", "resources/img/d.jpg");
-		} else if (name == 'e' || name == 'E') {
-			img.setAttribute("src", "resources/img/e.jpg");
-			img2.setAttribute("src", "resources/img/e.jpg");
-		} else if (name == 'f' || name == 'F') {
-			img.setAttribute("src", "resources/img/f.jpg");
-			img2.setAttribute("src", "resources/img/f.jpg");
-		} else if (name == 'g' || name == 'G') {
-			img.setAttribute("src", "resources/img/g.jpg");
-			img2.setAttribute("src", "resources/img/g.jpg");
-		} else if (name == 'h' || name == 'H') {
-			img.setAttribute("src", "resources/img/h.jpg");
-			img2.setAttribute("src", "resources/img/h.jpg");
-		} else if (name == 'i' || name == 'I') {
-			img.setAttribute("src", "resources/img/i.jpg");
-			img2.setAttribute("src", "resources/img/i.jpg");
-		} else if (name == 'j' || name == 'J') {
-			img.setAttribute("src", "resources/img/j.jpg");
-			img2.setAttribute("src", "resources/img/j.jpg");
-		} else if (name == 'k' || name == 'K') {
-			img.setAttribute("src", "resources/img/k.jpg");
-			img2.setAttribute("src", "resources/img/k.jpg");
-		} else if (name == 'l' || name == 'L') {
-			img.setAttribute("src", "resources/img/l.jpg");
-			img2.setAttribute("src", "resources/img/l.jpg");
-		} else if (name == 'm' || name == 'M') {
-			img.setAttribute("src", "resources/img/m.jpg");
-			img2.setAttribute("src", "resources/img/m.jpg");
-		} else if (name == 'n' || name == 'N') {
-			img.setAttribute("src", "resources/img/n.jpg");
-			img2.setAttribute("src", "resources/img/n.jpg");
-		} else if (name == 'o' || name == 'O') {
-			img.setAttribute("src", "resources/img/o.jpg");
-			img2.setAttribute("src", "resources/img/o.jpg");
-		} else if (name == 'p' || name == 'P') {
-			img.setAttribute("src", "resources/img/p.jpg");
-			img2.setAttribute("src", "resources/img/p.jpg");
-		} else if (name == 'q' || name == 'Q') {
-			img.setAttribute("src", "resources/img/q.jpg");
-			img2.setAttribute("src", "resources/img/q.jpg");
-		} else if (name == 'r' || name == 'R') {
-			img.setAttribute("src", "resources/img/r.jpg");
-			img2.setAttribute("src", "resources/img/r.jpg");
-		} else if (name == 's' || name == 'S') {
-			img.setAttribute("src", "resources/img/s.jpg");
-			img2.setAttribute("src", "resources/img/s.jpg");
-		} else if (name == 't' || name == 'T') {
-			img.setAttribute("src", "resources/img/t.jpg");
-			img2.setAttribute("src", "resources/img/t.jpg");
-		} else if (name == 'u' || name == 'U') {
-			img.setAttribute("src", "resources/img/u.jpg");
-			img2.setAttribute("src", "resources/img/u.jpg");
-		} else if (name == 'v' || name == 'V') {
-			img.setAttribute("src", "resources/img/v.jpg");
-			img2.setAttribute("src", "resources/img/v.jpg");
-		} else if (name == 'w' || name == 'W') {
-			img.setAttribute("src", "resources/img/w.jpg");
-			img2.setAttribute("src", "resources/img/w.jpg");
-		} else if (name == 'x' || name == 'X') {
-			img.setAttribute("src", "resources/img/x.jpg");
-			img2.setAttribute("src", "resources/img/x.jpg");
-		} else if (name == 'y' || name == 'Y') {
-			img.setAttribute("src", "resources/img/y.jpg");
-			img2.setAttribute("src", "resources/img/y.jpg");
-		} else if (name == 'z' || name == 'Z') {
-			img.setAttribute("src", "resources/img/z.jpg");
-			img2.setAttribute("src", "resources/img/z.jpg");
-		} else if (name == '0') {
-			img.setAttribute("src", "resources/img/0.jpg");
-			img2.setAttribute("src", "resources/img/0.jpg");
-		} else if (name == '1') {
-			img.setAttribute("src", "resources/img/1.jpg");
-			img2.setAttribute("src", "resources/img/1.jpg");
-		} else if (name == '2') {
-			img.setAttribute("src", "resources/img/2.jpg");
-			img2.setAttribute("src", "resources/img/2.jpg");
-		} else if (name == '3') {
-			img.setAttribute("src", "resources/img/3.jpg");
-			img2.setAttribute("src", "resources/img/3.jpg");
-		} else if (name == '4') {
-			img.setAttribute("src", "resources/img/4.jpg");
-			img2.setAttribute("src", "resources/img/4.jpg");
-		} else if (name == '5') {
-			img.setAttribute("src", "resources/img/5.jpg");
-			img2.setAttribute("src", "resources/img/5.jpg");
-		} else if (name == '6') {
-			img.setAttribute("src", "resources/img/6.jpg");
-			img2.setAttribute("src", "resources/img/6.jpg");
-		} else if (name == '7') {
-			img.setAttribute("src", "resources/img/7.jpg");
-			img2.setAttribute("src", "resources/img/7.jpg");
-		} else if (name == '8') {
-			img.setAttribute("src", "resources/img/8.jpg");
-			img2.setAttribute("src", "resources/img/8.jpg");
-		} else if (name == '9') {
-			img.setAttribute("src", "resources/img/9.jpg");
-			img2.setAttribute("src", "resources/img/9.jpg");
-		}
-	}
+   function changeWKIMG(newWKname) {
+      let name = newWKname.substring(0, 1);
+      let img = document.querySelector(".wkimg");
+      let img2 = document.querySelector(".wkimg-body");
+      if (name == 'a' || name == 'A') {
+         img.setAttribute("src", "resources/img/a.jpg");
+         img2.setAttribute("src", "resources/img/a.jpg");
+      } else if (name == 'b' || name == 'B') {
+         img.setAttribute("src", "resources/img/b.jpg");
+         img2.setAttribute("src", "resources/img/b.jpg");
+      } else if (name == 'c' || name == 'C') {
+         img.setAttribute("src", "resources/img/c.jpg");
+         img2.setAttribute("src", "resources/img/c.jpg");
+      } else if (name == 'd' || name == 'D') {
+         img.setAttribute("src", "resources/img/d.jpg");
+         img2.setAttribute("src", "resources/img/d.jpg");
+      } else if (name == 'e' || name == 'E') {
+         img.setAttribute("src", "resources/img/e.jpg");
+         img2.setAttribute("src", "resources/img/e.jpg");
+      } else if (name == 'f' || name == 'F') {
+         img.setAttribute("src", "resources/img/f.jpg");
+         img2.setAttribute("src", "resources/img/f.jpg");
+      } else if (name == 'g' || name == 'G') {
+         img.setAttribute("src", "resources/img/g.jpg");
+         img2.setAttribute("src", "resources/img/g.jpg");
+      } else if (name == 'h' || name == 'H') {
+         img.setAttribute("src", "resources/img/h.jpg");
+         img2.setAttribute("src", "resources/img/h.jpg");
+      } else if (name == 'i' || name == 'I') {
+         img.setAttribute("src", "resources/img/i.jpg");
+         img2.setAttribute("src", "resources/img/i.jpg");
+      } else if (name == 'j' || name == 'J') {
+         img.setAttribute("src", "resources/img/j.jpg");
+         img2.setAttribute("src", "resources/img/j.jpg");
+      } else if (name == 'k' || name == 'K') {
+         img.setAttribute("src", "resources/img/k.jpg");
+         img2.setAttribute("src", "resources/img/k.jpg");
+      } else if (name == 'l' || name == 'L') {
+         img.setAttribute("src", "resources/img/l.jpg");
+         img2.setAttribute("src", "resources/img/l.jpg");
+      } else if (name == 'm' || name == 'M') {
+         img.setAttribute("src", "resources/img/m.jpg");
+         img2.setAttribute("src", "resources/img/m.jpg");
+      } else if (name == 'n' || name == 'N') {
+         img.setAttribute("src", "resources/img/n.jpg");
+         img2.setAttribute("src", "resources/img/n.jpg");
+      } else if (name == 'o' || name == 'O') {
+         img.setAttribute("src", "resources/img/o.jpg");
+         img2.setAttribute("src", "resources/img/o.jpg");
+      } else if (name == 'p' || name == 'P') {
+         img.setAttribute("src", "resources/img/p.jpg");
+         img2.setAttribute("src", "resources/img/p.jpg");
+      } else if (name == 'q' || name == 'Q') {
+         img.setAttribute("src", "resources/img/q.jpg");
+         img2.setAttribute("src", "resources/img/q.jpg");
+      } else if (name == 'r' || name == 'R') {
+         img.setAttribute("src", "resources/img/r.jpg");
+         img2.setAttribute("src", "resources/img/r.jpg");
+      } else if (name == 's' || name == 'S') {
+         img.setAttribute("src", "resources/img/s.jpg");
+         img2.setAttribute("src", "resources/img/s.jpg");
+      } else if (name == 't' || name == 'T') {
+         img.setAttribute("src", "resources/img/t.jpg");
+         img2.setAttribute("src", "resources/img/t.jpg");
+      } else if (name == 'u' || name == 'U') {
+         img.setAttribute("src", "resources/img/u.jpg");
+         img2.setAttribute("src", "resources/img/u.jpg");
+      } else if (name == 'v' || name == 'V') {
+         img.setAttribute("src", "resources/img/v.jpg");
+         img2.setAttribute("src", "resources/img/v.jpg");
+      } else if (name == 'w' || name == 'W') {
+         img.setAttribute("src", "resources/img/w.jpg");
+         img2.setAttribute("src", "resources/img/w.jpg");
+      } else if (name == 'x' || name == 'X') {
+         img.setAttribute("src", "resources/img/x.jpg");
+         img2.setAttribute("src", "resources/img/x.jpg");
+      } else if (name == 'y' || name == 'Y') {
+         img.setAttribute("src", "resources/img/y.jpg");
+         img2.setAttribute("src", "resources/img/y.jpg");
+      } else if (name == 'z' || name == 'Z') {
+         img.setAttribute("src", "resources/img/z.jpg");
+         img2.setAttribute("src", "resources/img/z.jpg");
+      } else if (name == '0') {
+         img.setAttribute("src", "resources/img/0.jpg");
+         img2.setAttribute("src", "resources/img/0.jpg");
+      } else if (name == '1') {
+         img.setAttribute("src", "resources/img/1.jpg");
+         img2.setAttribute("src", "resources/img/1.jpg");
+      } else if (name == '2') {
+         img.setAttribute("src", "resources/img/2.jpg");
+         img2.setAttribute("src", "resources/img/2.jpg");
+      } else if (name == '3') {
+         img.setAttribute("src", "resources/img/3.jpg");
+         img2.setAttribute("src", "resources/img/3.jpg");
+      } else if (name == '4') {
+         img.setAttribute("src", "resources/img/4.jpg");
+         img2.setAttribute("src", "resources/img/4.jpg");
+      } else if (name == '5') {
+         img.setAttribute("src", "resources/img/5.jpg");
+         img2.setAttribute("src", "resources/img/5.jpg");
+      } else if (name == '6') {
+         img.setAttribute("src", "resources/img/6.jpg");
+         img2.setAttribute("src", "resources/img/6.jpg");
+      } else if (name == '7') {
+         img.setAttribute("src", "resources/img/7.jpg");
+         img2.setAttribute("src", "resources/img/7.jpg");
+      } else if (name == '8') {
+         img.setAttribute("src", "resources/img/8.jpg");
+         img2.setAttribute("src", "resources/img/8.jpg");
+      } else if (name == '9') {
+         img.setAttribute("src", "resources/img/9.jpg");
+         img2.setAttribute("src", "resources/img/9.jpg");
+      }
+   }
 
   //status 배지 색상 변경
     $(document).ready(function(){
-    	const badge = document.getElementsByClassName('badge');
-    	
-    	for(let i = 0; i < badge.length; i++){
-    		if(badge[i].innerText === 'TO DO'){
-    			badge[i].setAttribute('class', 'badge badge-danger');
-    		}
-    	}
-		
-	}); 
-  
- 
+       const badge = document.getElementsByClassName('badge');
+       
+       for(let i = 0; i < badge.length; i++){
+          if(badge[i].innerText === 'TO DO'){
+             badge[i].setAttribute('class', 'badge badge-danger');
+          }
+       }
+      
+   }); 
   </script>
 </body>
 </html>
