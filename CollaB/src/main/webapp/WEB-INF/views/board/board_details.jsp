@@ -331,7 +331,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	                     </div>
 	                     <div class="ml-2 mt-1 text-right card-owner" style="font-weight:bold;">
 	                     <c:if test="${card.manager ne null}">
-	                     	${card.manager}<img style="height: 20px; width: 20px;" 
+	                     	<img style="height: 25px; width: 25px;" 
 	                       class="rounded-circle mr-1 ml-1 mb-1 profimg${card.card_id}">
 	                     </c:if>
 	                     </div>
