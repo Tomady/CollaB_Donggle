@@ -931,7 +931,7 @@
 	<!--이미지 미리보기-->
 	<div class="class1Temaplate" style="display: none;"
 		id="commentPlusTemplate">
-		<li class="comment__row">
+		<li class="comment__row classTarget">
 			<div class="comment__class__1">
 				<div class="comment__row__left">
 					<img class="mr-3 rounded-circle" width="30" height="30px"
@@ -1024,7 +1024,7 @@
 
 	<div style="display: none;" id="recommentTemplate"
 		class="class2Temaplate">
-		<li class="recomment__row">
+		<li class="recomment__row classTarget">
 			<div class="recomment__left">
 				<div class="recomment__icon"></div>
 				<img class="mr-3 rounded-circle imgHd" width="20" height="40px"
@@ -1146,6 +1146,7 @@
 					template.find('.comment__row').attr('data-id', id)
 					template.find('.comment__row').attr('data-commentId', commentId)
 					template.find('.comment__row').attr('data-group', group)
+					template.find('.comment__row').attr('data-order', comment_order)
 					template.find('.comment__row__left>img').attr('src', src)
 			
 					
@@ -2116,13 +2117,6 @@
   
 
   
-	$(document).on('click', '.fas__fa__menu', menuShowFn)
-    
-
-
-    function menuShowFn(e) {
-      $(e.target).find('.fas__menu').toggle()
-    }
 
 
 
@@ -2170,13 +2164,88 @@
     
     
 
-    $('.fas__menu__btnC').on('click', function () {
-      console.log('수정')
-    })
 
-    $('.fas__menu__btnD').on('click', function () {
-      console.log('삭제')
-    })
+    function menuShowFn(e) {
+    	let target = $(event.target).closest('.classTarget').attr("data-id")
+    	let userId = ajaxGetSessionUserId();
+    
+    	if(target == userId){
+    		  $(e.target).find('.fas__menu').toggle()
+    		
+    	}
+		
+    }
+
+	$(document).on('click', '.fas__fa__menu', menuShowFn)
+	$(document).on('click','.fas__menu__btnC', menuUpdateBtnFn)
+	$(document).on('click','.fas__menu__btnD', menuDeleteBtnFn)
+	
+	function menuDeleteBtnFn(event){
+		let userId = $(event.target).closest('.classTarget').attr("data-id")
+		let group = $(event.target).closest('.classTarget').attr("data-group")
+		let order = $(event.target).closest('.classTarget').attr("data-order")
+		let commentId = $(event.target).closest('.classTarget').attr("data-commentid")
+    	
+		if(order == 0){
+			let result = ajaxGroupListSelect(group);
+
+			for(let data of result){
+				let result = ajaxRemoveComment(data.id, data.comment_id);
+			}
+			$(event.target).closest('.classTarget').remove();
+		}else{
+			let result = ajaxRemoveComment(userId, commentId);
+			if(result == "Yes"){
+				$(event.target).closest('.classTarget').remove();
+			}
+		}
+		
+		
+    
+    }
+	
+	function ajaxGroupListSelect(group){
+		let result;
+		$.ajax({
+			url : 'ajaxGroupListSelect.do',
+			type : 'post',
+			dataType : 'json',
+			async : false,
+			data : {
+				comment_group : group
+			},
+			success : function(data){
+				result = data
+			}
+			
+		})
+		return result;
+	}
+
+    function menuUpdateBtnFn(event){
+    	let target = $(event.target).closest('.classTarget').attr("data-id")
+    	
+    }
+    function ajaxRemoveComment(userId, commentId){
+    	let result;
+    	$.ajax({
+    		url : 'ajaxRemoveComment.do',
+    		type : 'post',
+    		dataType : 'text',
+    		async : false,
+    		data : {
+    			id : userId,
+    			comment_id : commentId
+    		},
+    		success : function(data){
+    			console.log(data);
+    			result = data;
+    		}
+    	})
+    	
+    	return result;
+    }
+
 
   </script>
 	<!-- General JS Scripts -->

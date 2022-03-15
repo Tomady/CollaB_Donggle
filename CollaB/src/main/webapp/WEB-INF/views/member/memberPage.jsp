@@ -309,7 +309,8 @@ margin: 0;
 	margin: 10vmax auto;
 	border-radius: 10px;
 	padding: 10px;
-	background: rgba(41, 40, 40, 1);
+ 	background: rgba(41, 40, 40, 1); 
+/* 	background: #9F90D9; */
 }
 
 .modals2-content {
@@ -1035,7 +1036,7 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 
 			<div class="row">
 				<div class="col-12">
-					<div class="card">
+					<div class="card" style="height: 100vh;">
 						<div class="section-body">
 							<div class="card-header d-flex justify-content-center"
 								style="text-align: center;">
