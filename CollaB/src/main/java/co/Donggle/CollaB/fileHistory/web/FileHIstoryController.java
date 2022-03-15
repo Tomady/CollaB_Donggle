@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.Donggle.CollaB.board.service.BoardService;
 import co.Donggle.CollaB.board.service.BoardVO;
@@ -17,7 +16,6 @@ import co.Donggle.CollaB.workspace.service.WorkspaceVO;
 
 @Controller
 public class FileHIstoryController {
-
 	@Autowired WorkspaceJoinService workspaceJoinDao;
 	@Autowired WorkspaceService workspaceDao;
 	@Autowired BoardService boardDao;
@@ -26,6 +24,8 @@ public class FileHIstoryController {
 	@RequestMapping("/filehistory")
 	public String fileHistory(WorkspaceVO wkvo, Model model, HttpSession session, BoardVO vo) {
 		String userId = (String) session.getAttribute("id");
+		int workspaceid = (int)session.getAttribute("enterWorkspaceId");
+		
 		vo.setId(userId);
 		
 		// 메뉴헤더
@@ -35,7 +35,7 @@ public class FileHIstoryController {
 		model.addAttribute("unStarBoards", boardDao.selectBoardNonStar(vo));
 		
 		// 파일 히스토리
-		model.addAttribute("filehistory", fileDao.fileHistoryList());		
+		model.addAttribute("filehistory", fileDao.fileCardList(workspaceid));		
 		
 		return "fileHistory/fileHistory";
 	}

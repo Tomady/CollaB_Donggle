@@ -1,16 +1,17 @@
 package co.Donggle.CollaB.fileHistory.service;
 
 import java.sql.Date;
-
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class FileHIstoryVO {
-	private int history_num;
-	private int file_id;
-	private int pre_file_id;
+public class VuFilehistory {
+	private String file_name;
+	private String card_title;
+	private Date file_upload_date;
+	private int file_hits;
 	private String pfile_name;
 	private Date upload_date;
+	private String pre_file;
 }

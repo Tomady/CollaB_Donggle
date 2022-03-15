@@ -98,7 +98,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr class="" data-a="1">
+											<tr class="" data-title="1">
 												<td class="filehistory__title">최종프로젝트</td>
 												<td>최종프로젝트</td>
 												<td>2022-03-06</td>
@@ -129,9 +129,8 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 	$('.filehistory__title').on("click", function (e) {
-
-		let a = $(event.target).parent().attr("data-a")
-		let all = $('[data="' + a + '"').toggle();
+		let trTitle = $(event.target).parent().attr("data-title")
+		let all = $('[data="' + trTitle + '"').toggle();
 	})
 
 	//워크프페이스 프로필이미지
