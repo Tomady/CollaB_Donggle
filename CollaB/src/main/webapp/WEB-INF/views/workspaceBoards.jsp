@@ -534,7 +534,7 @@
               </a>
             </li>
             <li>
-              <a class="nav-link" href="memberPage.do?">
+              <a class="nav-link" href="memberPage.do?workspace_id=${workspace.workspace_id}">
                 <i class="far fa-user"></i>
                 <span>Members</span>
               </a>

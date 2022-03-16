@@ -15,4 +15,8 @@ public class FileInfoVO {
    private String id;
    private Date file_upload_date;
    private int file_hits;
+   
+   //히스토리
+   private int history_num;
+   private int pre_file_id;
 }

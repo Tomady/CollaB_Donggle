@@ -17,6 +17,7 @@ public class CardVO {
 	private Date card_end_date;
 	private String card_label;
 	private String manager;
+	private String card_thema;
 	
 	//list
 	private String list_title;

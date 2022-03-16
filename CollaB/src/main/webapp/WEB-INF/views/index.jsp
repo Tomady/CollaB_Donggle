@@ -375,6 +375,11 @@ body .options .option .label .info .main {
 	font-size: 1.2rem;
 }
 
+body .main{
+	color : black;
+	background-color : #f8f9fa;
+}
+
 body .options .option .label .info .sub {
 	transition-delay: 0.1s;
 }
@@ -404,19 +409,9 @@ body .options .option .label .info .sub {
 </head>
 <body>
 	<nav class="nav_Bg">
-		<div class="nav_t">
-			<ul>
-				<li>
-					<i class="fas fa-phone-alt"></i>
-					<a href="">010-8258-9612</a>
-				</li>
-				<li>
-					<i class="fas fa-envelope"></i>
-					<a href="">ha3310@naver.com</a>
-				</li>
-			</ul>
+		<div class="nav_t" style="height: 30px;">
+			
 		</div>
-
 		<div class="nav_b">
 			<div class="logo"><img src="resources/img/logo3334.png" width="200px;"></div>
 			<ul>
@@ -429,9 +424,9 @@ body .options .option .label .info .sub {
 				<c:if test="${not empty id}">
 					<li><a href="javascript:logout()">Sign out</a></li>
 				</c:if>
-				<c:if test="${not empty id}">
+				<!--<c:if test="${not empty id}">
 					<li><a href="#">ㅇㅇ?</a></li>
-				</c:if>
+				</c:if>-->
 			</ul>
 		</div>
 	</nav>
@@ -440,76 +435,61 @@ body .options .option .label .info .sub {
 		<div class="container_content mt-3">
 			<h1 style="font-size:80px;">CollaB</h1>
 			<h5>Super-connected business platform</h5>
-			<button class="mb-3 mt-3" onclick="location.href='WorkspaceList'">Let's get started !</button>
+			<c:if test="${empty id }">
+				<button class="mb-3 mt-3 btn btn-secondary" onclick="location.href='joinForm.do'">Join us!</button>
+			</c:if>
+			<c:if test="${not empty id }">
+				<button class="mb-3 mt-3 btn btn-secondary" onclick="location.href='WorkspaceList'">Let's get started !</button>
+			</c:if>
 		</div>
 		
 		<!-- 슬라이드 -->
 		<div class="options">
-			<div class="option active" style="background-image: url(https://66.media.tumblr.com/6fb397d822f4f9f4596dff2085b18f2e/tumblr_nzsvb4p6xS1qho82wo1_1280.jpg);">
+			<div class="option active" style="background-image:url(resources/img/index_1.png);">
+				<div class="label">
+					<div class="info">
+						<div class="main">&nbsp;Manage your work efficiently with lists and cards !&nbsp;</div>
+					</div>
+				</div>
+				<div class="shadow"></div>
+			</div>
+			
+			<div class="option"
+				style="background-image:url(resources/img/index_5.png);">
 				<div class="shadow"></div>
 				<div class="label">
-					<div class="icon">
-						<i class="fas fa-walking"></i>
-					</div>
 					<div class="info">
-						<div class="main">Blonkisoaz</div>
-						<div class="sub">Omuke trughte a otufta</div>
+						<div class="main">&nbsp;You can manage all your schedules with just one card.&nbsp;</div>
 					</div>
 				</div>
 			</div>
 			
 			<div class="option"
-				style="background-image: url(https://66.media.tumblr.com/8b69cdde47aa952e4176b4200052abf4/tumblr_o51p7mFFF21qho82wo1_1280.jpg);">
+				style="background-image:url(resources/img/index_2.png);">
 				<div class="shadow"></div>
 				<div class="label">
-					<div class="icon">
-						<i class="fas fa-snowflake"></i>
-					</div>
 					<div class="info">
-						<div class="main">Oretemauw</div>
-						<div class="sub">Omuke trughte a otufta</div>
+						<div class="main">&nbsp;Check out the progress of the project on the dashboard !&nbsp;</div>
 					</div>
 				</div>
 			</div>
 			
 			<div class="option"
-				style="background-image: url(https://66.media.tumblr.com/5af3f8303456e376ceda1517553ba786/tumblr_o4986gakjh1qho82wo1_1280.jpg);">
+				style="background-image:url(resources/img/index_3.png);">
 				<div class="shadow"></div>
 				<div class="label">
-					<div class="icon">
-						<i class="fas fa-tree"></i>
-					</div>
 					<div class="info">
-						<div class="main">Iteresuselle</div>
-						<div class="sub">Omuke trughte a otufta</div>
+						<div class="main">&nbsp;You can exchange messages with your colleagues.&nbsp;</div>
 					</div>
 				</div>
 			</div>
 			
 			<div class="option"
-				style="background-image: url(https://66.media.tumblr.com/5516a22e0cdacaa85311ec3f8fd1e9ef/tumblr_o45jwvdsL11qho82wo1_1280.jpg);">
+				style="background-image:url(resources/img/index_4.png);">
 				<div class="shadow"></div>
 				<div class="label">
-					<div class="icon">
-						<i class="fas fa-tint"></i>
-					</div>
 					<div class="info">
-						<div class="main">Idiefe</div>
-						<div class="sub">Omuke trughte a otufta</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="option"
-				style="background-image: url(https://66.media.tumblr.com/f19901f50b79604839ca761cd6d74748/tumblr_o65rohhkQL1qho82wo1_1280.jpg);">
-				<div class="shadow"></div>
-				<div class="label">
-					<div class="icon">
-						<i class="fas fa-sun"></i>
-					</div>
-					<div class="info">
-						<div class="main">Inatethi</div>
-						<div class="sub">Omuke trughte a otufta</div>
+						<div class="main">&nbsp;The calendar makes it easy to check the schedule ! &nbsp;</div>
 					</div>
 				</div>
 			</div>
@@ -517,12 +497,12 @@ body .options .option .label .info .sub {
 		<h4 class="mb-5 mt-3">Use all the services for work in one space</h4>
 	</div>
 
-	<div class="body mt-5">
+	<!--<div class="body mt-5">
 		<div class="body_content">body content</div>
 		<div class="img">
 			<img src="resources/img/index__body.svg" alt="">
 		</div>
-	</div>
+	</div>-->
 	<div class="footer"></div>
 </body>
 

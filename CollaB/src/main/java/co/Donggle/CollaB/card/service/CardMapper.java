@@ -33,6 +33,10 @@ public interface CardMapper {
 	int cardRename(CardVO vo);
 	//카드 관리자지정
 	int cardManagerSetting(CardVO vo);
+	//카드 테마설정
+	int cardThemaSelected(CardVO vo);
+	//카드 테마삭제
+	int cardThemaDelete(int card_id);
 	
 	//=====카드삭제=====
 	//카드댓글아이디, 파일아이디, 체크리스트 아이디 필요

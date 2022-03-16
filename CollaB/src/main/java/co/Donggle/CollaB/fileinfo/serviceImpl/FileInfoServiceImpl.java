@@ -32,4 +32,24 @@ public class FileInfoServiceImpl implements FileInfoService {
 	public int cardFileDelete(FileInfoVO vo) {
 		return map.cardFileDelete(vo);
 	}
+
+	@Override
+	public List<FileInfoVO> totalFileListInBoard(int board_id) {
+		return map.totalFileListInBoard(board_id);
+	}
+
+	@Override
+	public int cardFileHistoryInsert(FileInfoVO vo) {
+		return map.cardFileHistoryInsert(vo);
+	}
+
+	@Override
+	public int cardFileHistoryInsertExistPrev(FileInfoVO vo) {
+		return map.cardFileHistoryInsertExistPrev(vo);
+	}
+
+	@Override
+	public int cardFileEdit(FileInfoVO vo) {
+		return map.cardFileEdit(vo);
+	}
 }
