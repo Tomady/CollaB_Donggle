@@ -145,4 +145,23 @@
 		select * from card_comment
 		where comment_group = #{comment_group}
 	</select>
+	
+	<update id="commentUpdate"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		update card_comment
+		set comment_content = #{comment_content}
+		where comment_id = #{comment_id}
+		
+	
+	</update>
+	
+	<update id="commentFileUpdate"
+	parameterType="co.Donggle.CollaB.comment.service.CommentVO">
+		update comment_file_info
+		set
+		file_name = #{file_name},
+		pfile_name = #{pfile_name}
+		where comment_id = #{comment_id}
+		
+	</update>
 </mapper>

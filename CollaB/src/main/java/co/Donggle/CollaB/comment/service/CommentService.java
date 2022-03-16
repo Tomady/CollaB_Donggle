@@ -22,4 +22,6 @@ public interface CommentService {
 	int commentDelete(CommentVO vo);
 	int commentFileDelete(CommentVO vo);
 	List<CommentVO> commentGroupListSelect(CommentVO vo);
+	int commentUpdate(CommentVO vo);
+	int commentFileUpdate(CommentVO vo);
 }
