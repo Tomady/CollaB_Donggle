@@ -107,13 +107,13 @@
 	display: flex;
 	margin-left: 25%;
 }
-.replyGroup{
+.replyWrap{
+	width: 550px;
 	margin: auto;
-	width: 600px;
+	margin-bottom: 20px;
 }
-#originalReply{
-	width: 600px;
-	border: 1px solid red;
+#writer{
+	width: 200px;
 	margin: 10px;
 }
 
@@ -128,9 +128,28 @@
 #insertBtn:hover, #insertBtn:focus {
 	background-color: #6553C1 !important;
 }
-#nickname{
-	float: left;
+.text-center{
+	text-align: left !important;
 }
+#replyDel{
+	border: none;
+	background: transparent;
+}
+#nickname{
+	font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+#replyDel, #replyDate{
+	font-size: 12px;
+	float: right;
+	padding-top: 10px;
+	color: gray;
+}
+
+
 </style>
 </head>
 <body style="background-color: #ECE9FE;">
@@ -220,22 +239,32 @@
 									<div class="form-group">
 										<div class="reply-box">
 											<input type="text" class="form-control" id="replyContent"
-												placeholder="댓글을 입력해주세요." style="margin-right: 20px;">
-											<button class="btn btn-primary" id="replyBtn" >등록</button>
+												placeholder="댓글을 입력해주세요." style="margin-right: 20px;" onkeyup="replyEnter()">
+											<button class="btn btn-primary" id="replyBtn">등록</button>
 										</div>
 									</div>
 									
 									<c:forEach items="${reply }" var="re">
-										<div class="replyGroup">
-											<div id="originalReply">
-												<span id="nickname" data-replyid="${re.replyid }">${re.id }</span>
-												<span>${re.replycomment }</span>
-												<span id="myReplyBtn">${re.replydate }
-													<c:if test="${re.id == id}">
-														<button id="replyDel">삭제</button>
+										<div class="replyWrap">
+											<span id="writer">
+												<span id="profPic">
+													<c:if test="${not empty re.prof_pic  }">
+														<img src="${re.prof_pic }" width="40px;" height="40px;" style="border-radius: 70%;">
+													</c:if>													
+													
+													<c:if test="${empty re.prof_pic }">
+														<img src="resources/img/noprof.png" width="40px;" height="40px;" style="border-radius: 70%;">
 													</c:if>
 												</span>
-											</div>
+												<span id="nickname" data-replyid="${re.replyid }">${re.nickname }</span>
+											</span>
+												<span id="comment">${re.replycomment }</span>
+											
+												<span id="replyDate">${re.replydate }</span>
+
+											<c:if test="${re.id == id}">
+												<button id="replyDel"><ion-icon name="trash-outline"></ion-icon></button>
+											</c:if>
 										</div>
 									</c:forEach>
 								</div>
@@ -269,10 +298,34 @@
 			
 			})
 		});
+		function replyEnter(){
+			if(window.event.keyCode == 13){
+				$.ajax({
+					url : "AjaxIssueReply",
+					type : "POST",
+					data : {
+						  replycomment : $("#replyContent").val()
+						, issueid : ${issue.issueId}
+					},
+					dataType : "text",
+					success : function(result){
+						if(result == "true"){
+							console.log("등록 성공");
+							location.reload();
+						}else{
+							console.log("안 됐 다");
+						}
+					},
+				
+				})
+			}
+		}
 		
 		// 댓글 삭제 ajax
 		$("#replyDel").click(function(){
 			let replyid = $("#nickname").data('replyid');
+			console.log(replyid);
+			
 			$.ajax({
 				url : "AjaxDelReply",
 				type : "post",
@@ -282,13 +335,14 @@
 				dataType : "text",
 				success : function(result){
 					if(result == "true"){
-						alert("삭제 완료");
+						console.log("삭제 완료");
 						location.reload();
 					}else{
 						console.log("댓글 삭제 실패");
 					}
 				}
 			})
+			
 		});
 		
 	

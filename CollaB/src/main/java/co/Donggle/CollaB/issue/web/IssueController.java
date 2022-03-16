@@ -267,7 +267,12 @@ public class IssueController {
 		
 		// 해당 이슈글에 등록된 댓글 출력
 		IssueReplyVO rvo = new IssueReplyVO();
+		rvo.setId(id);
 		rvo.setIssueid(issueId);
+		System.out.println("아이디이여요!!!!!"+rvo.getId());
+		System.out.println("이슈아이디이여요!!!!!"+rvo.getIssueid());
+		System.out.println("닉네임이이여요!!!!!"+rvo.getNickname());
+		System.out.println("프사여요!!!!!"+rvo.getProf_pic());
 		model.addAttribute("reply", replyDao.issueReplyLsit(rvo));
 		
 		
