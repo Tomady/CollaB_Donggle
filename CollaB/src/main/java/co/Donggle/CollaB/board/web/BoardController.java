@@ -18,6 +18,7 @@ import co.Donggle.CollaB.card.service.CardService;
 import co.Donggle.CollaB.card.service.CardVO;
 import co.Donggle.CollaB.checklist.service.itemInfoService;
 import co.Donggle.CollaB.checklist.service.itemInfoVO;
+import co.Donggle.CollaB.fileinfo.service.FileInfoService;
 import co.Donggle.CollaB.list.service.ListService;
 import co.Donggle.CollaB.list.service.ListVO;
 import co.Donggle.CollaB.recent.service.RecentService;
@@ -37,6 +38,7 @@ public class BoardController {
 	@Autowired CardService cardDao;
 	@Autowired RecentService RecentDao;
 	@Autowired itemInfoService itemInfoDao;
+	@Autowired FileInfoService fileInfoDao;
 
 	// 해당워크스페이스 boards페이지로 이동
 	@RequestMapping("/Boards")
@@ -220,7 +222,9 @@ public class BoardController {
 		model.addAttribute("totalList", listDao.selectTotalList(listvo));
 		// 해당 보드에 포함된 카드 전부
 		model.addAttribute("totalCard", listDao.selectTotalCard(listvo));
-
+		// 해당 보드에 포함된 첨부파일 전부
+		model.addAttribute("totalFileList",fileInfoDao.totalFileListInBoard(bId));
+		
 		return "board/board_details";
 	}
 

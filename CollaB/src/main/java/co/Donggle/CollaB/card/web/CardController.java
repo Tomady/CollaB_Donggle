@@ -26,7 +26,6 @@ import co.Donggle.CollaB.card.service.CardService;
 import co.Donggle.CollaB.card.service.CardVO;
 import co.Donggle.CollaB.checklist.service.checklistService;
 import co.Donggle.CollaB.checklist.service.itemInfoService;
-import co.Donggle.CollaB.dy.VO.UserInfo;
 import co.Donggle.CollaB.fileinfo.service.FileInfoService;
 import co.Donggle.CollaB.fileinfo.service.FileInfoVO;
 import co.Donggle.CollaB.list.service.ListService;
@@ -260,6 +259,7 @@ public class CardController {
 		try {
 			FileCopyUtils.copy(file.getBytes(), target);
 			n = fileInfoDao.cardFileUpload(vo);
+			n += fileInfoDao.cardFileHistoryInsert(vo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -269,6 +269,33 @@ public class CardController {
 		}
 		
 		return  fileInfoDao.cardFileSelect(vo);
+	}
+	
+	//카드 파일수정
+	@ResponseBody
+	@RequestMapping("AjaxCardFileEdit")
+	public String AjaxCardFileEdit(FileInfoVO vo, MultipartFile file, HttpSession session) {
+		String filename = file.getOriginalFilename();
+		String pfilename = getRandomIntString(16);
+		pfilename = pfilename+filename.substring(filename.lastIndexOf("."));
+		File target = new File(cardSaveDirectory,pfilename);
+		int n = 0;
+		
+		//vo.setFile_name(filename);
+		vo.setPfile_name(pfilename);
+		if(!new File(cardSaveDirectory).exists()) {
+			new File(cardSaveDirectory).mkdir();
+		}
+		try {
+			FileCopyUtils.copy(file.getBytes(), target);
+			n += fileInfoDao.cardFileEdit(vo);
+			n += fileInfoDao.cardFileHistoryInsertExistPrev(vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return n > 0 ? pfilename :"NO";
 	}
 	
 	private static String getRandomIntString(int length) {
@@ -319,5 +346,23 @@ public class CardController {
 		} catch (Exception e) {
 			throw new Exception("download error");
 		}
+	}
+	
+	//카드 테마설정
+	@ResponseBody
+	@RequestMapping("/AjaxCardThemaSelected")
+	public String AjaxCardThemaSelected(CardVO cardvo) {
+		int n = cardDao.cardThemaSelected(cardvo);
+		
+		return n > 0 ? "YES" : "NO";
+	}
+	
+	//카드 테마제거
+	@ResponseBody
+	@RequestMapping("/AjaxCardThemaRemove")
+	public String AjaxCardThemaRemove(int card_id) {
+		int n = cardDao.cardThemaDelete(card_id);
+		
+		return n > 0 ? "YES" : "NO";
 	}
 }
