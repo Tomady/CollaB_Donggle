@@ -16,4 +16,8 @@ public class IssueReplyVO {
 	private int issueid;
 	private String id;
 	private Date replydate;
+	
+	// user_info 
+	private String nickname;
+	private String prof_pic;
 }

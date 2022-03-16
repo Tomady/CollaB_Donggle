@@ -9,4 +9,5 @@ public interface IssueReplyMapper {
 	int deleteIssueReply(IssueReplyVO vo);
 	// 해당 이슈글의 댓글들 나와라
 	List<IssueReplyVO> issueReplyLsit(IssueReplyVO vo);
+	
 }

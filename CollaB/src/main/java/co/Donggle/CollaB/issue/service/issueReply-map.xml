@@ -10,8 +10,16 @@
 	</insert>
 	
 	<select id="issueReplyLsit" resultType="co.Donggle.CollaB.issue.service.IssueReplyVO">
-		SELECT * FROM ISSUE_REPLY 
-		WHERE ISSUEID = #{issueid}
+		SELECT U.NICKNAME AS NICKNAME
+	        , R.REPLYID AS REPLYID
+	        , R.REPLYCOMMENT AS REPLYCOMMENT
+	        , R.ISSUEID AS ISSUEID
+	        , R.ID AS ID
+	        , R.REPLYDATE AS REPLYDATE
+	        , U.PROF_PIC AS PROF_PIC
+		FROM USER_INFO U, ISSUE_REPLY R
+		WHERE R.ISSUEID = #{issueid}
+		AND R.ID = U.ID
 		ORDER BY REPLYDATE DESC
 	</select>
 	
