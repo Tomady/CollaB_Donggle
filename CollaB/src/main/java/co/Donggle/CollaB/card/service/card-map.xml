@@ -13,6 +13,7 @@
 		SELECT COUNT(*) 
 		FROM FILE_INFO 
 		WHERE CARD_ID = #{card_id}
+		AND PFILE_NAME IS NOT NULL
 	</select>
 	
 	<select id="cardManagerProfIMG" resultType="string"
@@ -190,4 +191,17 @@
 		ON ( L.LIST_ID = C.LIST_ID)
 		WHERE L.BOARD_ID = #{board_id}
 	</select>
+	
+	<update id="cardThemaSelected"
+	parameterType="co.Donggle.CollaB.card.service.CardVO">
+		UPDATE CARD
+		SET CARD_THEMA = #{card_thema}
+		WHERE CARD_ID = #{card_id}
+	</update>
+	
+	<update id="cardThemaDelete" parameterType="int">
+		UPDATE CARD
+		SET CARD_THEMA = ''
+		WHERE CARD_ID = #{card_id}
+	</update>
 </mapper>

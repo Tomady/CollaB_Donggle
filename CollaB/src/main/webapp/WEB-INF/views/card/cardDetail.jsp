@@ -109,7 +109,7 @@
 	  height: 100%;
 	  object-fit: cover;
 	}
-	.filedelbtn:hover, .filedownbtn:hover {
+	.filedelbtn:hover, .filedownbtn:hover, .cardThema:hover, .fileeditbtn:hover {
 	  text-decoration : underline !important;
 	  cursor : pointer;	
 	}
@@ -560,7 +560,8 @@ document.addEventListener("DOMContentLoaded", function(){
                       </div>
                       <div class="card-body" id="file_append_target">
                       <c:forEach items="${fileinfoList}" var="file">
-                        <!--여기서부터-->
+                      	<c:if test="${file.pfile_name ne null}">
+							 <!--여기서부터-->
                         <div class="card" id="file${file.file_id}">
                           <div class="card-body d-flex">
                           	<div style="box-shadow:2px 2px 2px 1px #adb5bd; width:200px; 
@@ -569,7 +570,7 @@ document.addEventListener("DOMContentLoaded", function(){
                           	<c:if test="${fn:substringAfter(file.pfile_name,'.') eq 'jpg' 
                           	|| fn:substringAfter(file.pfile_name,'.') eq 'png' 
                           	|| fn:substringAfter(file.pfile_name,'.') eq 'gif'}">
-                          		<img src="resources/cardFile/${file.pfile_name}">
+                          		<img id="thumbnailImg${file.file_id}" src="resources/cardFile/${file.pfile_name}">
                           	</c:if>
                           		<h5 style="display:inline-block;">${fn:substringAfter(file.pfile_name,'.')}</h5>
                           	</div> 
@@ -580,10 +581,23 @@ document.addEventListener("DOMContentLoaded", function(){
 								<div class="row">
 									<span class="btn filedelbtn" onclick="fileDelete(${file.file_id})">Delete</span>
 									<a class="btn filedownbtn" href="cardFileDownload?file_name=${file.file_name}&pfile_name=${file.pfile_name}">Download</a>
+									<label class="btn fileeditbtn" for="input-fileEdit${file.file_id}" onclick="cardFileEdit(${file.file_id})">Edit</label>
+                    				<input type="file" id="input-fileEdit${file.file_id}" style="display:none;">
+									<c:if test="${fn:substringAfter(file.pfile_name,'.') eq 'jpg' 
+		                          	|| fn:substringAfter(file.pfile_name,'.') eq 'png' 
+		                          	|| fn:substringAfter(file.pfile_name,'.') eq 'gif'}">
+		                          		<c:if test="${cardinfo.card_thema ne file.file_id}">
+				                          	<span class="btn cardThema" onclick="cardThemaSelect(${file.file_id},${file.card_id})">Make Cover</span>
+		                          		</c:if>
+		                          		<c:if test="${cardinfo.card_thema eq file.file_id}">
+		                          			<span class="btn cardThema" onclick="cardThemaRemove(${file.file_id},${file.card_id})">Remove Cover</span>
+		                          		</c:if>
+                          			</c:if>
 								</div>
 							</div>
                           </div>
                         </div>
+                      	</c:if>
                       </c:forEach>
                         <!--여기까지가 하나의 첨부파일-->
                       </div>
@@ -603,8 +617,8 @@ document.addEventListener("DOMContentLoaded", function(){
                         <img class="mr-3 rounded-circle" width="50" src="resources/assets/img/avatar/avatar-1.png" alt="avatar">
                         <div class="media-body">
                           <div class="float-right fa fa-times"></div>
-                          <div class="media-title">김은지</div>
-                          <span class="text-small text-muted">~~댓글댓글댓글</span>
+                          <div class="media-title">YooA</div>
+                          <span class="text-small text-muted">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.</span>
                           <div class="mt-2" style="font-size: 10px;">2022/02/22</div>
                         </div>
                       </li>
@@ -612,8 +626,8 @@ document.addEventListener("DOMContentLoaded", function(){
                         <img class="mr-3 rounded-circle" width="50" src="resources/assets/img/avatar/avatar-2.png" alt="avatar">
                         <div class="media-body">
                           <div class="float-right fa fa-times"></div>
-                          <div class="media-title">김가루</div>
-                          <span class="text-small text-muted">냐냐ㅑ냐ㅑ~~~</span>
+                          <div class="media-title">garuru</div>
+                          <span class="text-small text-muted">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.</span>
                           <div class="mt-2" style="font-size: 10px;">2022/02/22</div>
                         </div>
                       </li>
@@ -660,7 +674,6 @@ $("#input-file").on("change", function(){
 		contentType : false,
 		processData : false,
 		success : function(data){
-			console.log(data);
 			let file_end = (data.file_name).substring((data.file_name).lastIndexOf(".")+1); //확장자명
 			
 			let card = document.createElement("div");
@@ -683,19 +696,45 @@ $("#input-file").on("change", function(){
 			delbtn.setAttribute("class","btn filedelbtn");
 			delbtn.innerHTML = "Delete";
 			delbtn.onclick = function(){
-				fileDelete(data.file_id);
+				fileDelete(data.file_id,cardId);
 			}
-			let downbtn = document.querySelector("a");
+			let downbtn = document.createElement("a");
 			downbtn.removeAttribute("data-toggle");
 			downbtn.setAttribute("class","btn filedownbtn");
 			downbtn.setAttribute("href","cardFileDownload?file_name="+data.file_name+"&pfile_name="+data.pfile_name);
 			downbtn.innerHTML = "Download";
+
+			let editbtn = document.createElement("label");
+			editbtn.setAttribute("class","btn filedelbtn");
+			editbtn.setAttribute("for","input-fileEdit"+data.file_id);
+			editbtn.innerHTML = "Edit";
+			editbtn.onclick = function(){
+				cardFileEdit(data.file_id);
+			}
+			let fileInput = document.createElement("input");
+			fileInput.setAttribute("type","file")
+			fileInput.setAttribute("id","input-fileEdit"+data.file_id);
+			fileInput.style.display = "none";
+			
+			frow.append(filename);
+			srow.append(delbtn);
+			srow.append(downbtn);
+			editbtn.append(fileInput);
+			srow.append(editbtn);
 			
 			let input = document.querySelector("#input-file");
 			if(input.files[0].type.match(/image\//)){
 				let img = document.createElement("img");
+				img.setAttribute("id","thumbnailImg"+data.file_id);
 				getFileSrc(input,img);
 				thumbnail.append(img);
+				let themaBtn = document.createElement("span");
+				themaBtn.setAttribute("class","btn cardThema");
+				themaBtn.innerHTML = "Make cover";
+				themaBtn.onclick = function(){
+					cardThemaSelect(data.file_id, data.card_id);
+				}
+				srow.append(themaBtn);
 			}else{
 				let thumbname = document.createElement("h5");
 				thumbname.style.display="inline-block";
@@ -703,9 +742,6 @@ $("#input-file").on("change", function(){
 				thumbnail.append(thumbname);
 			}
 			
-			frow.append(filename);
-			srow.append(delbtn);
-			srow.append(downbtn);
 			cardbody.append(frow);
 			cardbody.append(srow);
 			hhhhead.append(thumbnail);
@@ -729,6 +765,39 @@ function getFileSrc(input,img){
       }
       reader.readAsDataURL(input.files[0])
  }
+ 
+//카드 첨부파일 편집
+function cardFileEdit(file_id){
+	$("#input-fileEdit"+file_id).on("change", function(){
+		var form = new FormData();
+		form.append("file",$("#input-fileEdit"+file_id)[0].files[0]);
+		form.append("file_id", file_id);
+		$.ajax({
+			url : "AjaxCardFileEdit",
+			type : "POST",
+			data : form,
+			dataType : "text",
+			contentType : false,
+			processData : false,
+			success : function(data){
+				if(data != "NO"){
+					var reader = new FileReader();
+			        reader.onload = function (e) {
+			        	document.querySelector("#thumbnailImg"+file_id).setAttribute("src", e.target.result)
+			        }
+			        reader.readAsDataURL($("#input-fileEdit"+file_id)[0].files[0]);
+				}else{
+					alert("파일수정이 실패하였습니다.\n관리자에게 문의하세요.");
+				}
+			},
+			error : function(){
+				console.log("카드첨부파일 변경 실패");
+			}
+		})
+	})
+}
+	
+	
  </script>
  
  <!-- 은지 코드 -->

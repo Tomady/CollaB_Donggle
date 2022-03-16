@@ -26,9 +26,49 @@
 		ORDER BY FILE_ID DESC
 	</select>
 	
-	<delete id="cardFileDelete"
+	<update id="cardFileDelete"
 	parameterType="co.Donggle.CollaB.fileinfo.service.FileInfoVO">
-		DELETE FILE_INFO
+		UPDATE FILE_INFO
+		SET PFILE_NAME = ''
 		WHERE FILE_ID = #{file_id}
-	</delete>
+	</update>
+	
+	<select id="totalFileListInBoard" parameterType="int"
+	resultType="co.Donggle.CollaB.fileinfo.service.FileInfoVO">
+		SELECT PFILE_NAME, FILE_ID
+		FROM FILE_INFO
+		WHERE CARD_ID IN (SELECT CARD_ID
+						  FROM CARD
+						  WHERE LIST_ID IN (SELECT LIST_ID
+						  					FROM LIST
+						  					WHERE BOARD_ID = #{board_id}))
+	</select>
+	
+	<insert id="cardFileHistoryInsert"
+	parameterType="co.Donggle.CollaB.fileinfo.service.FileInfoVO">
+		<selectKey keyProperty="history_num" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(HISTORY_NUM),0)+1 FROM FILE_HISTORY
+		</selectKey>
+		INSERT INTO FILE_HISTORY(HISTORY_NUM, FILE_ID, PFILE_NAME)
+		VALUES(#{history_num},#{file_id},#{pfile_name})
+	</insert>
+	
+	<insert id="cardFileHistoryInsertExistPrev"
+	parameterType="co.Donggle.CollaB.fileinfo.service.FileInfoVO">
+		<selectKey keyProperty="history_num" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(HISTORY_NUM),0)+1 FROM FILE_HISTORY
+		</selectKey>
+		INSERT INTO FILE_HISTORY
+		VALUES(#{history_num},
+			   #{file_id},
+			   (SELECT MAX(HISTORY_NUM) FROM FILE_HISTORY WHERE FILE_ID = #{file_id}),
+			   #{pfile_name})
+	</insert>
+	
+	<update id="cardFileEdit"
+	parameterType="co.Donggle.CollaB.fileinfo.service.FileInfoVO">
+		UPDATE FILE_INFO
+		SET PFILE_NAME = #{pfile_name}
+		WHERE FILE_ID = #{file_id}
+	</update>
 </mapper>

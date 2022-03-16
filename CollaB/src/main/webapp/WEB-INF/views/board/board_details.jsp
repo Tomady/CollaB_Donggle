@@ -329,9 +329,20 @@ document.addEventListener("DOMContentLoaded", function(){
 	                       <span class="cardName">${card.card_title}</span> <!--카드이름-->
 	                       <i class="fa fa-times col-rg" aria-hidden="true" onclick="deleteCard(${card.card_id})"></i>
 	                     </div>
-	                     <div class="ml-2 mt-1 text-right card-owner" style="font-weight:bold;">
+	                     <!-- 카드테마설정 -->
+	                     <c:if test="${card.card_thema ne null}">
+	                     	<c:forEach items="${totalFileList}" var="file">
+	                     		<c:if test="${file.file_id eq card.card_thema}">
+	                     			<c:if test="${file.pfile_name ne null}">
+					                     <img src="resources/cardFile/${file.pfile_name}" class="thema${card.card_thema}" 
+					                     style="width:100%; height:150px;">
+	                     			</c:if>
+	                     		</c:if>
+	                     	</c:forEach>
+	                     </c:if>
+	                     <div class="ml-2 mt-2 text-right card-owner" style="font-weight:bold;">
 	                     <c:if test="${card.manager ne null}">
-	                     	<img style="height: 25px; width: 25px;" 
+	                     	<img style="height: 25px; width: 25px;"
 	                       class="rounded-circle mr-1 ml-1 mb-1 profimg${card.card_id}">
 	                     </c:if>
 	                     </div>
