@@ -195,7 +195,8 @@ public class BoardController {
 		recentvo.setBoard_id(bId);
 		recentvo.setId(userId);
 		RecentDao.insertRecent(recentvo);
-
+		
+		session.setAttribute("enterWorkspaceId", workspaceId); //세션에다 워크스페이스 아이디 저장해주기
 		// 해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID - 사이드
 		model.addAttribute("workspace", boardDao.selectBoard(vo));
 		// 사용자가 가지고 있는 모든 워크스페이스-워크스페이스ID,워크스페이스이름 - 사이드

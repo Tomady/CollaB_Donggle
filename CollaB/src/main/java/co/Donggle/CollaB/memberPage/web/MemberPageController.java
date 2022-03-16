@@ -60,11 +60,18 @@ public class MemberPageController {
 	@RequestMapping("/memberPage.do")
 	public String memberPage(Model model, HttpSession session, WorkspaceVO vo, WorkspaceJoinVO jvo) {
 		String userId = (String) session.getAttribute("id");
-		vo.setWorkspace_id(1);
-		jvo.setWorkspace_id(1);
-
+		int wkid = vo.getWorkspace_id();
+		
+		BoardVO boardvo = new BoardVO();
+		boardvo.setWorkspace_id(wkid);
+		boardvo.setId(userId);
+		
 		model.addAttribute("workspace", workspaceDao.searchWorkspace(vo));
 		model.addAttribute("workspaceList", workspaceJoinDao.workspaceJoinList(userId)); // 사용자가 가지고 있는 모든 워크스페이스
+		model.addAttribute("boardList", workspaceDao.boardListinWorkspace(vo)); // 해당워크스페이스가 가지고 있는 모든 보드 - admin은 다 볼
+		model.addAttribute("boardStar", boardDao.selectBoardStar(boardvo));
+		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(boardvo));
+		
 //		model.addAttribute("user_infoList", workspaceJoinDao.workspaceTotalMember(jvo)); // 워크스페이스의 유저 총 수
 //		model.addAttribute("workspaceUserList", memWorkspaceJoinDao.workspaceJoinIdselect(jvo)); // 워크스페이스 권한
 

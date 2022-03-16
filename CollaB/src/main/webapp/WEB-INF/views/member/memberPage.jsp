@@ -1288,8 +1288,9 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 			<div class="boardsList__row__removeBtn">Remove</div>
 		</div>
 	</div>
-	<input type="hidden" id="hWorkspace_id"
-		value="${workspace.workspace_id}">
+	<input type="hidden" id="hWorkspace_id" value="${workspace.workspace_id}">
+	<input type="hidden" id="hWorkspace_title" value="${workspace.workspace_title}">
+
 </body>
 
 
@@ -2426,8 +2427,11 @@ const boardBg = {
 	
 App = {
 		init : async function(){
-			let name = "${workspace.workspace_title}";
+			let name = $("#hWorkspace_title").val();
+			let testtete = $("#hWorkspace_id").val();
 			
+			console.log(testtete)
+			console.log(name)
 			changeWKIMG(name);
 			
 			let workspaceId = $('#hWorkspace_id').val();
