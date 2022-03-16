@@ -65,19 +65,19 @@ function sidebarBoard(){
             </li>
             <li class="menu-header">MENU</li>
             <li>
-              <a class="nav-link" href="Boards?wkid=${workspace.workspace_id}">
+              <a class="nav-link" href="Boards?wkid=${enterWorkspaceId}">
                 <i class="fas fa-columns"></i>
                 <span>Boards</span>
               </a>
             </li>
             <li>
-              <a class="nav-link" href="memberPage.do">
+              <a class="nav-link" href="memberPage.do?workspace_id=${enterWorkspaceId}">
                 <i class="far fa-user"></i>
                <span>Members</span>
               </a>
             </li>
             <li>
-              <a class="nav-link" href="issueBoard.do?workspace_id=${workspace.workspace_id}">
+              <a class="nav-link" href="issueBoard.do?workspace_id=${enterWorkspaceId}">
                 <i class="fas fa-fire"></i>
                 <span>Issues</span>
               </a>
@@ -91,7 +91,7 @@ function sidebarBoard(){
             <li id="sidebar_workspace" class="menu-header mt-3" onclick="sidebarWorkspace()" style="cursor:pointer;">Your Workspaces<i id="sidebar_wk_icon" class="fa fa-caret-down ml-3" style="font-size:15px;"></i></li>
             <c:forEach items="${workspaceList}" var="workspace">
             	<li class="sidebar_workspace_item" style="display:none;">
-            		<a class="nav-link" href="Boards?wkid=${workspace.workspace_id}">
+            		<a class="nav-link" href="Boards?wkid=${enterWorkspaceId}">
             		<span class="sidebar_workspace${workspace.workspace_id}">&nbsp;&nbsp;${workspace.workspace_title}</span></a>
             	</li>
             </c:forEach>
