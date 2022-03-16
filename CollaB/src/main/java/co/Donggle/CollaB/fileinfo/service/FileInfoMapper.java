@@ -7,4 +7,14 @@ public interface FileInfoMapper {
 	int cardFileUpload(FileInfoVO vo);
 	List<FileInfoVO> cardFileSelectList(int card_id);
 	int cardFileDelete(FileInfoVO vo);
+	
+	List<FileInfoVO> totalFileListInBoard(int board_id);
+	
+	//파일히스토리-첫번째파일
+	int cardFileHistoryInsert(FileInfoVO vo);
+	//파일히스토리-두번째이후파일insert
+	int cardFileHistoryInsertExistPrev(FileInfoVO vo);
+	//파일-파일수정
+	int cardFileEdit(FileInfoVO vo);
+	
 }

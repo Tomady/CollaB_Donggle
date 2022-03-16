@@ -155,4 +155,14 @@ public class CardServiceImpl implements CardService {
 		return map.boardCardsSelectList(board_id);
 	}
 
+	@Override
+	public int cardThemaSelected(CardVO vo) {
+		return map.cardThemaSelected(vo);
+	}
+
+	@Override
+	public int cardThemaDelete(int card_id) {
+		return map.cardThemaDelete(card_id);
+	}
+
 }

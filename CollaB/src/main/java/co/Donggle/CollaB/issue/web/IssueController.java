@@ -24,6 +24,8 @@ import co.Donggle.CollaB.issue.service.IssueCheckListVO;
 import co.Donggle.CollaB.issue.service.IssueItemMapper;
 import co.Donggle.CollaB.issue.service.IssueItemVO;
 import co.Donggle.CollaB.issue.service.IssueMapper;
+import co.Donggle.CollaB.issue.service.IssueReplyMapper;
+import co.Donggle.CollaB.issue.service.IssueReplyVO;
 import co.Donggle.CollaB.issue.service.IssueVO;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 import co.Donggle.CollaB.workspace.service.WorkspaceService;
@@ -37,6 +39,7 @@ public class IssueController {
 	@Autowired IssueMapper issueDao;
 	@Autowired IssueItemMapper itemDao;
 	@Autowired IssueCheckListMapper chkListDao;
+	@Autowired IssueReplyMapper replyDao;
 
 	// 이슈게시판 이동
 	@RequestMapping("/issueBoard.do")
@@ -262,6 +265,11 @@ public class IssueController {
 		iIssueItemVO.setChecklist_id(chkVO.getChecklist_id());
 		model.addAttribute("itemList", itemDao.issueItems(iIssueItemVO));
 		
+		// 해당 이슈글에 등록된 댓글 출력
+		IssueReplyVO rvo = new IssueReplyVO();
+		rvo.setIssueid(issueId);
+		model.addAttribute("reply", replyDao.issueReplyLsit(rvo));
+		
 		
 		// 사이드바에서 필요한 내용 - 은지가 추가했어용~~ 놀라지마세요 아람걸>_0
 		model.addAttribute("workspace",workspaceDao.searchWorkspace(wkvo));
@@ -275,7 +283,7 @@ public class IssueController {
 	// 이슈 글 삭제 ajax
 	@ResponseBody
 	@RequestMapping("/issueDelete.do")
-	public String roomDelete(HttpServletRequest request) {
+	public String issueDelete(HttpServletRequest request) {
 		int no = Integer.parseInt(request.getParameter("issueid"));
 
 		String result = "false";
@@ -305,4 +313,51 @@ public class IssueController {
 				
 	  return list;
 	}
+	
+	// =================== 댓글 ===================
+	// 이슈상세글 댓글 등록 ajax
+	@ResponseBody
+	@PostMapping("/AjaxIssueReply")
+	public String AjaxIssueReply(IssueReplyVO rvo, HttpServletRequest request, HttpSession session) {
+		int isid = Integer.parseInt(request.getParameter("issueid"));
+		String comment = request.getParameter("replycomment");
+		String id = (String) session.getAttribute("id");
+		String result = "false";
+		
+		// 값 받아오나 보자
+		System.out.println("댓글 내용이여요======" + comment);
+		System.out.println("댓글 작성자여요======" + id);
+		System.out.println("댓글 이슈아이디여요===" + isid);
+		
+		rvo.setIssueid(isid);
+		rvo.setReplycomment(comment);
+		rvo.setId(id);
+		
+		int n = replyDao.insertIssueReply(rvo);
+
+		if (n > 0) {
+			result = "true";
+		}
+		return result;
+	}
+	
+	// 댓글 삭제 ajax
+		@ResponseBody
+		@RequestMapping("/AjaxDelReply")
+		public String AjaxDelReply(HttpServletRequest request) {
+			int rid = Integer.parseInt(request.getParameter("replyid"));
+
+			String result = "false";
+
+			IssueReplyVO rvo = new IssueReplyVO();
+			rvo.setReplyid(rid);
+			
+			int n = replyDao.deleteIssueReply(rvo);
+
+			if (n > 0) {
+				result = "true";
+			}
+
+			return result;
+		}
 }

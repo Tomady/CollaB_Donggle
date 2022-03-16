@@ -1,5 +1,34 @@
 //검색버튼
 document.querySelector("#inboxSearch").onclick = function(){
+	let jogun = $("#inbox_search_jogun").val(); //검색조건
+	let searchVal = $("#inboxSearchVal").val(); //검색값
+	
+	let searchvalue;
+	if(jogun == "title"){
+		 searchvalue = $(".inbox_title");
+		
+	}else if(jogun == "from"){
+		 searchvalue = $(".inbox_from");
+	}
+	
+	console.log(jogun);
+	console.log(searchvalue);
+	for(let i of searchvalue){
+		$(i).parent().removeClass("remove_inbox")
+	}
+	for(let i of searchvalue){
+		if($(i).html().includes(searchVal)){
+			console.log($(i).html());
+			
+			continue;
+		}
+		$(i).parent().addClass("remove_inbox")
+	}	
+	$("#inboxSearchVal").val("");
+	page(pagenumber, pageCount, currentPage);
+}
+
+function ffff (){
 	let jogun = document.querySelector("#inbox_search_jogun").value; //검색조건
 	let searchVal = document.querySelector("#inboxSearchVal").value; //검색값
 	

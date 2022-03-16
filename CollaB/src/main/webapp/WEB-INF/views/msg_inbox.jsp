@@ -159,6 +159,10 @@
       background: #6553C1;
       color: #fff;
     }
+    .remove_inbox{
+	    opacity: 0.0;
+		display: none;
+    }
 </style>
 <script type="text/javascript">
 //즐겨찾기
@@ -554,7 +558,7 @@ function unread(){
                       <div class="btn-group mb-2">
                         <select id="inbox_search_jogun" class="btn btn-sm dropdown-toggle mr-2" type="button" data-toggle="dropdown" 
                         aria-haspopup="true" aria-expanded="false">
-                          <option class="dropdown-menu dropdown-item" value="writer">From&nbsp;&nbsp;&nbsp;</option>
+                          <option class="dropdown-menu dropdown-item" value="from">From&nbsp;&nbsp;&nbsp;</option>
                           <option class="dropdown-menu dropdown-item" value="title">Title&nbsp;&nbsp;&nbsp;</option>
                         </select>
                         <input id="inboxSearchVal" class="form-control" type="search" placeholder="Mail Search" 
@@ -607,8 +611,8 @@ function unread(){
                             <i style="color:gray;" class="star fas fa-star" onclick="starFnc(${inbox.inbox_id})"></i>
                           </c:if>
                           </td>
-                          <td onclick="selectMSG(${inbox.inbox_id})">${inbox.receive_from}</td>
-                          <td onclick="selectMSG(${inbox.inbox_id})">${inbox.receive_title}</td>
+                          <td class="inbox_from" onclick="selectMSG(${inbox.inbox_id})">${inbox.receive_from}</td>
+                          <td class="inbox_title" onclick="selectMSG(${inbox.inbox_id})">${inbox.receive_title}</td>
                           <td onclick="selectMSG(${inbox.inbox_id})" style="text-align: left;">${inbox.receive_contents}</td>
                           <td onclick="selectMSG(${inbox.inbox_id})">${inbox.receive_date}</td>
                         </tr>
@@ -628,8 +632,8 @@ function unread(){
                           </c:if>
                           </td>
                           
-                          <td onclick="selectMSG(${inbox.inbox_id})">${inbox.receive_from}</td>
-                          <td onclick="selectMSG(${inbox.inbox_id})">${inbox.receive_title}</td>
+                          <td class="inbox_from" onclick="selectMSG(${inbox.inbox_id})">${inbox.receive_from}</td>
+                          <td class="inbox_title" onclick="selectMSG(${inbox.inbox_id})">${inbox.receive_title}</td>
                           <td onclick="selectMSG(${inbox.inbox_id})" style="text-align: left;">${inbox.receive_contents}</td>
                           <td onclick="selectMSG(${inbox.inbox_id})">${inbox.receive_date}</td>
                         </tr>                      
@@ -649,16 +653,14 @@ function unread(){
   <!--페이징처리-->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script type="text/javascript">
-  var pagenumber = 10
-  var pageCount = 3
-  var currentPage = 1;
-
-  var tableEl = $('#inboxMSGlist');
-  var tr = tableEl.find('tbody tr');
-  var trtotal = tr.length;
+  const pagenumber = 10;
+  const pageCount = 3;
+  const currentPage = 1;
 
   function page(pagenumber, pageCount, currentPage) {
-
+    let tableEl = $('#inboxMSGlist');
+ 	let tr = tableEl.find('tbody tr');
+    let trtotal = tr.length;
 
     if (trtotal == 0) return;
     var pagetotal = Math.ceil(trtotal / pagenumber);

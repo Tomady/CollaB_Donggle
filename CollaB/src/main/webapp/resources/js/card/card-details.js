@@ -992,7 +992,7 @@ function itemTitleRename(item_id){
 	}
 }
 
-//카드첨부파일 삭제
+//카드첨부파일 삭제 _ 삭제는 아니고 물리파일명 null값으로 만들기
 function fileDelete(file_id){
 	let cardId = $("#selectedCard").attr("data-cardId");
 	$.ajax({
@@ -1009,6 +1009,47 @@ function fileDelete(file_id){
 		},
 		error : function(){
 			console.log("AjaxCardFileDelete 실패");
+		}
+	})
+}
+
+//카드 테마설정
+function cardThemaSelect(file_id,card_id){
+	$.ajax({
+		url : "AjaxCardThemaSelected",
+		type : "POST",
+		data : {
+			card_thema : file_id,
+			card_id : card_id
+		},
+		dataType : "text",
+		success : function(data){
+			if(data == "YES"){
+				window.location.reload();
+			}
+		},
+		error : function(){
+			console.log("카드테마적용실패");
+		}
+	})
+}
+
+//카드 테마제거_카드테이블에 thema컬럼 null로 변경
+function cardThemaRemove(file_id,card_id){
+	$.ajax({
+		url : "AjaxCardThemaRemove",
+		type : "POST",
+		data : {
+			card_id : card_id
+		},
+		dataType : "text",
+		success : function(data){
+			if(data == "YES"){
+				window.location.reload();
+			}	
+		},
+		error : function(){
+			console.log("카드테마제거 실패");
 		}
 	})
 }
