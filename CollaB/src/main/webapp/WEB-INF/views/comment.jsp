@@ -81,13 +81,13 @@
 }
 
 .comment__card__body {
-/* 	min-width: 310px; */
+	/* 	min-width: 310px; */
 	border: 5px solid rgb(235, 235, 235);
 	border-radius: 20px;
 	padding: 10px;
-	
 }
-.comment__date{
+
+.comment__date {
 	margin-left: 5px;
 }
 </style>
@@ -704,6 +704,7 @@
 	display: flex;
 	justify-content: center;
 	border-radius: 4px;
+	margin-right: 10px;
 }
 
 .recomment__btn i {
@@ -750,7 +751,7 @@
 	align-items: center;
 	border: 3px solid rgb(248, 248, 248);
 	border-radius: 10px;
-	padding: 5px 5px;
+	padding: 5px 15px 5px 5px;
 }
 
 .context__file__prev__imgBox {
@@ -770,6 +771,13 @@
 	margin-bottom: 10px;
 	font-size: 13px;
 	display: none;
+	border: 3px solid rgb(248, 248, 248);
+	border-radius: 10px;
+	padding: 5px 15px 5px 5px;
+}
+
+.comment__context__file span i {
+	font-size: 15px;
 }
 
 .comment__context__file a {
@@ -877,10 +885,20 @@
 .commentContainer {
 	margin: 0 auto;
 }
-.list-unstyled-border li{
+
+.list-unstyled-border li {
 	border-bottom: 1px solid rgb(235, 235, 235);
 }
 
+.context__file__prev__removeBtn {
+	display: none;
+	margin-left: auto;
+}
+
+.context__file__prev__removeBtn i {
+	cursor: pointer;
+	font-size: 25px;
+}
 </style>
 								<!-- 댓글 end -->
 								<!--카드댓글 #394eea -->
@@ -921,75 +939,7 @@
 										<hr>
 										<ul
 											class="comment__box mt-4 list-unstyled list-unstyled-border">
-<li class="comment__row classTarget">
-			<div class="comment__class__1">
-				<div class="comment__row__left">
-					<img class="mr-3 rounded-circle" width="30" height="30px"
-						src="resources/assets/img/avatar/avatar-1.png" alt="avatar">
-					<div class="recomment__btn">
-						<i class="fas fa-comment-medical"></i><span class="recomment__num">0</span>
-					</div>
-				</div>
-				<div class="comment__row__right">
-					<div class="comment__writer__box">
-						<div class="comment__writer"></div>
-						<div class="fas__fa__menu">
-							<div class="fas fa-bars">
-								<div class="fas__menu">
-									<div class="fas__menu__btnC">수정</div>
-									<div class="fas__menu__btnD">삭제</div>
-								</div>
-							</div>
-						</div>
-					</div>
 
-					<div class="comment__context"></div>
-					<div class="comment__context__file__prev">
-						<div class="context__file__prev__imgBox">
-							<img alt="" src="">
-						</div>
-						<div class="context__file__prev__text">
-							파일명 : <a href="#" class="fileContent"></a>
-						</div>
-
-					</div>
-					<div class="comment__context__file">
-						파일명 : <a href="#" class="fileContent"></a>
-					</div>
-					<div class="comment__info">
-						<span class="comment__date"></span> <span class="comment__right">
-							<span class="goodBtnRow"> <span class="goodBtnRow__icon">👍🏻</span>
-								<span class="goodBtnRow__num">0</span>
-						</span> <span class="badBtnRow"> <span class="badBtnRow__icon">👎🏻</span>
-								<span class="badBtnRow__num">0</span>
-						</span>
-						</span>
-					</div>
-				</div>
-			</div>
-			<div class="recomment__wrap">
-				<ul
-					class="recomment__box mt-4 list-unstyled list-unstyled-border class2">
-				</ul>
-				<div class="recomment__input__box">
-					<div class="recomment__left">
-						<div class="recomment__icon"></div>
-						<img class="mr-3 rounded-circle imgHd" width="20" height="22px"
-							src="" alt="avatar">
-					</div>
-					<div class="comment__input__row">
-						<img class="mr-3 rounded-circle" width="40" height="40px"
-							src="${prof_pic}" alt="avatar">
-						<div class="comment__input__Box">
-							<div class="textarea__Box">
-								<textarea name="" id="" class="textareaEl textareaEl__class2"></textarea>
-							</div>
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</li>
 
 										</ul>
 
@@ -1040,10 +990,15 @@
 						<div class="context__file__prev__text">
 							파일명 : <a href="#" class="fileContent"></a>
 						</div>
-
+						<span class="context__file__prev__removeBtn"> <i
+							class="fas fa-times"></i>
+						</span>
 					</div>
 					<div class="comment__context__file">
-						파일명 : <a href="#" class="fileContent"></a>
+						파일명 : <a href="#" class="fileContent"></a> <span
+							class="context__file__prev__removeBtn"> <i
+							class="fas fa-times"></i>
+						</span>
 					</div>
 					<div class="comment__info">
 						<span class="comment__date"></span> <span class="comment__right">
@@ -1079,6 +1034,30 @@
 				</div>
 			</div>
 		</li>
+
+	</div>
+
+
+	<div style="display: none;"  class="filePrevTemplate">
+		<div class="comment__context__file__prev">
+			<div class="context__file__prev__imgBox">
+				<img alt="" src="">
+			</div>
+			<div class="context__file__prev__text">
+				파일명 : <a href="#" class="fileContent"></a>
+			</div>
+			<span class="context__file__prev__removeBtn"> <i
+				class="fas fa-times"></i>
+			</span>
+		</div>
+	</div>
+	<div style="display: none;" class="textPrevTemplate">
+		<div class="comment__context__file">
+			파일명 : <a href="#" class="fileContent"></a> <span
+				class="context__file__prev__removeBtn"> <i
+				class="fas fa-times"></i>
+			</span>
+		</div>
 
 	</div>
 
@@ -1125,17 +1104,24 @@
 						</div>
 					</div>
 					<div class="comment__context"></div>
-					<div class="comment__context__file__prev" style="border: 3px solid #cbc6c6;">
+					<div class="comment__context__file__prev"
+						style="border: 3px solid #cbc6c6;">
 						<div class="context__file__prev__imgBox">
 							<img alt="" src="">
 						</div>
 						<div class="context__file__prev__text">
 							파일명 : <a href="#" class="fileContent"></a>
 						</div>
+						<span class="context__file__prev__removeBtn"> <i
+							class="fas fa-times"></i>
+						</span>
 
 					</div>
 					<div class="comment__context__file">
-						파일명 : <a href="#" class="fileContent"></a>
+						파일명 : <a href="#" class="fileContent"></a> <span
+							class="context__file__prev__removeBtn"> <i
+							class="fas fa-times"></i>
+						</span>
 					</div>
 					<div class="comment__info">
 						<span class="comment__date"></span> <span
@@ -1153,6 +1139,15 @@
 
 	</div>
 
+	<div id="modify__input__Box" style="display: none;">
+		<div class="comment__input__Box" data="modify__input">
+			<div class="textarea__Box">
+				<textarea name="" id="" class="textareaEl textareaEl__class2"></textarea>
+			</div>
+
+		</div>
+	</div>
+
 	<!-- 댓글 사진 미리보기 -->
 	<div class="img__box__wrap">
 		<div class="img__box">
@@ -1166,6 +1161,7 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script id="script">
 	
+
 	
 	const currentCardId = $('#currentCardId').val();
 	const currentUserProfPic = $('#currentUserProfPic').val();
@@ -1237,7 +1233,7 @@
 				template.find('.file__icon').attr('for', 'fileInput'+group)
 				template.find('.input_file').attr('id', 'fileInput'+group)
 				template.find('.comment__info').attr('data-commentId', commentId)
-								
+				template.find('.comment__context').attr('data-commentId', commentId)		
 				
 				prevComment_group = group
 				let commnetFileInfo = commentFileChk(commentFiles, commentId)
@@ -1249,13 +1245,20 @@
 					
 					
 					if(checkFile(filename)){
+						
+					
 						template.find('.comment__context__file__prev').css("display", "flex");
+						template.find('.comment__context__file__prev').addClass("fileTarget");
+						template.find('.comment__context__file__prev').attr('data-commentId', commentId)
 						template.find('.context__file__prev__imgBox>img').attr("src", "resources/commentFile/"+pfile_name)
-						template.find('.context__file__perv__text').attr("data", fileId)
 						template.find('.fileContent').text(filename)
 						template.find('.fileContent').attr("href", "commentDownload.do?pfile_name="+pfile_name+"&file_name="+filename)
 					}else{
-						template.find('.comment__context__file').attr('data', fileId).css("display", "block")
+					
+						template.find('.context__file__prev__removeBtn')
+						template.find('.comment__context__file').css("display", "flex")
+						template.find('.comment__context__file').addClass("fileTarget");
+						template.find('.comment__context__file').attr('data-commentId', commentId)
 						template.find('.comment__context__file>a').text(filename)
 						template.find('.comment__context__file>a').attr('href', "commentDownload.do?pfile_name="+pfile_name+"&file_name="+filename)
 					}
@@ -1278,7 +1281,6 @@
 				}else{
 					template.find('.badBtnRow__num').text(commentBadSum)
 				}
-
 				
 				if(template.attr('class') == 'class1Temaplate'){
 				
@@ -1427,15 +1429,11 @@
 		 
 		 var ext =  str.split('.').pop().toLowerCase();
 		 if($.inArray(ext, ['jpg' , 'jpeg', 'gif', 'bmp', 'png', 'tiff', 'svg', 'ico']) == -1) {
-
-		     return null;
+		     return false;
 		 }
-
 		 return true;
-
 		}
 	function commentFileChk(commentFiles, commentId){
-
 		for(let data of commentFiles){
 			
 			if(data.comment_id === commentId){
@@ -1446,20 +1444,15 @@
 		
 		return null;
 	}
-
 	 $(function(){
 		 CommentApp.init();
 	 })
-	function ajaxCommentGroup(){
-		
-		
-	}
+
 	
 	function getDateStr(date){
 	    var sYear = date.getFullYear();
 	    var sMonth = date.getMonth() + 1;
 	    var sDate = date.getDate();
-
 	    sMonth = sMonth > 9 ? sMonth : "0" + sMonth;
 	    sDate  = sDate > 9 ? sDate : "0" + sDate;
 	    return sYear +"/"+ sMonth +"/"+ sDate;
@@ -1498,8 +1491,13 @@
     }
     
     function createRecomment(evert){
-     let today = new Date();  
    	 let target = $(event.target); 
+     let targetData = target.closest('.comment__input__Box').attr('data');
+     if(targetData == "modify__input"){
+    	 console.log("1. if문");
+    	 return modifyResult(target);
+     }	
+     let today = new Date();  
    	 let file = target.closest('.input__Box__Btns').find('.input_file')
    	 let targetGroup = target.closest('.comment__row').attr('data-group')
    	 let textareaElVal = target.closest('.comment__input__Box').find('.textareaEl').val()
@@ -1738,7 +1736,6 @@
     
 	function prevRowFileRead(){
 		  var file = document.querySelector('.fileTarget')
-
 	      var reader = new FileReader();
 	     
 	      reader.onload = function (e) {
@@ -1750,44 +1747,50 @@
 	      }
 	      reader.readAsDataURL(file.files[0])
 	 }
+	
+    function formCommentFileUpdate(textareaVal, input, commentId){
+    	var form = new FormData()
+    	let result;
+    	form.append("comment_id", commentId)
+    	form.append("comment_content", textareaVal)
+    	form.append("file", input[0].files[0]);
+    	result = ajaxFormCommentFileUpdate(form)
+    	return result;
+    }
+    
+    function ajaxFormCommentFileUpdate(form){
+    	let result = null;
+    	$.ajax({
+    		url : 'ajaxFormCommentFileUpdate.do',
+    		type : 'post',
+    		dataType : 'json',
+    		data : form,
+    		contentType : false,
+    		processData : false,
+    		async : false,
+    		success : function(data){
+    			console.log("Data : "+ data)
+    			result = (data != null) ? data : null 
+    			
+    		}
+    	})
+    	console.log("result : "+result)
+   return result;
+    }
     
     function formCommentFileInsert(textareaElVal, commentMaxGroup, currentUserId, dateTypedate, file){
     	var form = new FormData()
 		let result = null;
-    	let commentGroup = $('<input>')
-    	let commentContent = $('<input>')
-    	let userId = $('<input>')
-    	let date = $('<input>')
-    	let cardId = $('<input>')
-    	form.append("comment_group",commentGroup.attr({
-    		type : "hidden",
-    		name : "comment_group",
-    		value : commentMaxGroup
-    	}).val())
+    
+    	form.append("comment_group", commentMaxGroup)
     	
-    	form.append("comment_content",commentContent.attr({
-    		type : "hidden",
-    		name : "comment_content",
-    		value : textareaElVal
-    	}).val())
+    	form.append("comment_content", textareaElVal)
     	
-    	form.append("id", userId.attr({
-    		type : "hidden",
-    		name : "id",
-    		value : currentUserId
-    	}).val())
+    	form.append("id", currentUserId)
     	
-    	form.append("comment_date", date.attr({
-    		type : "hidden",
-    		name : "comment_date",
-    		value : dateTypedate
-    	}).val())
+    	form.append("comment_date", dateTypedate)
     	
-    	form.append("card_id", cardId.attr({
-    		type : "hidden",
-    		name : "card_id",
-    		value : currentCardId
-    	}).val())
+    	form.append("card_id", currentCardId)
     	
     	form.append("file", $("#input_file")[0].files[0]);
  
@@ -1796,6 +1799,7 @@
     	return result;
     }
     
+
     function ajaxCommentFileInsert(form){
     	let flag = null;
     	$.ajax({
@@ -1879,7 +1883,6 @@
     	
     	return commentMaxGroup;
     }
-
     function ajaxCommentInsert(textareaElVal, commentMaxGroup, currentUserId, comment_date){
     
     	let flag = false;
@@ -1904,28 +1907,47 @@
     }
     
     window.addEventListener('DOMContentLoaded', () => {
-
       EmojiButton(document.querySelector('.emoji_button_class1'), function (emoji) {
     	
         document.querySelector('.textareaEl__class1').value += emoji;
       });
       
    
-
     });
     $(document).on('click', '.context__file__prev__imgBox', commentImgprevFn)
  $(document).on('keydown keyup', '.textareaEl', textareaHeightFn)
  $(document).on('focus', '.textareaEl__class1', textareaFocusFn)
  $(document).on('focus', '.textareaEl__class2', textarea2FocusFn)
  $(document).on('change', '.input_file', inputFileFn)
+ $(document).on('click', '.context__file__prev__removeBtn', modifyFileDeleteBtnFn)
  
  
+    function modifyFileDeleteBtnFn(event){
+   		
+    	let commentId = $(event.target).closest('.fileTarget').attr('data-commentId');
  
+    	$(event.target).closest('.fileTarget').remove();
+		ajaxFileDelete(commentId);
+    }
+ 	function ajaxFileDelete(commentId){
+ 		
+ 		$.ajax({
+ 			url : 'ajaxFileDelete.do',
+ 			type: 'post',
+ 			dataType : 'text',
+ 			data : {
+ 				comment_id : commentId
+ 			},
+ 			success : function(data){
+ 				console.log(data);
+ 			}
+ 		})
+ 		
+ 	}
  	//파일 a태그 눌렀을때 이벤 
  	function commentImgprevFn(event){
   
       let src = $(event.target).attr('src');
-
       var image = $('.img_preview');
       image.attr('src', src)
       
@@ -1982,7 +2004,6 @@
 				
 				 	 });
 			 }, 200);  
-
 			 
 		 }else{
 			let btnsEl = $('#recommentBtnsTemplate');
@@ -1998,17 +2019,13 @@
 			 
 		 }
 	 }
-
  }
-
  function inputFileFn(event){
 	
 	 readText(event.target)
  }
  // 파일 
-
   
-
     function readText(input) {
 	
       let tgInput = input;
@@ -2038,8 +2055,6 @@
       reader.readAsDataURL(input.files[0])
  }
    
-
-
     $(document).on('click', '.goodBtnRow', goodBtnRowFn)
     $(document).on('click', '.badBtnRow', badBtnRowFn)
 	
@@ -2077,7 +2092,6 @@
 		})
 		
 	}
-
     
  
     function goodBtnRowFn(e) {
@@ -2192,11 +2206,7 @@
     	return result;
     }
   
-
   
-
-
-
     $('body').on('click', function (e) {
       var tgPoint = $(e.target);
       var icon = tgPoint.hasClass('fas fa-bars')
@@ -2204,14 +2214,10 @@
       var btnD = tgPoint.hasClass('fas__menu__btnD')
       var fas__menu = tgPoint.hasClass('fas__menu')
       var preview = tgPoint.hasClass('img_preview')
-
-
-
       if (!icon && !fas__menu && !btnC && !btnD) {
         $('.fas__menu').hide()
       }
   
-
     
       if (!tgPoint.closest('.comment__input__Box').length && $('.textareaEl__class1').val() == '' && $(
           '.filetext__class1').text() == '') {
@@ -2235,13 +2241,9 @@
       if (preview) {
         $('.img__box__wrap').css('display', 'none')
       }
-
     })
-
     
     
-
-
     function menuShowFn(e) {
     	let target = $(event.target).closest('.classTarget').attr("data-id")
     	let userId = ajaxGetSessionUserId();
@@ -2252,7 +2254,6 @@
     	}
 		
     }
-
 	$(document).on('click', '.fas__fa__menu', menuShowFn)
 	$(document).on('click','.fas__menu__btnC', menuUpdateBtnFn)
 	$(document).on('click','.fas__menu__btnD', menuDeleteBtnFn)
@@ -2265,7 +2266,6 @@
     	
 		if(order == 0){
 			let result = ajaxGroupListSelect(group);
-
 			for(let data of result){
 				let result = ajaxRemoveComment(data.id, data.comment_id);
 			}
@@ -2281,6 +2281,102 @@
     
     }
 	
+	   function menuUpdateBtnFn(event){
+	    	let target = $(event.target).closest('.classTarget').attr("data-id")
+	    	console.log(target)
+	    	let comment__row__right = $(event.target).closest('.comment__row__right')
+	
+	    
+	    	let comment__context = comment__row__right.find('.comment__context')
+	    	let targetFile = comment__context.attr('data')
+	    	if(targetFile == 'text'){
+	    		comment__row__right.find('.context__file__prev__removeBtn').css('display', 'inline-block')
+	    	}else{
+	    		comment__row__right.find('.context__file__prev__removeBtn').css('display', 'inline-block')
+	    	}
+	    	let appendText = comment__context.html();
+	    	let brNum = appendText.split('<br>').length +1;
+	    	appendText = appendText.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
+	    
+	    	let modifyInputBox = $('#modify__input__Box');
+	    	modifyInputBox.find('.textareaEl').css('height', 20*brNum)
+	    	modifyInputBox.find('.textareaEl').html(appendText)
+
+
+    		comment__context.html('');
+	    	comment__context.append(modifyInputBox.html())
+	    	//context__file__prev__removeBtn 
+	    }
+	   
+	   function modifyResult(target){
+		   console.log("modify 함수");
+		   console.log(target);
+		   let input = target.closest('.input__Box__Btns').find('.input_file')
+		  
+
+		   let commentId = target.closest('.comment__context').attr('data-commentid')
+		
+
+// 			let deleteTarget = target.closest('.comment__context').find('.fileTarget')
+		   
+		   let textareaVal = target.closest('.comment__input__Box').find('.textareaEl').val();
+		 
+		   textareaVal = textareaVal.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+		   let targetContentBox = target.closest('.comment__context')
+		   let templateTarget = target.closest('.comment__row__right')
+		   let template;
+		   
+		   if(input.val() != ''){
+			   let commentId = target.closest('.comment__row__right').find('.fileTarget').attr('data-commentid')
+			   let result = formCommentFileUpdate(textareaVal, input, commentId)
+
+				if(checkFile(result.file_name)){
+				
+					template = templateTarget.find('.fileTarget')
+					let img = template.find('.context__file__prev__imgBox>img')
+					input.attr("class", "fileTarget");
+					img.attr("class", "imgTarget");
+					prevRowFileRead()
+					template.find('.fileContent').text(result.fileName)
+    				template.find('.fileContent').attr("href", "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)	
+    				template.find('.context__file__perv__text').attr("data", result.file_id)
+				}else{
+				
+					template = templateTarget.find('.fileTarget')
+					template.find('.comment__context__file').attr('data', result.file_id)
+					template.find('.fileContent').text(result.file_name)
+					template.find('.fileContent').attr('href', "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)
+				}
+
+		
+			
+				
+		   }else{
+		   ajaxCommentModify(textareaVal, commentId);
+		   }
+	
+		
+		   targetContentBox.html(textareaVal)
+		 
+		   target.closest('.comment__input__Box').remove();
+	   }
+	
+	   function ajaxCommentModify(textareaVal, commentId){
+		   
+		   $.ajax({
+			 url : 'ajaxCommentModify.do',
+			 type : 'post',
+			 dataType : 'text',
+			 data : {
+				 comment_content : textareaVal,
+				 comment_id : commentId
+			 },
+			 success : function(data){
+				 console.log(data);
+			 }
+		   })
+	   }
+	   
 	function ajaxGroupListSelect(group){
 		let result;
 		$.ajax({
@@ -2298,14 +2394,7 @@
 		})
 		return result;
 	}
-
-    function menuUpdateBtnFn(event){
-    	let target = $(event.target).closest('.classTarget').attr("data-id")
-    	console.log(target)
-    	let appendTarget = $(event.target).closest('.comment__row__right').find('.comment__context')
-    	
-    	
-    }
+ 
     function ajaxRemoveComment(userId, commentId){
     	let result;
     	$.ajax({
@@ -2325,6 +2414,7 @@
     	
     	return result;
     }
+
 
 
   </script>

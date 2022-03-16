@@ -127,6 +127,32 @@ public class CommentController {
 		
 		return vo;
 	}
+	@RequestMapping("/ajaxFormCommentFileUpdate.do")
+	@ResponseBody
+	public CommentVO ajaxFormCommentFileUpdate(CommentVO vo, MultipartFile file) {
+		String fileName = file.getOriginalFilename();
+		String pfileName = getRandomIntString(16);
+	
+		pfileName = pfileName + fileName.substring(fileName.lastIndexOf("."));
+		File target = new File(commentRelativeSaveDirectory, pfileName);
+		vo.setFile_name(fileName);
+		vo.setPfile_name(pfileName);
+		vo.setFile_date(vo.getComment_date());
+		
+		if(!new File(commentRelativeSaveDirectory).exists()) {
+			new File(commentRelativeSaveDirectory).mkdir();
+		}
+		try {
+			FileCopyUtils.copy(file.getBytes(), target);
+			commentDao.commentUpdate(vo);
+			commentDao.commentFileUpdate(vo);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return vo;
+	}
 	
 	@RequestMapping("/ajaxReCommentFileInsert.do")
 	@ResponseBody
@@ -139,7 +165,6 @@ public class CommentController {
 		File target = new File(commentRelativeSaveDirectory, pfileName);
 		vo.setFile_name(fileName);
 		vo.setPfile_name(pfileName);
-		vo.setFile_date(vo.getComment_date());
 		
 		if(!new File(commentRelativeSaveDirectory).exists()) {
 			new File(commentRelativeSaveDirectory).mkdir();
@@ -155,6 +180,8 @@ public class CommentController {
 		
 		return vo;
 	}
+	
+
 	
 	private static String getRandomIntString(int length) {
 		StringBuffer sb = new StringBuffer();
@@ -319,6 +346,29 @@ public class CommentController {
 		@ResponseBody
 		public List<CommentVO> ajaxGroupListSelect(CommentVO vo){
 			return commentDao.commentGroupListSelect(vo);
+		}
+		
+		@RequestMapping("/ajaxFileDelete.do")
+		@ResponseBody
+		public String ajaxFileDelete(CommentVO vo) {
+			int chk = commentDao.commentFileDelete(vo);
+			if(chk == 0) {
+				return "No";
+			}else {
+				return "Yes";
+			}
+			
+		}
+		
+		@RequestMapping("/ajaxCommentModify.do")
+		@ResponseBody
+		public String ajaxCommentModify(CommentVO vo) {
+			int chk = commentDao.commentUpdate(vo);
+			if(chk == 0) {
+				return "No";
+			}else {
+				return "Yes";
+			}
 		}
 	
 //	@RequestMapping("/commentDownload.do")

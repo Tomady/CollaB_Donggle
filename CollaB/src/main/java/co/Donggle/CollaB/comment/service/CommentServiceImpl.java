@@ -125,6 +125,18 @@ public class CommentServiceImpl implements CommentService {
 		return map.commentGroupListSelect(vo);
 	}
 
+	@Override
+	public int commentUpdate(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentUpdate(vo);
+	}
+
+	@Override
+	public int commentFileUpdate(CommentVO vo) {
+		// TODO Auto-generated method stub
+		return map.commentFileUpdate(vo);
+	}
+
 	
 
 
