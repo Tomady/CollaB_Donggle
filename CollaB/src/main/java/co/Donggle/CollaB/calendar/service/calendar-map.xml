@@ -18,14 +18,14 @@
 	</update>
 	
 	<select id="calendarAllCard" parameterType="int" resultType="co.Donggle.CollaB.card.service.CardVO">
-		SELECT C.CARD_ID, C.CARD_TITLE, C.CARD_START_DATE, C.CARD_END_DATE + 1 AS CARD_END_DATE
+		SELECT C.CARD_ID, C.CARD_TITLE, C.CARD_START_DATE, C.CARD_END_DATE + 1 AS CARD_END_DATE, C.LIST_ID
 		FROM LIST L JOIN CARD C
 		ON (L.LIST_ID = C.LIST_ID)
 		WHERE L.BOARD_ID = #{board_id}
 	</select>
 	
 	<select id="listPlanList" resultType="co.Donggle.CollaB.card.service.CardVO">
-		SELECT C.CARD_ID, C.CARD_TITLE, C.CARD_START_DATE, C.CARD_END_DATE + 1 AS CARD_END_DATE
+		SELECT C.CARD_ID, C.CARD_TITLE, C.CARD_START_DATE, C.CARD_END_DATE + 1 AS CARD_END_DATE, C.LIST_ID
 		FROM LIST L JOIN CARD C
 		ON (L.LIST_ID = C.LIST_ID)
 		WHERE L.BOARD_ID = #{board_id}

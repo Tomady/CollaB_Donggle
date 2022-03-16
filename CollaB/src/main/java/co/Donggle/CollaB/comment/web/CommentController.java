@@ -303,6 +303,23 @@ public class CommentController {
 			vo = commentDao.commentBadSelectSum(vo);
 			return vo.getSum();
 		}
+		
+		@RequestMapping("/ajaxRemoveComment.do")
+		@ResponseBody
+		public String ajaxRemoveComment(CommentVO vo) {
+			commentDao.commentDelete(vo);
+			commentDao.commentBadDelete(vo);
+			commentDao.commentGoodDelete(vo);
+			commentDao.commentFileDelete(vo);
+			
+			return "Yes";
+		}
+		
+		@RequestMapping("/ajaxGroupListSelect.do")
+		@ResponseBody
+		public List<CommentVO> ajaxGroupListSelect(CommentVO vo){
+			return commentDao.commentGroupListSelect(vo);
+		}
 	
 //	@RequestMapping("/commentDownload.do")
 //	public void commentDownload(HttpServletRequest req, HttpServletResponse resp,String pfile_name) throws IOException {

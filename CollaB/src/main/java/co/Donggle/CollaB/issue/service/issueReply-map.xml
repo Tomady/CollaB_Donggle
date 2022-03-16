@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.Donggle.CollaB.issue.service.IssueReplyMapper">
+	<insert id="insertIssueReply" useGeneratedKeys="false" parameterType="co.Donggle.CollaB.issue.service.IssueReplyVO">
+		<selectKey keyProperty="replyid" resultType="int" order="BEFORE">
+			SELECT MAX(REPLYID) + 1 AS REPLYID FROM ISSUE_REPLY
+		</selectKey>
+		INSERT INTO ISSUE_REPLY (replyid, replycomment, issueid, id, replydate)
+		VALUES (#{replyid}, #{replycomment}, #{issueid}, #{id}, sysdate)
+	</insert>
+	
+	<select id="issueReplyLsit" resultType="co.Donggle.CollaB.issue.service.IssueReplyVO">
+		SELECT * FROM ISSUE_REPLY 
+		WHERE ISSUEID = #{issueid}
+		ORDER BY REPLYDATE DESC
+	</select>
+	
+	<delete id="deleteIssueReply" parameterType="co.Donggle.CollaB.issue.service.IssueReplyVO">
+		DELETE FROM ISSUE_REPLY WHERE REPLYID = #{replyid}	
+	</delete>
+
+</mapper> 

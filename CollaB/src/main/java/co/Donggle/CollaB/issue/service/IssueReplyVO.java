@@ -8,12 +8,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class IssueReplyVO {
-	private int replyId;
-	private int replyIndex;
-	private int replyGroup;
-	private String replyComment;
-	private int replyClass;
-	private int issueId;
+	private int replyid;
+	private int replyindex;
+	private int replygroup;
+	private String replycomment;
+	private int replyclass;
+	private int issueid;
 	private String id;
-	private Date replyDate;
+	private Date replydate;
 }

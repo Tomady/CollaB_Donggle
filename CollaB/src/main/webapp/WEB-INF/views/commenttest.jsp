@@ -84,7 +84,7 @@
 /* 	min-width: 310px; */
 	border: 5px solid rgb(235, 235, 235);
 	border-radius: 20px;
-	padding: 10px;
+	padding: 13px;
 	
 }
 .comment__date{
@@ -753,6 +753,9 @@
 	padding: 5px 5px;
 }
 
+
+
+
 .context__file__prev__imgBox {
 	margin-right: 3px;
 	width: 50px;
@@ -881,6 +884,30 @@
 	border-bottom: 1px solid rgb(235, 235, 235);
 }
 
+
+
+
+
+.testcomment__context__file__prev{
+	align-items: center;
+	border: 3px solid rgb(248, 248, 248);
+	border-radius: 10px;
+	padding: 5px 5px;
+
+}
+.testcontext__file__prev__imgBox{
+display:flex;
+	margin-right: 3px;
+	width: 50px;
+	height: 50px;
+	overflow: hidden;
+}
+.testcontext__file__prev__imgBox img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
 </style>
 								<!-- 댓글 end -->
 								<!--카드댓글 #394eea -->
@@ -921,10 +948,11 @@
 										<hr>
 										<ul
 											class="comment__box mt-4 list-unstyled list-unstyled-border">
+<!-- 											dd -->
 <li class="comment__row classTarget">
 			<div class="comment__class__1">
 				<div class="comment__row__left">
-					<img class="mr-3 rounded-circle" width="30" height="30px"
+					<img class="mr-3 rounded-circle" width="30px" height="30px"
 						src="resources/assets/img/avatar/avatar-1.png" alt="avatar">
 					<div class="recomment__btn">
 						<i class="fas fa-comment-medical"></i><span class="recomment__num">0</span>
@@ -943,9 +971,14 @@
 						</div>
 					</div>
 
-					<div class="comment__context"></div>
-					<div class="comment__context__file__prev">
-						<div class="context__file__prev__imgBox">
+					<div class="comment__context">
+							dfasfadsfasddsfdsasadfsdfsafdfasdfsdafd
+							fafdfdsfsd
+							fdsafasdfsadfdsaf
+							dfasfsd
+					</div>
+					<div class="testcomment__context__file__prev">
+						<div class="testcontext__file__prev__imgBox">
 							<img alt="" src="">
 						</div>
 						<div class="context__file__prev__text">
@@ -990,7 +1023,7 @@
 				</div>
 			</div>
 		</li>
-
+<!--									 dd -->
 										</ul>
 
 									</div>
@@ -1151,6 +1184,17 @@
 			</div>
 		</li>
 
+	</div>
+	
+	<div id="modifycommentTemplate">
+		<div class="modify__Box">
+					<div class="comment__input__Box">
+							<div class="textarea__Box">
+								<textarea name="" id="" class="textareaEl textareaEl__class2"></textarea>
+							</div>
+
+						</div>
+					</div>
 	</div>
 
 	<!-- 댓글 사진 미리보기 -->

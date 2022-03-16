@@ -55,7 +55,7 @@ function sidebarBoard(){
       <div class="main-sidebar">
         <aside id="sidebar-wrapper">
           <div class="sidebar-brand mt-4">
-            <a href="WorkspaceList">Colla B</a>
+            <a href="WorkspaceList"><img src="resources/img/logo222.png" width="120px;"></a>
           </div>
           <ul class="sidebar-menu">
           	<li class="menu-header mt-4 mb-1">workspace</li>
@@ -83,7 +83,7 @@ function sidebarBoard(){
               </a>
             </li>
             <li>
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="filehistory">
                 <i class="fas fa-th"></i>
                 <span>Files</span>
               </a>
