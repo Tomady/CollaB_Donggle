@@ -148,6 +148,9 @@
 	padding-top: 10px;
 	color: gray;
 }
+img{
+	margin-bottom: 12px;
+}
 
 
 </style>
