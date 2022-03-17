@@ -5,7 +5,6 @@
 	 resultType="co.Donggle.CollaB.user.service.UserVO">
 		select * from user_info
 		where id = #{id}
-		and password = #{password}
 	</select>
 	
 	<select id="idFindNameEmailChk" resultType="co.Donggle.CollaB.user.service.UserVO">

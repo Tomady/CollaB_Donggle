@@ -15,7 +15,7 @@ public class FacebookLoginBO {
 	
 	private final static String F_CLIENT_ID= "363829778707435";
   	private final static String F_CLIENT_SECRET= "b7d3a49b5c37d447d3141fe669139561";
-  	private final static String F_REDIRECT_URI= "https://localhost/CollaB/facebookLogin.do";
+  	private final static String F_REDIRECT_URI= "http://localhost/CollaB/facebookLogin.do";
   	
   	public String getAuthorizationUrl(){
 
