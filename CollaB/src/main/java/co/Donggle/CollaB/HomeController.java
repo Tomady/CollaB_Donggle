@@ -11,14 +11,14 @@ import co.Donggle.CollaB.dy.service.DbTestMapper;
 
 @Controller
 public class HomeController {
-	@Autowired DbTestMapper umap;
+	//@Autowired DbTestMapper umap;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(UserInfo uInfo, Model model) {
 		
-		uInfo = umap.UserInfoList();
-		uInfo.getId();
-		model.addAttribute("uInfo", uInfo);
+//		uInfo = umap.UserInfoList();
+//		uInfo.getId();
+//		model.addAttribute("uInfo", uInfo);
 		
 		return "home";
 	}
@@ -45,8 +45,5 @@ public class HomeController {
 	public String index() {
 		return "index";
 	}
-	
-
-	
 
 }
