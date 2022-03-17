@@ -15,10 +15,10 @@ public class HomeController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(UserInfo uInfo, Model model) {
-		
-		//uInfo = umap.UserInfoList();
-		//uInfo.getId();
-		//model.addAttribute("uInfo", uInfo);
+
+//		uInfo = umap.UserInfoList();
+//		uInfo.getId();
+//		model.addAttribute("uInfo", uInfo);
 		
 		return "home";
 	}

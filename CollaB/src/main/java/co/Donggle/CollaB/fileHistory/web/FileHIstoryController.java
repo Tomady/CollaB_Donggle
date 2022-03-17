@@ -35,7 +35,8 @@ public class FileHIstoryController {
 		model.addAttribute("unStarBoards", boardDao.selectBoardNonStar(vo));
 		
 		// 파일 히스토리
-		model.addAttribute("filehistory", fileDao.fileCardList(workspaceid));		
+		model.addAttribute("filehistory", fileDao.fileCardList(workspaceid));
+		model.addAttribute("fileInfoList", fileDao.fileInfoList(workspaceid));
 		
 		return "fileHistory/fileHistory";
 	}
