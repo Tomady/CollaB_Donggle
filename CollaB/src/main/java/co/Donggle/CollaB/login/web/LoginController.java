@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,7 @@ import co.Donggle.CollaB.login.service.FacebookLoginBO;
 import co.Donggle.CollaB.login.service.GoogleLoginBO;
 import co.Donggle.CollaB.login.service.GoogleLoginRequest;
 import co.Donggle.CollaB.login.service.GoogleLoginResponse;
-import co.Donggle.CollaB.login.service.KakaoLoginApiService;
+import co.Donggle.CollaB.login.service.KakaoLoginBO;
 import co.Donggle.CollaB.login.service.LoginUserService;
 import co.Donggle.CollaB.login.service.NaverLoginBO;
 import co.Donggle.CollaB.login.service.SmsSendBO;
@@ -51,7 +52,7 @@ public class LoginController {
 	@Autowired
 	private LoginUserService LoginUserDao;
 	@Autowired
-	private KakaoLoginApiService kakao;
+	private KakaoLoginBO kakao;
 	@Autowired
 	private NaverLoginBO naverLoginBO;
 	@Autowired
@@ -62,7 +63,9 @@ public class LoginController {
 	private JavaMailSender mail;
 	@Autowired
 	private SmsSendBO sendBO;
-
+	@Autowired 
+	BCryptPasswordEncoder pwEncoder;
+	
 	// 로그인 페이지 이동
 	@RequestMapping("/login.do")
 	public String login() {
@@ -73,33 +76,45 @@ public class LoginController {
 	@ResponseBody
 	@RequestMapping(value = "/ajaxLoginChk.do", produces = "application/text; charset=utf8")
 	public String ajaxLoginChk(UserVO vo, HttpSession session) {
-		vo = LoginUserDao.userLogin(vo);
-
-		if (vo != null) {
-			session.setAttribute("id", vo.getId());
-			session.setAttribute("name", vo.getName());
-			session.setAttribute("email", vo.getEmail());
-			session.setAttribute("nickname", vo.getNickname());
-			session.setAttribute("prof_pic", vo.getProf_pic());
-			String nickname = vo.getNickname();
+		UserVO compareVo = new UserVO();
+		compareVo = LoginUserDao.userLogin(vo);
+		
+		if(pwEncoder.matches(vo.getPassword(), compareVo.getPassword())) {
+			session.setAttribute("id", compareVo.getId());
+			session.setAttribute("name", compareVo.getName());
+			session.setAttribute("email", compareVo.getEmail());
+			session.setAttribute("nickname", compareVo.getNickname());
+			session.setAttribute("prof_pic", compareVo.getProf_pic());
+			String nickname = compareVo.getNickname();
 			return nickname;
-		} else {
+			
+		}else {
+		
 			return "No";
 		}
 	}
+	
 	//index
 	@RequestMapping("/logout.do")
 	public String logout(UserVO vo, HttpSession session) {
 		session.invalidate();
 		return "index";
 	}
+	
+	
+	@RequestMapping("/kakaologinUrl.do")
+	@ResponseBody
+	public String kakaologinUrl() {
+		String authorUrl = kakao.getAuthorizationUrl();
+		return authorUrl;
+
+	}
 	//login
 	@RequestMapping("/kakaologin.do")
 	public String kakaologin(@RequestParam String code, HttpSession session, UserVO vo, Model model) {
 		String access_Token = kakao.getAccessToken(code);
 		HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
-		System.out.println("controller access_token : " + access_Token);
-		System.out.println(code);
+
 		String email = (String) userInfo.get("email");
 		String name = (String) userInfo.get("nickname");
 		String profile_image = (String) userInfo.get("profile_image");
@@ -124,14 +139,22 @@ public class LoginController {
 		}
 	}
 
-	//login
+	@RequestMapping("/kakaoLogoutUrl.do")
+	@ResponseBody
+	public String kakaoLogoutUrl() {
+		String kakaoLogoutUrl = kakao.kakaoLogout();
+		return kakaoLogoutUrl;
+	}
+	
 	@RequestMapping("/kakaoLogout.do")
 	public String kakaologout(HttpSession session) {
-		kakao.kakaoLogout((String) session.getAttribute("access_Token"));
+		
 		session.invalidate();
 
-		return "login";
+		return "redirect:login.do";
 	}
+	
+	
 
 	//login
 	@RequestMapping("/apiJoinForm.do")
@@ -178,6 +201,7 @@ public class LoginController {
 		vo = LoginUserDao.idFindNameEmailChk(vo);
 
 		if (vo != null) {
+			session.setAttribute("access_Token", access_token);
 			session.setAttribute("id", vo.getId());
 			session.setAttribute("nickname", vo.getNickname());
 			session.setAttribute("name", vo.getName());
