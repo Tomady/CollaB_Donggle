@@ -253,12 +253,12 @@
 
                     </ul>
                     <ul class="container__mid__body">
-                        <li class="" name="method_1"><span><input type="radio" name="find__radio">내 명의(이름)로 가입된 휴대폰
-                                인증</span>
-                            <div>내 명의(이름)로 가입한 아이디와, 이름/휴대폰 번호가 일치한 아이디를 찾습니다.
-                                <button type="button">다음단계</button>
-                            </div>
-                        </li>
+<!--                         <li class="" name="method_1"><span><input type="radio" name="find__radio">내 명의(이름)로 가입된 휴대폰 -->
+<!--                                 인증</span> -->
+<!--                             <div>내 명의(이름)로 가입한 아이디와, 이름/휴대폰 번호가 일치한 아이디를 찾습니다. -->
+<!--                                 <button type="button">다음단계</button> -->
+<!--                             </div> -->
+<!--                         </li> -->
                         <li class="" name="method_2"><span><input type="radio" name="find__radio">내 정보에 등록된 휴대폰으로
                                 찾기<span class="userEmail">${tel }</span></span>
                             <div>가입 시 등록하신 전화번호와 일치한 아이디를 찾습니다.

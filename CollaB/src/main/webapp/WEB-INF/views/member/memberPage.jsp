@@ -49,6 +49,7 @@
 	height: 45px;
 	background-color: #FFFFFF;
 	border-radius: 5px;
+
 }
 
 .tableTopMenu__left input {
@@ -65,12 +66,16 @@
 .tableTopMenu__left button {
 	padding: 0;
 	margin: 0;
+	
 	width: 100px;
 	border: none;
 	background-color: #6553C1;
 	color: white;
 	font-weight: bold;
 	font-size: 16px;
+	border-radius 5px;
+	outline: none;
+	 
 }
 
 .tableTopMenu__right {
@@ -1332,6 +1337,7 @@ const boardBg = {
 				workspace_id : workspaceId
 			},
 			success : function(data){
+				console.log(data)
 				let userList = data.userList;
 				let usersAuthor = data.userAuthor;
 				
@@ -2435,7 +2441,7 @@ App = {
 			changeWKIMG(name);
 			
 			let workspaceId = $('#hWorkspace_id').val();
-
+			console.log(workspaceId)
 
 			let flag = ajaxMemPageUserList(workspaceId)
 			if(flag){

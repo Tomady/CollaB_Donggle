@@ -182,7 +182,7 @@ public class MemberPageController {
 		}
 	}
 
-	@RequestMapping("/ajaxSessionId.do")
+	@RequestMapping(value = "/ajaxSessionId.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxSessionId(HttpSession session) {
 

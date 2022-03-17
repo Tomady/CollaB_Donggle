@@ -508,7 +508,7 @@ body .options .option .label .info .sub {
 
 <script type="text/javascript">
 
-	// 로그아웃
+
 	function logout(){
 		swal({
 			title: "정말 로그아웃을 하시겠습니까?",
@@ -517,13 +517,12 @@ body .options .option .label .info .sub {
 		})
 		.then(function(value) {
 			if(value) {
-				console.log("value : " + value);
+		
 				ajaxCompanyChk();
 			}
 		})
 	}
 
-	// 로그아웃 AJAX
 	function ajaxCompanyChk() {
 		$.ajax({
 			url : 'ajaxTokenChk.do',
@@ -607,6 +606,8 @@ body .options .option .label .info .sub {
 		window.open(url, 'popup', 'z-lock=yes, width='+popupWidth+', height='+popupHeight+', top='+popupY+', left='+popupX);
 		location.href='login.do'
 	}
+	
+	
 	
 	$(".option").click(function() {
 		$(".option").removeClass("active");

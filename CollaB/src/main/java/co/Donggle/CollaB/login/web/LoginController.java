@@ -79,7 +79,7 @@ public class LoginController {
 		UserVO compareVo = new UserVO();
 		compareVo = LoginUserDao.userLogin(vo);
 		
-		if(pwEncoder.matches(vo.getPassword(), compareVo.getPassword())) {
+		if(compareVo != null && pwEncoder.matches(vo.getPassword(), compareVo.getPassword())) {
 			session.setAttribute("id", compareVo.getId());
 			session.setAttribute("name", compareVo.getName());
 			session.setAttribute("email", compareVo.getEmail());
@@ -429,7 +429,7 @@ public class LoginController {
 				+ "            <span style=\"font-size: 22px; font-weight: bold; color: orangered;\">" + randomnum
 				+ "</span>\r\n" + "        </div>\r\n" + "        <br><br>\r\n"
 				+ "        <div style=\"display: inline-block;\">\r\n"
-				+ "            <span style=\"font-size: 18px; font-weight: bold; color: black;\">3분 이내로 인증번호(6자리)를 입력해 주세요.</span>\r\n"
+				+ "            <span style=\"font-size: 16px; font-weight: bold; color: black;\">3분 이내로 인증번호(6자리)를 입력해 주세요.</span>\r\n"
 				+ "        </div>\r\n" + "    </div>\r\n" + "</body>\r\n" + "\r\n" + "</html>";
 		messageHelper.setText(str, true);
 		mail.send(message);
@@ -437,7 +437,7 @@ public class LoginController {
 		return "Yes";
 	}
 
-	@RequestMapping("/ajaxIdFind.do")
+	@RequestMapping(value = "/ajaxIdFind.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxIdFind(UserVO vo) {
 		vo = LoginUserDao.idFindNameEmailChk(vo);
@@ -474,7 +474,7 @@ public class LoginController {
 
 	}
 
-	@RequestMapping("/ajaxIdTelFind.do")
+	@RequestMapping(value = "/ajaxIdTelFind.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxIdTelFind(UserVO vo) {
 		vo = LoginUserDao.idFindNameTelChk(vo);
@@ -485,7 +485,7 @@ public class LoginController {
 		}
 	}
 
-	@RequestMapping("/ajaxPasswordFindIdChk.do")
+	@RequestMapping(value = "/ajaxPasswordFindIdChk.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxPasswordFindIdChk(UserVO vo) {
 		vo = LoginUserDao.passwordFindIdChk(vo);
@@ -497,7 +497,7 @@ public class LoginController {
 		}
 	}
 
-	@RequestMapping("/ajaxPasswordTelFind.do")
+	@RequestMapping(value = "/ajaxPasswordTelFind.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxPasswordTelFind(UserVO vo) {
 
@@ -510,7 +510,7 @@ public class LoginController {
 		}
 	}
 
-	@RequestMapping("/ajaxPasswordEmailFind.do")
+	@RequestMapping(value = "/ajaxPasswordEmailFind.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxPasswordEmailFind(UserVO vo) {
 
@@ -561,6 +561,7 @@ public class LoginController {
 	@RequestMapping("/ajaxPasswordChange.do")
 	@ResponseBody
 	public String ajaxPasswordChange(UserVO vo) {
+		vo.setPassword(pwEncoder.encode(vo.getPassword()));
 		int updateResult = LoginUserDao.passwordFindPasswordChange(vo);
 		if (updateResult == 0) {
 			return "No";

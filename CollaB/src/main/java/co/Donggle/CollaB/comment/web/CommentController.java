@@ -85,14 +85,15 @@ public class CommentController {
 		
 	}
 	
-	@RequestMapping("/ajaxGetSessionUserNickname.do")
+	@RequestMapping(value = "/ajaxGetSessionUserNickname.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxGetSessionUserNickname(HttpSession session) {
 		String nickname = (String) session.getAttribute("nickname");
+		System.out.println(nickname);
 		return nickname;
 	}
 	
-	@RequestMapping("/ajaxGetSessionUserId.do")
+	@RequestMapping(value = "/ajaxGetSessionUserId.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxGetSessionUserId(HttpSession session) {
 		String userId = (String) session.getAttribute("id");
