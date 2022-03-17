@@ -16,15 +16,33 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 @Service
-public class KakaoLoginApiService {
+public class KakaoLoginBO {
+	private final static String KAKAO_AUTHOR_URL = "https://kauth.kakao.com/oauth/authorize?";
+	private final static String K_CLIENT_ID = "3f1f202997e3b37e832aa0c1983ea15a";
+	private final static String K_REDIRECT_URL = "http://localhost/CollaB/kakaologin.do";
+	private final static String KAKAO_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
+	private final static String KAKAO_USERINFO_URL = "https://kapi.kakao.com/v2/user/me";
+//	private final static String KAKAO_LOGOUT_URL = "https://kapi.kakao.com/v1/user/logout";
+	private final static String KAKAO_LOGOUT_URL = "https://kauth.kakao.com/oauth/logout?";
+	private final static String KAKAO_LOGOUT_REDIRECT_URL = "http://localhost/CollaB/kakaoLogout.do";
 
+
+	public String getAuthorizationUrl() {
+		
+		String kakaoUrl = KAKAO_AUTHOR_URL +
+				"client_id=" + K_CLIENT_ID +
+				"&redirect_uri=" + K_REDIRECT_URL +
+				"&response_type=code";
+		
+		return kakaoUrl;
+	}
+	
 	public String getAccessToken(String authorize_code) {
 		String access_Token = "";
 		String refresh_Token = "";
-		String reqURL = "https://kauth.kakao.com/oauth/token";
 
 		try {
-			URL url = new URL(reqURL);
+			URL url = new URL(KAKAO_TOKEN_URL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
 			conn.setRequestMethod("POST");
@@ -64,13 +82,13 @@ public class KakaoLoginApiService {
 
 		return access_Token;
 	}
-
+	
 	public HashMap<String, Object> getUserInfo(String access_Token) {
 
 		HashMap<String, Object> userInfo = new HashMap<>();
-		String reqURL = "https://kapi.kakao.com/v2/user/me";
+	
 		try {
-			URL url = new URL(reqURL);
+			URL url = new URL(KAKAO_USERINFO_URL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("POST");
 
@@ -108,30 +126,39 @@ public class KakaoLoginApiService {
 
 		return userInfo;
 	}
-
-	public void kakaoLogout(String access_Token) {
-		String reqURL= "https://kapi.kakao.com/v1/user/logout";
-		try {
-			URL url = new URL(reqURL);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod("POST");
-			conn.setRequestProperty("Authorization", "Bearer "+ access_Token);
-			
-			int responseCode = conn.getResponseCode();
-			System.out.println("responseCode : "+ responseCode);
-			
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			
-			 String result = "";
-		     String line = "";
-		        
-		     while((line = br.readLine())!= null) {
-		    	 result += line;
-		     }
-		     System.out.println(result);
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
+	
+	
+	public String kakaoLogout() {
+		String kakaoLogoutUrl = KAKAO_LOGOUT_URL +
+				"client_id=" + K_CLIENT_ID + 
+				"&logout_redirect_uri=" + KAKAO_LOGOUT_REDIRECT_URL;
+		
+		return kakaoLogoutUrl;
+		
 	}
-
+//public void kakaoLogout(String access_Token) {
+//		
+//		
+//		try {
+//			URL url = new URL(K_KAKAO_LOGOUT_URL);
+//			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//			conn.setRequestMethod("POST");
+//			conn.setRequestProperty("Authorization", "Bearer "+ access_Token);
+//			
+//			int responseCode = conn.getResponseCode();
+//			System.out.println("responseCode : "+ responseCode);
+//			
+//			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//			
+//			 String result = "";
+//		     String line = "";
+//		        
+//		     while((line = br.readLine())!= null) {
+//		    	 result += line;
+//		     }
+//		     System.out.println(result);
+//		}catch(IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 }

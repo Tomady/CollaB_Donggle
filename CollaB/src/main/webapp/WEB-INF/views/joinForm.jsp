@@ -273,10 +273,10 @@
                         
                         <ul class="body__top">
                             <li>
-                                <span>개인정보 수집 및 이용 동의</span> <span class="essential">(필수)</span><span><input type="checkbox" id="chk"></span>
+                                <span>개인정보 수집 및 이용 동의</span> <span class="essential">(필수)</span><span><input type="checkbox" id="chk" required="required"></span>
                             </li>
                             <li>
-                                <span>이용약관 동의 </span> <span class="essential">(필수)</span><span><input type="checkbox" id="chk2"></span>
+                                <span>이용약관 동의 </span> <span class="essential">(필수)</span><span><input type="checkbox" id="chk2" required="required"></span>
                             </li>
                             <li>
                                 <span class="underline"></span>
@@ -289,7 +289,10 @@
                                         <div>
                                             <span class="label">*아이디</span>                               
                                         </div>
-                                        <input type="text" name="id" id="id" style="width: 50%;" required="required" >&nbsp;<button type="button" id="idCheck" onclick="fn_idChk()" >중복확인</button>             
+                                        <input type="text" name="id" id="id" style="width: 50%;" required="required" >&nbsp;
+                                        <button type="button" id="idCheck" onclick="fn_idChk()" required="required">중복확인
+                                        	<input type="hidden" id="idChkVal" value="">
+                                        </button>             
                                     </div>
 
                                     <div class="formBox">
@@ -329,13 +332,8 @@
                                     <div class="formBox">
                                         <div><span class="label">회사명</span></div>
                                         <input type="text" name="company" id="company">
-                                    </div>
-                                   
-                                    
-                          
-                                    
-                                    <br>
-                                
+                                    </div>                                
+                                    <br>                            
                         </div> <!--end of form__input-->
                     </div>
                     <div class="contents__footer">
@@ -426,6 +424,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
+var idchkval =  $("#idChkVal");
+
 // 체크박스 모달
 $(document).ready(function(){
     $("#chk").on('change', function(){ 
@@ -452,6 +452,8 @@ document.getElementById("closeBtn2").onclick = function() {
 
 // 아이디 중복 확인
 function fn_idChk(){
+	idchkval.val('Y');
+	
 	$.ajax({
 		url: "idChk.do",
 		type: "post",
@@ -459,17 +461,19 @@ function fn_idChk(){
 		data: {"id" : $("#id").val()},
 		success: function(data){
 			if(data == 1){
+				idchkval.val('No');
 				alert("이미 사용 중인 아이디입니다.");
 			}else if(data == 0){
+				idchkval.val('Ok');
+				$("#id").prop("disabled",true);
 				alert("사용 가능한 아이디입니다.");
+				
 			}
 		}
 		
 	
 	})
 }
-
-
 
 /* 유효성 검사 자바스크립트 */
 let userid = document.getElementById('id');
@@ -484,13 +488,25 @@ const pwReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{10,20}$
 function formCheck(){
 	
 	if (!$("input:checked[id='chk']").is(":checked")){ 
-		alert("개인정보 수집 및 이용 동의를 확인해주세요.");
-		form.chk.focus();
-	}
-	if (!$("input:checked[id='chk2']").is(":checked")){ 
+		event.preventDefault();
+		alert("개인정보 수집 및 이용 동의를 확인해주세요.");		
+	}else if(!$("input:checked[id='chk2']").is(":checked")){
+		event.preventDefault();
 		alert("이용약관 동의를 확인해주세요."); 
-		form.chk2.focus();
+	}else if(!pwReg.test(pw.value)){
+		event.preventDefault();
+		alert("비밀번호 형식이 올바르지 않습니다.");
+	}else if(pwchk.value < 1 || pw.value != pwchk.value){
+		event.preventDefault();
+		alert("비밀번호가 일치하지 않습니다.");
+	}else if(idchkval.val() == ''){
+		event.preventDefault();
+		alert("아이디 중복확인을 해주세요.");
+	}else if(idchkval.val() == 'No'){
+		event.preventDefault();
+		alert("이미 사용 중인 아이디이거나 중복확인이 필요합니다.");
 	}
+
 }
 /*
 // 아이디(이메일) 정규식 검사
@@ -515,6 +531,7 @@ pw.onkeyup = () => {
         document.getElementById('pwMsg').style.color = 'blue'
     }
 }
+
 
 // 비밀번호 일치 확인 검사
 pwchk.onkeyup = () =>{

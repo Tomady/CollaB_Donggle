@@ -541,8 +541,7 @@ body .options .option .label .info .sub {
 	function logoutSwitchFn(data){
 		switch(data) {
 			case "카카오": 
-			
-				location.href="kakaoLogout.do";
+				kakaoLogoutFn();	
 				break;
 				
 			case "네이버":
@@ -562,6 +561,18 @@ body .options .option .label .info .sub {
 		}
 	}
 	
+	function kakaoLogoutFn(){
+		$.ajax({
+			url : 'kakaoLogoutUrl.do',
+			dataType : 'text',
+			type : 'post',
+			success : function(data){
+				location.href=data;
+			
+			}
+		})
+	}
+		
 	function googleLogoutFn(){
 		$.ajax({
 			url : 'googleLogout.do',

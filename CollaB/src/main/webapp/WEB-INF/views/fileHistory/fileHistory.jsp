@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 
@@ -98,22 +99,26 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr class="" data-title="1">
-												<td class="filehistory__title">최종프로젝트</td>
-												<td>최종프로젝트</td>
-												<td>2022-03-06</td>
-												<td>15</td>
-												<td><button class="btn btn-dark" type="button">Download</button></td>
-											</tr>
+											<c:forEach items="${fileInfoList }" var="item">												
+												<tr class="" data-cardid="${item.card_id }">
+													<td class="filehistory__title">${item.file_name }</td>
+													<td>${item.card_title }</td>
+													<td>${item.file_upload_date }</td>
+													<td>${item.file_hits }</td>
+													<td><button class="btn btn-dark" type="button">Download</button></td>
+												</tr>
+											</c:forEach>
 
-											<tr class="tr_off" data="1">
-												<td>f</td>
-												<td>s</td>
-												<td>s</td>
-												<td>s</td>
-												<td><button class="btn btn-secondary" type="button">Download</button>
-												</td>
-											</tr>
+											<c:forEach items="${filehistory }" var="item">
+												<tr class="tr_off" data="${item.card_id }">
+													<td>${item.pre_file }</td>
+													<td>${item.card_title }</td>
+													<td>${item.upload_date }</td>
+													<td>${item.file_hits }</td>
+													<td><button class="btn btn-secondary" type="button">Download</button>
+													</td>
+												</tr>											
+											</c:forEach>
 										</tbody>
 									</table>
 								</div>
