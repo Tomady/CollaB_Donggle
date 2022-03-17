@@ -271,16 +271,32 @@
 
         console.log(data);
         
-        $.ajax({
-            type : "POST",
-            url : "issueInsert.do",    
-            data : data,
-  		  	dataType : "text",
-  		  	success : function(result){
-  		  		alert('등록 성공!');
-  		  		location.href = "issueBoard.do?workspace_id=" + result;
-  		  	}
-         })
+        if(issueTitle == ''){
+        	event.preventDefault();
+        	alert('제목을 입력해주세요.');
+        }else if(issueContent == ''){
+        	event.preventDefault();
+        	alert('내용을 입력해주세요.');
+        }else if(checklist_title == ''){
+        	event.preventDefault();
+        	alert('이슈 타이틀을 입력해주세요.');
+        }else if(itemTitle.length < 1){
+        	event.preventDefault();
+        	alert('이슈 아이템을 추가해주세요.');
+        }else{
+        	 $.ajax({
+                 type : "POST",
+                 url : "issueInsert.do",    
+                 data : data,
+       		  	dataType : "text",
+       		  	success : function(result){
+       		  		alert('등록 성공!');
+       		  		location.href = "issueBoard.do?workspace_id=" + result;
+       		  	}
+              })
+        }
+        
+       
     }
     
     $(function() {
