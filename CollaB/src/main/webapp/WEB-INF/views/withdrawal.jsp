@@ -211,9 +211,15 @@ label {
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recent</button>
 						<div class="dropdown-menu">
 							<div class="dropdown-title">History 🎡</div>
-							<a class="dropdown-item" href="#">board_2</a> <a
-								class="dropdown-item" href="#">board_1</a> <a
-								class="dropdown-item" href="#">board_4</a>
+							<c:forEach items="${recents}" var="recent">
+			        	  	  <c:if test="${recent.board_id ne boardid}">
+			        	  	  	<c:set var="count" value="${count + 1}"/>
+			        	  	  	<c:if test="${count < 6}">
+					              	<a class="dropdown-item" onclick="location.href='boardDetail?boardID=${recent.board_id}'">${recent.board_title}</a>        	  
+			        	  	  	</c:if>
+				        	  </c:if>
+				        	  <c:set var="boardid" value="${recent.board_id}"></c:set>
+			        	  </c:forEach>
 						</div>
 					</div>
 					<div class="btn-group">
@@ -286,9 +292,12 @@ label {
 								<br>
 								<ul style="color:tomato; font-weight: bold;">
 									<li>탈퇴한 아이디는 복구가 불가능합니다.</li>
+									<li>탈퇴한 아이디로 다시 가입이 불가능합니다.</li>
 									<li>탈퇴 후에는 데이터를 복구할 수 없습니다.</li>
 								</ul>
 								<br>
+								<p>회원 탈퇴를 원하시면 비밀번호를 입력해주세요.</p>
+                				<input type="password" class="form-control" name="password" id="password" style="width: 300px;">
 								<hr>
 								<br>
 								<div class="form-check form-check-inline">
@@ -315,28 +324,33 @@ label {
 			if (!$('#inlineCheckbox1').is(':checked')) {
 				window.alert('탈퇴정책에 동의해주시기 바랍니다.');
 				return;
+			} else if ($('#password').val().length == 0) {
+				window.alert('비밀번호를 입력해주세요.')
 			} else {
 				if (confirm("정말 탈퇴하시겠습니까?")) {
-					//탈퇴
-					$.ajax({
-						url : '/CollaB/userDelete',
-						type : 'get',
-						success : function(data) {
-							console.log(data);
+				//탈퇴
+				$.ajax({
+					url : '/CollaB/userDelete',
+					type : 'get',
+					success : function(data) {
+								console.log(data);
 							if (data.trim() === 'Y') {
 								alert("탈퇴가 완료되었습니다.")
 								location.href = "/CollaB/";
 							} else if (data.trim() === 'F') {
 								alert("에러가 발생하였습니다.")
-							}
-						},
-						error : function(data) {
-							console.log(data);
 						}
-					})
-				}
+					},
+					error : function(data) {
+							console.log(data);
+					}
+				})
+			}
+
 			}
 		})
+
+
 	</script>
 
 	<!-- General JS Scripts -->

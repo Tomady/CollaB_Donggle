@@ -88,8 +88,14 @@
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recent</button>
             <div class="dropdown-menu">
               <div class="dropdown-title">History 🎡</div>
-        	  <c:forEach items="${recent }" var="recent">
-              	<a class="dropdown-item" onclick="location.href='boardDetail?boardID=${recent.board_id}'">${recent.board_title }</a>
+        	  <c:forEach items="${recents}" var="recent">
+        	  	  <c:if test="${recent.board_id ne boardid}">
+        	  	  	<c:set var="count" value="${count + 1}"/>
+        	  	  	<c:if test="${count < 6}">
+		              	<a class="dropdown-item" onclick="location.href='boardDetail?boardID=${recent.board_id}'">${recent.board_title}</a>        	  
+        	  	  	</c:if>
+	        	  </c:if>
+	        	  <c:set var="boardid" value="${recent.board_id}"></c:set>
         	  </c:forEach>
             </div>
           </div>

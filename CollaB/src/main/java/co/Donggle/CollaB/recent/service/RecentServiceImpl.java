@@ -12,8 +12,8 @@ public class RecentServiceImpl implements RecentService {
 	RecentMapper RecentMapper;
 
 	@Override
-	public List<RecentVO> recentBoard() {
-		return RecentMapper.recentBoard();
+	public List<RecentVO> recentBoard(RecentVO vo) {
+		return RecentMapper.recentBoard(vo);
 	}
 
 	@Override

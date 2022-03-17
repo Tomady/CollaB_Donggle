@@ -1,5 +1,6 @@
 package co.Donggle.CollaB.message.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,8 @@ import co.Donggle.CollaB.message.service.InboxService;
 import co.Donggle.CollaB.message.service.InboxVO;
 import co.Donggle.CollaB.message.service.SentService;
 import co.Donggle.CollaB.message.service.SentVO;
+import co.Donggle.CollaB.recent.service.RecentService;
+import co.Donggle.CollaB.recent.service.RecentVO;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 
 @Controller
@@ -23,6 +26,7 @@ public class MessageController {
 	@Autowired InboxService inboxDao;
 	@Autowired SentService sentDao;
 	@Autowired WorkspaceJoinService workspaceJoinDao;
+	@Autowired RecentService RecentDao;
 	
 	//=====inbox=====
 	@RequestMapping("/message_inbox")
@@ -33,12 +37,20 @@ public class MessageController {
 		InboxVO vo = new InboxVO();
 		vo.setId(userId);
 		
+		// recent
+		RecentVO recentvo = new RecentVO();
+		recentvo.setId(userId);
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
+		
 		//사용자의 워크스페이스 목록도 모델로 보내주기(새쪽지쓸때 필요)
 		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(userId));
 		//사용자의 읽지않은 메시지 몇개인지 모델로 보내주기(사이드바에 필요)
 		int unreadCnt = inboxDao.inboxUnreadMsg(vo);
 		model.addAttribute("unreadMSG",unreadCnt);
 		model.addAttribute("inbox",inboxDao.inboxList(vo));
+		model.addAttribute("recents", recents);
+
 		return "msg_inbox";
 	}
 	
@@ -204,6 +216,12 @@ public class MessageController {
 		InboxVO inbox = new InboxVO();
 		inbox.setId(userId);
 		
+		// recent
+		RecentVO recentvo = new RecentVO();
+		recentvo.setId(userId);
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
+		
 		SentVO vo = new SentVO();
 		vo.setId(userId);
 		model.addAttribute("sent",sentDao.sentMsgList(vo));
@@ -212,7 +230,8 @@ public class MessageController {
 		//사용자의 읽지않은 메시지 몇개인지 모델로 보내주기(사이드바에 필요)
 		int unreadCnt = inboxDao.inboxUnreadMsg(inbox);
 		model.addAttribute("unreadMSG",unreadCnt);
-		
+		model.addAttribute("recents", recents);
+
 		return "msg_sent";
 	}
 	
@@ -313,13 +332,21 @@ public class MessageController {
 		InboxVO inbox = new InboxVO();
 		inbox.setId(userId);
 		
+		// recent
+		RecentVO recentvo = new RecentVO();
+		recentvo.setId(userId);
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
+
+		
 		model.addAttribute("starList",inboxDao.inboxStarList(inbox));
 		//새쪽지쓰기-사용자의 워크스페이스 목록
 		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(userId));
 		//사용자의 읽지않은 메시지 몇개인지 모델로 보내주기(사이드바에 필요)
 		int unreadCnt = inboxDao.inboxUnreadMsg(inbox);
 		model.addAttribute("unreadMSG",unreadCnt);
-		
+		model.addAttribute("recents", recents);
+
 		return "msg_starred";
 	}
 	

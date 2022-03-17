@@ -18,6 +18,8 @@ import co.Donggle.CollaB.card.service.CardService;
 import co.Donggle.CollaB.card.service.CardVO;
 import co.Donggle.CollaB.list.service.ListService;
 import co.Donggle.CollaB.list.service.ListVO;
+import co.Donggle.CollaB.recent.service.RecentService;
+import co.Donggle.CollaB.recent.service.RecentVO;
 import co.Donggle.CollaB.user.service.UserVO;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinVO;
@@ -31,6 +33,7 @@ public class WorkspaceController {
 	@Autowired BoardService boardDao;
 	@Autowired ListService listDao;
 	@Autowired CardService cardDao;
+	@Autowired RecentService RecentDao;
 
 	// 로그인 후 바로 보이는 워크스페이스 목록 페이지
 	@RequestMapping("/WorkspaceList")
@@ -39,6 +42,12 @@ public class WorkspaceController {
 		String returnPage = "";
 		String userId = (String) session.getAttribute("id");
 		int n = workspaceJoinDao.workspaceJoinCount(userId);
+		
+		// recent
+		RecentVO recentvo = new RecentVO();
+		recentvo.setId(userId);
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
 
 		if (n > 0) {
 			// 워크스페이스 하나 이상 존재 - 해당 사용자의 워크스페이스와 가입된 보드리스트 넘기기
@@ -46,6 +55,7 @@ public class WorkspaceController {
 			model.addAttribute("meAdmin", workspaceJoinDao.workspaceListMeAdmin(userId));
 			model.addAttribute("workspaces", workspaceJoinDao.workspaceJoinList(userId));
 			model.addAttribute("boards", boardDao.boardList(userId));
+			model.addAttribute("recents", recents);
 			returnPage = "workspaceList";
 		} else if (n == 0) {
 			// 워크스페이스 없음
