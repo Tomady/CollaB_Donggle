@@ -131,6 +131,8 @@ function workspaceRename(){
     WsRename.style.position="relative";
     WsRename.style.top="13px";
     WsRename.setAttribute("type","text");
+    WsRename.size="10";
+    WsRename.setAttribute("maxlength","10");
     WsRename.setAttribute("id","WsRename");
     WsRename.setAttribute("name","WsRename");
     WsRename.addEventListener("keyup",function(){

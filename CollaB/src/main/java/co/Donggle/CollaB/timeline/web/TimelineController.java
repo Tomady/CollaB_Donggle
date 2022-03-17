@@ -53,7 +53,7 @@ public class TimelineController {
 			System.out.println("나올까? : " + li.getList_title());
 		}
 		
-		int listid = lists.get(0).getList_id();
+		int listid = lists.get(0).getList_id(); //이거땜에 [Index 0 out of bounds for length 0] 에러나는듯..?
 		TimelineCardVO timelineCardVO = new TimelineCardVO();
 		timelineCardVO.setList_id(listid);
 		List<TimelineCardVO> CardLists = cardDao.timeCardSelect(timelineCardVO);

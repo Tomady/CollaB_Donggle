@@ -1,13 +1,11 @@
 package co.Donggle.CollaB;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import co.Donggle.CollaB.dy.VO.UserInfo;
-import co.Donggle.CollaB.dy.service.DbTestMapper;
 
 @Controller
 public class HomeController {
@@ -15,11 +13,6 @@ public class HomeController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(UserInfo uInfo, Model model) {
-<<<<<<< HEAD
-		
-=======
-
->>>>>>> 7db6219a3fcff035ce23be38e94b546fd7a39efd
 //		uInfo = umap.UserInfoList();
 //		uInfo.getId();
 //		model.addAttribute("uInfo", uInfo);
