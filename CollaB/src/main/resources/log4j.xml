@@ -14,7 +14,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="jdbc.connection">
-		<level value="warn" />
+		<level value="debug" />
 	</logger>
 	<logger name="jdbc.resultset">
 		<level value="error" />
