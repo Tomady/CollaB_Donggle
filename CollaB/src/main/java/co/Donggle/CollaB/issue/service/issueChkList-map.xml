@@ -14,6 +14,10 @@
 	</select>
 	
 	<select id="chklistSelect" parameterType="co.Donggle.CollaB.issue.service.IssueCheckListVO" resultType="co.Donggle.CollaB.issue.service.IssueCheckListVO">
-		select * from checklist where issue_id = #{issue_id}
+		SELECT * FROM CHECKLIST WHERE ISSUE_ID = #{issue_id}
 	</select>
+	
+	<delete id="deleteChkLi" parameterType="co.Donggle.CollaB.issue.service.IssueCheckListVO">
+		DELETE FROM CHECKLIST WHERE CHECKLIST_ID = #{checklist_id}
+	</delete>
 </mapper> 

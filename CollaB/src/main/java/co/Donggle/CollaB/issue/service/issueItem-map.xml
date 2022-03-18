@@ -27,4 +27,8 @@
 		ON ( C.CHECKLIST_ID = I.CHECKLIST_ID)
 		WHERE S.WORKSPACE_ID = #{workspace_id}
 	</select>
+	
+	<delete id="deleteItem" parameterType="co.Donggle.CollaB.issue.service.IssueItemVO">
+		DELETE FROM ITEM_INFO WHERE ITEM_ID = #{item_id}
+	</delete>
 </mapper>
