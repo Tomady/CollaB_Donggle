@@ -15,6 +15,9 @@
 <!-- Template CSS -->
 <link rel="stylesheet" href="resources/assets/css/style.css">
 <link rel="stylesheet" href="resources/assets/css/components.css">
+
+<!-- 웹 타이틀 이미지 -->
+<link rel="shortcut icon" href="/resources/img/web_title.ico">
 <style>
 #addListBtn:hover {
 	background-color: rgb(224, 224, 224);
@@ -412,6 +415,7 @@
 	<!-- mypage header -->
 	<script src="resources/js/mypage/mypage_header.js"></script>
 	
+	<script src="resources/js/jay/confirmForm.js"></script>
 	<script type="text/javascript">
 		// 로그아웃
 		 function logout(){

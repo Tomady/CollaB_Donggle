@@ -198,10 +198,15 @@ public class MyPageController {
 			public String pwCheck(MyPageVO vo, HttpSession session) {
 				String result = "N";
 				vo.setId((String)session.getAttribute("id"));
-				vo = MypageDao.pwCheck(vo);
-				if(vo != null) {result = "Y";}
+				
+				String pw = vo.getPassword();
+				vo.setPassword(pw);
+				MyPageVO returnVO = MypageDao.userSelect(vo);				
+				
+				if(pwEncoder.matches(pw, returnVO.getPassword())) {
+					result = "Y";
+				}
+							
 				return result;
 			}
-			
-
 }

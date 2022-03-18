@@ -15,6 +15,9 @@
 <!-- Template CSS -->
 <link rel="stylesheet" href="resources/assets/css/style.css">
 <link rel="stylesheet" href="resources/assets/css/components.css">
+
+<!-- 웹 타이틀 이미지 -->
+<link rel="shortcut icon" href="/resources/img/web_title.ico">
 <style>
 #addListBtn:hover {
 	background-color: rgb(224, 224, 224);
@@ -353,6 +356,8 @@ th {
 			</div>
 		</div>
 	</div>
+	
+	<script src="resources/js/jay/confirmForm.js"></script>
 	<script>
 		function userUpdate() {
 			if ($('#tel').val().length == 0) {
@@ -374,6 +379,105 @@ th {
 			window.alert("수정을 완료했습니다.");
 			frm.submit();
 		}
+		
+		// 로그아웃
+		function logout(){
+	      swal({
+	         title: "정말 로그아웃을 하시겠습니까?",
+	         icon : "warning",
+	         buttons : ["취소", "확인"]
+	      })
+	      .then(function(value) {
+	         if(value) {
+	      
+	            ajaxCompanyChk();
+	         }
+	      })
+	   }
+	
+	   function ajaxCompanyChk() {
+	      $.ajax({
+	         url : 'ajaxTokenChk.do',
+	         dataType : 'text',
+	         success : function(data) {
+	            if(data == "No") {
+	               location.href="logout.do";
+	            } else {
+	               logoutSwitchFn(data);
+	            }
+	         }
+	      })
+	   }
+	   
+	   function logoutSwitchFn(data){
+	      switch(data) {
+	         case "카카오": 
+	            kakaoLogoutFn();   
+	            break;
+	            
+	         case "네이버":
+	            
+	            naverLogoutFn();
+	            break;
+	            
+	         case "구글": 
+	         
+	            googleLogoutFn();
+	            break;
+	            
+	         case "페이스북":
+	         
+	            location.href="facebookLogout.do";
+	            break;
+	      }
+	   }
+	   
+	   function kakaoLogoutFn(){
+	      $.ajax({
+	         url : 'kakaoLogoutUrl.do',
+	         dataType : 'text',
+	         type : 'post',
+	         success : function(data){
+	            location.href=data;
+	         
+	         }
+	      })
+	   }
+	      
+	   function googleLogoutFn(){
+	      $.ajax({
+	         url : 'googleLogout.do',
+	         type : 'post',
+	         dataType : 'text',
+	         success : function(data){
+	            popupFn(data);
+	         }
+	      })
+	   }
+	   
+	   function naverLogoutFn(){
+	      
+	      $.ajax({
+	         url : 'naverLogout.do',
+	         type : 'post',
+	         dataType : 'text',
+	         success : function(data){
+	            
+	            popupFn(data);
+	         }
+	      })
+	   }
+	   
+	   function popupFn(url){
+	      var popupWidth = 1000;
+	      var popupHeight = 700;
+	      
+	      var popupX = (window.screen.width / 2) - (popupWidth /2);
+	      var popupY = (window.screen.height / 2) - (popupHeight /2);
+	      
+	      window.open(url, 'popup', 'z-lock=yes, width='+popupWidth+', height='+popupHeight+', top='+popupY+', left='+popupX);
+	      location.href='login.do'
+	   }
 	</script>
 	
 	

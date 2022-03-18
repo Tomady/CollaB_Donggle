@@ -43,4 +43,9 @@ public class MyPageServiceImpl implements MyPageService {
 		return MyPageMapper.pwCheck(vo);
 	}
 
+	@Override
+	public MyPageVO matchPw(MyPageVO vo) {
+		return MyPageMapper.matchPw(vo);
+	}
+
 }
