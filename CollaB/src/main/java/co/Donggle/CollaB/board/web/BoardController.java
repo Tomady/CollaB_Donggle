@@ -387,6 +387,16 @@ public class BoardController {
 		
 		return itemInfoDao.cardItemsAll(card_id);
 	}
+	
+	//보드 검색
+	@ResponseBody
+	@RequestMapping("/AjaxBoardListSearch")
+	public List<BoardVO> AjaxBoardListSearch(BoardVO vo, HttpSession session){
+		String userId = (String)session.getAttribute("id");
+		vo.setId(userId);
+		
+		return boardDao.boardNameSearch(vo);
+	}
 //workspaceList페이지에서 사용자가 워크스페이스 클릭시 해당 워크스페이스의 boards페이지로 이동
 //	@RequestMapping("/goBoards")
 //	public String goBoards(HttpServletRequest hsrq,

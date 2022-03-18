@@ -400,6 +400,7 @@ function cardCheckListSet(id,cardid){
 					let chart = document.createElement("div");
 					chart.setAttribute("class","progress mb-2");
 					let span = document.createElement("span");
+					span.innerHTML = "&nbsp;&nbsp;0%";
 					span.setAttribute("class","checkChart"+data.checklist_id);
 					let button = document.createElement("button");
 					button.setAttribute("class","btn btn-secondary fa fa-plus ml-4 mb-5 additem"+data.checklist_id);

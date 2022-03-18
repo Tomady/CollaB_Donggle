@@ -713,6 +713,8 @@ document.addEventListener("DOMContentLoaded", function(){
 					}else{
 						document.querySelector(".checkChart"+checkId).style.backgroundColor="tomato";						
 					}
+				}else if(itemCnt == 0){
+					document.querySelector(".checkChart"+checkId).innerHTML = "&nbsp;&nbsp;&nbsp;"+0+"%";
 				}
 			})
 		},
@@ -903,73 +905,72 @@ document.addEventListener("DOMContentLoaded", function(){
 												<div class="row">
 													<h4>Label</h4>
 													<div class="label light" style="background-color: white;"
-														onclick="selectLabel('None')"></div>
+														onclick="selectLabel('None',${cardinfo.card_id})"></div>
 													<div class="label danger"
 														style="background-color: rgb(253, 38, 38);"
-														onclick="selectLabel('Red')"></div>
+														onclick="selectLabel('Red',${cardinfo.card_id})"></div>
 													<div class="label warning"
 														style="background-color: rgb(255, 184, 52);"
-														onclick="selectLabel('Orange')"></div>
+														onclick="selectLabel('Orange',${cardinfo.card_id})"></div>
 													<div class="label success"
 														style="background-color: rgb(58, 231, 95);"
-														onclick="selectLabel('Green')"></div>
+														onclick="selectLabel('Green',${cardinfo.card_id})"></div>
 													<div class="label info"
 														style="background-color: rgb(0, 217, 255);"
-														onclick="selectLabel('SkyBlue')"></div>
+														onclick="selectLabel('SkyBlue',${cardinfo.card_id})"></div>
 													<div class="label primary"
 														style="background-color: rgb(85, 73, 248);"
-														onclick="selectLabel('Blue')"></div>
+														onclick="selectLabel('Blue',${cardinfo.card_id})"></div>
 													<div class="label secondary"
 														style="background-color: rgb(165, 165, 165);"
-														onclick="selectLabel('Gray')"></div>
+														onclick="selectLabel('Gray',${cardinfo.card_id})"></div>
 													<div class="label dark"
 														style="background-color: rgb(7, 7, 7);"
-														onclick="selectLabel('Black')"></div>
+														onclick="selectLabel('Black',${cardinfo.card_id})">
+													</div>
 													<c:if test="${cardinfo.card_label eq 'light'}">
-														<input class="selectedLabel form-control ml-1 mr-1"
-															type="text" style="width: 80px; height: 25px;"
-															value="None" readonly>
+														<input id="testbtn"
+															class="selectedLabel form-control ml-1 mr-1" type="text"
+															style="width: 80px; height: 25px;" value="None" readonly>
 													</c:if>
 													<c:if test="${cardinfo.card_label eq 'danger'}">
-														<input class="selectedLabel form-control ml-1 mr-1"
-															type="text" style="width: 80px; height: 25px;"
-															value="Red" readonly>
+														<input id="testbtn"
+															class="selectedLabel form-control ml-1 mr-1" type="text"
+															style="width: 80px; height: 25px;" value="Red" readonly>
 													</c:if>
 													<c:if test="${cardinfo.card_label eq 'warning'}">
-														<input class="selectedLabel form-control ml-1 mr-1"
-															type="text" style="width: 80px; height: 25px;"
-															value="Orange" readonly>
+														<input id="testbtn"
+															class="selectedLabel form-control ml-1 mr-1" type="text"
+															style="width: 80px; height: 25px;" value="Orange"
+															readonly>
 													</c:if>
 													<c:if test="${cardinfo.card_label eq 'success'}">
-														<input class="selectedLabel form-control ml-1 mr-1"
-															type="text" style="width: 80px; height: 25px;"
-															value="Green" readonly>
+														<input id="testbtn"
+															class="selectedLabel form-control ml-1 mr-1" type="text"
+															style="width: 80px; height: 25px;" value="Green" readonly>
 													</c:if>
 													<c:if test="${cardinfo.card_label eq 'info'}">
-														<input class="selectedLabel form-control ml-1 mr-1"
-															type="text" style="width: 80px; height: 25px;"
-															value="SkyBlue" readonly>
+														<input id="testbtn"
+															class="selectedLabel form-control ml-1 mr-1" type="text"
+															style="width: 80px; height: 25px;" value="SkyBlue"
+															readonly>
 													</c:if>
 													<c:if test="${cardinfo.card_label eq 'primary'}">
-														<input class="selectedLabel form-control ml-1 mr-1"
-															type="text" style="width: 80px; height: 25px;"
-															value="Blue" readonly>
+														<input id="testbtn"
+															class="selectedLabel form-control ml-1 mr-1" type="text"
+															style="width: 80px; height: 25px;" value="Blue" readonly>
 													</c:if>
 													<c:if test="${cardinfo.card_label eq 'secondary'}">
-														<input class="selectedLabel form-control ml-1 mr-1"
-															type="text" style="width: 80px; height: 25px;"
-															value="Gray" readonly>
+														<input id="testbtn"
+															class="selectedLabel form-control ml-1 mr-1" type="text"
+															style="width: 80px; height: 25px;" value="Gray" readonly>
 													</c:if>
 													<c:if test="${cardinfo.card_label eq 'dark'}">
-														<input class="selectedLabel form-control ml-1 mr-1"
-															type="text" style="width: 80px; height: 25px;"
-															value="Black" readonly>
+														<input id="testbtn"
+															class="selectedLabel form-control ml-1 mr-1" type="text"
+															style="width: 80px; height: 25px;" value="Black" readonly>
 													</c:if>
-													<button id="testbtn" class="fa fa-check"
-														onclick="cardLabelSelect(${cardinfo.card_id})"
-														style="border: solid 1px rgb(240, 238, 238); background-color: white;">
-														<div class="test123">SAVE!</div>
-													</button>
+													<div class="test123">&nbsp;SAVE!</div>
 												</div>
 											</div>
 										</div>
@@ -995,11 +996,10 @@ document.addEventListener("DOMContentLoaded", function(){
 											<div style="width: 740px;"></div>
 											<div class="card-header" style="font-size: large;">
 												<i class="fa fa-align-left" aria-hidden="true">&nbsp;&nbsp;Description</i>
-												<button class="btn btn-light ml-2" onclick="contentsEdit()">Edit</button>
 											</div>
 											<div class="card-body">
-												<textarea class="cardContents" rows="4" style="width: 100%;"
-													readonly>${cardinfo.card_contents}</textarea>
+												<textarea onclick="contentsEdit()" class="cardContents"
+													rows="4" style="width: 100%;" readonly>${cardinfo.card_contents}</textarea>
 												<button class="saveBtn btn btn-secondary mt-1"
 													style="position: relative;"
 													onclick="contentsSave(${cardinfo.card_id})">
@@ -1030,7 +1030,18 @@ document.addEventListener("DOMContentLoaded", function(){
 																	onclick="checklistDelete(${check.checklist_id})"></button>
 															</div>
 															<div class="progress mb-2">
-																<span class="checkChart${check.checklist_id}"></span>
+																<c:set var="itemCnt" value="0"></c:set>
+																<c:forEach items="${checkItems}" var="item">
+																	<c:if test="${item.checklist_id eq check.checklist_id}">
+																		<c:if test="${item.item_status eq 'Y'}">
+																			<c:set var="itemCnt" value="${itemCnt+1}"></c:set>
+																		</c:if>
+																	</c:if>
+																</c:forEach>
+																<span class="checkChart${check.checklist_id}"
+																	style="font-weight: bold;"> <c:if
+																		test="${itemCnt eq 0}">&nbsp;&nbsp;&nbsp;0%</c:if>
+																</span>
 															</div>
 															<c:forEach items="${checkItems}" var="item">
 																<c:if test="${item.checklist_id eq check.checklist_id}">
@@ -1090,10 +1101,10 @@ document.addEventListener("DOMContentLoaded", function(){
 																	class="mr-2 text-center thumbnail">
 																	<c:if
 																		test="${fn:substringAfter(file.pfile_name,'.') eq 'jpg' 
-                          	|| fn:substringAfter(file.pfile_name,'.') eq 'png' 
-                          	|| fn:substringAfter(file.pfile_name,'.') eq 'gif'}">
+                             || fn:substringAfter(file.pfile_name,'.') eq 'png' 
+                             || fn:substringAfter(file.pfile_name,'.') eq 'gif'}">
 																		<img id="thumbnailImg${file.file_id}"
-																			src="resources/cardFile/${file.pfile_name}">
+																			src="/home/ubuntu/apache-tomcat-9.0.59/webapps/cardFile/${file.pfile_name}">
 																	</c:if>
 																	<h5 style="display: inline-block;">${fn:substringAfter(file.pfile_name,'.')}</h5>
 																</div>
@@ -1106,15 +1117,12 @@ document.addEventListener("DOMContentLoaded", function(){
 																			onclick="fileDelete(${file.file_id})">Delete</span> <a
 																			class="btn filedownbtn"
 																			href="cardFileDownload?file_name=${file.file_name}&pfile_name=${file.pfile_name}">Download</a>
-																		<label class="btn fileeditbtn"
-																			for="input-fileEdit${file.file_id}"
-																			onclick="cardFileEdit(${file.file_id})">Edit</label>
-																		<input type="file" id="input-fileEdit${file.file_id}"
-																			style="display: none;">
+																		<!-- <label class="btn fileeditbtn" for="input-fileEdit${file.file_id}" onclick="cardFileEdit(${file.file_id})">Edit</label>
+                                <input type="file" id="input-fileEdit${file.file_id}" style="display:none;">  -->
 																		<c:if
 																			test="${fn:substringAfter(file.pfile_name,'.') eq 'jpg' 
-		                          	|| fn:substringAfter(file.pfile_name,'.') eq 'png' 
-		                          	|| fn:substringAfter(file.pfile_name,'.') eq 'gif'}">
+                                   || fn:substringAfter(file.pfile_name,'.') eq 'png' 
+                                   || fn:substringAfter(file.pfile_name,'.') eq 'gif'}">
 																			<c:if test="${cardinfo.card_thema ne file.file_id}">
 																				<span class="btn cardThema"
 																					onclick="cardThemaSelect(${file.file_id},${file.card_id})">Make
@@ -1403,6 +1411,7 @@ $("#input-file").on("change", function(){
 		contentType : false,
 		processData : false,
 		success : function(data){
+			file_append_target.innerHTML=""
 			let file_end = (data.file_name).substring((data.file_name).lastIndexOf(".")+1); //확장자명
 			
 			let card = document.createElement("div");
@@ -1433,23 +1442,23 @@ $("#input-file").on("change", function(){
 			downbtn.setAttribute("href","cardFileDownload?file_name="+data.file_name+"&pfile_name="+data.pfile_name);
 			downbtn.innerHTML = "Download";
 
-			let editbtn = document.createElement("label");
-			editbtn.setAttribute("class","btn filedelbtn");
-			editbtn.setAttribute("for","input-fileEdit"+data.file_id);
-			editbtn.innerHTML = "Edit";
-			editbtn.onclick = function(){
-				cardFileEdit(data.file_id);
-			}
-			let fileInput = document.createElement("input");
-			fileInput.setAttribute("type","file")
-			fileInput.setAttribute("id","input-fileEdit"+data.file_id);
-			fileInput.style.display = "none";
+			//let editbtn = document.createElement("label");
+			//editbtn.setAttribute("class","btn filedelbtn");
+			//editbtn.setAttribute("for","input-fileEdit"+data.file_id);
+			//editbtn.innerHTML = "Edit";
+			//editbtn.onclick = function(){
+			//	cardFileEdit(data.file_id);
+			//}
+			//let fileInput = document.createElement("input");
+			//fileInput.setAttribute("type","file")
+			//fileInput.setAttribute("id","input-fileEdit"+data.file_id);
+			//fileInput.style.display = "none";
 			
 			frow.append(filename);
 			srow.append(delbtn);
 			srow.append(downbtn);
-			editbtn.append(fileInput);
-			srow.append(editbtn);
+			//editbtn.append(fileInput);
+			//srow.append(editbtn);
 			
 			let input = document.querySelector("#input-file");
 			if(input.files[0].type.match(/image\//)){
@@ -1496,40 +1505,70 @@ function getFileSrc(input,img){
  }
  
 //카드 첨부파일 편집
-function cardFileEdit(file_id){
-	$("#input-fileEdit"+file_id).on("change", function(){
-		var form = new FormData();
-		form.append("file",$("#input-fileEdit"+file_id)[0].files[0]);
-		form.append("file_id", file_id);
-		$.ajax({
-			url : "AjaxCardFileEdit",
-			type : "POST",
-			data : form,
-			dataType : "text",
-			contentType : false,
-			processData : false,
-			success : function(data){
-				if(data != "NO"){
-					var reader = new FileReader();
-			        reader.onload = function (e) {
-			        	document.querySelector("#thumbnailImg"+file_id).setAttribute("src", e.target.result)
-			        }
-			        reader.readAsDataURL($("#input-fileEdit"+file_id)[0].files[0]);
-				}else{
-					alert("파일수정이 실패하였습니다.\n관리자에게 문의하세요.");
-				}
-			},
-			error : function(){
-				console.log("카드첨부파일 변경 실패");
-			}
-		})
-	})
-}
+//function cardFileEdit(file_id){
+//	$("#input-fileEdit"+file_id).on("change", function(){
+//		var form = new FormData();
+//		form.append("file",$("#input-fileEdit"+file_id)[0].files[0]);
+//		form.append("file_id", file_id);
+//		$.ajax({
+//			url : "AjaxCardFileEdit",
+//			type : "POST",
+//			data : form,
+//			dataType : "text",
+//			contentType : false,
+//			processData : false,
+//			success : function(data){
+//				if(data != "NO"){
+//					var reader = new FileReader();
+//			        reader.onload = function (e) {
+//			        	document.querySelector("#thumbnailImg"+file_id).setAttribute("src", e.target.result)
+//			        }
+//			        reader.readAsDataURL($("#input-fileEdit"+file_id)[0].files[0]);
+//				}else{
+//					alert("파일수정이 실패하였습니다.\n관리자에게 문의하세요.");
+//				}
+//			},
+//			error : function(){
+//				console.log("카드첨부파일 변경 실패");
+//			}
+//		})
+//	})
+//}
 	
 
 
 const currentCardId = $('#currentCardId').val();
 const currentUserProfPic = $('#currentUserProfPic').val();
+
+function checkFile(str){
+	 
+	 var ext =  str.split('.').pop().toLowerCase();
+	 if($.inArray(ext, ['jpg' , 'jpeg', 'gif', 'bmp', 'png', 'tiff', 'svg', 'ico']) == -1) {
+	     return false;
+	 }
+	 return true;
+	}
+	
+function getDateStr(date){
+    var sYear = date.getFullYear();
+    var sMonth = date.getMonth() + 1;
+    var sDate = date.getDate();
+    sMonth = sMonth > 9 ? sMonth : "0" + sMonth;
+    sDate  = sDate > 9 ? sDate : "0" + sDate;
+    return sYear +"/"+ sMonth +"/"+ sDate;
+}
+
+function commentFileChk(commentFiles, commentId){
+	for(let data of commentFiles){
+		
+		if(data.comment_id === commentId){
+			
+			return data;
+		}
+	}
+	
+	return null;
+}
 CommentApp = {
 		
 		init : async function(){
@@ -1543,14 +1582,16 @@ CommentApp = {
 				},
 				success : function(data){
 					
-					return CommentApp.createComment(data);	
+					CommentApp.createComment(data);	
 				}
 			})
+		
 	},
 	
 	
 	
 	createComment : function(data){
+	
 		let recommentNum = 0;
 		let prevComment_group;
 		let commentFiles = CommentApp.ajaxFileSelectList();
@@ -1613,22 +1654,21 @@ CommentApp = {
 					
 				
 					template.find('.comment__context__file__prev').css("display", "flex");
-					template.find('.comment__context__file__prev').addClass("fileTarget");
+					
+					template.find('.comment__context__file__prev').addClass('classFileTarget')
 					template.find('.comment__context__file__prev').attr('data-commentId', commentId)
-					template.find('.context__file__prev__imgBox>img').attr("src", "resources/commentFile/"+pfile_name)
+					template.find('.context__file__prev__imgBox>img').attr("src", pfile_name)
 					template.find('.fileContent').text(filename)
 					template.find('.fileContent').attr("href", "commentDownload.do?pfile_name="+pfile_name+"&file_name="+filename)
 				}else{
 				
-					template.find('.context__file__prev__removeBtn')
 					template.find('.comment__context__file').css("display", "flex")
-					template.find('.comment__context__file').addClass("fileTarget");
+					template.find('.comment__context__file').addClass('classFileTarget')
 					template.find('.comment__context__file').attr('data-commentId', commentId)
 					template.find('.comment__context__file>a').text(filename)
 					template.find('.comment__context__file>a').attr('href', "commentDownload.do?pfile_name="+pfile_name+"&file_name="+filename)
 				}
 			
-
 			}else{
 				template.find('.comment__context__file').css('display', 'none')
 			}
@@ -1723,6 +1763,18 @@ CommentApp = {
 	
 	bindEvents : function(){
 		$(document).on('click', '.recomment__btn', CommentApp.recommentEvt)
+		$(document).on('click', '.goodBtnRow', goodBtnRowFn)
+		$(document).on('click', '.badBtnRow', badBtnRowFn)
+		$(document).on('click', '.context__file__prev__imgBox', commentImgprevFn)
+		$(document).on('keydown keyup', '.textareaEl', textareaHeightFn)
+		$(document).on('focus', '.textareaEl__class1', textareaFocusFn)
+		$(document).on('focus', '.textareaEl__class2', textarea2FocusFn)
+		$(document).on('change', '.input_file', inputFileFn)
+		$(document).on('click', '.context__file__prev__removeBtn', modifyFileDeleteBtnFn)
+		$(document).on('click', '.comment__input__filetext', fileClickFn)
+		$(document).on('click', '.fas__fa__menu', menuShowFn)
+		$(document).on('click','.fas__menu__btnC', menuUpdateBtnFn)
+		$(document).on('click','.fas__menu__btnD', menuDeleteBtnFn)
 	},
 	
 	recommentEvt : function(event){
@@ -1790,38 +1842,18 @@ CommentApp = {
 	
 }
 
-function checkFile(str){
-	 
-	 var ext =  str.split('.').pop().toLowerCase();
-	 if($.inArray(ext, ['jpg' , 'jpeg', 'gif', 'bmp', 'png', 'tiff', 'svg', 'ico']) == -1) {
-	     return false;
-	 }
-	 return true;
-	}
-function commentFileChk(commentFiles, commentId){
-	for(let data of commentFiles){
-		
-		if(data.comment_id === commentId){
-			
-			return data;
-		}
-	}
-	
-	return null;
-}
+
  $(function(){
 	 CommentApp.init();
+	 setTimeout(function() {
+		 let testetes = $('.comment__box>li');
+			console.log(testetes)
+    	 }, 1000);  	
+			
+		
  })
 
 
-function getDateStr(date){
-    var sYear = date.getFullYear();
-    var sMonth = date.getMonth() + 1;
-    var sDate = date.getDate();
-    sMonth = sMonth > 9 ? sMonth : "0" + sMonth;
-    sDate  = sDate > 9 ? sDate : "0" + sDate;
-    return sYear +"/"+ sMonth +"/"+ sDate;
-}
 
 function commentCreate() {
   let today = new Date();   
@@ -1833,7 +1865,7 @@ function commentCreate() {
 	  let dateTypedate = today;
   let comment_date = getDateStr(today)
   let currentUserNickname = ajaxGetSessionUserNickname();
-  console.log("currentUserNickname : " + currentUserNickname)
+
   let currentUserId = ajaxGetSessionUserId();
   
   if(file.val()){
@@ -1842,13 +1874,10 @@ function commentCreate() {
 	  if(result){
 		  commentFileCreateRow(textareaElVal, commentMaxGroup, currentUserId, comment_date, file, result)
 		
-	  }else{
-		  // 실패시 문구
 	  }
 	  
   }else{
-		
-		  let result = ajaxCommentInsert(textareaElVal, commentMaxGroup, currentUserId, dateTypedate)
+		 let result = ajaxCommentInsert(textareaElVal, commentMaxGroup, currentUserId, dateTypedate)
 	  if(result){
 		 commentCreateRow(textareaElVal, commentMaxGroup, currentUserId, currentUserNickname, comment_date)
 	  }
@@ -1858,7 +1887,14 @@ function commentCreate() {
 }
 
 function createRecomment(evert){
-	 let target = $(event.target); 
+	 let test = $(event.target);
+	 let target
+	 if(test.attr('class') == 'save_btn'){
+		 target = test;
+	 }else{
+		 target = $('.comment__box').find('[data="modify__input"]').find('.save_btn')
+	 }
+	
  let targetData = target.closest('.comment__input__Box').attr('data');
  if(targetData == "modify__input"){
 	
@@ -1919,10 +1955,12 @@ function recommentFileCreateRow(textareaElVal, targetGroup, currentUserId, comme
 	template.find('.fileContent').attr("href", "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)	
 	template.find('.context__file__perv__text').attr("data", result.file_id)
 	template.find('.comment__context__file__prev').css("display", "flex");
+	template.find('.comment__context__file__prev').addClass("classFileTarget");
 	
 	}else{
-		template.find('.comment__context__file').attr('data', result.file_id).css("display", "block")
+		template.find('.comment__context__file').attr('data', result.file_id).css("display", "flex")
 		template.find('.comment__context__file>a').text(result.file_name)
+		template.find('.comment__context__file').addClass("classFileTarget");
 		template.find('.comment__context__file>a').attr('href', "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)
 	}
 	
@@ -2080,14 +2118,21 @@ function commentFileCreateRow(textareaElVal, commentMaxGroup, currentUserId, com
 	template.find('.fileContent').text(fileName)
 	template.find('.fileContent').attr("href", "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)	
 	template.find('.context__file__perv__text').attr("data", result.file_id)
+	template.find('.comment__context__file__prev').addClass('classFileTarget')
 	template.find('.comment__context__file__prev').css("display", "flex");
+	
 	
 	}else{
 		template.find('.comment__context__file').attr('data', result.file_id).css("display", "block")
 		template.find('.comment__context__file>a').text(result.file_name)
+		template.find('.comment__context__file').addClass('classFileTarget')
 		template.find('.comment__context__file>a').attr('href', "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)
 	}
 	
+
+	let templateTargetClass =template.find('.comment__context__file__prev');
+	templateTargetClass.addClass('classFileTarget')
+
 	$('.comment__box').append(template.html())
 	
 	CommentApp.templateRemoveFn(template)
@@ -2119,7 +2164,7 @@ function prevRowFileRead(){
  }
 
 function formCommentFileUpdate(textareaVal, input, commentId){
-	console.log('formCommentFileUpdate : '+ commentId)
+	
 	var form = new FormData()
 	let result;
 	form.append("comment_id", commentId)
@@ -2140,12 +2185,12 @@ function ajaxFormCommentFileUpdate(form){
 		processData : false,
 		async : false,
 		success : function(data){
-			console.log("Data : "+ data)
+			
 			result = (data != null) ? data : null 
 			
 		}
 	})
-	console.log("result : "+result)
+	
 return result;
 }
 
@@ -2198,7 +2243,7 @@ function ajaxGetSessionUserNickname(){
 		dataType : 'text',
 		async : false,
 		success : function(data){
-			console.log("nickname : " +data)
+
 			currentUserNickname = (data !="false")? data : false;
 		}
 	})
@@ -2223,7 +2268,6 @@ function ajaxGetSessionUserId(){
 function commentCreateRow(textareaElVal, commentMaxGroup, currentUserId, currentUserNickname, comment_date){
 	
 	let comment__box = $('.comment__box')
-	
 	
 	let template = $('#commentPlusTemplate');
 	template.find('.comment__row').attr("data-id", currentUserId);
@@ -2286,19 +2330,14 @@ window.addEventListener('DOMContentLoaded', () => {
   
 
 });
-$(document).on('click', '.context__file__prev__imgBox', commentImgprevFn)
-$(document).on('keydown keyup', '.textareaEl', textareaHeightFn)
-$(document).on('focus', '.textareaEl__class1', textareaFocusFn)
-$(document).on('focus', '.textareaEl__class2', textarea2FocusFn)
-$(document).on('change', '.input_file', inputFileFn)
-$(document).on('click', '.context__file__prev__removeBtn', modifyFileDeleteBtnFn)
+
 
 
 function modifyFileDeleteBtnFn(event){
 		
-	let commentId = $(event.target).closest('.fileTarget').attr('data-commentId');
-
-	$(event.target).closest('.fileTarget').remove();
+	let commentId = $(event.target).closest('.classFileTarget').attr('data-commentId');
+	
+	$(event.target).closest('.classFileTarget').remove();
 	ajaxFileDelete(commentId);
 }
 	function ajaxFileDelete(commentId){
@@ -2311,12 +2350,12 @@ function modifyFileDeleteBtnFn(event){
 				comment_id : commentId
 			},
 			success : function(data){
-				console.log(data);
+				
 			}
 		})
 		
 	}
-	//파일 a태그 눌렀을때 이벤 
+
 	function commentImgprevFn(event){
 
   let src = $(event.target).attr('src');
@@ -2328,15 +2367,13 @@ function modifyFileDeleteBtnFn(event){
 
 }
 
-
-	// 텍스트 크기 이벤
 function textareaHeightFn(event){
 	var textEle = $(event.target);
 	textEle[0].style.height = '20px';
 	var textEleHeight = textEle.prop('scrollHeight');
 	textEle.css('height', textEleHeight)
 }
-// 텍스트 히든 창 노출 이벤
+
 function textareaFocusFn(event){
 	$(event.target).closest('.comment__input__Box').find('.input__Box__Btns__none').slideDown(200)
 }
@@ -2396,7 +2433,7 @@ function inputFileFn(event){
 
  readText(event.target)
 }
-// 파일 
+
 
 function readText(input) {
 
@@ -2407,8 +2444,7 @@ function readText(input) {
     $(tgInput).closest('.input__Box__Btns').find('.comment__input__filetext').text("파일명 : " + input.files[0].name)
   }
 }
-// 파일
-$(document).on('click', '.comment__input__filetext', fileClickFn)
+
 
 	function fileClickFn(e){
   let input = e.target.parentNode.querySelector('.input_file');
@@ -2427,8 +2463,7 @@ $(document).on('click', '.comment__input__filetext', fileClickFn)
   reader.readAsDataURL(input.files[0])
 }
 
-$(document).on('click', '.goodBtnRow', goodBtnRowFn)
-$(document).on('click', '.badBtnRow', badBtnRowFn)
+
 
 function badBtnRowFn(e){
 	
@@ -2586,10 +2621,21 @@ $('body').on('click', function (e) {
   var btnD = tgPoint.hasClass('fas__menu__btnD')
   var fas__menu = tgPoint.hasClass('fas__menu')
   var preview = tgPoint.hasClass('img_preview')
+  var modifyInput = tgPoint.hasClass('comment__input__Box')
+  var modifyFileRemoveBtn = tgPoint.hasClass('context__file__prev__removeBtn')
+  var modifyFileRemoveBtnIcon = tgPoint.hasClass('fas fa-times')
   if (!icon && !fas__menu && !btnC && !btnD) {
     $('.fas__menu').hide()
   }
-
+	
+  if(!tgPoint.closest('.comment__input__Box').length && $('.comment__box').find('[data="modify__input"]').length && !modifyFileRemoveBtn && !modifyFileRemoveBtnIcon && !tgPoint.closest('.emoji-picker').length){
+	
+	  if(!$('.comment__box').find('[data="modify__input"]').find('.save_btn').length){
+		
+		  $('.comment__box').find('[data="modify__input"]').find('.textareaEl').focus();
+	  }
+	 createRecomment();
+  }
 
   if (!tgPoint.closest('.comment__input__Box').length && $('.textareaEl__class1').val() == '' && $(
       '.filetext__class1').text() == '') {
@@ -2626,9 +2672,7 @@ function menuShowFn(e) {
 	}
 	
 }
-$(document).on('click', '.fas__fa__menu', menuShowFn)
-$(document).on('click','.fas__menu__btnC', menuUpdateBtnFn)
-$(document).on('click','.fas__menu__btnD', menuDeleteBtnFn)
+
 
 function menuDeleteBtnFn(event){
 	let userId = $(event.target).closest('.classTarget').attr("data-id")
@@ -2648,7 +2692,7 @@ function menuDeleteBtnFn(event){
 		let result = ajaxRemoveComment(userId, commentId);
 		if(result == "Yes"){
 			let recomment_amount = $(event.target).closest('.comment__row').find('.recomment__num').text();
-			console.log(recomment_amount)	
+		
 			$(event.target).closest('.comment__row').find('.recomment__num').text(Number(recomment_amount)-1)
 			$(event.target).closest('.classTarget').remove();
 		}
@@ -2659,18 +2703,24 @@ function menuDeleteBtnFn(event){
 }
 
    function menuUpdateBtnFn(event){
-    	let target = $(event.target).closest('.classTarget').attr("data-id")
-    	console.log(target)
-    	let comment__row__right = $(event.target).closest('.comment__row__right')
-
+	   let targetOrder = $(event.target).closest('.classTarget').attr('data-order')
+	   
+	   let row__right;
+	  
+	   if(targetOrder == 0){
+		   row__right = $(event.target).closest('.comment__row__right')
+	   }else{
+		   row__right = $(event.target).closest('.recomment__right')
+	   }
     
-    	let comment__context = comment__row__right.find('.comment__context')
-    	let targetFile = comment__context.attr('data')
-    	if(targetFile == 'text'){
-    		comment__row__right.find('.context__file__prev__removeBtn').css('display', 'inline-block')
-    	}else{
-    		comment__row__right.find('.context__file__prev__removeBtn').css('display', 'inline-block')
-    	}
+    	let comment__context = row__right.find('.comment__context')
+    	
+    	
+   		if(row__right.find('.classFileTarget').css('display') != "none"){
+   			
+    	row__right.find('.context__file__prev__removeBtn').css('display', 'flex')// 파일이 있을때
+   		}
+    	
     	let appendText = comment__context.html();
     	let brNum = appendText.split('<br>').length +1;
     	appendText = appendText.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
@@ -2682,58 +2732,69 @@ function menuDeleteBtnFn(event){
 
 		comment__context.html('');
     	comment__context.append(modifyInputBox.html())
+   
     	//context__file__prev__removeBtn 
     }
    
    function modifyResult(target){
 	   
-	   console.log(target);
 	   let input = target.closest('.input__Box__Btns').find('.input_file')
 
 	   let commentId = target.closest('.comment__context').attr('data-commentid')
-
+		
 	   let textareaVal = target.closest('.comment__input__Box').find('.textareaEl').val();
-	 
+	 	
 	   textareaVal = textareaVal.replace(/(?:\r\n|\r|\n)/g, '<br/>');
 	   let targetContentBox = target.closest('.comment__context')
-	   let templateTarget = target.closest('.comment__row__right')
-	   let template;
-	   
+	   let targetOrder = target.closest('.classTarget').attr('data-order')
+	   let templateTarget;
+	   if(targetOrder == 0){
+		   templateTarget = target.closest('.comment__row__right')
+	   }else{
+		   templateTarget = target.closest('.recomment__content')
+	   }
+	 
 	   if(input.val() != ''){
-		   let commentId = target.closest('.comment__row__right').find('.comment__context').attr('data-commentid')
-		
+		   
+
 		   let result = formCommentFileUpdate(textareaVal, input, commentId)
 
 			if(checkFile(result.file_name)){
 			
-				template = templateTarget.find('.fileTarget')
+				template = $('.filePrevTemplate')
 				let img = template.find('.context__file__prev__imgBox>img')
 				input.attr("class", "fileTarget");
 				img.attr("class", "imgTarget");
 				prevRowFileRead()
 				template.find('.fileContent').text(result.file_name)
 			
+				template.find('.comment__context__file__prev').addClass('classFileTarget');
+				template.find('.comment__context__file__prev').css('display', 'flex');
 				template.find('.fileContent').attr("href", "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)	
 				template.find('.context__file__perv__text').attr("data", result.file_id)
 			}else{
 			
-				template = templateTarget.find('.fileTarget')
+				template = $('.textPrevTemplate')
+				template.find('.comment__context__file').addClass('classFileTarget');
 				template.find('.comment__context__file').attr('data', result.file_id)
-				template.find('.fileContent').text('')
-			
+				template.find('.comment__context__file').css('display', 'flex');
 				template.find('.fileContent').text(result.file_name)
 				template.find('.fileContent').attr('href', "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)
 			}
 		
-			
+		
+		   templateTarget.find('.classFileTarget').remove();
+	
+		   target.closest('.comment__context').after(template.html())
 	   }else{
 	   ajaxCommentModify(textareaVal, commentId);
 	   }
 
 	
 	   targetContentBox.html(textareaVal)
-	 
+	   templateTarget.find('.context__file__prev__removeBtn').css('display', 'none')
 	   target.closest('.comment__input__Box').remove();
+ 	 
    }
 
    function ajaxCommentModify(textareaVal, commentId){
@@ -2747,7 +2808,7 @@ function menuDeleteBtnFn(event){
 			 comment_id : commentId
 		 },
 		 success : function(data){
-			 console.log(data);
+			 
 		 }
 	   })
    }
@@ -2789,6 +2850,9 @@ function ajaxRemoveComment(userId, commentId){
 	
 	return result;
 }
+
+
+
 
 
  </script>

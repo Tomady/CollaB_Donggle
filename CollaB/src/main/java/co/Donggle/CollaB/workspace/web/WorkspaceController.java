@@ -313,4 +313,14 @@ public class WorkspaceController {
 		
 		return result;
 	}
+	
+	//워크스페이스 검색
+	@ResponseBody
+	@RequestMapping("/AjaxWorkspaceListSearch")
+	public List<WorkspaceVO> AjaxWorkspaceListSearch(WorkspaceVO vo, HttpSession session) {
+		String userId = (String)session.getAttribute("id");
+		vo.setId(userId);
+		
+		return workspaceDao.workspaceListSearch(vo);
+	}
 }

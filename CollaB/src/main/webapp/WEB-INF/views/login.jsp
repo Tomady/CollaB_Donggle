@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 <link rel="stylesheet"
-	href="/use.fontawesome.com/releases/v5.15.4/css/all.css">
+	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 <link rel="stylesheet" href="resources/assets/css/style.css">
 	
 <style type="text/css">

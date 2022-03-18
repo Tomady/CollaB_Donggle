@@ -2,6 +2,8 @@
 // [설명] Add list 클릭시 이름지정할 수 있는 input박스 생성해주고, 
 //         입력한 값을 createList함수로 보내기
 document.querySelector(".addListBtn").onclick=function(){
+	let boardID = document.querySelector(".addListBtn").getAttribute("data-boardID");
+
     //리스트 추가해주는 div 안보이게끔 만들어주기
     addList.style.display="none";
     let target = document.querySelector("#boardDetailBODY");
@@ -31,7 +33,6 @@ document.querySelector(".addListBtn").onclick=function(){
                 document.querySelector(".newListName").focus();
             //값이 있으면
             }else{
-				let boardID = document.querySelector(".addListBtn").getAttribute("data-boardID");
 				$.ajax({
 					url : "AjaxCreateList",
 					type : "POST",
@@ -67,9 +68,32 @@ document.querySelector(".addListBtn").onclick=function(){
 	var clickCnt = 0;
 	body.addEventListener("click", list_createCancel);
 	function list_createCancel(){
+		let newListName = document.querySelector(".newListName").value;
 		clickCnt += 1;
 		if(event.target == event.currentTarget.querySelector(".addListBtn"))
 			return ;
+		if(document.querySelector(".newListName").value != ""){
+			$.ajax({
+					url : "AjaxCreateList",
+					type : "POST",
+					data : {
+						listTitle : newListName,
+						boardID : boardID
+					},
+					dataType : "json",
+					success : function(data){
+						console.log("방금 생성한 리스트",data);
+						createList(data);
+						createListDIV.remove(); //리스트 이름 설정하는 div없애기
+						addList.style.display="block"; //리스트 추가하는 div 다시 보이게하기
+						//클릭이벤트 없애주기
+						document.querySelector("body").removeEventListener("click",list_createCancel);
+					},
+					error : function(){
+						console.log("AjaxCreateList 실패");
+					}
+				})
+		}
 		if(document.querySelector(".newListName").value == "" && clickCnt > 1){
 			createListDIV.remove();
 			addList.style.display="block";
@@ -221,6 +245,46 @@ function renameList(listId){
 			return ;
 		if(event.target == event.currentTarget.querySelector("#newListName"))
 			return ;
+		if(document.querySelector("#newListName").value != "" ){
+			let listName = document.querySelector("#newListName").value;
+			$.ajax({
+        		url : "AjaxRenameList",
+        		type : "POST",
+        		data : {
+        			listId : listId,
+        			listName : listName
+        		},
+        		dataType : "text",
+        		success : function(data){
+        			console.log("리스트이름수정성공?"+data);
+        			if(data == "YES"){
+            			document.querySelector("#newListName").remove(); //새로운 리스트 이름 입력했던 input태그 삭제
+						let h4 = document.createElement("h4");
+						h4.setAttribute("class","listName");
+						h4.innerHTML = listName;
+						h4.onclick = function(){
+							renameList(listId);
+						}
+						let i = document.createElement("i");
+						i.setAttribute("class","fa fa-times col-rg");
+						i.setAttribute("aria-hidden","true");
+						i.style.cursor = "pointer";
+						i.onclick = function(){
+							deleteList(listId);
+						}
+						
+						targetParent.append(h4);
+						targetParent.append(i);
+						
+						//클릭이벤트 없애주기
+						body.removeEventListener("click",workspace_renameCancel);
+        			}
+        		},
+        		error : function(){
+        			console.log("AjaxRenameList");
+        		}
+        	})
+		}
 		if(document.querySelector("#newListName").value == "" && clickCnt > 1){
 			document.querySelector("#newListName").remove();
 			let h4 = document.createElement("h4");
@@ -311,7 +375,6 @@ function nameCard(listId){
                 	},
                 	dataType : "json",
                 	success : function(data){
-                		console.log("방금생성한카드정보",data);
 						createCard(data);
 						document.querySelector("#inputDIV").remove(); //카드이름입력하는 input삭제
 						document.querySelector(".addCard"+listId).style.display="block"; //카드생성버튼 다시 보이게
@@ -340,8 +403,29 @@ function nameCard(listId){
 			return ;
 		if(event.target == event.currentTarget.querySelector("#newCardName"))
 			return ;
+		if(newinput.value != ""){
+			let newCardName = document.querySelector("#newCardName"+listId).value;
+			$.ajax({
+            	url : "AjaxAddCard",
+            	type : "POST",
+            	data : {
+            		newCardName : newCardName,
+            		listId : listId
+            	},
+            	dataType : "json",
+            	success : function(data){
+					createCard(data);
+					document.querySelector("#inputDIV").remove(); //카드이름입력하는 input삭제
+					document.querySelector(".addCard"+listId).style.display="block"; //카드생성버튼 다시 보이게
+            		//클릭이벤트 없애주기
+					document.querySelector("body").removeEventListener("click",card_createCancel);
+				},
+            	error : function(){
+            		console.log("AjaxAddCard 실패");
+            	}
+            })  
+		}
 		if(newinput.value == "" && clickCnt > 1){
-			console.log("2))"+clickCnt);
 			document.querySelector("#inputDIV").remove();
 			document.querySelector(".addCard"+listId).style.display="block";
 			//클릭이벤트 없애주기

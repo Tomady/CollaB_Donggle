@@ -18,5 +18,6 @@ public interface WorkspaceService {
 	List<BoardVO> boardIdListInWorkspace(WorkspaceVO vo);
 	//워크스페이스 삭제
 	int workspaceDelete(WorkspaceVO vo);
-	
+	//워크스페이스 검색이벤트
+	List<WorkspaceVO> workspaceListSearch(WorkspaceVO vo);
 }

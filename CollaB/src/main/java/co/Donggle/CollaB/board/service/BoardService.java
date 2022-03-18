@@ -42,8 +42,10 @@ public interface BoardService {
 	int addBoardJoinMember(BoardVO vo);
 	//해당 리스트가 있는 보드 아이디
 	int selectBoardId(ListVO vo);
-	//해당 보드가 가지고 있는 리스트 아이디들
+	//보드 검색
+	List<BoardVO> boardNameSearch(BoardVO vo);
 	
+	//해당 보드가 가지고 있는 리스트 아이디들
 	List<ListVO> listIdInBoard(BoardVO vo);
 	//해당 워크스페이스가 가지고 있는 모든 보드 삭제
 	int deleteBoards(WorkspaceVO vo);
