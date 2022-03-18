@@ -728,6 +728,405 @@ document.addEventListener("DOMContentLoaded", function(){
 </script>
 </head>
 <body>
+<<<<<<< HEAD
+	<div id="app">
+		<div class="main-wrapper">
+
+			<!-- add CheckList 모달창 -->
+			<div id="add_Check" class="card">
+				<a class="add_Check_close_btn fa fa-times" style="cursor: pointer;"
+					onclick="closeAddCheck()"></a>
+				<div class="mb-4 mt-1 text-center">
+					<h5>Add a Checklist</h5>
+				</div>
+				<div class="form-group">
+					<label style="font-size: 15px;">Title</label> <input type="text"
+						class="form-control" id="checklist_title" name="checklist_title">
+				</div>
+				<div>
+					<a id="ChecklistSectionMove" href="#checklistAppendTarget"><button
+							id="checkAddBtn" class="btn btn-secondary" style="width: 100%;">ADD</button></a>
+				</div>
+			</div>
+
+			<!-- add Dates 모달창 -->
+			<div id="add_Dates" class="card">
+				<a class="add_Dates_close_btn fa fa-times" style="cursor: pointer;"
+					onclick="closeAddDates()"></a>
+				<div class="mb-4">
+					<div class="d-flex justify-content-between mt-2 mb-2">
+						<label class="mt-2" style="font-size: 15px;">START DATE</label> <input
+							id="cardStartDate" type="date" style="width: 60%;"
+							onclick="startDateLimit()">
+					</div>
+					<div class="d-flex justify-content-between mt-2 mb-2">
+						<label class="mt-2" style="font-size: 15px;">DUE DATE</label> <input
+							id="cardEndDate" type="date" style="width: 60%;"
+							onclick="endDateLimit()">
+					</div>
+				</div>
+				<div>
+					<button id="datesSaveBtn"
+						onclick="cardDateSave(${cardinfo.card_id})"
+						class="btn btn-secondary" style="width: 100%;">SAVE</button>
+				</div>
+			</div>
+
+			<!-- 카드 관리자 추가 모달창 -->
+			<div id="add_Member" class="card">
+				<a class="add_Member_close_btn fa fa-times" style="cursor: pointer;"
+					onclick="closeAddMember()"></a>
+				<div class="card"
+					style="height: 350px; overflow: scroll; overflow-x: hidden;">
+					<label class="ml-3">Your Partners 👫</label>
+					<!-- 해당 보드에 초대된 멤버목록 -->
+					<c:forEach items="${boardJoinMembers}" var="member">
+						<span class="member ml-3 mt-1 mb-1" style="font-size: 15px;">
+							<button class="btn btn-light" style="width: 95%;"
+								data-memid="${member.id}"
+								onclick="managerSelect('${member.id}')">
+								${member.name}(${member.id})</button>
+						</span>
+					</c:forEach>
+				</div>
+				<hr>
+				<div class="card selectedMember">
+					<label class="ml-3">Manager </label>
+					<button id="cardManager" class="ml-3 mb-3 btn btn-light"
+						style="width: 90%;">${cardinfo.manager}</button>
+					<c:if test="${cardinfo.manager ne null}">
+						<span class="ml-2" style="font-size: 13px; color: tomato;">*
+							If you click this button, the manager will be deleted.</span>
+					</c:if>
+				</div>
+				<div>
+					<button id="managerSaveBtn" class="btn btn-secondary"
+						style="width: 100%;">SAVE</button>
+				</div>
+			</div>
+
+			<!-- Main Content -->
+			<div class="main-content" style="min-height: 829px;">
+				<section class="section">
+					<div class="row">
+						<!--사용자가 선택한 리스트-->
+						<div id="selectedList" class="col-lg-2 cardDetail"
+							data-listId="${listinfo.list_id}"
+							style="background-color: rgb(252, 250, 250);">
+							<div class="card.h-100 listnameAppendTarget">
+								<h4 class="listName${listinfo.list_id} mt-5 mb-4 ml-4"
+									onclick="renameList(${listinfo.list_id})">${listinfo.list_title}</h4>
+								<!--리스트 이름 표시-->
+								<div class="cardArea">
+									<!--해당 리스트안에 카드리스트-->
+									<c:forEach items="${samelistcards}" var="card">
+										<div id="card${card.card_id}" style="cursor: pointer;"
+											data-cardId="${card.card_id}"
+											onclick="location.href='cardDetail?list=${card.list_id}&card=${card.card_id}'"
+											class="cards card card-${card.card_label} ml-2 mr-2">
+											<!--라벨표시-->
+											<div class="card-header d-flex justify-content-between">
+												<span class="cardName${card.card_id} ml-0">${card.card_title}</span>
+												<!--카드이름-->
+											</div>
+											<c:if test="${card.manager ne null}">
+												<div class="ml-2 mt-1 text-right card-owner"
+													style="font-weight: bold; height: 50px;">
+													<img style="height: 25px; width: 25px;"
+														class="rounded-circle mr-1 ml-1 mb-1 profimg${card.card_id}">
+												</div>
+											</c:if>
+											<div class="ml-3">
+												<!--옵션표시(file,checklist,dates)-->
+												<i class="fa fa-check-square check${card.card_id}"
+													style="color: #e9ecef;"></i>
+												<c:if test="${card.card_start_date ne null}">
+													<i class="fa fa-calendar ml-1 dates${card.card_id}"
+														style="color: tomato;"></i>
+												</c:if>
+												<c:if test="${card.card_start_date eq null}">
+													<i class="fa fa-calendar ml-1 dates${card.card_id}"
+														style="color: #e9ecef;"></i>
+												</c:if>
+												<i class="fa fa-paperclip ml-1 files${card.card_id}"
+													style="color: #e9ecef;"></i>
+											</div>
+										</div>
+									</c:forEach>
+								</div>
+							</div>
+						</div>
+						<!--사용자가 선택한 카드 상세-->
+						<div class="col-lg-10 cardDetail" style="background-color: white;">
+							<div class="row" style="float: right;">
+								<!--카드상세조회 닫기버튼-->
+								<h4 class="closeCardDetail mr-3 mt-3" style="cursor: pointer;"
+									onclick="location.href='boardDetail?boardID=${workspace.board_id}'">
+									<i class="fa fa-window-close" title="close_card"
+										aria-hidden="true"></i>
+								</h4>
+							</div>
+							<div class="row" id="selectedCard"
+								data-cardId="${cardinfo.card_id}"
+								data-cardManager="${cardinfo.manager}">
+								<!--카드상세내용-->
+								<div class="col-lg-7 ml-3"
+									style="border-right: whitesmoke 1px solid;">
+									<!--카드이름 & 책임자-->
+									<div id="cardTitleAppendTarget"
+										class="d-flex justify-content-between">
+										<h4 id="card_Title" class="cardName mt-5 mb-4"
+											onclick="renameCard(${cardinfo.card_id})">${cardinfo.card_title}</h4>
+										<!-- 책임자 존재할때만 뜨도록 -->
+										<c:if test="${cardinfo.manager ne null}">
+											<span class="btn mt-5 mb-5 ml-5" style="font-size: 17px;">📌Manager.
+												${manager}</span>
+										</c:if>
+										<c:if test="${cardinfo.manager eq null}">
+											<span class="btn mt-5 mb-5 ml-5"
+												style="font-size: 17px; visibility: hidden"></span>
+										</c:if>
+									</div>
+									<!--카드메뉴-->
+									<div class="row d-flex justify-content-center mr-2 cardmenu">
+										<button class="btn menu" onclick="cardDatesSet('add_Dates')">
+											Dates</button>
+										<button class="btn menu"
+											onclick="cardCheckListSet('add_Check',${cardinfo.card_id})">
+											CheckList</button>
+										<label class="btn menu mt-2" for="input-file">
+											Attachments </label> <input type="file" id="input-file"
+											style="display: none;">
+										<button class="btn menu" onclick="cardMemberSet('add_Member')">
+											Member</button>
+									</div>
+									<!--카드아이템 : 라벨, 일정-->
+									<div class="row mt-4">
+										<div class="card">
+											<div style="width: 370px;"></div>
+											<div class="card-header">
+												<div class="row">
+													<h4>Label</h4>
+													<div class="label light" style="background-color: white;"
+														onclick="selectLabel('None',${cardinfo.card_id})"></div>
+													<div class="label danger"
+														style="background-color: rgb(253, 38, 38);"
+														onclick="selectLabel('Red',${cardinfo.card_id})"></div>
+													<div class="label warning"
+														style="background-color: rgb(255, 184, 52);"
+														onclick="selectLabel('Orange',${cardinfo.card_id})"></div>
+													<div class="label success"
+														style="background-color: rgb(58, 231, 95);"
+														onclick="selectLabel('Green',${cardinfo.card_id})"></div>
+													<div class="label info"
+														style="background-color: rgb(0, 217, 255);"
+														onclick="selectLabel('SkyBlue',${cardinfo.card_id})"></div>
+													<div class="label primary"
+														style="background-color: rgb(85, 73, 248);"
+														onclick="selectLabel('Blue',${cardinfo.card_id})"></div>
+													<div class="label secondary"
+														style="background-color: rgb(165, 165, 165);"
+														onclick="selectLabel('Gray',${cardinfo.card_id})"></div>
+													<div class="label dark"
+														style="background-color: rgb(7, 7, 7);"
+														onclick="selectLabel('Black',${cardinfo.card_id})">
+													</div>
+													<c:if test="${cardinfo.card_label eq 'light'}">
+														<input id="testbtn"
+															class="selectedLabel form-control ml-1 mr-1" type="text"
+															style="width: 80px; height: 25px;" value="None" readonly>
+													</c:if>
+													<c:if test="${cardinfo.card_label eq 'danger'}">
+														<input id="testbtn"
+															class="selectedLabel form-control ml-1 mr-1" type="text"
+															style="width: 80px; height: 25px;" value="Red" readonly>
+													</c:if>
+													<c:if test="${cardinfo.card_label eq 'warning'}">
+														<input id="testbtn"
+															class="selectedLabel form-control ml-1 mr-1" type="text"
+															style="width: 80px; height: 25px;" value="Orange"
+															readonly>
+													</c:if>
+													<c:if test="${cardinfo.card_label eq 'success'}">
+														<input id="testbtn"
+															class="selectedLabel form-control ml-1 mr-1" type="text"
+															style="width: 80px; height: 25px;" value="Green" readonly>
+													</c:if>
+													<c:if test="${cardinfo.card_label eq 'info'}">
+														<input id="testbtn"
+															class="selectedLabel form-control ml-1 mr-1" type="text"
+															style="width: 80px; height: 25px;" value="SkyBlue"
+															readonly>
+													</c:if>
+													<c:if test="${cardinfo.card_label eq 'primary'}">
+														<input id="testbtn"
+															class="selectedLabel form-control ml-1 mr-1" type="text"
+															style="width: 80px; height: 25px;" value="Blue" readonly>
+													</c:if>
+													<c:if test="${cardinfo.card_label eq 'secondary'}">
+														<input id="testbtn"
+															class="selectedLabel form-control ml-1 mr-1" type="text"
+															style="width: 80px; height: 25px;" value="Gray" readonly>
+													</c:if>
+													<c:if test="${cardinfo.card_label eq 'dark'}">
+														<input id="testbtn"
+															class="selectedLabel form-control ml-1 mr-1" type="text"
+															style="width: 80px; height: 25px;" value="Black" readonly>
+													</c:if>
+													<div class="test123">&nbsp;SAVE!</div>
+												</div>
+											</div>
+										</div>
+										<div class="card">
+											<div id="datesAppendTarget" style="width: 350px;"></div>
+											<c:if test="${cardinfo.card_start_date ne null}">
+												<div class="card-header" id="cardDates">
+													<h4>Dates</h4>
+													<div>
+														<span id="cardDatesSpan"
+															style="background-color: rgb(235, 251, 252); border-radius: 3px; font-size: 15px;">${cardinfo.card_start_date}
+															- ${cardinfo.card_end_date}</span>
+													</div>
+													<div class="fa fa-times ml-3 mb-1" style="cursor: pointer;"
+														onclick="deleteDates(${cardinfo.card_id})"></div>
+												</div>
+											</c:if>
+										</div>
+									</div>
+									<!--카드아이템 : 카드내용-->
+									<div class="row">
+										<div class="card">
+											<div style="width: 740px;"></div>
+											<div class="card-header" style="font-size: large;">
+												<i class="fa fa-align-left" aria-hidden="true">&nbsp;&nbsp;Description</i>
+											</div>
+											<div class="card-body">
+												<textarea onclick="contentsEdit()" class="cardContents"
+													rows="4" style="width: 100%;" readonly>${cardinfo.card_contents}</textarea>
+												<button class="saveBtn btn btn-secondary mt-1"
+													style="position: relative;"
+													onclick="contentsSave(${cardinfo.card_id})">
+													SAVE
+													<div class="saveDone">SUCCESS !</div>
+												</button>
+											</div>
+										</div>
+									</div>
+									<!--카드아이템 : 체크리스트-->
+									<div class="row">
+										<div class="card">
+											<div style="width: 740px;"></div>
+											<div class="card-header" style="font-size: large;">
+												<i class="fa fa-check-square" aria-hidden="true">&nbsp;&nbsp;CheckList</i>
+											</div>
+											<div class="card-body" id="checklistAppendTarget">
+												<c:forEach items="${checkList}" var="check">
+													<!--여기서부터-->
+													<div class="card ckDIV${check.checklist_id}">
+														<div class="card-body" id="checkbody${check.checklist_id}">
+															<div class="d-flex justify-content-between"
+																onclick="checklistTitleRename(${check.checklist_id})"
+																style="font-size: 18px; font-weight: bold; color: #868e96;"
+																id="checklistTitle${check.checklist_id}">
+																${check.checklist_title}
+																<button class="btn ml-2 fa fa-times col-rg"
+																	onclick="checklistDelete(${check.checklist_id})"></button>
+															</div>
+															<div class="progress mb-2">
+																<c:set var="itemCnt" value="0"></c:set>
+																<c:forEach items="${checkItems}" var="item">
+																	<c:if test="${item.checklist_id eq check.checklist_id}">
+																		<c:if test="${item.item_status eq 'Y'}">
+																			<c:set var="itemCnt" value="${itemCnt+1}"></c:set>
+																		</c:if>
+																	</c:if>
+																</c:forEach>
+																<span class="checkChart${check.checklist_id}"
+																	style="font-weight: bold;"> <c:if
+																		test="${itemCnt eq 0}">&nbsp;&nbsp;&nbsp;0%</c:if>
+																</span>
+															</div>
+															<c:forEach items="${checkItems}" var="item">
+																<c:if test="${item.checklist_id eq check.checklist_id}">
+																	<c:if test="${item.item_status eq 'Y'}">
+																		<input type="checkbox" checked="checked"
+																			onclick="checkItem(${item.checklist_id},${item.item_id})"
+																			class="ckitem${item.item_id} mt-1 mb-1 checkitem${item.checklist_id}">
+																		<span id="ckItemTitle${item.item_id}"
+																			class="ckitem${item.item_id}"
+																			onclick="itemTitleRename(${item.item_id})">${item.item_title}</span>
+																		<i class="ml-5 fa fa-times ckitem${item.item_id}"
+																			style="color: #ced4da; cursor: pointer;"
+																			onclick="ckItemDelete(${item.item_id})"></i>
+																		<br>
+																	</c:if>
+																	<c:if test="${item.item_status eq 'N'}">
+																		<input type="checkbox"
+																			onclick="checkItem(${item.checklist_id},${item.item_id})"
+																			class="ckitem${item.item_id} mt-1 mb-1 checkitem${item.checklist_id}">
+																		<span id="ckItemTitle${item.item_id}"
+																			class="ckitem${item.item_id}"
+																			onclick="itemTitleRename(${item.item_id})">${item.item_title}</span>
+																		<i class="ml-5 fa fa-times ckitem${item.item_id}"
+																			style="color: #ced4da; cursor: pointer;"
+																			onclick="ckItemDelete(${item.item_id})"></i>
+																		<br>
+																	</c:if>
+																</c:if>
+															</c:forEach>
+														</div>
+														<button
+															class="btn btn-secondary fa fa-plus ml-4 mb-5 additem${check.checklist_id}"
+															style="width: 15%;"
+															onclick="addCheckListItems(${check.checklist_id})">
+															item</button>
+													</div>
+													<!--여기까지가 하나의 체크리스트-->
+												</c:forEach>
+											</div>
+										</div>
+									</div>
+									<!--카드아이템 : 파일첨부-->
+									<div class="row mb-5">
+										<div class="card">
+											<div style="width: 740px;"></div>
+											<div class="card-header" style="font-size: large;">
+												<i class="fa fa-paperclip ml-1 files">&nbsp;&nbsp;Attachments</i>
+											</div>
+											<div class="card-body" id="file_append_target">
+												<c:forEach items="${fileinfoList}" var="file">
+													<c:if test="${file.pfile_name ne null}">
+														<!--여기서부터-->
+														<div class="card" id="file${file.file_id}">
+															<div class="card-body d-flex">
+																<div
+																	style="box-shadow: 2px 2px 2px 1px #adb5bd; width: 200px; height: 80px; border: solid 1px #D3D3D3; line-height: 80px; border-radius: 10px;"
+																	class="mr-2 text-center thumbnail">
+																	<c:if
+																		test="${fn:substringAfter(file.pfile_name,'.') eq 'jpg' 
+                             || fn:substringAfter(file.pfile_name,'.') eq 'png' 
+                             || fn:substringAfter(file.pfile_name,'.') eq 'gif'}">
+																		<img id="thumbnailImg${file.file_id}"
+																			src="/home/ubuntu/apache-tomcat-9.0.59/webapps/cardFile/${file.pfile_name}">
+																	</c:if>
+																	<h5 style="display: inline-block;">${fn:substringAfter(file.pfile_name,'.')}</h5>
+																</div>
+																<div class="ml-3 mt-2">
+																	<div class="row mb-2">
+																		<span>&nbsp;&nbsp;&nbsp;${file.file_name}</span>
+																	</div>
+																	<div class="row">
+																		<span class="btn filedelbtn"
+																			onclick="fileDelete(${file.file_id})">Delete</span> <a
+																			class="btn filedownbtn"
+																			href="cardFileDownload?file_name=${file.file_name}&pfile_name=${file.pfile_name}">Download</a>
+																		<!-- <label class="btn fileeditbtn" for="input-fileEdit${file.file_id}" onclick="cardFileEdit(${file.file_id})">Edit</label>
+                                <input type="file" id="input-fileEdit${file.file_id}" style="display:none;">  -->
+																		<c:if
+																			test="${fn:substringAfter(file.pfile_name,'.') eq 'jpg' 
+                                   || fn:substringAfter(file.pfile_name,'.') eq 'png' 
+                                   || fn:substringAfter(file.pfile_name,'.') eq 'gif'}">
+=======
 
  <div id="app">
     <div class="main-wrapper">
@@ -1041,6 +1440,7 @@ document.addEventListener("DOMContentLoaded", function(){
 									<c:if test="${fn:substringAfter(file.pfile_name,'.') eq 'jpg' 
 		                          	|| fn:substringAfter(file.pfile_name,'.') eq 'png' 
 		                          	|| fn:substringAfter(file.pfile_name,'.') eq 'gif'}">
+>>>>>>> 1fa90db652647b32a05aaa57b02762f370dc0bbd
 																			<c:if test="${cardinfo.card_thema ne file.file_id}">
 																				<span class="btn cardThema"
 																					onclick="cardThemaSelect(${file.file_id},${file.card_id})">Make
@@ -1457,6 +1857,36 @@ function getFileSrc(input,img){
 
 const currentCardId = $('#currentCardId').val();
 const currentUserProfPic = $('#currentUserProfPic').val();
+
+function checkFile(str){
+	 
+	 var ext =  str.split('.').pop().toLowerCase();
+	 if($.inArray(ext, ['jpg' , 'jpeg', 'gif', 'bmp', 'png', 'tiff', 'svg', 'ico']) == -1) {
+	     return false;
+	 }
+	 return true;
+	}
+	
+function getDateStr(date){
+    var sYear = date.getFullYear();
+    var sMonth = date.getMonth() + 1;
+    var sDate = date.getDate();
+    sMonth = sMonth > 9 ? sMonth : "0" + sMonth;
+    sDate  = sDate > 9 ? sDate : "0" + sDate;
+    return sYear +"/"+ sMonth +"/"+ sDate;
+}
+
+function commentFileChk(commentFiles, commentId){
+	for(let data of commentFiles){
+		
+		if(data.comment_id === commentId){
+			
+			return data;
+		}
+	}
+	
+	return null;
+}
 CommentApp = {
 		
 		init : async function(){
@@ -1470,14 +1900,16 @@ CommentApp = {
 				},
 				success : function(data){
 					
-					return CommentApp.createComment(data);	
+					CommentApp.createComment(data);	
 				}
 			})
+		
 	},
 	
 	
 	
 	createComment : function(data){
+	
 		let recommentNum = 0;
 		let prevComment_group;
 		let commentFiles = CommentApp.ajaxFileSelectList();
@@ -1540,22 +1972,21 @@ CommentApp = {
 					
 				
 					template.find('.comment__context__file__prev').css("display", "flex");
-					template.find('.comment__context__file__prev').addClass("fileTarget");
+					
+					template.find('.comment__context__file__prev').addClass('classFileTarget')
 					template.find('.comment__context__file__prev').attr('data-commentId', commentId)
-					template.find('.context__file__prev__imgBox>img').attr("src", "resources/commentFile/"+pfile_name)
+					template.find('.context__file__prev__imgBox>img').attr("src", pfile_name)
 					template.find('.fileContent').text(filename)
 					template.find('.fileContent').attr("href", "commentDownload.do?pfile_name="+pfile_name+"&file_name="+filename)
 				}else{
 				
-					template.find('.context__file__prev__removeBtn')
 					template.find('.comment__context__file').css("display", "flex")
-					template.find('.comment__context__file').addClass("fileTarget");
+					template.find('.comment__context__file').addClass('classFileTarget')
 					template.find('.comment__context__file').attr('data-commentId', commentId)
 					template.find('.comment__context__file>a').text(filename)
 					template.find('.comment__context__file>a').attr('href', "commentDownload.do?pfile_name="+pfile_name+"&file_name="+filename)
 				}
 			
-
 			}else{
 				template.find('.comment__context__file').css('display', 'none')
 			}
@@ -1650,6 +2081,18 @@ CommentApp = {
 	
 	bindEvents : function(){
 		$(document).on('click', '.recomment__btn', CommentApp.recommentEvt)
+		$(document).on('click', '.goodBtnRow', goodBtnRowFn)
+		$(document).on('click', '.badBtnRow', badBtnRowFn)
+		$(document).on('click', '.context__file__prev__imgBox', commentImgprevFn)
+		$(document).on('keydown keyup', '.textareaEl', textareaHeightFn)
+		$(document).on('focus', '.textareaEl__class1', textareaFocusFn)
+		$(document).on('focus', '.textareaEl__class2', textarea2FocusFn)
+		$(document).on('change', '.input_file', inputFileFn)
+		$(document).on('click', '.context__file__prev__removeBtn', modifyFileDeleteBtnFn)
+		$(document).on('click', '.comment__input__filetext', fileClickFn)
+		$(document).on('click', '.fas__fa__menu', menuShowFn)
+		$(document).on('click','.fas__menu__btnC', menuUpdateBtnFn)
+		$(document).on('click','.fas__menu__btnD', menuDeleteBtnFn)
 	},
 	
 	recommentEvt : function(event){
@@ -1717,38 +2160,18 @@ CommentApp = {
 	
 }
 
-function checkFile(str){
-	 
-	 var ext =  str.split('.').pop().toLowerCase();
-	 if($.inArray(ext, ['jpg' , 'jpeg', 'gif', 'bmp', 'png', 'tiff', 'svg', 'ico']) == -1) {
-	     return false;
-	 }
-	 return true;
-	}
-function commentFileChk(commentFiles, commentId){
-	for(let data of commentFiles){
-		
-		if(data.comment_id === commentId){
-			
-			return data;
-		}
-	}
-	
-	return null;
-}
+
  $(function(){
 	 CommentApp.init();
+	 setTimeout(function() {
+		 let testetes = $('.comment__box>li');
+			console.log(testetes)
+    	 }, 1000);  	
+			
+		
  })
 
 
-function getDateStr(date){
-    var sYear = date.getFullYear();
-    var sMonth = date.getMonth() + 1;
-    var sDate = date.getDate();
-    sMonth = sMonth > 9 ? sMonth : "0" + sMonth;
-    sDate  = sDate > 9 ? sDate : "0" + sDate;
-    return sYear +"/"+ sMonth +"/"+ sDate;
-}
 
 function commentCreate() {
   let today = new Date();   
@@ -1760,7 +2183,7 @@ function commentCreate() {
 	  let dateTypedate = today;
   let comment_date = getDateStr(today)
   let currentUserNickname = ajaxGetSessionUserNickname();
-  console.log("currentUserNickname : " + currentUserNickname)
+
   let currentUserId = ajaxGetSessionUserId();
   
   if(file.val()){
@@ -1769,13 +2192,10 @@ function commentCreate() {
 	  if(result){
 		  commentFileCreateRow(textareaElVal, commentMaxGroup, currentUserId, comment_date, file, result)
 		
-	  }else{
-		  // 실패시 문구
 	  }
 	  
   }else{
-		
-		  let result = ajaxCommentInsert(textareaElVal, commentMaxGroup, currentUserId, dateTypedate)
+		 let result = ajaxCommentInsert(textareaElVal, commentMaxGroup, currentUserId, dateTypedate)
 	  if(result){
 		 commentCreateRow(textareaElVal, commentMaxGroup, currentUserId, currentUserNickname, comment_date)
 	  }
@@ -1785,7 +2205,14 @@ function commentCreate() {
 }
 
 function createRecomment(evert){
-	 let target = $(event.target); 
+	 let test = $(event.target);
+	 let target
+	 if(test.attr('class') == 'save_btn'){
+		 target = test;
+	 }else{
+		 target = $('.comment__box').find('[data="modify__input"]').find('.save_btn')
+	 }
+	
  let targetData = target.closest('.comment__input__Box').attr('data');
  if(targetData == "modify__input"){
 	
@@ -1846,10 +2273,12 @@ function recommentFileCreateRow(textareaElVal, targetGroup, currentUserId, comme
 	template.find('.fileContent').attr("href", "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)	
 	template.find('.context__file__perv__text').attr("data", result.file_id)
 	template.find('.comment__context__file__prev').css("display", "flex");
+	template.find('.comment__context__file__prev').addClass("classFileTarget");
 	
 	}else{
-		template.find('.comment__context__file').attr('data', result.file_id).css("display", "block")
+		template.find('.comment__context__file').attr('data', result.file_id).css("display", "flex")
 		template.find('.comment__context__file>a').text(result.file_name)
+		template.find('.comment__context__file').addClass("classFileTarget");
 		template.find('.comment__context__file>a').attr('href', "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)
 	}
 	
@@ -2007,14 +2436,21 @@ function commentFileCreateRow(textareaElVal, commentMaxGroup, currentUserId, com
 	template.find('.fileContent').text(fileName)
 	template.find('.fileContent').attr("href", "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)	
 	template.find('.context__file__perv__text').attr("data", result.file_id)
+	template.find('.comment__context__file__prev').addClass('classFileTarget')
 	template.find('.comment__context__file__prev').css("display", "flex");
+	
 	
 	}else{
 		template.find('.comment__context__file').attr('data', result.file_id).css("display", "block")
 		template.find('.comment__context__file>a').text(result.file_name)
+		template.find('.comment__context__file').addClass('classFileTarget')
 		template.find('.comment__context__file>a').attr('href', "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)
 	}
 	
+
+	let templateTargetClass =template.find('.comment__context__file__prev');
+	templateTargetClass.addClass('classFileTarget')
+
 	$('.comment__box').append(template.html())
 	
 	CommentApp.templateRemoveFn(template)
@@ -2046,7 +2482,7 @@ function prevRowFileRead(){
  }
 
 function formCommentFileUpdate(textareaVal, input, commentId){
-	console.log('formCommentFileUpdate : '+ commentId)
+	
 	var form = new FormData()
 	let result;
 	form.append("comment_id", commentId)
@@ -2067,12 +2503,12 @@ function ajaxFormCommentFileUpdate(form){
 		processData : false,
 		async : false,
 		success : function(data){
-			console.log("Data : "+ data)
+			
 			result = (data != null) ? data : null 
 			
 		}
 	})
-	console.log("result : "+result)
+	
 return result;
 }
 
@@ -2125,7 +2561,7 @@ function ajaxGetSessionUserNickname(){
 		dataType : 'text',
 		async : false,
 		success : function(data){
-			console.log("nickname : " +data)
+
 			currentUserNickname = (data !="false")? data : false;
 		}
 	})
@@ -2150,7 +2586,6 @@ function ajaxGetSessionUserId(){
 function commentCreateRow(textareaElVal, commentMaxGroup, currentUserId, currentUserNickname, comment_date){
 	
 	let comment__box = $('.comment__box')
-	
 	
 	let template = $('#commentPlusTemplate');
 	template.find('.comment__row').attr("data-id", currentUserId);
@@ -2213,19 +2648,14 @@ window.addEventListener('DOMContentLoaded', () => {
   
 
 });
-$(document).on('click', '.context__file__prev__imgBox', commentImgprevFn)
-$(document).on('keydown keyup', '.textareaEl', textareaHeightFn)
-$(document).on('focus', '.textareaEl__class1', textareaFocusFn)
-$(document).on('focus', '.textareaEl__class2', textarea2FocusFn)
-$(document).on('change', '.input_file', inputFileFn)
-$(document).on('click', '.context__file__prev__removeBtn', modifyFileDeleteBtnFn)
+
 
 
 function modifyFileDeleteBtnFn(event){
 		
-	let commentId = $(event.target).closest('.fileTarget').attr('data-commentId');
-
-	$(event.target).closest('.fileTarget').remove();
+	let commentId = $(event.target).closest('.classFileTarget').attr('data-commentId');
+	
+	$(event.target).closest('.classFileTarget').remove();
 	ajaxFileDelete(commentId);
 }
 	function ajaxFileDelete(commentId){
@@ -2238,12 +2668,12 @@ function modifyFileDeleteBtnFn(event){
 				comment_id : commentId
 			},
 			success : function(data){
-				console.log(data);
+				
 			}
 		})
 		
 	}
-	//파일 a태그 눌렀을때 이벤 
+
 	function commentImgprevFn(event){
 
   let src = $(event.target).attr('src');
@@ -2255,15 +2685,13 @@ function modifyFileDeleteBtnFn(event){
 
 }
 
-
-	// 텍스트 크기 이벤
 function textareaHeightFn(event){
 	var textEle = $(event.target);
 	textEle[0].style.height = '20px';
 	var textEleHeight = textEle.prop('scrollHeight');
 	textEle.css('height', textEleHeight)
 }
-// 텍스트 히든 창 노출 이벤
+
 function textareaFocusFn(event){
 	$(event.target).closest('.comment__input__Box').find('.input__Box__Btns__none').slideDown(200)
 }
@@ -2323,7 +2751,7 @@ function inputFileFn(event){
 
  readText(event.target)
 }
-// 파일 
+
 
 function readText(input) {
 
@@ -2334,8 +2762,7 @@ function readText(input) {
     $(tgInput).closest('.input__Box__Btns').find('.comment__input__filetext').text("파일명 : " + input.files[0].name)
   }
 }
-// 파일
-$(document).on('click', '.comment__input__filetext', fileClickFn)
+
 
 	function fileClickFn(e){
   let input = e.target.parentNode.querySelector('.input_file');
@@ -2354,8 +2781,7 @@ $(document).on('click', '.comment__input__filetext', fileClickFn)
   reader.readAsDataURL(input.files[0])
 }
 
-$(document).on('click', '.goodBtnRow', goodBtnRowFn)
-$(document).on('click', '.badBtnRow', badBtnRowFn)
+
 
 function badBtnRowFn(e){
 	
@@ -2513,10 +2939,21 @@ $('body').on('click', function (e) {
   var btnD = tgPoint.hasClass('fas__menu__btnD')
   var fas__menu = tgPoint.hasClass('fas__menu')
   var preview = tgPoint.hasClass('img_preview')
+  var modifyInput = tgPoint.hasClass('comment__input__Box')
+  var modifyFileRemoveBtn = tgPoint.hasClass('context__file__prev__removeBtn')
+  var modifyFileRemoveBtnIcon = tgPoint.hasClass('fas fa-times')
   if (!icon && !fas__menu && !btnC && !btnD) {
     $('.fas__menu').hide()
   }
-
+	
+  if(!tgPoint.closest('.comment__input__Box').length && $('.comment__box').find('[data="modify__input"]').length && !modifyFileRemoveBtn && !modifyFileRemoveBtnIcon && !tgPoint.closest('.emoji-picker').length){
+	
+	  if(!$('.comment__box').find('[data="modify__input"]').find('.save_btn').length){
+		
+		  $('.comment__box').find('[data="modify__input"]').find('.textareaEl').focus();
+	  }
+	 createRecomment();
+  }
 
   if (!tgPoint.closest('.comment__input__Box').length && $('.textareaEl__class1').val() == '' && $(
       '.filetext__class1').text() == '') {
@@ -2553,9 +2990,7 @@ function menuShowFn(e) {
 	}
 	
 }
-$(document).on('click', '.fas__fa__menu', menuShowFn)
-$(document).on('click','.fas__menu__btnC', menuUpdateBtnFn)
-$(document).on('click','.fas__menu__btnD', menuDeleteBtnFn)
+
 
 function menuDeleteBtnFn(event){
 	let userId = $(event.target).closest('.classTarget').attr("data-id")
@@ -2575,7 +3010,7 @@ function menuDeleteBtnFn(event){
 		let result = ajaxRemoveComment(userId, commentId);
 		if(result == "Yes"){
 			let recomment_amount = $(event.target).closest('.comment__row').find('.recomment__num').text();
-			console.log(recomment_amount)	
+		
 			$(event.target).closest('.comment__row').find('.recomment__num').text(Number(recomment_amount)-1)
 			$(event.target).closest('.classTarget').remove();
 		}
@@ -2586,18 +3021,24 @@ function menuDeleteBtnFn(event){
 }
 
    function menuUpdateBtnFn(event){
-    	let target = $(event.target).closest('.classTarget').attr("data-id")
-    	console.log(target)
-    	let comment__row__right = $(event.target).closest('.comment__row__right')
-
+	   let targetOrder = $(event.target).closest('.classTarget').attr('data-order')
+	   
+	   let row__right;
+	  
+	   if(targetOrder == 0){
+		   row__right = $(event.target).closest('.comment__row__right')
+	   }else{
+		   row__right = $(event.target).closest('.recomment__right')
+	   }
     
-    	let comment__context = comment__row__right.find('.comment__context')
-    	let targetFile = comment__context.attr('data')
-    	if(targetFile == 'text'){
-    		comment__row__right.find('.context__file__prev__removeBtn').css('display', 'inline-block')
-    	}else{
-    		comment__row__right.find('.context__file__prev__removeBtn').css('display', 'inline-block')
-    	}
+    	let comment__context = row__right.find('.comment__context')
+    	
+    	
+   		if(row__right.find('.classFileTarget').css('display') != "none"){
+   			
+    	row__right.find('.context__file__prev__removeBtn').css('display', 'flex')// 파일이 있을때
+   		}
+    	
     	let appendText = comment__context.html();
     	let brNum = appendText.split('<br>').length +1;
     	appendText = appendText.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
@@ -2609,58 +3050,69 @@ function menuDeleteBtnFn(event){
 
 		comment__context.html('');
     	comment__context.append(modifyInputBox.html())
+   
     	//context__file__prev__removeBtn 
     }
    
    function modifyResult(target){
 	   
-	   console.log(target);
 	   let input = target.closest('.input__Box__Btns').find('.input_file')
 
 	   let commentId = target.closest('.comment__context').attr('data-commentid')
-
+		
 	   let textareaVal = target.closest('.comment__input__Box').find('.textareaEl').val();
-	 
+	 	
 	   textareaVal = textareaVal.replace(/(?:\r\n|\r|\n)/g, '<br/>');
 	   let targetContentBox = target.closest('.comment__context')
-	   let templateTarget = target.closest('.comment__row__right')
-	   let template;
-	   
+	   let targetOrder = target.closest('.classTarget').attr('data-order')
+	   let templateTarget;
+	   if(targetOrder == 0){
+		   templateTarget = target.closest('.comment__row__right')
+	   }else{
+		   templateTarget = target.closest('.recomment__content')
+	   }
+	 
 	   if(input.val() != ''){
-		   let commentId = target.closest('.comment__row__right').find('.comment__context').attr('data-commentid')
-		
+		   
+
 		   let result = formCommentFileUpdate(textareaVal, input, commentId)
 
 			if(checkFile(result.file_name)){
 			
-				template = templateTarget.find('.fileTarget')
+				template = $('.filePrevTemplate')
 				let img = template.find('.context__file__prev__imgBox>img')
 				input.attr("class", "fileTarget");
 				img.attr("class", "imgTarget");
 				prevRowFileRead()
 				template.find('.fileContent').text(result.file_name)
 			
+				template.find('.comment__context__file__prev').addClass('classFileTarget');
+				template.find('.comment__context__file__prev').css('display', 'flex');
 				template.find('.fileContent').attr("href", "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)	
 				template.find('.context__file__perv__text').attr("data", result.file_id)
 			}else{
 			
-				template = templateTarget.find('.fileTarget')
+				template = $('.textPrevTemplate')
+				template.find('.comment__context__file').addClass('classFileTarget');
 				template.find('.comment__context__file').attr('data', result.file_id)
-				template.find('.fileContent').text('')
-			
+				template.find('.comment__context__file').css('display', 'flex');
 				template.find('.fileContent').text(result.file_name)
 				template.find('.fileContent').attr('href', "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)
 			}
 		
-			
+		
+		   templateTarget.find('.classFileTarget').remove();
+	
+		   target.closest('.comment__context').after(template.html())
 	   }else{
 	   ajaxCommentModify(textareaVal, commentId);
 	   }
 
 	
 	   targetContentBox.html(textareaVal)
-	 
+	   templateTarget.find('.context__file__prev__removeBtn').css('display', 'none')
 	   target.closest('.comment__input__Box').remove();
+ 	 
    }
 
    function ajaxCommentModify(textareaVal, commentId){
@@ -2674,7 +3126,7 @@ function menuDeleteBtnFn(event){
 			 comment_id : commentId
 		 },
 		 success : function(data){
-			 console.log(data);
+			 
 		 }
 	   })
    }
@@ -2716,6 +3168,9 @@ function ajaxRemoveComment(userId, commentId){
 	
 	return result;
 }
+
+
+
 
 
  </script>

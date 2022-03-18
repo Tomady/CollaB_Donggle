@@ -241,16 +241,19 @@ body .options {
 		display: none;
 	}
 }
-
+/* fdafdf */
 body .options .option {
 	position: relative;
 	overflow: hidden;
 	min-width: 60px;
 	margin: 10px;
-	background-size: auto 120%;
-	background-position: center;
+/*  	background-size: auto 120%;  */
+ 	background-size: cover; 
+	background-position: center; 
+
 	cursor: pointer;
 	transition: 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+	
 }
 
 .options .option:nth-child(1) .label .icon {
@@ -280,13 +283,15 @@ body .options .option {
 .options .option.active {
 	flex-grow: 10000;
 	transform: scale(1);
-	max-width: 600px;
+ 	max-width: 600px; 
 	margin: 0px;
 	border-radius: 40px;
-	background-size: auto 100%;
+	background-size: auto 100%; 
+
 	/*&:active {
      transform:scale(0.9);
   }*/
+  
 }
 
 body .options .option.active .shadow {

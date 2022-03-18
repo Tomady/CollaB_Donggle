@@ -1966,6 +1966,10 @@ const boardBg = {
 				if(value) {
 					let targetBoardId = targetEl.closest('.Workspace__boards__body__boardsList__row').find('.boardsList__row__name').attr('data');
 					boardRemoveFn(targetBoardId , targetRowEl)
+					let num = $('.target>span').text()
+					
+						
+					$('.target>span').text(Number(num)-1)
 					
 					a_tagcancelFn()
 				}
