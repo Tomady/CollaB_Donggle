@@ -149,11 +149,8 @@ public class MyPageController {
 			}
 			
 			// 마이페이지 비밀번호 변경 처리
-			@PostMapping("/pwUpdate")
-<<<<<<< HEAD
 			//@RequestMapping
-=======
->>>>>>> 1fa90db652647b32a05aaa57b02762f370dc0bbd
+			@PostMapping("/pwUpdate")
 			public String pwUpdate(MyPageVO vo) {
 				String securePw = pwEncoder.encode(vo.getPassword());
 				vo.setPassword(securePw);
