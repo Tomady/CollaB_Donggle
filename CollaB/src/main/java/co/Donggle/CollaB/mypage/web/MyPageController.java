@@ -2,6 +2,8 @@ package co.Donggle.CollaB.mypage.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -17,13 +19,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import co.Donggle.CollaB.mypage.service.MyPageVO;
 import co.Donggle.CollaB.mypage.serviceImpl.MyPageServiceImpl;
+import co.Donggle.CollaB.recent.service.RecentService;
+import co.Donggle.CollaB.recent.service.RecentVO;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 
 @Controller
 public class MyPageController {
 	@Autowired WorkspaceJoinService workspaceJoinDao;
-	@Autowired
-	private MyPageServiceImpl MypageDao;
+	@Autowired private MyPageServiceImpl MypageDao;
+	@Autowired RecentService RecentDao;
 	
 	@Autowired 
 	String saveDirectory;
@@ -36,8 +40,17 @@ public class MyPageController {
 			public String myPageMain(MyPageVO vo, HttpSession session, Model model) {
 				String id = (String) session.getAttribute("id");
 				vo.setId(id);
+				
+				// recent
+				RecentVO recentvo = new RecentVO();
+				recentvo.setId(id);
+				List<RecentVO> recents = new ArrayList<RecentVO>();
+				recents = RecentDao.recentBoard(recentvo);
+				
 				model.addAttribute("user_info", MypageDao.userSelect(vo) );
 				model.addAttribute("myWorkspaceList",workspaceJoinDao.workspaceJoinList(id));
+				model.addAttribute("recents", recents);
+
 				return "myPageMain";
 			}
 			
@@ -46,8 +59,17 @@ public class MyPageController {
 			public String myProfile(MyPageVO vo, HttpSession session, Model model) {
 				String id = (String) session.getAttribute("id");
 				vo.setId(id);
+				
+				// recent
+				RecentVO recentvo = new RecentVO();
+				recentvo.setId(id);
+				List<RecentVO> recents = new ArrayList<RecentVO>();
+				recents = RecentDao.recentBoard(recentvo);
+				
 				model.addAttribute("user_info", MypageDao.userSelect(vo) );
 				model.addAttribute("myWorkspaceList",workspaceJoinDao.workspaceJoinList(id));
+				model.addAttribute("recents", recents);
+
 				return "myProfile";
 			}
 			
@@ -82,8 +104,17 @@ public class MyPageController {
 			public String myInfo(MyPageVO vo, HttpSession session, Model model) {
 				String id = (String) session.getAttribute("id");
 				vo.setId(id);
+				
+				// recent
+				RecentVO recentvo = new RecentVO();
+				recentvo.setId(id);
+				List<RecentVO> recents = new ArrayList<RecentVO>();
+				recents = RecentDao.recentBoard(recentvo);
+				
 				model.addAttribute("user_info", MypageDao.userSelect(vo) );
 				model.addAttribute("myWorkspaceList",workspaceJoinDao.workspaceJoinList(id));
+				model.addAttribute("recents", recents);
+
 				return "myInfo";
 			}
 			
@@ -103,8 +134,17 @@ public class MyPageController {
 			public String newPw(MyPageVO vo, HttpSession session, Model model) {
 				String id = (String) session.getAttribute("id");
 				vo.setId(id);
+				
+				// recent
+				RecentVO recentvo = new RecentVO();
+				recentvo.setId(id);
+				List<RecentVO> recents = new ArrayList<RecentVO>();
+				recents = RecentDao.recentBoard(recentvo);
+				
 				model.addAttribute("user_info", MypageDao.userSelect(vo) );
 				model.addAttribute("myWorkspaceList",workspaceJoinDao.workspaceJoinList(id));
+				model.addAttribute("recents", recents);
+
 				return "newPw";
 			}
 			
@@ -123,7 +163,17 @@ public class MyPageController {
 			
 			// 회원탈퇴 페이지
 			@RequestMapping("/withdrawal")
-			public String withdrawal() {
+			public String withdrawal(Model model, HttpSession session) {
+				
+				String userId = (String) session.getAttribute("id");
+
+				// recent
+				RecentVO recentvo = new RecentVO();
+				recentvo.setId(userId);
+				List<RecentVO> recents = new ArrayList<RecentVO>();
+				recents = RecentDao.recentBoard(recentvo);
+				
+				model.addAttribute("recents", recents);
 				return "withdrawal";
 			}
 			
@@ -141,5 +191,17 @@ public class MyPageController {
 				}
 				return result;
 			}
+			
+			// 비밀번호 확인 처리
+			@PostMapping("/pwCheck")
+			@ResponseBody
+			public String pwCheck(MyPageVO vo, HttpSession session) {
+				String result = "N";
+				vo.setId((String)session.getAttribute("id"));
+				vo = MypageDao.pwCheck(vo);
+				if(vo != null) {result = "Y";}
+				return result;
+			}
+			
 
 }

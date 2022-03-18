@@ -2,12 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.Donggle.CollaB.recent.service.RecentMapper">
 
-	<select id="recentBoard" parameterType="co.Donggle.CollaB.recent.service.RecentVO">
-		SELECT B.BOARD_TITLE AS BOARD_TITLE, R.*
-		FROM BOARD B, RECENT R
-		WHERE B.BOARD_ID = R.BOARD_ID
-		AND ID = #{id}
-		ORDER BY INVITE DESC
+	<select id="recentBoard" 
+	parameterType="co.Donggle.CollaB.recent.service.RecentVO" 
+	resultType="co.Donggle.CollaB.recent.service.RecentVO">
+		SELECT B.BOARD_TITLE AS BOARD_TITLE, R.INVITE AS INVITE, R.BOARD_ID AS BOARD_ID, R.ID AS ID	 
+        FROM RECENT R JOIN BOARD B
+        ON (R.BOARD_ID = B.BOARD_ID)
+        WHERE ID = #{id}
+        ORDER BY INVITE DESC
 	</select>
 	
 	<insert id="insertRecent" parameterType="co.Donggle.CollaB.recent.service.RecentVO">

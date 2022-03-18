@@ -94,6 +94,7 @@ function workspaceRename(){
     WsRename.setAttribute("id","WsRename");
     WsRename.setAttribute("class","form-control");
     WsRename.setAttribute("name","WsRename");
+    WsRename.setAttribute("maxlength","10");
     WsRename.addEventListener("keyup",function(){
         if (window.event.keyCode == 13) {
             // 엔터키가 눌렸을 때
@@ -120,6 +121,7 @@ function workspaceRename(){
 						workspaces.forEach((workspace)=>{
 							workspace.innerHTML="&nbsp;&nbsp;"+newWSName;
 						})
+						document.querySelector("body").removeEventListener("click",workspace_renameCancel);
 					},
 					error: function(){
 						console.log("AjaxWorkspaceRename 아작스 실패");
@@ -141,6 +143,32 @@ function workspaceRename(){
 			return ;
 		if(event.target == event.currentTarget.querySelector("#WsRename"))
 			return ;
+		if(WsRename.value != ""){
+			let newWSName = document.querySelector("#WsRename").value;
+			$.ajax({
+					url : "AjaxWorkspaceRename",
+					data : {
+						newWSName : newWSName,
+						wkid : wkid
+					},
+					type : "POST",
+					dataType : "text",
+					success : function(data){
+						console.log("이름변경성공?"+data);
+						document.querySelector("#WsRename").remove();
+						changeWKIMG(newWSName);
+		                document.getElementById("WsName").innerHTML=newWSName;
+						const workspaces = document.querySelectorAll(".sidebar_workspace"+wkid);
+						workspaces.forEach((workspace)=>{
+							workspace.innerHTML="&nbsp;&nbsp;"+newWSName;
+						})
+						document.querySelector("body").removeEventListener("click",workspace_renameCancel);
+					},
+					error: function(){
+						console.log("AjaxWorkspaceRename 아작스 실패");
+					}
+				})
+		}
 		if(WsRename.value == "" && clickCnt > 1){
 			document.querySelector("#WsRename").remove();
 			document.getElementById("WsName").innerHTML=origin;
@@ -165,6 +193,7 @@ document.getElementById("BorName").onclick=function(){
     BorRename.setAttribute("id","BorRename");
     BorRename.setAttribute("class","form-control");
     BorRename.setAttribute("name","BorRename");
+    BorRename.setAttribute("maxlength","20");
     BorRename.addEventListener("keyup",function(){
         if (window.event.keyCode == 13) {
             // 엔터키가 눌렸을 때
@@ -186,6 +215,8 @@ document.getElementById("BorName").onclick=function(){
                 		document.querySelector("#BorRename").remove(); //이름적는input태그지워주고
                 		target.innerHTML=newBORName;
                 		document.querySelector(".sidebar_board"+data.board_id).innerHTML = "&nbsp;&nbsp;"+newBORName;
+						//클릭이벤트 없애주기
+						document.querySelector("body").removeEventListener("click",board_renameCancel);
                 	},
                 	error : function(){
                 		console.log("boards페이지 AjaxBoardRename 실패");
@@ -207,6 +238,28 @@ document.getElementById("BorName").onclick=function(){
 			return ;
 		if(event.target == event.currentTarget.querySelector("#BorRename"))
 			return ;
+		if(BorRename.value != ""){
+			let newBORName = document.querySelector("#BorRename").value;
+			$.ajax({
+            	url : "AjaxBoardRename",
+            	data : {
+            		boardId : boardid,
+            		newname : newBORName
+            	},
+            	dataType : "json",
+            	type : "POST",
+            	success : function(data){
+            		document.querySelector("#BorRename").remove(); //이름적는input태그지워주고
+            		target.innerHTML=newBORName;
+            		document.querySelector(".sidebar_board"+data.board_id).innerHTML = "&nbsp;&nbsp;"+newBORName;
+					//클릭이벤트 없애주기
+					document.querySelector("body").removeEventListener("click",board_renameCancel);
+            	},
+            	error : function(){
+            		console.log("boards페이지 AjaxBoardRename 실패");
+            	}
+            })
+		}
 		if(BorRename.value == "" && clickCnt > 1){
 			document.querySelector("#BorRename").remove();
 			BorName.innerText = origin;

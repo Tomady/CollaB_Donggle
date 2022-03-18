@@ -465,7 +465,6 @@ function fn_idChk(){
 				alert("이미 사용 중인 아이디입니다.");
 			}else if(data == 0){
 				idchkval.val('Ok');
-				$("#id").prop("disabled",true);
 				alert("사용 가능한 아이디입니다.");
 				
 			}

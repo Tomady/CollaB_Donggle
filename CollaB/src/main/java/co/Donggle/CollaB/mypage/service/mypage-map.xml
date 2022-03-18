@@ -8,27 +8,33 @@
 		WHERE ID = #{id}
 	</select>
 	
-	<update id="updateProfile">
+	<update id="updateProfile" parameterType="co.Donggle.CollaB.mypage.service.MyPageVO">
 		UPDATE USER_INFO
 		SET PROF_PIC = #{prof_pic}, NAME = #{name}, NICKNAME = #{nickname}
 		WHERE ID = #{id}
 	</update>
 	
-	<update id="updateInfo">
+	<update id="updateInfo" parameterType="co.Donggle.CollaB.mypage.service.MyPageVO">
 		UPDATE USER_INFO
 		SET TEL = #{tel}, EMAIL = #{email}, COMPANY = #{company}
 		WHERE ID = #{id}
 	</update>
 	
-	<update id="updatePw">
+	<update id="updatePw" parameterType="co.Donggle.CollaB.mypage.service.MyPageVO">
 		UPDATE USER_INFO
 		SET PASSWORD = #{password}
 		WHERE ID = #{id}
 	</update>
 	
-	<delete id="deleteUser">
-		DELETE USER_INFO
+	<update id="deleteUser" parameterType="co.Donggle.CollaB.mypage.service.MyPageVO">
+		UPDATE USER_INFO
+		SET PASSWORD = ''
 		WHERE ID = #{id}
-	</delete>
+	</update>
+	
+	<select id="pwCheck" resultType="co.Donggle.CollaB.mypage.service.MyPageVO">
+		SELECT ID, PASSWORD FROM USER_INFO
+		WHERE ID = #{id} AND PASSWORD = #{password}
+	</select>
 	
 </mapper>

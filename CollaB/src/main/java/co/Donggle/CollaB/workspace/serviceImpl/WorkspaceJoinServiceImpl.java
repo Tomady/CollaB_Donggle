@@ -56,4 +56,6 @@ public class WorkspaceJoinServiceImpl implements WorkspaceJoinService {
 		return map.workspaceJoinAllDelete(workspaceId);
 	}
 
+
+
 }

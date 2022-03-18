@@ -115,7 +115,7 @@ th {
 				<div class="card-body">
 					<div class="row form-group mt-3">
 						<label>Workspace Name<span style="color: red;"> *</span></label> <input
-							id="modal-workspace-title" type="text" class="form-control">
+							maxlength="10" id="modal-workspace-title" type="text" class="form-control">
 					</div>
 					<div class="row buttons mt-3">
 						<button class="mt-5 btn btn-icon icon-left btn-secondary"
@@ -173,7 +173,7 @@ th {
 					</div>
 					<div class="row form-group mt-3">
 						<label>Board Title<span style="color: red;"> *</span></label> <input
-							id="modal-board-title" type="text" class="form-control">
+							maxlength="20" id="modal-board-title" type="text" class="form-control">
 					</div>
 					<div class="row form-group mt-3">
 						<label>Workspace</label> <select class="form-control"
@@ -219,9 +219,15 @@ th {
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recent</button>
 						<div class="dropdown-menu">
 							<div class="dropdown-title">History 🎡</div>
-							<a class="dropdown-item" href="#">board_2</a> <a
-								class="dropdown-item" href="#">board_1</a> <a
-								class="dropdown-item" href="#">board_4</a>
+							<c:forEach items="${recents}" var="recent">
+			        	  	  <c:if test="${recent.board_id ne boardid}">
+			        	  	  	<c:set var="count" value="${count + 1}"/>
+			        	  	  	<c:if test="${count < 6}">
+					              	<a class="dropdown-item" onclick="location.href='boardDetail?boardID=${recent.board_id}'">${recent.board_title}</a>        	  
+			        	  	  	</c:if>
+				        	  </c:if>
+				        	  <c:set var="boardid" value="${recent.board_id}"></c:set>
+			        	  </c:forEach>
 						</div>
 					</div>
 					<div class="btn-group">
