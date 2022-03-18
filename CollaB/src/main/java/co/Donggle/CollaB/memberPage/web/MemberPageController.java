@@ -283,10 +283,10 @@ public class MemberPageController {
 				+ inviteCode + "</span>\r\n"
 				+ "            <hr style=\"width: 250px; font-size: 0; height: 2px; background-color: orangered; border: none;\">\r\n"
 				+ "            <br><br>\r\n"
-				+ "            <a href=\"http://localhost/CollaB/workspaceInviteYesChk.do?result=yes&email="
+				+ "            <a href=\"http://3.38.225.18:8080/CollaB/workspaceInviteYesChk.do?result=yes&email="
 				+ user_emailconfirm
 				+ "\"><span style=\"width: 80px; height: 30px; background-color:#1c87e5; display: inline-block; border-radius: 5px; line-height: 30px; color: white; font-weight: bold;\">초대 수락</span></a>\r\n"
-				+ "            <a href=\"http://localhost/CollaB/workspaceInviteNoChk.do?result=no&email="
+				+ "            <a href=\"http://3.38.225.18:8080/CollaB/workspaceInviteNoChk.do?result=no&email="
 				+ user_emailconfirm
 				+ "\"><span style=\"width: 80px; height: 30px; background-color:black; display: inline-block; border-radius: 5px; line-height: 30px; color: white; font-weight: bold;\">초대 거절</span></a>\r\n"
 				+ "\r\n" + "        </div>\r\n" + "    </div>\r\n"

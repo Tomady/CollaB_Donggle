@@ -218,7 +218,7 @@ public class CommentController {
 		System.out.println("pfile_name : "+ pfile_name);
 		
 		try {
-	        	String path = "C:\\Collab\\CollaB_Donggle\\CollaB\\src\\main\\webapp\\resources\\commentFile\\" + pfile_name; //
+	        	String path = commentRelativeSaveDirectory + pfile_name; //
 	        	
 	        	File file = new File(path);
 	        	response.setHeader("Content-Disposition", "attachment;filename=" + file_name); 

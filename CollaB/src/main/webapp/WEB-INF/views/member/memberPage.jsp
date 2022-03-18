@@ -9,9 +9,7 @@
 
 
 <link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
-	crossorigin="anonymous">
+	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 <script type="module"
 	src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule
@@ -1968,6 +1966,8 @@ const boardBg = {
 				if(value) {
 					let targetBoardId = targetEl.closest('.Workspace__boards__body__boardsList__row').find('.boardsList__row__name').attr('data');
 					boardRemoveFn(targetBoardId , targetRowEl)
+					
+					a_tagcancelFn()
 				}
 			})
 		
@@ -2171,7 +2171,9 @@ const boardBg = {
             .then(function(value) {
 			if(value) {
 				ajaxWorkspaceLeave(targetId)
-				
+
+				a_tagcancelFn();
+				location.href="index.do"
 			}
 		})
 		
@@ -2181,7 +2183,7 @@ const boardBg = {
 		if(currentUserPermission){
 			
 			targetUserWorkspaceRemove(targetId, targetNickName)
-			
+			a_tagcancelFn();
 		}else{
 			swal({
                 icon: 'error',
@@ -2192,7 +2194,7 @@ const boardBg = {
 		
 		
 		let targetEl = $(event.target);
-		console.log(targetEl)
+	
 	}
 	//workSpaceUserOutFn end
 	
