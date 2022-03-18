@@ -6,18 +6,22 @@
 		INSERT INTO USER_INFO (ID
 		, PASSWORD
 		, NAME
+		, EMAIL
+		<if test="tel !=null and tel != ''">, TEL</if>
 		<if test="nickname!=null and nickname != ''">, NICKNAME</if>
 		<if test="company!=null and company != ''">		, COMPANY</if>
-		<if test="tel !=null and tel != ''">, TEL</if>
-		, EMAIL
+		
+		
 		)
 		VALUES (#{id}
 		, #{password}
 		, #{name}
+		, #{email}
+		<if test="tel !=null and tel != ''">, #{tel}</if>
 		<if test="nickname!=null and nickname != ''">, #{nickname}</if>
 		<if test="company!=null and company != ''">	, #{company}</if>
-		<if test="tel !=null and tel != ''">, #{tel}</if>
-		, #{email}
+		
+		
 		)
 	</insert>
 	
