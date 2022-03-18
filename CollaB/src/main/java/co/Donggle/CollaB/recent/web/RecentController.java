@@ -23,7 +23,7 @@ public class RecentController {
 	public List<RecentVO> recentList(RecentVO vo, HttpSession session) {
 		String id = (String) session.getAttribute("id");
 		vo.setId(id);
-		return RecentDao.recentBoard();
+		return RecentDao.recentBoard(vo);
 	}
 	
 	// recent에 추가하기

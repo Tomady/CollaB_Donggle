@@ -11,7 +11,7 @@
 	</bean>
 	
 	<bean class="java.lang.String" id="saveDirectory">
-		<constructor-arg value="c://imgFile//" />
+		<constructor-arg value="/home/ubuntu/resources/profilePic" />
 	</bean>
 	
 	<bean class="java.lang.String" id="commentSaveDirectory">
