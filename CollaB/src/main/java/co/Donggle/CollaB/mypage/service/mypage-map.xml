@@ -32,4 +32,9 @@
 		WHERE ID = #{id}
 	</update>
 	
+	<select id="pwCheck" resultType="co.Donggle.CollaB.mypage.service.MyPageVO">
+		SELECT ID, PASSWORD FROM USER_INFO
+		WHERE ID = #{id} AND PASSWORD = #{password}
+	</select>
+	
 </mapper>

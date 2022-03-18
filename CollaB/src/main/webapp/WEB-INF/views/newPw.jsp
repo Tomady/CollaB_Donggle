@@ -15,6 +15,9 @@
 <!-- Template CSS -->
 <link rel="stylesheet" href="resources/assets/css/style.css">
 <link rel="stylesheet" href="resources/assets/css/components.css">
+
+<!-- jQuery -->
+<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 #addListBtn:hover {
 	background-color: rgb(224, 224, 224);
@@ -303,7 +306,7 @@ th {
 						                              </div>
 						                            </div>
 						                            <input type="password" class="form-control pwstrength" data-indicator="pwindicator"
-						                              name="oldPw">
+						                              name="oldPw" id="oldPw">
 						                          </div>
 						                        </td>
 						                    </tr>
@@ -317,7 +320,7 @@ th {
 															</div>
 														</div>
 														<input type="password" class="form-control phone-number"
-															name="password">
+															name="password" id="password">
 													</div>
 												</td>
 											</tr>
@@ -331,19 +334,17 @@ th {
 															</div>
 														</div>
 														<input type="password" class="form-control"
-															name="pwConfirm">
+															name="pwConfirm" id="pwConfirm">
 													</div>
 												</td>
 											</tr>
 										</table>
 										<input type="hidden" name="id" value="${user_info.id }">
-										<input type="hidden" name="oldPwConfirm"
-											value="${user_info.password }">
 									</form>
 								</div>
 							</div>
 							<div class="card-footer text-center">
-								<button class="btn btn-primary mb-5" onclick="pwUpdate()">SAVE</button>
+								<button class="btn btn-primary mb-5" id="pwSaveBtn">SAVE</button>
 								<button class="btn btn-secondary mb-5 ml-2" onclick="location.href='myPageMain'">BACK</button>
 							</div>
 						</div>
@@ -355,123 +356,60 @@ th {
 
 
 	<script>
-		function pwUpdate() {
+		// function pwUpdate() {
+		// 	let pw = document.getElementsByName('password');
+		// 	let pwConfirm = document.getElementsByName('pwConfirm');
+
+		// 	// 비밀번호 확인
+		// 	if (pw[0].value != pwConfirm[0].value) {
+		// 		window.alert('비밀번호 확인이 틀렸습니다.');
+		// 		return;
+		// 	}
+
+		// 	if (pw[0].value == '') {
+		// 		window.alert('새 비밀번호를 입력하세요.')
+		// 	}
+
+		// 	window.alert('비밀번호 변경이 완료되었습니다.')
+		// 	frm.submit();
+
+		// }
+
+		$('#pwSaveBtn').on('click', function(){
 			let pw = document.getElementsByName('password');
-			let pwConfirm = document.getElementsByName('pwConfirm');
+		 	let pwConfirm = document.getElementsByName('pwConfirm');
 
-			// 비밀번호 확인
-			if (pw[0].value != pwConfirm[0].value) {
-				window.alert('비밀번호 확인이 틀렸습니다.');
-				return;
-			}
-
-			if (pw[0].value == '') {
-				window.alert('새 비밀번호를 입력하세요.')
-			}
-
-			window.alert('비밀번호 변경이 완료되었습니다.')
-			frm.submit();
-			
-			// 로그아웃
-			 function logout(){
-			      swal({
-			         title: "정말 로그아웃을 하시겠습니까?",
-			         icon : "warning",
-			         buttons : ["취소", "확인"]
-			      })
-			      .then(function(value) {
-			         if(value) {
-			      
-			            ajaxCompanyChk();
-			         }
-			      })
-			   }
-
-			   function ajaxCompanyChk() {
-			      $.ajax({
-			         url : 'ajaxTokenChk.do',
-			         dataType : 'text',
-			         success : function(data) {
-			            if(data == "No") {
-			               location.href="logout.do";
-			            } else {
-			               logoutSwitchFn(data);
-			            }
-			         }
-			      })
-			   }
-			   
-			   function logoutSwitchFn(data){
-			      switch(data) {
-			         case "카카오": 
-			            kakaoLogoutFn();   
-			            break;
-			            
-			         case "네이버":
-			            
-			            naverLogoutFn();
-			            break;
-			            
-			         case "구글": 
-			         
-			            googleLogoutFn();
-			            break;
-			            
-			         case "페이스북":
-			         
-			            location.href="facebookLogout.do";
-			            break;
-			      }
-			   }
-			   
-			   function kakaoLogoutFn(){
-			      $.ajax({
-			         url : 'kakaoLogoutUrl.do',
-			         dataType : 'text',
-			         type : 'post',
-			         success : function(data){
-			            location.href=data;
-			         
-			         }
-			      })
-			   }
-			      
-			   function googleLogoutFn(){
-			      $.ajax({
-			         url : 'googleLogout.do',
-			         type : 'post',
-			         dataType : 'text',
-			         success : function(data){
-			            popupFn(data);
-			         }
-			      })
-			   }
-			   
-			   function naverLogoutFn(){
-			      
-			      $.ajax({
-			         url : 'naverLogout.do',
-			         type : 'post',
-			         dataType : 'text',
-			         success : function(data){
-			            
-			            popupFn(data);
-			         }
-			      })
-			   }
-			   
-			   function popupFn(url){
-			      var popupWidth = 1000;
-			      var popupHeight = 700;
-			      
-			      var popupX = (window.screen.width / 2) - (popupWidth /2);
-			      var popupY = (window.screen.height / 2) - (popupHeight /2);
-			      
-			      window.open(url, 'popup', 'z-lock=yes, width='+popupWidth+', height='+popupHeight+', top='+popupY+', left='+popupX);
-			      location.href='login.do'
-			   }
-
-		}
+			 if($('#oldPw').val().length == 0) {
+				 window.alert('기존 비밀번호를 입력해주세요.');
+			 } else if($('#password').val().length == 0) {
+				 window.alert('변경할 비밀번호를 입력해주세요.');
+			 } else if($('#pwConfirm').val().length == 0) {
+				 window.alert('비밀번호 확인을 입력해주세요.');
+			 } else if ($('#oldPw').val().length != 0 && $('#password').val().length != 0 && $('#pwConfirm').val().length != 0) {
+				 // 비밀번호 체크
+				 $.ajax({
+					url : '/CollaB/pwCheck',
+					type : 'post',
+					data : {
+						id : $('#id').val(),
+						password : $('#oldPw').val()
+					},
+					success : function(data) {
+						if(data.trim() === 'Y'){ // 비밀번호 맞을 때
+                        	// 비밀번호 변경
+							alert('비밀번호 변경이 완료되었습니다.');
+							frm.submit();
+						}else if(data.trim() === 'N'){ // 비밀번호 틀릴 때
+							alert('잘못된 비밀번호를 입력하셨습니다.\n다시 입력해주세요');
+							$('#password').focus();
+						}
+					},
+					error : function(error) {
+						console.log(error)
+					}
+				})
+			 }
+		})
 	</script>
 
 	<!-- General JS Scripts -->

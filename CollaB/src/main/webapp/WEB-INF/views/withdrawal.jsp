@@ -298,6 +298,7 @@ label {
 								<br>
 								<p>회원 탈퇴를 원하시면 비밀번호를 입력해주세요.</p>
                 				<input type="password" class="form-control" name="password" id="password" style="width: 300px;">
+								<input type="hidden" name="id" id="id">
 								<hr>
 								<br>
 								<div class="form-check form-check-inline">
@@ -321,33 +322,55 @@ label {
 	<script>
 		// 탈퇴
 		$('#withdrawBtn').on('click', function() {
+			var pwVal = document.getElementById('password').value;
+			var pwInput = document.getElementById('password');
+			
 			if (!$('#inlineCheckbox1').is(':checked')) {
 				window.alert('탈퇴정책에 동의해주시기 바랍니다.');
 				return;
 			} else if ($('#password').val().length == 0) {
-				window.alert('비밀번호를 입력해주세요.')
-			} else {
-				if (confirm("정말 탈퇴하시겠습니까?")) {
-				//탈퇴
+				window.alert('비밀번호를 입력해주세요.')	
+			} else if ($('#password').val().length != 0) {
+				// 비밀번호 체크
 				$.ajax({
-					url : '/CollaB/userDelete',
-					type : 'get',
+					url : '/CollaB/pwCheck',
+					type : 'post',
+					data : {
+						id : $('#id').val(),
+						password : pwVal
+					},
 					success : function(data) {
-								console.log(data);
-							if (data.trim() === 'Y') {
-								alert("탈퇴가 완료되었습니다.")
-								location.href = "/CollaB/";
-							} else if (data.trim() === 'F') {
-								alert("에러가 발생하였습니다.")
+						if(data.trim() === 'Y'){ // 비밀번호 맞을 때
+                        	// 탈퇴
+							if (confirm("정말 탈퇴하시겠습니까?")) {
+								$.ajax({
+									url : '/CollaB/userDelete',
+									type : 'get',
+									success : function(data) {
+												console.log(data);
+											if (data.trim() === 'Y') {
+												alert("탈퇴가 완료되었습니다.")
+												location.href = "/CollaB/";
+											} else if (data.trim() === 'F') {
+												alert("에러가 발생하였습니다.")
+										}
+									},
+									error : function(data) {
+											console.log(data);
+									}
+								})
+							}
+						}else if(data.trim() === 'N'){ // 비밀번호 틀릴 때
+							alert('잘못된 비밀번호를 입력하셨습니다.\n다시 입력해주세요');
+							pwVal = '';
+							pwInput.focus();
 						}
 					},
-					error : function(data) {
-							console.log(data);
+					error : function(error) {
+						console.log(error)
 					}
 				})
-			}
-
-			}
+			} 
 		})
 
 

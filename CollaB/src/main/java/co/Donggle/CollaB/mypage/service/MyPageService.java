@@ -7,5 +7,7 @@ public interface MyPageService {
 	int updateInfo(MyPageVO vo); // 정보 수정
 	int updatePw(MyPageVO vo); // 비밀번호 수정
 	int deleteUser(MyPageVO vo); // 탈퇴
+	MyPageVO pwCheck(MyPageVO vo); // 비밀번호 체크
+
 
 }

@@ -150,6 +150,7 @@ public class MyPageController {
 			
 			// 마이페이지 비밀번호 변경 처리
 			@PostMapping("/pwUpdate")
+			@RequestMapping
 			public String pwUpdate(MyPageVO vo) {
 				String securePw = pwEncoder.encode(vo.getPassword());
 				vo.setPassword(securePw);
@@ -192,13 +193,13 @@ public class MyPageController {
 				return result;
 			}
 			
-			// 비밀번호 확인 처리(비밀번호 변경, 회원 탈퇴 전 확인)
-			@PostMapping("/pwCheck.do")
+			// 비밀번호 확인 처리
+			@PostMapping("/pwCheck")
 			@ResponseBody
-			public String pwCheck(MyPageVO vo,HttpSession session) {
+			public String pwCheck(MyPageVO vo, HttpSession session) {
 				String result = "N";
 				vo.setId((String)session.getAttribute("id"));
-				vo = MypageDao.userSelect(vo);
+				vo = MypageDao.pwCheck(vo);
 				if(vo != null) {result = "Y";}
 				return result;
 			}
