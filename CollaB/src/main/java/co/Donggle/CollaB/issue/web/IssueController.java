@@ -290,8 +290,8 @@ public class IssueController {
 	@RequestMapping("/issueDelete.do")
 	public String issueDelete(HttpServletRequest request) {
 		int isid = Integer.parseInt(request.getParameter("issueid"));
-		int chkid = Integer.parseInt(request.getParameter("checklist_id"));
-
+		//int chkid = Integer.parseInt(request.getParameter("checklist_id"));
+		/*
 		String[] itemid = request.getParameterValues("item_id");
 		System.out.println("허ㅣㅏㄴ러어래냐ㅓ리" + itemid);
 		for(int i=0; i<itemid.length; i++) {
@@ -308,7 +308,7 @@ public class IssueController {
 				cvo.setChecklist_id(chkid);
 				System.out.println("체크리스트아이디이이이이이" + cvo.getChecklist_id());
 				chkListDao.deleteChkLi(cvo);
-		
+		*/
 		String result = "false";
 		IssueVO vo = new IssueVO();
 		vo.setIssueId(isid);
