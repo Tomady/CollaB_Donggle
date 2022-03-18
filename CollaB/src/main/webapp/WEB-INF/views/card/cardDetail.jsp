@@ -1,120 +1,144 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <title>Insert title here</title>
-<style>  
-    .cardDetail{
-      width: 100%; 
-      height: 850px; 
-      overflow : scroll; 
-      overflow-x: hidden;
-      border-radius: 2px;
-    }
-    .label{
-      width: 25px; 
-      height: 25px; 
-      border:rgb(240, 240, 240) 1px solid;
-      text-align: center;
-      line-height: 2;
-      cursor: pointer;
-    }
-    .fa-check{color:black;}
-    .cardmenu{background-color: whitesmoke; border-radius: 10px;}
-    .menu{font-size: medium; color: gray;}
-    #testbtn{position: relative;}
-    .test123{
-      width: 50px;
-      height: 30px;
-      background-color: gray;
-      border-radius : 5px;
-      color: white;
-      opacity: 0;
-      transition: all 0.3s;
-      position: absolute;
-      top: -5px;
-      left: 280px;
-      z-index : 999;
-      line-height : 30px;
-    }
-    /* 임의 스타일 */
-    .test1234{ 
-      transition: all 0.2s;
-      opacity: 1;
-    }
-    /* 카드상세메뉴 - 일정추가, 관리자 지정모달창 */
-    #add_Dates, #add_Member {
-      display: none;
-      width: 450px;
-      padding: 20px 60px;
-      background-color: #fefefe;
-      border: 1px solid #888;
-      border-radius: 3px;
-    }
-    #add_Dates .add_Dates_close_btn,
-    #add_Member .add_Member_close_btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-    /* 카드상세메뉴 - 체크리스트추가모달창 */
-     #add_Check {
-      display: none;
-      width: 500px;
-      padding: 20px 60px;
-      background-color: #fefefe;
-      border: 1px solid #888;
-      border-radius: 3px;
-    }
-    #add_Check .add_Check_close_btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-    /*카드내용저장버튼*/
-    .saveDone{
-      width: 80px;
-      height: 30px;
-      background-color: gray;
-      border-radius : 5px;
-      color: white;
-      opacity: 0;
-      transition: all 0.3s;
-      position: absolute;
-      top: -25px;
-      left: -15px;
-      z-index : 999;
-      line-height : 30px;
-    }
-    .saveDone123{
-   	  transition: all 0.2s;
-      opacity: 1;
-    }
-    .thumbnail{
-      box-shadow : 2px 2px 2px 1px #adb5bd;
-      width : 200px;
-      height : 80px;
-      border : solid 1px #D3D3D3;
-      line-height : 80px;
-      border-radius : 10px;
-      overflow: hidden;
-    }
-	.thumbnail img {
-	  width: 100%;
-	  height: 100%;
-	  object-fit: cover;
-	}
-	.filedelbtn:hover, .filedownbtn:hover, .cardThema:hover, .fileeditbtn:hover {
-	  text-decoration : underline !important;
-	  cursor : pointer;	
-	}
-	
-	.fas.fa-bars {
+
+  <style>
+.cardDetail {
+	width: 100%;
+	height: 850px;
+	overflow: scroll;
+	overflow-x: hidden;
+	border-radius: 2px;
+}
+
+.label {
+	width: 25px;
+	height: 25px;
+	border: rgb(240, 240, 240) 1px solid;
+	text-align: center;
+	line-height: 2;
+	cursor: pointer;
+}
+
+.fa-check {
+	color: black;
+}
+
+.cardmenu {
+	background-color: whitesmoke;
+	border-radius: 10px;
+}
+
+.menu {
+	font-size: medium;
+	color: gray;
+}
+
+#testbtn {
+	position: relative;
+}
+
+.test123 {
+	width: 50px;
+	height: 30px;
+	background-color: gray;
+	border-radius: 5px;
+	color: white;
+	opacity: 0;
+	transition: all 0.3s;
+	position: absolute;
+	top: -5px;
+	left: 280px;
+	z-index: 999;
+	line-height: 30px;
+}
+/* 임의 스타일 */
+.test1234 {
+	transition: all 0.2s;
+	opacity: 1;
+}
+/* 카드상세메뉴 - 일정추가, 관리자 지정모달창 */
+#add_Dates, #add_Member {
+	display: none;
+	width: 450px;
+	padding: 20px 60px;
+	background-color: #fefefe;
+	border: 1px solid #888;
+	border-radius: 3px;
+}
+
+#add_Dates .add_Dates_close_btn, #add_Member .add_Member_close_btn {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+/* 카드상세메뉴 - 체크리스트추가모달창 */
+#add_Check {
+	display: none;
+	width: 500px;
+	padding: 20px 60px;
+	background-color: #fefefe;
+	border: 1px solid #888;
+	border-radius: 3px;
+}
+
+#add_Check .add_Check_close_btn {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+/*카드내용저장버튼*/
+.saveDone {
+	width: 80px;
+	height: 30px;
+	background-color: gray;
+	border-radius: 5px;
+	color: white;
+	opacity: 0;
+	transition: all 0.3s;
+	position: absolute;
+	top: -25px;
+	left: -15px;
+	z-index: 999;
+	line-height: 30px;
+}
+
+.saveDone123 {
+	transition: all 0.2s;
+	opacity: 1;
+}
+
+.thumbnail {
+	box-shadow: 2px 2px 2px 1px #adb5bd;
+	width: 200px;
+	height: 80px;
+	border: solid 1px #D3D3D3;
+	line-height: 80px;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+.thumbnail img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.filedelbtn:hover, .filedownbtn:hover, .cardThema:hover, .fileeditbtn:hover
+	{
+	text-decoration: underline !important;
+	cursor: pointer;
+}
+
+.fas.fa-bars {
+
 	cursor: pointer;
 	position: relative;
 }
@@ -502,6 +526,11 @@
 
 .commentContainer {
 	margin: 0 auto;
+	flex: 0 0 33.333333%;
+	max-width: 33.333333%;
+	position: relative;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 .list-unstyled-border li {
@@ -516,6 +545,17 @@
 .context__file__prev__removeBtn i {
 	cursor: pointer;
 	font-size: 25px;
+}
+
+.comment__card__body {
+	/* 	min-width: 310px; */
+	border: 5px solid rgb(235, 235, 235);
+	border-radius: 20px;
+	padding: 10px;
+}
+
+.comment__date {
+	margin-left: 5px;
 }
 </style>
 <script type="text/javascript">
@@ -688,6 +728,7 @@ document.addEventListener("DOMContentLoaded", function(){
 </script>
 </head>
 <body>
+
  <div id="app">
     <div class="main-wrapper">
       
@@ -1000,27 +1041,31 @@ document.addEventListener("DOMContentLoaded", function(){
 									<c:if test="${fn:substringAfter(file.pfile_name,'.') eq 'jpg' 
 		                          	|| fn:substringAfter(file.pfile_name,'.') eq 'png' 
 		                          	|| fn:substringAfter(file.pfile_name,'.') eq 'gif'}">
-		                          		<c:if test="${cardinfo.card_thema ne file.file_id}">
-				                          	<span class="btn cardThema" onclick="cardThemaSelect(${file.file_id},${file.card_id})">Make Cover</span>
-		                          		</c:if>
-		                          		<c:if test="${cardinfo.card_thema eq file.file_id}">
-		                          			<span class="btn cardThema" onclick="cardThemaRemove(${file.file_id},${file.card_id})">Remove Cover</span>
-		                          		</c:if>
-                          			</c:if>
+																			<c:if test="${cardinfo.card_thema ne file.file_id}">
+																				<span class="btn cardThema"
+																					onclick="cardThemaSelect(${file.file_id},${file.card_id})">Make
+																					Cover</span>
+																			</c:if>
+																			<c:if test="${cardinfo.card_thema eq file.file_id}">
+																				<span class="btn cardThema"
+																					onclick="cardThemaRemove(${file.file_id},${file.card_id})">Remove
+																					Cover</span>
+																			</c:if>
+																		</c:if>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</c:if>
+												</c:forEach>
+												<!--여기까지가 하나의 첨부파일-->
+											</div>
+										</div>
+									</div>
 								</div>
-							</div>
-                          </div>
-                        </div>
-                      	</c:if>
-                      </c:forEach>
-                        <!--여기까지가 하나의 첨부파일-->
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--카드댓글-->
-                <!--////////////////////////재의님 여기예요~!!!/////////////////////-->
-              <div class="col-lg-4 mt-5 commentContainer">
+								<!--카드댓글-->
+								<!--////////////////////////재의님 여기예요~!!!/////////////////////-->
+								<div class="mt-5 commentContainer">
 									<h4 class="cardName ml-2">
 										Activity <i class="fa fa-comment" aria-hidden="true"></i>
 									</h4>
@@ -1061,15 +1106,15 @@ document.addEventListener("DOMContentLoaded", function(){
 
 									</div>
 								</div>
-              </div>
-            </div>
-       	  </div>
-        </section>
-      </div>
-    </div>
-  </div>
-  
-  <div class="class1Temaplate" style="display: none;"
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+
+	<div class="class1Temaplate" style="display: none;"
 		id="commentPlusTemplate">
 		<li class="comment__row classTarget">
 			<div class="comment__class__1">
@@ -1149,7 +1194,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	</div>
 
 
-	<div style="display: none;"  class="filePrevTemplate">
+	<div style="display: none;" class="filePrevTemplate">
 		<div class="comment__context__file__prev">
 			<div class="context__file__prev__imgBox">
 				<img alt="" src="">
@@ -1269,7 +1314,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	<input type="hidden" id="currentCardId" value="${cardinfo.card_id}">
 	<script
 		src="https://cdn.jsdelivr.net/npm/emoji-button@0.6.0/dist/index.min.js"></script>
-<script type="text/javascript">
+	<script type="text/javascript">
 //카드 파일업로드
 $("#input-file").on("change", function(){
 	let cardId = $("#selectedCard").attr("data-cardId");
@@ -1715,6 +1760,7 @@ function commentCreate() {
 	  let dateTypedate = today;
   let comment_date = getDateStr(today)
   let currentUserNickname = ajaxGetSessionUserNickname();
+  console.log("currentUserNickname : " + currentUserNickname)
   let currentUserId = ajaxGetSessionUserId();
   
   if(file.val()){
@@ -1735,13 +1781,14 @@ function commentCreate() {
 	  }
   }
   
+  $(event.target).closest('.comment__input__Box').find('.textareaEl').val('');
 }
 
 function createRecomment(evert){
 	 let target = $(event.target); 
  let targetData = target.closest('.comment__input__Box').attr('data');
  if(targetData == "modify__input"){
-	 console.log("1. if문");
+	
 	 return modifyResult(target);
  }	
  let today = new Date();  
@@ -1767,6 +1814,9 @@ function createRecomment(evert){
 		
 		recommentCreateRow(result, nickname, textareaElVal, comment_date, targetappend, target)
 	 }
+	 let recomment__amount = Number(target.closest('.comment__row').find('.recomment__num').text())
+	 target.closest('.comment__row').find('.recomment__num').text(recomment__amount+1)
+	
 }
 
 function recommentFileCreateRow(textareaElVal, targetGroup, currentUserId, comment_date, file, result, targetappend, target){
@@ -1996,6 +2046,7 @@ function prevRowFileRead(){
  }
 
 function formCommentFileUpdate(textareaVal, input, commentId){
+	console.log('formCommentFileUpdate : '+ commentId)
 	var form = new FormData()
 	let result;
 	form.append("comment_id", commentId)
@@ -2074,6 +2125,7 @@ function ajaxGetSessionUserNickname(){
 		dataType : 'text',
 		async : false,
 		success : function(data){
+			console.log("nickname : " +data)
 			currentUserNickname = (data !="false")? data : false;
 		}
 	})
@@ -2518,8 +2570,13 @@ function menuDeleteBtnFn(event){
 		}
 		$(event.target).closest('.classTarget').remove();
 	}else{
+		
+	
 		let result = ajaxRemoveComment(userId, commentId);
 		if(result == "Yes"){
+			let recomment_amount = $(event.target).closest('.comment__row').find('.recomment__num').text();
+			console.log(recomment_amount)	
+			$(event.target).closest('.comment__row').find('.recomment__num').text(Number(recomment_amount)-1)
 			$(event.target).closest('.classTarget').remove();
 		}
 	}
@@ -2556,16 +2613,12 @@ function menuDeleteBtnFn(event){
     }
    
    function modifyResult(target){
-	   console.log("modify 함수");
+	   
 	   console.log(target);
 	   let input = target.closest('.input__Box__Btns').find('.input_file')
-	  
 
 	   let commentId = target.closest('.comment__context').attr('data-commentid')
-	
 
-//			let deleteTarget = target.closest('.comment__context').find('.fileTarget')
-	   
 	   let textareaVal = target.closest('.comment__input__Box').find('.textareaEl').val();
 	 
 	   textareaVal = textareaVal.replace(/(?:\r\n|\r|\n)/g, '<br/>');
@@ -2574,7 +2627,8 @@ function menuDeleteBtnFn(event){
 	   let template;
 	   
 	   if(input.val() != ''){
-		   let commentId = target.closest('.comment__row__right').find('.fileTarget').attr('data-commentid')
+		   let commentId = target.closest('.comment__row__right').find('.comment__context').attr('data-commentid')
+		
 		   let result = formCommentFileUpdate(textareaVal, input, commentId)
 
 			if(checkFile(result.file_name)){
@@ -2584,18 +2638,19 @@ function menuDeleteBtnFn(event){
 				input.attr("class", "fileTarget");
 				img.attr("class", "imgTarget");
 				prevRowFileRead()
-				template.find('.fileContent').text(result.fileName)
+				template.find('.fileContent').text(result.file_name)
+			
 				template.find('.fileContent').attr("href", "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)	
 				template.find('.context__file__perv__text').attr("data", result.file_id)
 			}else{
 			
 				template = templateTarget.find('.fileTarget')
 				template.find('.comment__context__file').attr('data', result.file_id)
+				template.find('.fileContent').text('')
+			
 				template.find('.fileContent').text(result.file_name)
 				template.find('.fileContent').attr('href', "commentDownload.do?pfile_name="+result.pfile_name+"&file_name="+result.file_name)
 			}
-
-	
 		
 			
 	   }else{
@@ -2664,8 +2719,8 @@ function ajaxRemoveComment(userId, commentId){
 
 
  </script>
- 
- <!-- 은지 코드 -->
- <script src="resources/js/card/card-details.js"></script>
+
+	<!-- 은지 코드 -->
+	<script src="resources/js/card/card-details.js"></script>
 </body>
 </html>

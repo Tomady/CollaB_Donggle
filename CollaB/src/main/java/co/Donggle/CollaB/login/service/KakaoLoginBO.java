@@ -19,12 +19,12 @@ import com.google.gson.JsonParser;
 public class KakaoLoginBO {
 	private final static String KAKAO_AUTHOR_URL = "https://kauth.kakao.com/oauth/authorize?";
 	private final static String K_CLIENT_ID = "3f1f202997e3b37e832aa0c1983ea15a";
-	private final static String K_REDIRECT_URL = "http://localhost/CollaB/kakaologin.do";
+	private final static String K_REDIRECT_URL = "http://3.38.225.18:8080/CollaB/kakaologin.do";
 	private final static String KAKAO_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
 	private final static String KAKAO_USERINFO_URL = "https://kapi.kakao.com/v2/user/me";
 //	private final static String KAKAO_LOGOUT_URL = "https://kapi.kakao.com/v1/user/logout";
 	private final static String KAKAO_LOGOUT_URL = "https://kauth.kakao.com/oauth/logout?";
-	private final static String KAKAO_LOGOUT_REDIRECT_URL = "http://localhost/CollaB/kakaoLogout.do";
+	private final static String KAKAO_LOGOUT_REDIRECT_URL = "http://3.38.225.18:8080/CollaB/kakaoLogout.do";
 
 
 	public String getAuthorizationUrl() {
@@ -51,7 +51,7 @@ public class KakaoLoginBO {
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code&client_id=3f1f202997e3b37e832aa0c1983ea15a"
-					+ "&redirect_uri=http://localhost/CollaB/kakaologin.do" + "&code=" + authorize_code);
+					+ "&redirect_uri=http://3.38.225.18:8080/CollaB/kakaologin.do" + "&code=" + authorize_code);
 			bw.write(sb.toString());
 			bw.flush();
 
