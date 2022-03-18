@@ -563,7 +563,7 @@ function unread(){
                       </div>
                     </div>
                   </div>
-                  <div class="card-body" style="height: 95vh;">
+                  <div class="card-body" style="height: 100vh;">
                     <!--메시지 삭제-->
                     <button id="starredMsgDelete" class="btn mb-2" type="button">
                       <a href="#" title="delete"><i class="fas fa-trash"></i></a>

@@ -448,9 +448,9 @@ document.addEventListener("DOMContentLoaded", function(){
 	if(state >= 1 && state <= 100){
 		percentage.innerHTML = "("+state+"%)";		
 	}else{
-		percentage.innerHTML = "[NO WORK]";
+		percentage.innerHTML = "(0%)";
 	}
-	if(state < 25){
+	if(state > 0 && state < 25){
 		project_state.style.backgroundColor="red";
 	}else if(state < 50){
 		project_state.style.backgroundColor="orange";

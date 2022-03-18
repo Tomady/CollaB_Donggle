@@ -334,7 +334,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	                     	<c:forEach items="${totalFileList}" var="file">
 	                     		<c:if test="${file.file_id eq card.card_thema}">
 	                     			<c:if test="${file.pfile_name ne null}">
-					                     <img src="/home/ubuntu/apache-tomcat-9.0.59/webapps/cardFile/${file.pfile_name}" class="thema${card.card_thema}" 
+					                     <img src="/cardFile/${file.pfile_name}" class="thema${card.card_thema}" 
 					                     style="width:100%; height:150px;">
 	                     			</c:if>
 	                     		</c:if>
