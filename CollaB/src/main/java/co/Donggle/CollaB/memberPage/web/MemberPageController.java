@@ -27,6 +27,8 @@ import co.Donggle.CollaB.invite.service.InviteService;
 import co.Donggle.CollaB.invite.service.InviteVO;
 import co.Donggle.CollaB.memberPage.service.MemWorkspaceJoinService;
 import co.Donggle.CollaB.memberPage.service.MemberPageUserService;
+import co.Donggle.CollaB.recent.service.RecentService;
+import co.Donggle.CollaB.recent.service.RecentVO;
 import co.Donggle.CollaB.user.service.UserVO;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinVO;
@@ -56,6 +58,9 @@ public class MemberPageController {
 
 	@Autowired
 	private InviteService inviteDao;
+	
+	@Autowired
+	private RecentService RecentDao;
 
 	@RequestMapping("/memberPage.do")
 	public String memberPage(Model model, HttpSession session, WorkspaceVO vo, WorkspaceJoinVO jvo) {
@@ -66,11 +71,18 @@ public class MemberPageController {
 		boardvo.setWorkspace_id(wkid);
 		boardvo.setId(userId);
 		
+		// recent
+		RecentVO recentvo = new RecentVO();
+		recentvo.setId(userId);
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
+		
 		model.addAttribute("workspace", workspaceDao.searchWorkspace(vo));
 		model.addAttribute("workspaceList", workspaceJoinDao.workspaceJoinList(userId)); // 사용자가 가지고 있는 모든 워크스페이스
 		model.addAttribute("boardList", workspaceDao.boardListinWorkspace(vo)); // 해당워크스페이스가 가지고 있는 모든 보드 - admin은 다 볼
 		model.addAttribute("boardStar", boardDao.selectBoardStar(boardvo));
 		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(boardvo));
+		model.addAttribute("recents", recents);
 		
 //		model.addAttribute("user_infoList", workspaceJoinDao.workspaceTotalMember(jvo)); // 워크스페이스의 유저 총 수
 //		model.addAttribute("workspaceUserList", memWorkspaceJoinDao.workspaceJoinIdselect(jvo)); // 워크스페이스 권한

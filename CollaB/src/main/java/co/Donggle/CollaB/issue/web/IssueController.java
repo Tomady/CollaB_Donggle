@@ -2,6 +2,7 @@ package co.Donggle.CollaB.issue.web;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,8 @@ import co.Donggle.CollaB.issue.service.IssueMapper;
 import co.Donggle.CollaB.issue.service.IssueReplyMapper;
 import co.Donggle.CollaB.issue.service.IssueReplyVO;
 import co.Donggle.CollaB.issue.service.IssueVO;
+import co.Donggle.CollaB.recent.service.RecentService;
+import co.Donggle.CollaB.recent.service.RecentVO;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 import co.Donggle.CollaB.workspace.service.WorkspaceService;
 import co.Donggle.CollaB.workspace.service.WorkspaceVO;
@@ -40,6 +43,7 @@ public class IssueController {
 	@Autowired IssueItemMapper itemDao;
 	@Autowired IssueCheckListMapper chkListDao;
 	@Autowired IssueReplyMapper replyDao;
+	@Autowired RecentService RecentDao;
 
 	// 이슈게시판 이동
 	@RequestMapping("/issueBoard.do")
@@ -56,12 +60,19 @@ public class IssueController {
 		vo.setWorkspace_id(wkid);
 		issuevo.setWorkspace_id(wkid);
 		
+		// recent
+		RecentVO recentvo = new RecentVO();
+		recentvo.setId(userId);
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
+		
 		model.addAttribute("issues", issueDao.issueList(issuevo));
 		//사이드바에서 필요한 내용 - 은지가 추가했어용~~ 놀라지마세요 아람걸>_0
 		model.addAttribute("workspace",workspaceDao.searchWorkspace(wkvo));
 		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(userId));
 		model.addAttribute("boardStar", boardDao.selectBoardStar(vo));
 		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(vo));
+		model.addAttribute("recents", recents);
 		
 		return "issue/issueBoard";
 	}
@@ -77,12 +88,19 @@ public class IssueController {
 		vo.setId(userId);
 		vo.setWorkspace_id(wkid);
 		
+		// recent
+		RecentVO recentvo = new RecentVO();
+		recentvo.setId(userId);
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
+		
 		//사이드바에서 필요한 내용 - 은지가 추가했어용~~ 놀라지마세요 아람걸>_0
 		model.addAttribute("workspace",workspaceDao.searchWorkspace(wkvo));
 		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(userId));
 		model.addAttribute("boardStar", boardDao.selectBoardStar(vo));
 		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(vo));
-		
+		model.addAttribute("recents", recents);
+
 		return "issue/issueInsert";
 	}
 	
@@ -219,13 +237,20 @@ public class IssueController {
 		IssueItemVO iIssueItemVO = new IssueItemVO();
 		iIssueItemVO.setChecklist_id(chkVO.getChecklist_id());
 		model.addAttribute("itemList", itemDao.issueItems(iIssueItemVO));
-				
+		
+		// recent
+		RecentVO recentvo = new RecentVO();
+		recentvo.setId(id);
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
+		
 		//사이드바에서 필요한 내용 - 은지가 추가했어용~~ 놀라지마세요 아람걸>_0
 		model.addAttribute("workspace",workspaceDao.searchWorkspace(wkvo));
 		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(id));
 		model.addAttribute("boardStar", boardDao.selectBoardStar(boardvo));
 		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(boardvo));
-		
+		model.addAttribute("recents", recents);
+
 		return "issue/issueUpdate";
 	}
 
@@ -276,11 +301,18 @@ public class IssueController {
 		model.addAttribute("reply", replyDao.issueReplyLsit(rvo));
 		
 		
+		// recent
+		RecentVO recentvo = new RecentVO();
+		recentvo.setId(id);
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
+		
 		// 사이드바에서 필요한 내용 - 은지가 추가했어용~~ 놀라지마세요 아람걸>_0
 		model.addAttribute("workspace",workspaceDao.searchWorkspace(wkvo));
 		model.addAttribute("workspaceList",workspaceJoinDao.workspaceJoinList(id));
 		model.addAttribute("boardStar", boardDao.selectBoardStar(boardvo));
 		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(boardvo));
+		model.addAttribute("recents", recents);
 
 		return "issue/issueDetail";
 	}
@@ -290,8 +322,8 @@ public class IssueController {
 	@RequestMapping("/issueDelete.do")
 	public String issueDelete(HttpServletRequest request) {
 		int isid = Integer.parseInt(request.getParameter("issueid"));
-		int chkid = Integer.parseInt(request.getParameter("checklist_id"));
-
+		//int chkid = Integer.parseInt(request.getParameter("checklist_id"));
+		/*
 		String[] itemid = request.getParameterValues("item_id");
 		System.out.println("허ㅣㅏㄴ러어래냐ㅓ리" + itemid);
 		for(int i=0; i<itemid.length; i++) {
@@ -308,7 +340,7 @@ public class IssueController {
 				cvo.setChecklist_id(chkid);
 				System.out.println("체크리스트아이디이이이이이" + cvo.getChecklist_id());
 				chkListDao.deleteChkLi(cvo);
-		
+		*/
 		String result = "false";
 		IssueVO vo = new IssueVO();
 		vo.setIssueId(isid);

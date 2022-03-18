@@ -3,6 +3,7 @@ package co.Donggle.CollaB.card.web;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,8 @@ import co.Donggle.CollaB.fileinfo.service.FileInfoService;
 import co.Donggle.CollaB.fileinfo.service.FileInfoVO;
 import co.Donggle.CollaB.list.service.ListService;
 import co.Donggle.CollaB.list.service.ListVO;
+import co.Donggle.CollaB.recent.service.RecentService;
+import co.Donggle.CollaB.recent.service.RecentVO;
 import co.Donggle.CollaB.user.service.UserService;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 
@@ -45,10 +48,10 @@ public class CardController {
 	@Autowired UserService userDao;
 	@Autowired FileInfoService fileInfoDao;
 	@Autowired String cardSaveDirectory;
+	@Autowired RecentService RecentDao;
 	@Value("#{upload['upload']}")
     private String upload;
 
-	
 	//카드 생성
 	@ResponseBody
 	@RequestMapping("/AjaxAddCard")
@@ -122,6 +125,12 @@ public class CardController {
 		cardvo.setCard_id(cardId);
 		cardvo.setList_id(listId);
 		
+		// recent
+		RecentVO recentvo = new RecentVO();
+		recentvo.setId(userId);
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
+		
 		//해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID - 사이드
 		model.addAttribute("workspace",boardDao.selectBoard(vo)); 
 		//사용자가 가지고 있는 모든 워크스페이스-워크스페이스ID,워크스페이스이름 - 사이드
@@ -147,6 +156,8 @@ public class CardController {
 		model.addAttribute("fileinfoList",fileInfoDao.cardFileSelectList(cardId));
 		//해당 카드의 매니저
 		model.addAttribute("manager",userDao.cardManagerSelect(cardId));
+		// recent
+		model.addAttribute("recents", recents);
 		
 		return "card/cardDetail";
 	}

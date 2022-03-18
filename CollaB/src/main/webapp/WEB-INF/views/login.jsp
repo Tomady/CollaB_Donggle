@@ -311,7 +311,7 @@
 	</div>
 	<div class="loginbackcontainer">
 		<h1 class="homeLogo">
-			<a href="index.do">CollaB</a>
+			<a href=""><img src="resources/img/logo222.png" width="300px;"></a>
 		</h1>
 		<ul class="loginUltag">
 			<li>

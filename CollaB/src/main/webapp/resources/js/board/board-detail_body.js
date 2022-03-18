@@ -72,6 +72,8 @@ document.querySelector(".addListBtn").onclick=function(){
 		clickCnt += 1;
 		if(event.target == event.currentTarget.querySelector(".addListBtn"))
 			return ;
+		if(event.target == event.currentTarget.querySelector(".newListName"))
+			return ;
 		if(document.querySelector(".newListName").value != ""){
 			$.ajax({
 					url : "AjaxCreateList",
@@ -348,7 +350,7 @@ function nameCard(listId){
     div.setAttribute("class","card-header");
     let newCard = document.createElement("input");
     newCard.setAttribute("type","text");
-    newCard.setAttribute("class","form-control mb-2");
+    newCard.setAttribute("class","form-control mb-2 newCardName");
     newCard.setAttribute("id","newCardName"+listId);
     newCard.style.width="100%";
     newCard.style.height="90%";
@@ -401,7 +403,7 @@ function nameCard(listId){
 		clickCnt += 1;
 		if(event.target == event.currentTarget.querySelector(".addCard"+listId))
 			return ;
-		if(event.target == event.currentTarget.querySelector("#newCardName"))
+		if(event.target == event.currentTarget.querySelector(".newCardName"))
 			return ;
 		if(newinput.value != ""){
 			let newCardName = document.querySelector("#newCardName"+listId).value;

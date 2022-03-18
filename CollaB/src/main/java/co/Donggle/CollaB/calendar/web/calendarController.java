@@ -29,6 +29,8 @@ import co.Donggle.CollaB.calendar.service.calendarVO;
 import co.Donggle.CollaB.card.service.CardVO;
 import co.Donggle.CollaB.list.service.ListService;
 import co.Donggle.CollaB.list.service.ListVO;
+import co.Donggle.CollaB.recent.service.RecentService;
+import co.Donggle.CollaB.recent.service.RecentVO;
 import co.Donggle.CollaB.user.service.UserService;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 
@@ -40,9 +42,10 @@ public class calendarController {
 	@Autowired private WorkspaceJoinService workspaceJoinDao;
 	@Autowired private UserService userDao;
 	@Autowired private ListService listDao;
+	@Autowired private RecentService RecentDao;
 
 	
-	// 일정 보기
+	// 캘린더 페이지
 	@RequestMapping(value = "/calendar.do", method = RequestMethod.GET)
 	public ModelAndView calendar(ModelAndView mv, HttpServletRequest request,
 									HttpSession session, @RequestParam("boardID") int boardid) {
@@ -58,6 +61,11 @@ public class calendarController {
 		ListVO listvo = new ListVO();
 		listvo.setBoard_id(boardid);
 		List<ListVO> lists = listDao.selectTotalList(listvo);
+		
+		RecentVO recentvo = new RecentVO();
+		recentvo.setId(userId);
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
 			
 		mv.setViewName(viewpage);
 		//해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID - 사이드
@@ -80,8 +88,13 @@ public class calendarController {
 		mv.addObject("lists", lists);
 		// 해당 보드가 포함된 워크스페이스 아이디 - 보드헤더
 		mv.addObject("workspaceID", workspaceid);
+		// recent
+		mv.addObject("recents", recents);
+		
+		System.out.println("nnn");
+		System.out.println("리센트는 : " + recents);
 			
-		System.out.println(lists);
+		// System.out.println(lists);
 			
 		return mv;
 	}

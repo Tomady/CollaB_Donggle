@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
+    <!-- 웹 타이틀 이미지 -->
+	<link rel="shortcut icon" href="/resources/img/web_title.ico">
     <style>
         html,
         body {
@@ -246,7 +248,7 @@
     <nav class="nav__wrap">
         <div class="nav__row">
             <div class="nav__homeLogo">
-                <a href="index.do" style="font-size: 1.2rem;">CollaB</a>
+                <a href="index.do" style="font-size: 1.2rem;"><img src="resources/img/logologo.png" width="120px;"></a>
             </div>
             <ul class="nav__right">
                 <li><a href="joinForm.do"><i class="fas fa-user"></i>Sign Up</a></li>
@@ -465,7 +467,6 @@ function fn_idChk(){
 				alert("이미 사용 중인 아이디입니다.");
 			}else if(data == 0){
 				idchkval.val('Ok');
-				$("#id").prop("disabled",true);
 				alert("사용 가능한 아이디입니다.");
 				
 			}
