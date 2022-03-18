@@ -23,6 +23,6 @@
 	</bean>
 	
 	<bean class="java.lang.String" id="cardSaveDirectory">
-		<constructor-arg value="C:\Donggle\CollaB_Donggle\CollaB\src\main\webapp\resources\cardFile" />
+		<constructor-arg value="/home/ubuntu/apache-tomcat-9.0.59/webapps/cardFile/" />
 	</bean>
 </beans>

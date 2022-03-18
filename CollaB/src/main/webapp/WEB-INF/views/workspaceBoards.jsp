@@ -171,6 +171,7 @@
 					    input.setAttribute("type","text");
 					    input.setAttribute("id","boardNewName");
 					    input.setAttribute("name","boardNewName");
+					    input.setAttribute("maxlength","20");
 					    input.addEventListener("keyup",function(){
 					        if (window.event.keyCode == 13) {
 					            // 엔터키가 눌렸을 때
@@ -468,7 +469,7 @@
           <div class="card-body">
             <div class="row form-group mt-3">
               <label>Workspace Name<span style="color: red;"> *</span></label>
-              <input id="modal-workspace-title" type="text" class="form-control">
+              <input id="modal-workspace-title" type="text" size="10" maxlength="10" class="form-control">
             </div>
             <div class="row buttons mt-3">
               <button class="mt-5 btn btn-icon icon-left btn-secondary" id="createWK"
@@ -513,7 +514,7 @@
 	        </div>
 	        <div class="row form-group mt-3">
 	          <label>Board Title<span style="color: red;"> *</span></label>
-	          <input id="modal-board-title" type="text" class="form-control">
+	          <input id="modal-board-title" type="text" class="form-control" size="20" maxlength="20">
 	        </div>
 	        <div class="row form-group mt-3">
 	          <label>Workspace</label>

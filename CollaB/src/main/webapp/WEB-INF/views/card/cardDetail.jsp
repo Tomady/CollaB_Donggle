@@ -675,6 +675,8 @@ document.addEventListener("DOMContentLoaded", function(){
 					}else{
 						document.querySelector(".checkChart"+checkId).style.backgroundColor="tomato";						
 					}
+				}else if(itemCnt == 0){
+					document.querySelector(".checkChart"+checkId).innerHTML = "&nbsp;&nbsp;&nbsp;"+0+"%";
 				}
 			})
 		},
@@ -898,10 +900,9 @@ document.addEventListener("DOMContentLoaded", function(){
                       <div style="width: 740px;"></div>
                       <div class="card-header" style="font-size: large;">
                         <i class="fa fa-align-left" aria-hidden="true">&nbsp;&nbsp;Description</i>
-                        <button class="btn btn-light ml-2" onclick="contentsEdit()">Edit</button>
                       </div>  
-                      <div class="card-body">
-                        <textarea class="cardContents" rows="4" style="width:100%;" readonly>${cardinfo.card_contents}</textarea>
+                      <div class="card-body" >
+                        <textarea onclick="contentsEdit()" class="cardContents" rows="4" style="width:100%;" readonly>${cardinfo.card_contents}</textarea>
                         <button class="saveBtn btn btn-secondary mt-1" style="position:relative;"
                          onclick="contentsSave(${cardinfo.card_id})">SAVE
                         	<div class="saveDone">SUCCESS !</div>
@@ -927,7 +928,19 @@ document.addEventListener("DOMContentLoaded", function(){
                             	<button class="btn ml-2 fa fa-times col-rg" 
                             	onclick="checklistDelete(${check.checklist_id})"></button>
                             </div>
-                            <div class="progress mb-2"><span class="checkChart${check.checklist_id}"></span></div>
+                            <div class="progress mb-2">
+                         		<c:set var="itemCnt" value="0"></c:set>
+                            	<c:forEach items="${checkItems}" var="item">
+                            		<c:if test="${item.checklist_id eq check.checklist_id}">
+                            			<c:if test="${item.item_status eq 'Y'}">
+			                         		<c:set var="itemCnt" value="${itemCnt+1}"></c:set>                            			
+                            			</c:if>
+                            		</c:if>
+                            	</c:forEach>
+                            	<span class="checkChart${check.checklist_id}" style="font-weight:bold;">
+                            		<c:if test="${itemCnt eq 0}">&nbsp;&nbsp;&nbsp;0%</c:if>
+                            	</span>
+                            </div>
                             <c:forEach items="${checkItems}" var="item">
 	                            <c:if test="${item.checklist_id eq check.checklist_id}">
     	                        <c:if test="${item.item_status eq 'Y'}">

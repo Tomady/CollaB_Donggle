@@ -94,6 +94,7 @@ function workspaceRename(){
     WsRename.setAttribute("id","WsRename");
     WsRename.setAttribute("class","form-control");
     WsRename.setAttribute("name","WsRename");
+    WsRename.setAttribute("maxlength","10");
     WsRename.addEventListener("keyup",function(){
         if (window.event.keyCode == 13) {
             // 엔터키가 눌렸을 때
@@ -192,6 +193,7 @@ document.getElementById("BorName").onclick=function(){
     BorRename.setAttribute("id","BorRename");
     BorRename.setAttribute("class","form-control");
     BorRename.setAttribute("name","BorRename");
+    BorRename.setAttribute("maxlength","20");
     BorRename.addEventListener("keyup",function(){
         if (window.event.keyCode == 13) {
             // 엔터키가 눌렸을 때
