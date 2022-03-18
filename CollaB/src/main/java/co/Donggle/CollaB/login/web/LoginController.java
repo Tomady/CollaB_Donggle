@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,7 @@ import co.Donggle.CollaB.login.service.FacebookLoginBO;
 import co.Donggle.CollaB.login.service.GoogleLoginBO;
 import co.Donggle.CollaB.login.service.GoogleLoginRequest;
 import co.Donggle.CollaB.login.service.GoogleLoginResponse;
-import co.Donggle.CollaB.login.service.KakaoLoginApiService;
+import co.Donggle.CollaB.login.service.KakaoLoginBO;
 import co.Donggle.CollaB.login.service.LoginUserService;
 import co.Donggle.CollaB.login.service.NaverLoginBO;
 import co.Donggle.CollaB.login.service.SmsSendBO;
@@ -51,7 +52,7 @@ public class LoginController {
 	@Autowired
 	private LoginUserService LoginUserDao;
 	@Autowired
-	private KakaoLoginApiService kakao;
+	private KakaoLoginBO kakao;
 	@Autowired
 	private NaverLoginBO naverLoginBO;
 	@Autowired
@@ -62,7 +63,9 @@ public class LoginController {
 	private JavaMailSender mail;
 	@Autowired
 	private SmsSendBO sendBO;
-
+	@Autowired 
+	BCryptPasswordEncoder pwEncoder;
+	
 	// 로그인 페이지 이동
 	@RequestMapping("/login.do")
 	public String login() {
@@ -73,33 +76,45 @@ public class LoginController {
 	@ResponseBody
 	@RequestMapping(value = "/ajaxLoginChk.do", produces = "application/text; charset=utf8")
 	public String ajaxLoginChk(UserVO vo, HttpSession session) {
-		vo = LoginUserDao.userLogin(vo);
-
-		if (vo != null) {
-			session.setAttribute("id", vo.getId());
-			session.setAttribute("name", vo.getName());
-			session.setAttribute("email", vo.getEmail());
-			session.setAttribute("nickname", vo.getNickname());
-			session.setAttribute("prof_pic", vo.getProf_pic());
-			String nickname = vo.getNickname();
+		UserVO compareVo = new UserVO();
+		compareVo = LoginUserDao.userLogin(vo);
+		
+		if(compareVo != null && pwEncoder.matches(vo.getPassword(), compareVo.getPassword())) {
+			session.setAttribute("id", compareVo.getId());
+			session.setAttribute("name", compareVo.getName());
+			session.setAttribute("email", compareVo.getEmail());
+			session.setAttribute("nickname", compareVo.getNickname());
+			session.setAttribute("prof_pic", compareVo.getProf_pic());
+			String nickname = compareVo.getNickname();
 			return nickname;
-		} else {
+			
+		}else {
+		
 			return "No";
 		}
 	}
+	
 	//index
 	@RequestMapping("/logout.do")
 	public String logout(UserVO vo, HttpSession session) {
 		session.invalidate();
 		return "index";
 	}
+	
+	
+	@RequestMapping("/kakaologinUrl.do")
+	@ResponseBody
+	public String kakaologinUrl() {
+		String authorUrl = kakao.getAuthorizationUrl();
+		return authorUrl;
+
+	}
 	//login
 	@RequestMapping("/kakaologin.do")
 	public String kakaologin(@RequestParam String code, HttpSession session, UserVO vo, Model model) {
 		String access_Token = kakao.getAccessToken(code);
 		HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
-		System.out.println("controller access_token : " + access_Token);
-		System.out.println(code);
+
 		String email = (String) userInfo.get("email");
 		String name = (String) userInfo.get("nickname");
 		String profile_image = (String) userInfo.get("profile_image");
@@ -124,14 +139,22 @@ public class LoginController {
 		}
 	}
 
-	//login
+	@RequestMapping("/kakaoLogoutUrl.do")
+	@ResponseBody
+	public String kakaoLogoutUrl() {
+		String kakaoLogoutUrl = kakao.kakaoLogout();
+		return kakaoLogoutUrl;
+	}
+	
 	@RequestMapping("/kakaoLogout.do")
 	public String kakaologout(HttpSession session) {
-		kakao.kakaoLogout((String) session.getAttribute("access_Token"));
+		
 		session.invalidate();
 
-		return "login";
+		return "redirect:login.do";
 	}
+	
+	
 
 	//login
 	@RequestMapping("/apiJoinForm.do")
@@ -178,6 +201,7 @@ public class LoginController {
 		vo = LoginUserDao.idFindNameEmailChk(vo);
 
 		if (vo != null) {
+			session.setAttribute("access_Token", access_token);
 			session.setAttribute("id", vo.getId());
 			session.setAttribute("nickname", vo.getNickname());
 			session.setAttribute("name", vo.getName());
@@ -405,7 +429,7 @@ public class LoginController {
 				+ "            <span style=\"font-size: 22px; font-weight: bold; color: orangered;\">" + randomnum
 				+ "</span>\r\n" + "        </div>\r\n" + "        <br><br>\r\n"
 				+ "        <div style=\"display: inline-block;\">\r\n"
-				+ "            <span style=\"font-size: 18px; font-weight: bold; color: black;\">3분 이내로 인증번호(6자리)를 입력해 주세요.</span>\r\n"
+				+ "            <span style=\"font-size: 16px; font-weight: bold; color: black;\">3분 이내로 인증번호(6자리)를 입력해 주세요.</span>\r\n"
 				+ "        </div>\r\n" + "    </div>\r\n" + "</body>\r\n" + "\r\n" + "</html>";
 		messageHelper.setText(str, true);
 		mail.send(message);
@@ -413,7 +437,7 @@ public class LoginController {
 		return "Yes";
 	}
 
-	@RequestMapping("/ajaxIdFind.do")
+	@RequestMapping(value = "/ajaxIdFind.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxIdFind(UserVO vo) {
 		vo = LoginUserDao.idFindNameEmailChk(vo);
@@ -450,7 +474,7 @@ public class LoginController {
 
 	}
 
-	@RequestMapping("/ajaxIdTelFind.do")
+	@RequestMapping(value = "/ajaxIdTelFind.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxIdTelFind(UserVO vo) {
 		vo = LoginUserDao.idFindNameTelChk(vo);
@@ -461,7 +485,7 @@ public class LoginController {
 		}
 	}
 
-	@RequestMapping("/ajaxPasswordFindIdChk.do")
+	@RequestMapping(value = "/ajaxPasswordFindIdChk.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxPasswordFindIdChk(UserVO vo) {
 		vo = LoginUserDao.passwordFindIdChk(vo);
@@ -473,7 +497,7 @@ public class LoginController {
 		}
 	}
 
-	@RequestMapping("/ajaxPasswordTelFind.do")
+	@RequestMapping(value = "/ajaxPasswordTelFind.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxPasswordTelFind(UserVO vo) {
 
@@ -486,7 +510,7 @@ public class LoginController {
 		}
 	}
 
-	@RequestMapping("/ajaxPasswordEmailFind.do")
+	@RequestMapping(value = "/ajaxPasswordEmailFind.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxPasswordEmailFind(UserVO vo) {
 
@@ -537,6 +561,7 @@ public class LoginController {
 	@RequestMapping("/ajaxPasswordChange.do")
 	@ResponseBody
 	public String ajaxPasswordChange(UserVO vo) {
+		vo.setPassword(pwEncoder.encode(vo.getPassword()));
 		int updateResult = LoginUserDao.passwordFindPasswordChange(vo);
 		if (updateResult == 0) {
 			return "No";

@@ -1,5 +1,6 @@
 package co.Donggle.CollaB.timeline.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.Donggle.CollaB.board.service.BoardService;
 import co.Donggle.CollaB.board.service.BoardVO;
+import co.Donggle.CollaB.recent.service.RecentService;
+import co.Donggle.CollaB.recent.service.RecentVO;
 import co.Donggle.CollaB.user.service.UserService;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 import co.Donggle.CollaB.timeline.service.TimelineCardMapper;
@@ -31,6 +34,7 @@ public class TimelineController {
 	@Autowired UserService userDao;
 	@Autowired TimelineCardMapper cardDao;
 	@Autowired TimelineListMapper listDao;
+	@Autowired RecentService RecentDao; 
 
 	// 타임라인 페이지 이동
 	@GetMapping(value="/timeline.do")
@@ -42,6 +46,12 @@ public class TimelineController {
 		vo.setBoard_id(bId);
 		int workspaceId = boardDao.boardWorkspaceID(vo); // 해당보드의 워크스페이스아이디
 		vo.setWorkspace_id(workspaceId);
+		
+		// recent
+		RecentVO recentvo = new RecentVO();
+		recentvo.setId(userId);
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
 
 		// 해당 보드의 리스트 출력
 		TimelineListVO listvo = new TimelineListVO();
@@ -53,7 +63,7 @@ public class TimelineController {
 			System.out.println("나올까? : " + li.getList_title());
 		}
 		
-		int listid = lists.get(0).getList_id();
+		int listid = lists.get(0).getList_id(); //이거땜에 [Index 0 out of bounds for length 0] 에러나는듯..?
 		TimelineCardVO timelineCardVO = new TimelineCardVO();
 		timelineCardVO.setList_id(listid);
 		List<TimelineCardVO> CardLists = cardDao.timeCardSelect(timelineCardVO);
@@ -84,6 +94,8 @@ public class TimelineController {
 		model.addAttribute("boardOthers", userDao.outsideBoardMembers(vo));
 		// 해당 보드가 포함된 워크스페이스 아이디 - 보드헤더
 		model.addAttribute("workspaceID", workspaceId);
+		// recent
+		model.addAttribute("recents", recents);
 
 		return "timeline/timeline";
 	}

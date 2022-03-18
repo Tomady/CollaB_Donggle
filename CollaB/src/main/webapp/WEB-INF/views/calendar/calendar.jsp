@@ -468,6 +468,12 @@
 				let dbData = JSON.parse(xhtp.responseText);
 				console.log(xhtp.responseText);
 				console.log(dbData);
+				
+				if(dbData.length == 0) {
+					alert("해당 리스트에는 일정이 없습니다.");
+					console.log("fff")
+					dbData = {}
+				}
 
 				var calendarEl = document.getElementById('calendar');
 

@@ -11,7 +11,7 @@
 	</bean>
 	
 	<bean class="java.lang.String" id="saveDirectory">
-		<constructor-arg value="c://imgFile//" />
+		<constructor-arg value="/home/ubuntu/resources/profilePic" />
 	</bean>
 	
 	<bean class="java.lang.String" id="commentSaveDirectory">
@@ -19,10 +19,10 @@
 	</bean>
 
 	<bean class="java.lang.String" id="commentRelativeSaveDirectory">
-		<constructor-arg value="C:\Donggle\CollaB_Donggle\CollaB\src\main\webapp\resources\commentFile" />
+		<constructor-arg value="/home/ubuntu/resources/commentFile" />
 	</bean>
 	
 	<bean class="java.lang.String" id="cardSaveDirectory">
-		<constructor-arg value="C:\Donggle\CollaB_Donggle\CollaB\src\main\webapp\resources\cardFile" />
+		<constructor-arg value="/home/ubuntu/apache-tomcat-9.0.59/webapps/cardFile/" />
 	</bean>
 </beans>
