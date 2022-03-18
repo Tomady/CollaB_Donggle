@@ -7,9 +7,8 @@
 <title>Insert title here</title>
 <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
 <link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
-	crossorigin="anonymous">
+	href="/use.fontawesome.com/releases/v5.15.4/css/all.css">
+<link rel="stylesheet" href="resources/assets/css/style.css">
 	
 <style type="text/css">
 .logincontainer {
@@ -44,6 +43,8 @@
 	text-align: center;
 	height: 100%;
 	line-height: 180px;
+	font-family: "Nunito", "Segoe UI", arial;	
+	    font-weight: 800;
 }
 
 .loginbody {
@@ -166,6 +167,8 @@
 	color: white;
 	transition: 0.3s;
 	cursor: pointer;
+	font-family: "Nunito", "Segoe UI", arial;	
+	    font-weight: 700;
 }
 
 .loginBtn:hover, .globalLoginBtn:hover {
@@ -188,6 +191,8 @@
 	color: white;
 	transition: 0.3s;
 	cursor: pointer;
+	font-family: "Nunito", "Segoe UI", arial;	
+	    font-weight: 700;
 }
 
 .loginbackcontainer {
@@ -213,14 +218,14 @@
 
 .loginUltag {
 	position: absolute;
-	top: 3%;
+	top: 10%;
 	right: 4%;
 	list-style: none;
 }
 
 .loginUltag>li {
 	cursor: pointer;
-	margin-bottom: 3.5rem;
+	margin-bottom: 5rem;
 }
 
 .homeLogo {
@@ -235,6 +240,8 @@
 .homeLogo a {
 	text-decoration: none;
 	color: #9F90D9;
+	font-family: "Nunito", "Segoe UI", arial;	
+	    font-weight: 900;
 }
 
 .find_wrap {
@@ -281,14 +288,14 @@
 				<label class="loginInputLabel">
 					<i id="icons" class="fas fa-user-tie"></i>
 					<input id="loginId" class="loginInput" type="text" autofocus="true" required>
-					<span class="label">Useremail</span>
+					<span class="label">User ID</span>
 					<span class="underline"></span>
 				</label>
 				
 				<label class="loginInputLabel">
 					<i id="icons" class="fas fa-unlock-alt"></i>
 					<input id="loginPassword" class="loginInput" type="password" required>
-					<span class="label">password</span> 
+					<span class="label">Password</span> 
 					<span class="underline"></span>
 				</label>
 
@@ -304,7 +311,7 @@
 	</div>
 	<div class="loginbackcontainer">
 		<h1 class="homeLogo">
-			<a href="index.do">CollaB</a>
+			<a href=""><img src="resources/img/logo222.png" width="300px;"></a>
 		</h1>
 		<ul class="loginUltag">
 			<li>
@@ -322,11 +329,11 @@
 					<img class="loginIcons" src="resources/img/google.png" alt="">
 				</a>
 			</li>
-			<li>
-				<a href="javascript:facebookLogin()">
-					<img class="loginIcons" src="resources/img/facebook.png" alt="">
-				</a>
-			</li>
+<!-- 			<li> -->
+<!-- 				<a href="javascript:facebookLogin()"> -->
+<!-- 					<img class="loginIcons" src="resources/img/facebook.png" alt=""> -->
+<!-- 				</a> -->
+<!-- 			</li> -->
 		</ul>
 	</div>
 </body>

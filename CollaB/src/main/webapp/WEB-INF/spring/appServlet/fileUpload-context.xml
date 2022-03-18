@@ -19,7 +19,7 @@
 	</bean>
 
 	<bean class="java.lang.String" id="commentRelativeSaveDirectory">
-		<constructor-arg value="C:\Donggle\CollaB_Donggle\CollaB\src\main\webapp\resources\commentFile" />
+		<constructor-arg value="/home/ubuntu/resources/commentFile" />
 	</bean>
 	
 	<bean class="java.lang.String" id="cardSaveDirectory">

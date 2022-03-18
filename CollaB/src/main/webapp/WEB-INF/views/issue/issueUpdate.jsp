@@ -249,9 +249,9 @@ textarea {
 		});
 		
 		$("#cancelBtn").click(function() {
-			frm.action = "issueBoard.do";
-			frm.submit();
-		});		
+			location.href = "issueBoard.do";
+
+		});	
 	});
     
     $(function() {
