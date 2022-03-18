@@ -310,7 +310,7 @@
         
         <ul class="navbar-nav navbar-right">
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="resources/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+            <img alt="image" src="${prof_pic}" class="rounded-circle mr-1">
             <div class="d-sm-none d-lg-inline-block">Hi,${nickname}</div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
@@ -336,7 +336,7 @@
           <div class="card-body">
             <div class="row form-group mt-3">
               <label>Workspace Name<span style="color: red;"> *</span></label>
-              <input id="modal-workspace-title" type="text" class="form-control">
+              <input id="modal-workspace-title" type="text" maxlength="10" class="form-control">
             </div>
             <div class="row buttons mt-3">
               <button class="mt-5 btn btn-icon icon-left btn-secondary" id="createWK"
@@ -381,7 +381,7 @@
         </div>
         <div class="row form-group mt-3">
           <label>Board Title<span style="color: red;"> *</span></label>
-          <input id="modal-board-title" type="text" class="form-control">
+          <input id="modal-board-title" type="text" maxlength="20" class="form-control">
         </div>
         <div class="row form-group mt-3">
           <label>Workspace</label>
@@ -512,7 +512,106 @@
   </div>
   <!--페이징처리-->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="resources/js/jay/confirmForm.js"></script>
   <script type="text/javascript">
+   function logout(){
+      swal({
+         title: "정말 로그아웃을 하시겠습니까?",
+         icon : "warning",
+         buttons : ["취소", "확인"]
+      })
+      .then(function(value) {
+         if(value) {
+      
+            ajaxCompanyChk();
+         }
+      })
+   }
+
+   function ajaxCompanyChk() {
+      $.ajax({
+         url : 'ajaxTokenChk.do',
+         dataType : 'text',
+         success : function(data) {
+            if(data == "No") {
+               location.href="logout.do";
+            } else {
+               logoutSwitchFn(data);
+            }
+         }
+      })
+   }
+   
+   function logoutSwitchFn(data){
+      switch(data) {
+         case "카카오": 
+            kakaoLogoutFn();   
+            break;
+            
+         case "네이버":
+            
+            naverLogoutFn();
+            break;
+            
+         case "구글": 
+         
+            googleLogoutFn();
+            break;
+            
+         case "페이스북":
+         
+            location.href="facebookLogout.do";
+            break;
+      }
+   }
+   
+   function kakaoLogoutFn(){
+      $.ajax({
+         url : 'kakaoLogoutUrl.do',
+         dataType : 'text',
+         type : 'post',
+         success : function(data){
+            location.href=data;
+         
+         }
+      })
+   }
+      
+   function googleLogoutFn(){
+      $.ajax({
+         url : 'googleLogout.do',
+         type : 'post',
+         dataType : 'text',
+         success : function(data){
+            popupFn(data);
+         }
+      })
+   }
+   
+   function naverLogoutFn(){
+      
+      $.ajax({
+         url : 'naverLogout.do',
+         type : 'post',
+         dataType : 'text',
+         success : function(data){
+            
+            popupFn(data);
+         }
+      })
+   }
+   
+   function popupFn(url){
+      var popupWidth = 1000;
+      var popupHeight = 700;
+      
+      var popupX = (window.screen.width / 2) - (popupWidth /2);
+      var popupY = (window.screen.height / 2) - (popupHeight /2);
+      
+      window.open(url, 'popup', 'z-lock=yes, width='+popupWidth+', height='+popupHeight+', top='+popupY+', left='+popupX);
+      location.href='login.do'
+   }
+  
   var pagenumber = 10
   var pageCount = 3
   var currentPage = 1;

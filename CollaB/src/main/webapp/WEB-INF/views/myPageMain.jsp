@@ -112,7 +112,8 @@
 				</div>
 				<div class="card-body">
 					<div class="row form-group mt-3">
-						<label>Workspace Name<span style="color: red;"> *</span></label> <input
+						<label>Workspace Name<span style="color: red;"> *</span></label> 
+						<input maxlength="10"
 							id="modal-workspace-title" type="text" class="form-control">
 					</div>
 					<div class="row buttons mt-3">
@@ -166,12 +167,12 @@
 									style="width: 3%; height: 50px; background-color: rgb(12, 12, 12); margin-left: 5%;"></span>
 							</div>
 						</div>
-						<input id="modal-board-background" type="text"
+						<input id="modal-board-background" type="text" 
 							class="form-control" readonly>
 					</div>
 					<div class="row form-group mt-3">
 						<label>Board Title<span style="color: red;"> *</span></label> <input
-							id="modal-board-title" type="text" class="form-control">
+							maxlength="20" id="modal-board-title" type="text" class="form-control">
 					</div>
 					<div class="row form-group mt-3">
 						<label>Workspace</label> <select class="form-control"

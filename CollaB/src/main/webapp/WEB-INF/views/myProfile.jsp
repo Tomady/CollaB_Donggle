@@ -115,7 +115,7 @@ th {
 				<div class="card-body">
 					<div class="row form-group mt-3">
 						<label>Workspace Name<span style="color: red;"> *</span></label> <input
-							id="modal-workspace-title" type="text" class="form-control">
+							maxlength="10" id="modal-workspace-title" type="text" class="form-control">
 					</div>
 					<div class="row buttons mt-3">
 						<button class="mt-5 btn btn-icon icon-left btn-secondary"
@@ -173,7 +173,7 @@ th {
 					</div>
 					<div class="row form-group mt-3">
 						<label>Board Title<span style="color: red;"> *</span></label> <input
-							id="modal-board-title" type="text" class="form-control">
+							maxlength="20" id="modal-board-title" type="text" class="form-control">
 					</div>
 					<div class="row form-group mt-3">
 						<label>Workspace</label> <select class="form-control"

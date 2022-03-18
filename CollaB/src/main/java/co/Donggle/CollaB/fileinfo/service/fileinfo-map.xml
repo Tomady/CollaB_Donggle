@@ -6,7 +6,7 @@
 	resultType="co.Donggle.CollaB.fileinfo.service.FileInfoVO">
 	 	SELECT * 
 	 	FROM FILE_INFO 
-	 	WHERE FILE_ID = #{file_id}
+	 	WHERE CARD_ID = #{card_id}
 	</select>
 	
 	<insert id="cardFileUpload"
@@ -17,6 +17,13 @@
 		INSERT INTO FILE_INFO
 		VALUES(#{file_id},#{file_name},#{pfile_name},#{card_id},#{id},sysdate,0)
 	</insert>
+	
+	<select id="cardFileCount" resultType="int"
+	parameterType="co.Donggle.CollaB.fileinfo.service.FileInfoVO">
+		SELECT COUNT(*) 
+		FROM FILE_INFO 
+		WHERE CARD_ID = #{card_id}
+	</select>
 	
 	<select id="cardFileSelectList" parameterType="int"
 	resultType="co.Donggle.CollaB.fileinfo.service.FileInfoVO">
@@ -49,8 +56,8 @@
 		<selectKey keyProperty="history_num" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(HISTORY_NUM),0)+1 FROM FILE_HISTORY
 		</selectKey>
-		INSERT INTO FILE_HISTORY(HISTORY_NUM, FILE_ID, PFILE_NAME)
-		VALUES(#{history_num},#{file_id},#{pfile_name})
+		INSERT INTO FILE_HISTORY(HISTORY_NUM, FILE_ID, PFILE_NAME, UPLOAD_DATE, FILE_NAME)
+		VALUES(#{history_num},#{file_id},#{pfile_name},sysdate,#{file_name})
 	</insert>
 	
 	<insert id="cardFileHistoryInsertExistPrev"
@@ -60,15 +67,20 @@
 		</selectKey>
 		INSERT INTO FILE_HISTORY
 		VALUES(#{history_num},
-			   #{file_id},
-			   (SELECT MAX(HISTORY_NUM) FROM FILE_HISTORY WHERE FILE_ID = #{file_id}),
-			   #{pfile_name})
+			   (SELECT FILE_ID FROM FILE_INFO WHERE CARD_ID = #{card_id}),
+			   (SELECT MAX(HISTORY_NUM) FROM FILE_HISTORY WHERE FILE_ID = (SELECT FILE_ID 
+			   															   FROM FILE_INFO 
+			   															   WHERE CARD_ID = #{card_id})),
+			   #{pfile_name},sysdate,#{file_name})
 	</insert>
 	
 	<update id="cardFileEdit"
 	parameterType="co.Donggle.CollaB.fileinfo.service.FileInfoVO">
 		UPDATE FILE_INFO
-		SET PFILE_NAME = #{pfile_name}
-		WHERE FILE_ID = #{file_id}
+		SET FILE_NAME = #{file_name},
+			PFILE_NAME = #{pfile_name},
+			ID = #{id},
+			FILE_UPLOAD_DATE = sysdate
+		WHERE FILE_ID = (SELECT FILE_ID FROM FILE_INFO WHERE CARD_ID = #{card_id})
 	</update>
 </mapper>

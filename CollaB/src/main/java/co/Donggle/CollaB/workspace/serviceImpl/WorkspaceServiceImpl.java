@@ -50,4 +50,9 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 		return map.workspaceDelete(vo);
 	}
 
+	@Override
+	public List<WorkspaceVO> workspaceListSearch(WorkspaceVO vo) {
+		return map.workspaceListSearch(vo);
+	}
+
 }

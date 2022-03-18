@@ -52,4 +52,9 @@ public class FileInfoServiceImpl implements FileInfoService {
 	public int cardFileEdit(FileInfoVO vo) {
 		return map.cardFileEdit(vo);
 	}
+
+	@Override
+	public int cardFileCount(FileInfoVO vo) {
+		return map.cardFileCount(vo);
+	}
 }
