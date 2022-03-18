@@ -984,7 +984,7 @@ document.addEventListener("DOMContentLoaded", function(){
                           	<c:if test="${fn:substringAfter(file.pfile_name,'.') eq 'jpg' 
                           	|| fn:substringAfter(file.pfile_name,'.') eq 'png' 
                           	|| fn:substringAfter(file.pfile_name,'.') eq 'gif'}">
-                          		<img id="thumbnailImg${file.file_id}" src="/home/ubuntu/apache-tomcat-9.0.59/webapps/cardFile/${file.pfile_name}">
+                          		<img id="thumbnailImg${file.file_id}" src="/cardFile/${file.pfile_name}">
                           	</c:if>
                           		<h5 style="display:inline-block;">${fn:substringAfter(file.pfile_name,'.')}</h5>
                           	</div> 

@@ -21,7 +21,6 @@
 	href='<c:url value="/resources/assets/css/style.css"></c:url>'>
 <link rel="stylesheet"
 	href='<c:url value="/resources/assets/css/components.css"></c:url>'>
-<link rel="stylesheet" href="css/custom.css">
 </head>
 
 <body>
