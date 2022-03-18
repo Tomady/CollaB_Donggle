@@ -8,6 +8,7 @@ public interface MyPageService {
 	int updatePw(MyPageVO vo); // 비밀번호 수정
 	int deleteUser(MyPageVO vo); // 탈퇴
 	MyPageVO pwCheck(MyPageVO vo); // 비밀번호 체크
+	MyPageVO matchPw(MyPageVO vo); // 암호화 비밀번호 비교
 
 
 }

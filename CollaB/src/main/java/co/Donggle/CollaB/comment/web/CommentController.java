@@ -110,7 +110,7 @@ public class CommentController {
 		pfileName = pfileName + fileName.substring(fileName.lastIndexOf("."));
 		File target = new File(commentRelativeSaveDirectory, pfileName);
 		vo.setFile_name(fileName);
-		vo.setPfile_name(pfileName);
+		vo.setPfile_name(commentRelativeSaveDirectory + pfileName);
 		vo.setFile_date(vo.getComment_date());
 		System.out.println("setFile_date : "+vo.getFile_date());
 		
@@ -137,7 +137,7 @@ public class CommentController {
 		pfileName = pfileName + fileName.substring(fileName.lastIndexOf("."));
 		File target = new File(commentRelativeSaveDirectory, pfileName);
 		vo.setFile_name(fileName);
-		vo.setPfile_name(pfileName);
+		vo.setPfile_name(commentRelativeSaveDirectory+ pfileName);
 		vo.setFile_date(vo.getComment_date());
 		
 		if(!new File(commentRelativeSaveDirectory).exists()) {
@@ -165,7 +165,7 @@ public class CommentController {
 		pfileName = pfileName + fileName.substring(fileName.lastIndexOf("."));
 		File target = new File(commentRelativeSaveDirectory, pfileName);
 		vo.setFile_name(fileName);
-		vo.setPfile_name(pfileName);
+		vo.setPfile_name(commentRelativeSaveDirectory+pfileName);
 		
 		if(!new File(commentRelativeSaveDirectory).exists()) {
 			new File(commentRelativeSaveDirectory).mkdir();
