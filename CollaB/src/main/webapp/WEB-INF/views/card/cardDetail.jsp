@@ -37,8 +37,8 @@
       opacity: 0;
       transition: all 0.3s;
       position: absolute;
-      top: -25px;
-      left: -15px;
+      top: -5px;
+      left: 280px;
       z-index : 999;
       line-height : 30px;
     }
@@ -832,50 +832,47 @@ document.addEventListener("DOMContentLoaded", function(){
                       <div class="card-header">
                         <div class="row">
                           <h4>Label</h4>
-                          <div class="label light" style="background-color: white;" onclick="selectLabel('None')"> </div>
-                          <div class="label danger" style="background-color: rgb(253, 38, 38);" onclick="selectLabel('Red')"></div>
-                          <div class="label warning" style="background-color: rgb(255, 184, 52);" onclick="selectLabel('Orange')"></div>
-                          <div class="label success" style="background-color: rgb(58, 231, 95);" onclick="selectLabel('Green')"></div>
-                          <div class="label info" style="background-color: rgb(0, 217, 255);" onclick="selectLabel('SkyBlue')"></div>
-                          <div class="label primary" style="background-color: rgb(85, 73, 248);" onclick="selectLabel('Blue')"></div>
-                          <div class="label secondary" style="background-color: rgb(165, 165, 165);" onclick="selectLabel('Gray')"></div>
-                          <div class="label dark" style="background-color: rgb(7, 7, 7);" onclick="selectLabel('Black')"> </div>
+                          <div class="label light" style="background-color: white;" onclick="selectLabel('None',${cardinfo.card_id})"> </div>
+                          <div class="label danger" style="background-color: rgb(253, 38, 38);" onclick="selectLabel('Red',${cardinfo.card_id})"></div>
+                          <div class="label warning" style="background-color: rgb(255, 184, 52);" onclick="selectLabel('Orange',${cardinfo.card_id})"></div>
+                          <div class="label success" style="background-color: rgb(58, 231, 95);" onclick="selectLabel('Green',${cardinfo.card_id})"></div>
+                          <div class="label info" style="background-color: rgb(0, 217, 255);" onclick="selectLabel('SkyBlue',${cardinfo.card_id})"></div>
+                          <div class="label primary" style="background-color: rgb(85, 73, 248);" onclick="selectLabel('Blue',${cardinfo.card_id})"></div>
+                          <div class="label secondary" style="background-color: rgb(165, 165, 165);" onclick="selectLabel('Gray',${cardinfo.card_id})"></div>
+                          <div class="label dark" style="background-color: rgb(7, 7, 7);" onclick="selectLabel('Black',${cardinfo.card_id})"> </div>
                           <c:if test="${cardinfo.card_label eq 'light'}">
-                          	<input class="selectedLabel form-control ml-1 mr-1" type="text" style="width: 80px; 
+                          	<input id="testbtn" class="selectedLabel form-control ml-1 mr-1" type="text" style="width: 80px; 
                           	height: 25px;" value="None" readonly>
                           </c:if>
                           <c:if test="${cardinfo.card_label eq 'danger'}">
-                          	<input class="selectedLabel form-control ml-1 mr-1" type="text" style="width: 80px; 
+                          	<input id="testbtn" class="selectedLabel form-control ml-1 mr-1" type="text" style="width: 80px; 
                           	height: 25px;" value="Red" readonly>
                           </c:if>
                           <c:if test="${cardinfo.card_label eq 'warning'}">
-	                          <input class="selectedLabel form-control ml-1 mr-1" type="text" style="width: 80px; 
-	                          height: 25px;" value="Orange" readonly>
+                            <input id="testbtn" class="selectedLabel form-control ml-1 mr-1" type="text" style="width: 80px; 
+                            height: 25px;" value="Orange" readonly>
                           </c:if>
                           <c:if test="${cardinfo.card_label eq 'success'}">
-                          	<input class="selectedLabel form-control ml-1 mr-1" type="text" style="width: 80px; 
+                          	<input id="testbtn" class="selectedLabel form-control ml-1 mr-1" type="text" style="width: 80px; 
                           	height: 25px;" value="Green" readonly>
                           </c:if>
                           <c:if test="${cardinfo.card_label eq 'info'}">
-                          	<input class="selectedLabel form-control ml-1 mr-1" type="text" style="width: 80px; 
+                          	<input id="testbtn" class="selectedLabel form-control ml-1 mr-1" type="text" style="width: 80px; 
                           	height: 25px;" value="SkyBlue" readonly>
                           </c:if>
                           <c:if test="${cardinfo.card_label eq 'primary'}">
-                          	<input class="selectedLabel form-control ml-1 mr-1" type="text" style="width: 80px; 
+                          	<input id="testbtn" class="selectedLabel form-control ml-1 mr-1" type="text" style="width: 80px; 
                           	height: 25px;" value="Blue" readonly>
                           </c:if>
                           <c:if test="${cardinfo.card_label eq 'secondary'}">
-                          	<input class="selectedLabel form-control ml-1 mr-1" type="text" style="width: 80px; 
+                          	<input id="testbtn" class="selectedLabel form-control ml-1 mr-1" type="text" style="width: 80px; 
                           	height: 25px;" value="Gray" readonly>
                           </c:if>
                           <c:if test="${cardinfo.card_label eq 'dark'}">
-                          	<input class="selectedLabel form-control ml-1 mr-1" type="text" style="width: 80px; 
+                          	<input id="testbtn" class="selectedLabel form-control ml-1 mr-1" type="text" style="width: 80px; 
                           	height: 25px;" value="Black" readonly>
                           </c:if>
-                          <button id="testbtn" class="fa fa-check" onclick="cardLabelSelect(${cardinfo.card_id})"
-                          style="border:solid 1px rgb(240, 238, 238); background-color: white;">
-                          	<div class="test123">SAVE!</div>
-                          </button>
+                          	<div class="test123">&nbsp;SAVE!</div>
                         </div>
                       </div>
                     </div>
@@ -987,7 +984,7 @@ document.addEventListener("DOMContentLoaded", function(){
                           	<c:if test="${fn:substringAfter(file.pfile_name,'.') eq 'jpg' 
                           	|| fn:substringAfter(file.pfile_name,'.') eq 'png' 
                           	|| fn:substringAfter(file.pfile_name,'.') eq 'gif'}">
-                          		<img id="thumbnailImg${file.file_id}" src="resources/cardFile/${file.pfile_name}">
+                          		<img id="thumbnailImg${file.file_id}" src="/home/ubuntu/apache-tomcat-9.0.59/webapps/cardFile/${file.pfile_name}">
                           	</c:if>
                           		<h5 style="display:inline-block;">${fn:substringAfter(file.pfile_name,'.')}</h5>
                           	</div> 
