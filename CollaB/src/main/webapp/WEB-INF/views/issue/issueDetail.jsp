@@ -330,23 +330,26 @@ img{
 		$("#replyDel").click(function(){
 			let replyid = $("#nickname").data('replyid');
 			console.log(replyid);
-			
-			$.ajax({
-				url : "AjaxDelReply",
-				type : "post",
-				data : { 
-					replyid : replyid
-				},
-				dataType : "text",
-				success : function(result){
-					if(result == "true"){
-						console.log("삭제 완료");
-						location.reload();
-					}else{
-						console.log("댓글 삭제 실패");
+			if(confirm("댓글을 삭제하시겠습니까?") == true){
+				$.ajax({
+					url : "AjaxDelReply",
+					type : "post",
+					data : { 
+						replyid : replyid
+					},
+					dataType : "text",
+					success : function(result){
+						if(result == "true"){
+							console.log("삭제 완료");
+							location.reload();
+						}else{
+							console.log("댓글 삭제 실패");
+						}
 					}
-				}
-			})
+				})
+			}else{
+				return;
+			}	
 			
 		});
 		
@@ -366,26 +369,29 @@ img{
 	            item_id = $(items[i]).data('itemid');
 	            console.log(item_id)
 	        }
-			
-			$.ajax({
-				url : "issueDelete.do",
-				type : "post",
-				data : {
-					  issueid : issueId
-					, checklist_id : checklist_id
-					, item_id : item_id
-				},
-				dataType : "text",
-				success : function(data) {
-					if (data == "true") {
-						alert("✔ 삭제 완료");
-						location.href = "issueBoard.do?workspace_id=" + ${workspace.workspace_id};
+	        if(confirm("글을 삭제하시겠습니까?") == true){
+				$.ajax({
+					url : "issueDelete.do",
+					type : "post",
+					data : {
+						  issueid : issueId
+						, checklist_id : checklist_id
+						, item_id : item_id
+					},
+					dataType : "text",
+					success : function(data) {
+						if (data == "true") {
+							alert("✔ 삭제 완료");
+							location.href = "issueBoard.do?workspace_id=" + ${workspace.workspace_id};
+						}
+					},
+					error : function() {
+						alert("⁉ 삭제 실패");
 					}
-				},
-				error : function() {
-					alert("⁉ 삭제 실패");
-				}
-			}) 
+				})
+	        }else{
+	        	return;
+	        }
 
 		}
 

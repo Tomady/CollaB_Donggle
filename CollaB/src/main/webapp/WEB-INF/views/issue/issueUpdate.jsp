@@ -251,7 +251,7 @@ textarea {
 		$("#cancelBtn").click(function() {
 			location.href = "issueBoard.do";
 
-		});		
+		});	
 	});
     
     $(function() {
