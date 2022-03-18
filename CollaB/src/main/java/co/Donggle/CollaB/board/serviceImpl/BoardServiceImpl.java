@@ -140,4 +140,9 @@ public class BoardServiceImpl implements BoardService {
 		return map.boardDelete(vo);
 	}
 
+	@Override
+	public List<BoardVO> boardNameSearch(BoardVO vo) {
+		return map.boardNameSearch(vo);
+	}
+
 }

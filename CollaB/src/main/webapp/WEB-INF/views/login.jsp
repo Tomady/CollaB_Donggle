@@ -304,7 +304,7 @@
 	</div>
 	<div class="loginbackcontainer">
 		<h1 class="homeLogo">
-			<a href="">CollaB</a>
+			<a href="index.do">CollaB</a>
 		</h1>
 		<ul class="loginUltag">
 			<li>
@@ -313,7 +313,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="https://kauth.kakao.com/oauth/authorize?client_id=3f1f202997e3b37e832aa0c1983ea15a&redirect_uri=http://localhost/CollaB/kakaologin.do&response_type=code">
+				<a href="javascript:kakaoLogin()">
 					<img class="loginIcons" src="resources/img/kakao.png" alt="">
 				</a>
 			</li>
@@ -364,13 +364,24 @@
 			type : 'get',
 			dataType : 'text',
 			success : function(data){
-				console.log(data)
+			
 				location.href=data;
 			}
 		})
 	}
 	
 	//카카오 로그인
+	function kakaoLogin(){
+		$.ajax({
+			url : 'kakaologinUrl.do',
+			type : 'get',
+			dataType : 'text',
+			success : function(data){
+				location.href=data;
+			}
+			
+		})
+	}
 	
 	//로그인 체크
 	function loginChk() {
@@ -408,14 +419,27 @@
 				password : password
 			},
 			success : function(data) {
-				swal({
-	                icon: 'success',
-	                title: data + '님 환영합니다.',
-	                text: '',
-	            })
-	            .then(function(value) {
-	            	location.href = "WorkspaceList"
-	            })
+				if(data == "No"){
+					
+					swal({
+		                icon: 'error',
+		                title: '아이디 또는 패스워드가 틀립니다.',
+		                text: '',
+		            })
+					
+				}else{
+		            console.log(data)
+		            swal({
+		                icon: 'success',
+		                title: data + '님 환영합니다.',
+		                text: '',
+		            })
+		            .then(function(value) {
+		            	location.href = "index.do"
+		            })
+				}
+				
+				
 			},
 			error : function() {
 				

@@ -19,4 +19,5 @@ public class FileInfoVO {
    //히스토리
    private int history_num;
    private int pre_file_id;
+   private Date upload_date;
 }

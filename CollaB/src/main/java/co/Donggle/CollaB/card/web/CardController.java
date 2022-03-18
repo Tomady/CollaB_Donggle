@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -48,7 +49,9 @@ public class CardController {
 	@Autowired FileInfoService fileInfoDao;
 	@Autowired String cardSaveDirectory;
 	@Autowired RecentService RecentDao;
-	
+	@Value("#{upload['upload']}")
+    private String upload;
+
 	//카드 생성
 	@ResponseBody
 	@RequestMapping("/AjaxAddCard")
@@ -251,7 +254,7 @@ public class CardController {
 		return n > 0 ? "YES" : "NO";
 	}
 	
-	//카드 파일업로드
+	//카드 파일업로드 fileinfo에 담기는 값은 card_id뿐
 	@ResponseBody
 	@RequestMapping("/AjaxCardFileUpload")
 	public FileInfoVO AjaxCardFileUpload(FileInfoVO vo, MultipartFile file, HttpSession session) {
@@ -259,7 +262,7 @@ public class CardController {
 		String pfilename = getRandomIntString(16);
 		String userId = (String)session.getAttribute("id");
 		pfilename = pfilename+filename.substring(filename.lastIndexOf("."));
-		File target = new File(cardSaveDirectory,pfilename);
+		File target = new File(upload,pfilename);
 		int n = 0;
 		
 		vo.setFile_name(filename);
@@ -270,8 +273,14 @@ public class CardController {
 		}
 		try {
 			FileCopyUtils.copy(file.getBytes(), target);
-			n = fileInfoDao.cardFileUpload(vo);
-			n += fileInfoDao.cardFileHistoryInsert(vo);
+			if(fileInfoDao.cardFileCount(vo) == 0) { //카드에 첨부파일이 없다면
+				n += fileInfoDao.cardFileUpload(vo);
+				n += fileInfoDao.cardFileHistoryInsert(vo);				
+			}else if(fileInfoDao.cardFileCount(vo) > 0) { //카드에 첨부파일이 있다면 -> 카드 파일 수정
+				//file_info 수정, file_history 추가
+				n += fileInfoDao.cardFileEdit(vo);
+				n += fileInfoDao.cardFileHistoryInsertExistPrev(vo);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -341,7 +350,7 @@ public class CardController {
 	@RequestMapping("/cardFileDownload")
 	public void AjaxCardFileDownload(FileInfoVO vo, HttpServletResponse response) throws Exception {
 		try {
-			String path = cardSaveDirectory+"\\"+vo.getPfile_name();
+			String path = cardSaveDirectory+vo.getPfile_name();
 			
 			//File file = new File(path);
 			response.setHeader("Content-Disposition", "attachment;filename=" + vo.getFile_name());

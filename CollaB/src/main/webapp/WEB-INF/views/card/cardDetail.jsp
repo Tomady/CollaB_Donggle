@@ -675,6 +675,8 @@ document.addEventListener("DOMContentLoaded", function(){
 					}else{
 						document.querySelector(".checkChart"+checkId).style.backgroundColor="tomato";						
 					}
+				}else if(itemCnt == 0){
+					document.querySelector(".checkChart"+checkId).innerHTML = "&nbsp;&nbsp;&nbsp;"+0+"%";
 				}
 			})
 		},
@@ -898,10 +900,9 @@ document.addEventListener("DOMContentLoaded", function(){
                       <div style="width: 740px;"></div>
                       <div class="card-header" style="font-size: large;">
                         <i class="fa fa-align-left" aria-hidden="true">&nbsp;&nbsp;Description</i>
-                        <button class="btn btn-light ml-2" onclick="contentsEdit()">Edit</button>
                       </div>  
-                      <div class="card-body">
-                        <textarea class="cardContents" rows="4" style="width:100%;" readonly>${cardinfo.card_contents}</textarea>
+                      <div class="card-body" >
+                        <textarea onclick="contentsEdit()" class="cardContents" rows="4" style="width:100%;" readonly>${cardinfo.card_contents}</textarea>
                         <button class="saveBtn btn btn-secondary mt-1" style="position:relative;"
                          onclick="contentsSave(${cardinfo.card_id})">SAVE
                         	<div class="saveDone">SUCCESS !</div>
@@ -927,7 +928,19 @@ document.addEventListener("DOMContentLoaded", function(){
                             	<button class="btn ml-2 fa fa-times col-rg" 
                             	onclick="checklistDelete(${check.checklist_id})"></button>
                             </div>
-                            <div class="progress mb-2"><span class="checkChart${check.checklist_id}"></span></div>
+                            <div class="progress mb-2">
+                         		<c:set var="itemCnt" value="0"></c:set>
+                            	<c:forEach items="${checkItems}" var="item">
+                            		<c:if test="${item.checklist_id eq check.checklist_id}">
+                            			<c:if test="${item.item_status eq 'Y'}">
+			                         		<c:set var="itemCnt" value="${itemCnt+1}"></c:set>                            			
+                            			</c:if>
+                            		</c:if>
+                            	</c:forEach>
+                            	<span class="checkChart${check.checklist_id}" style="font-weight:bold;">
+                            		<c:if test="${itemCnt eq 0}">&nbsp;&nbsp;&nbsp;0%</c:if>
+                            	</span>
+                            </div>
                             <c:forEach items="${checkItems}" var="item">
 	                            <c:if test="${item.checklist_id eq check.checklist_id}">
     	                        <c:if test="${item.item_status eq 'Y'}">
@@ -985,8 +998,8 @@ document.addEventListener("DOMContentLoaded", function(){
 								<div class="row">
 									<span class="btn filedelbtn" onclick="fileDelete(${file.file_id})">Delete</span>
 									<a class="btn filedownbtn" href="cardFileDownload?file_name=${file.file_name}&pfile_name=${file.pfile_name}">Download</a>
-									<label class="btn fileeditbtn" for="input-fileEdit${file.file_id}" onclick="cardFileEdit(${file.file_id})">Edit</label>
-                    				<input type="file" id="input-fileEdit${file.file_id}" style="display:none;">
+									<!-- <label class="btn fileeditbtn" for="input-fileEdit${file.file_id}" onclick="cardFileEdit(${file.file_id})">Edit</label>
+                    				<input type="file" id="input-fileEdit${file.file_id}" style="display:none;">  -->
 									<c:if test="${fn:substringAfter(file.pfile_name,'.') eq 'jpg' 
 		                          	|| fn:substringAfter(file.pfile_name,'.') eq 'png' 
 		                          	|| fn:substringAfter(file.pfile_name,'.') eq 'gif'}">
@@ -1274,6 +1287,7 @@ $("#input-file").on("change", function(){
 		contentType : false,
 		processData : false,
 		success : function(data){
+			file_append_target.innerHTML=""
 			let file_end = (data.file_name).substring((data.file_name).lastIndexOf(".")+1); //확장자명
 			
 			let card = document.createElement("div");
@@ -1304,23 +1318,23 @@ $("#input-file").on("change", function(){
 			downbtn.setAttribute("href","cardFileDownload?file_name="+data.file_name+"&pfile_name="+data.pfile_name);
 			downbtn.innerHTML = "Download";
 
-			let editbtn = document.createElement("label");
-			editbtn.setAttribute("class","btn filedelbtn");
-			editbtn.setAttribute("for","input-fileEdit"+data.file_id);
-			editbtn.innerHTML = "Edit";
-			editbtn.onclick = function(){
-				cardFileEdit(data.file_id);
-			}
-			let fileInput = document.createElement("input");
-			fileInput.setAttribute("type","file")
-			fileInput.setAttribute("id","input-fileEdit"+data.file_id);
-			fileInput.style.display = "none";
+			//let editbtn = document.createElement("label");
+			//editbtn.setAttribute("class","btn filedelbtn");
+			//editbtn.setAttribute("for","input-fileEdit"+data.file_id);
+			//editbtn.innerHTML = "Edit";
+			//editbtn.onclick = function(){
+			//	cardFileEdit(data.file_id);
+			//}
+			//let fileInput = document.createElement("input");
+			//fileInput.setAttribute("type","file")
+			//fileInput.setAttribute("id","input-fileEdit"+data.file_id);
+			//fileInput.style.display = "none";
 			
 			frow.append(filename);
 			srow.append(delbtn);
 			srow.append(downbtn);
-			editbtn.append(fileInput);
-			srow.append(editbtn);
+			//editbtn.append(fileInput);
+			//srow.append(editbtn);
 			
 			let input = document.querySelector("#input-file");
 			if(input.files[0].type.match(/image\//)){
@@ -1367,35 +1381,35 @@ function getFileSrc(input,img){
  }
  
 //카드 첨부파일 편집
-function cardFileEdit(file_id){
-	$("#input-fileEdit"+file_id).on("change", function(){
-		var form = new FormData();
-		form.append("file",$("#input-fileEdit"+file_id)[0].files[0]);
-		form.append("file_id", file_id);
-		$.ajax({
-			url : "AjaxCardFileEdit",
-			type : "POST",
-			data : form,
-			dataType : "text",
-			contentType : false,
-			processData : false,
-			success : function(data){
-				if(data != "NO"){
-					var reader = new FileReader();
-			        reader.onload = function (e) {
-			        	document.querySelector("#thumbnailImg"+file_id).setAttribute("src", e.target.result)
-			        }
-			        reader.readAsDataURL($("#input-fileEdit"+file_id)[0].files[0]);
-				}else{
-					alert("파일수정이 실패하였습니다.\n관리자에게 문의하세요.");
-				}
-			},
-			error : function(){
-				console.log("카드첨부파일 변경 실패");
-			}
-		})
-	})
-}
+//function cardFileEdit(file_id){
+//	$("#input-fileEdit"+file_id).on("change", function(){
+//		var form = new FormData();
+//		form.append("file",$("#input-fileEdit"+file_id)[0].files[0]);
+//		form.append("file_id", file_id);
+//		$.ajax({
+//			url : "AjaxCardFileEdit",
+//			type : "POST",
+//			data : form,
+//			dataType : "text",
+//			contentType : false,
+//			processData : false,
+//			success : function(data){
+//				if(data != "NO"){
+//					var reader = new FileReader();
+//			        reader.onload = function (e) {
+//			        	document.querySelector("#thumbnailImg"+file_id).setAttribute("src", e.target.result)
+//			        }
+//			        reader.readAsDataURL($("#input-fileEdit"+file_id)[0].files[0]);
+//				}else{
+//					alert("파일수정이 실패하였습니다.\n관리자에게 문의하세요.");
+//				}
+//			},
+//			error : function(){
+//				console.log("카드첨부파일 변경 실패");
+//			}
+//		})
+//	})
+//}
 	
 
 

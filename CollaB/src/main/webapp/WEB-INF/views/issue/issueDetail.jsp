@@ -148,6 +148,9 @@
 	padding-top: 10px;
 	color: gray;
 }
+img{
+	margin-bottom: 12px;
+}
 
 
 </style>
@@ -200,13 +203,15 @@
 												<div class="accordion-header" role="button"
 													data-toggle="collapse" data-target="#panel-body-1">
 													<h4>${checkList.checklist_title}</h4>
+													<input type="hidden" value="${checkList.checklist_id }" id="checklist_id" name="checklist_id">
 												</div>
 												<div class="accordion-body collapse show" id="panel-body-1"
 													data-parent="#accordion">
 													<div class="items">
 														<ul>
 															<c:forEach items="${itemList }" var="item">
-																<li>
+															
+																<li data-itemid="${item.item_id }">
 																	<span class="chkbox">
 																		<c:if test="${item.item_status eq 'Y' }">
 																			<input type="checkbox" checked>
@@ -351,31 +356,37 @@
 			$("input[type=checkbox]").bind("click", false);
 		});
 
+		
 		// 삭제 ajax function
 		function issueDelete(issueId) {
-			console.log(issueId);
-
+			let checklist_id = $("#checklist_id").val();
+			let items = $('.items').find('li');
+			let item_id;
+	        for(let i=0; i< items.length; i++) {
+	            item_id = $(items[i]).data('itemid');
+	            console.log(item_id)
+	        }
+			
 			$.ajax({
 				url : "issueDelete.do",
 				type : "post",
 				data : {
-					issueid : issueId
+					  issueid : issueId
+					, checklist_id : checklist_id
+					, item_id : item_id
 				},
 				dataType : "text",
 				success : function(data) {
 					if (data == "true") {
 						alert("✔ 삭제 완료");
-						location.href = "issueBoard.do?workspace_id=" + $
-						{
-							workspace.workspace_id
-						}
-						;
+						location.href = "issueBoard.do?workspace_id=" + ${workspace.workspace_id};
 					}
 				},
 				error : function() {
 					alert("⁉ 삭제 실패");
 				}
-			})
+			}) 
+
 		}
 
 		$(function() {

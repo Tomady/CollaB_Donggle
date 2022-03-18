@@ -148,7 +148,7 @@
 				let boardList = document.querySelector("#boardlist"); 
 				for(let data of datas){
 					let boardDIV = document.createElement("div");
-					boardDIV.setAttribute("class","col-12 col-md-6 col-lg-3 boardDIV");
+					boardDIV.setAttribute("class","col-12 col-md-6 col-lg-3 boardDIV board"+data.board_id);
 					boardDIV.setAttribute("data-name",data.board_Title);
 					let card = document.createElement("div");
 					card.setAttribute("class","card board");
@@ -171,6 +171,7 @@
 					    input.setAttribute("type","text");
 					    input.setAttribute("id","boardNewName");
 					    input.setAttribute("name","boardNewName");
+					    input.setAttribute("maxlength","20");
 					    input.addEventListener("keyup",function(){
 					        if (window.event.keyCode == 13) {
 					            // 엔터키가 눌렸을 때
@@ -192,6 +193,7 @@
 					                	success : function(data){
 					                		document.querySelector("#boardNewName").remove();
 							                target.innerHTML=data.board_Title;
+							                document.querySelector("body").removeEventListener("click",board_renameCancel);
 					                	},
 					                	error : function(){
 					                		console.log("boards페이지 AjaxBoardRename 실패");
@@ -214,6 +216,26 @@
 				    			return ;
 				    		if(event.target == event.currentTarget.querySelector("#boardNewName"))
 				    			return ;
+				    		if(boardNewName.value != ""){
+				    			// ajax로 보드 이름변경해주기
+				                $.ajax({
+				                	url : "AjaxBoardRename",
+				                	data : {
+				                		boardId : data.board_id,
+				                		newname : boardNewName.value
+				                	},
+				                	dataType : "json",
+				                	type : "POST",
+				                	success : function(data){
+				                		document.querySelector("#boardNewName").remove();
+						                target.innerHTML=data.board_Title;
+						                document.querySelector("body").removeEventListener("click",board_renameCancel);
+				                	},
+				                	error : function(){
+				                		console.log("boards페이지 AjaxBoardRename 실패");
+				                	}
+				                })
+				    		}
 				    		if(boardNewName.value == "" && clickCnt > 1){
 				    			document.querySelector("#boardNewName").remove();
 				    			let originName = document.querySelector("#borRename"+data.board_id);
@@ -427,7 +449,7 @@
         
         <ul class="navbar-nav navbar-right">
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="resources/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+            <img alt="image" src="${prof_pic}" class="rounded-circle mr-1">
             <div class="d-sm-none d-lg-inline-block">Hi, ${nickname}</div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
@@ -453,7 +475,7 @@
           <div class="card-body">
             <div class="row form-group mt-3">
               <label>Workspace Name<span style="color: red;"> *</span></label>
-              <input id="modal-workspace-title" type="text" class="form-control">
+              <input id="modal-workspace-title" type="text" size="10" maxlength="10" class="form-control">
             </div>
             <div class="row buttons mt-3">
               <button class="mt-5 btn btn-icon icon-left btn-secondary" id="createWK"
@@ -498,7 +520,7 @@
 	        </div>
 	        <div class="row form-group mt-3">
 	          <label>Board Title<span style="color: red;"> *</span></label>
-	          <input id="modal-board-title" type="text" class="form-control">
+	          <input id="modal-board-title" type="text" class="form-control" size="20" maxlength="20">
 	        </div>
 	        <div class="row form-group mt-3">
 	          <label>Workspace</label>
@@ -609,7 +631,7 @@
                       <form action="#">
                         <div class="d-flex mr-5 mt-5 mb-5">
                           <input id="searchBOARDNAME" type="search" class="form-control" placeholder="Search boards">
-                            <button class="btn btn-primary btn-icon" type="button" onclick="searchBoard()">
+                            <button class="btn btn-primary btn-icon" type="button" onclick="searchBoard(${workspace.workspace_id})">
                               <i class="fas fa-search"></i>
                             </button>
                         </div>
@@ -641,8 +663,109 @@
       </div>
     </div>
   </div>
+  <input id="workspace_id" value="${workspace.workspace_id}" style="display:none;">
   <!-- General JS Scripts -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="resources/js/jay/confirmForm.js"></script>
+  <script type="text/javascript">
+   function logout(){
+      swal({
+         title: "정말 로그아웃을 하시겠습니까?",
+         icon : "warning",
+         buttons : ["취소", "확인"]
+      })
+      .then(function(value) {
+         if(value) {
+      
+            ajaxCompanyChk();
+         }
+      })
+   }
+
+   function ajaxCompanyChk() {
+      $.ajax({
+         url : 'ajaxTokenChk.do',
+         dataType : 'text',
+         success : function(data) {
+            if(data == "No") {
+               location.href="logout.do";
+            } else {
+               logoutSwitchFn(data);
+            }
+         }
+      })
+   }
+   
+   function logoutSwitchFn(data){
+      switch(data) {
+         case "카카오": 
+            kakaoLogoutFn();   
+            break;
+            
+         case "네이버":
+            
+            naverLogoutFn();
+            break;
+            
+         case "구글": 
+         
+            googleLogoutFn();
+            break;
+            
+         case "페이스북":
+         
+            location.href="facebookLogout.do";
+            break;
+      }
+   }
+   
+   function kakaoLogoutFn(){
+      $.ajax({
+         url : 'kakaoLogoutUrl.do',
+         dataType : 'text',
+         type : 'post',
+         success : function(data){
+            location.href=data;
+         
+         }
+      })
+   }
+      
+   function googleLogoutFn(){
+      $.ajax({
+         url : 'googleLogout.do',
+         type : 'post',
+         dataType : 'text',
+         success : function(data){
+            popupFn(data);
+         }
+      })
+   }
+   
+   function naverLogoutFn(){
+      
+      $.ajax({
+         url : 'naverLogout.do',
+         type : 'post',
+         dataType : 'text',
+         success : function(data){
+            
+            popupFn(data);
+         }
+      })
+   }
+   
+   function popupFn(url){
+      var popupWidth = 1000;
+      var popupHeight = 700;
+      
+      var popupX = (window.screen.width / 2) - (popupWidth /2);
+      var popupY = (window.screen.height / 2) - (popupHeight /2);
+      
+      window.open(url, 'popup', 'z-lock=yes, width='+popupWidth+', height='+popupHeight+', top='+popupY+', left='+popupX);
+      location.href='login.do'
+   }
+   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
