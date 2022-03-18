@@ -339,7 +339,7 @@ public class CardController {
 	@RequestMapping("/cardFileDownload")
 	public void AjaxCardFileDownload(FileInfoVO vo, HttpServletResponse response) throws Exception {
 		try {
-			String path = cardSaveDirectory+"\\"+vo.getPfile_name();
+			String path = cardSaveDirectory+vo.getPfile_name();
 			
 			//File file = new File(path);
 			response.setHeader("Content-Disposition", "attachment;filename=" + vo.getFile_name());
