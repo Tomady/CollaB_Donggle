@@ -15,11 +15,6 @@ public class HomeController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(UserInfo uInfo, Model model) {
-<<<<<<< HEAD
-		
-=======
-
->>>>>>> 7db6219a3fcff035ce23be38e94b546fd7a39efd
 //		uInfo = umap.UserInfoList();
 //		uInfo.getId();
 //		model.addAttribute("uInfo", uInfo);
