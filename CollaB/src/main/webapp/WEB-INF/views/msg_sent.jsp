@@ -159,6 +159,10 @@
       background: #6553C1;
       color: #fff;
     }
+    .remove_sent{
+	    opacity: 0.0;
+		display: none;
+    }
 </style>
 </head>
 
@@ -202,16 +206,18 @@
           <div class="row form-group d-flex justify-content-between">
             <input type="text" class="form-control" style="visibility: hidden;">
             <div class="col">
+            <label>Your workspaces</label>
               <ul id="workspaces" class="list-group">
               <c:forEach items="${workspaceList}" var="workspace">
                 <li class="list-group-item" onclick="show_joinMembers(${workspace.workspace_id})">${workspace.workspace_title}</li>              
               </c:forEach>
               </ul>
             </div>
-            <div class="col form-group">
+            <div class="col">
+            <label>Your partner</label>
               <select id="members" class="form-control" multiple data-height="300px">
-              	<option>Click on the workspace<option>
-              	<option>to select a member😉<option>
+              	<option>Click on the workspace</option>
+              	<option>to select a member😉</option>
               </select>
             </div>
           </div>
@@ -499,8 +505,8 @@
                             <input id="${sent.sent_id}" type="checkbox" 
                             class="onemsg" name="onemsg" onclick="checkSelect()">
                           </th>
-                          <td onclick="selectMSG(${sent.sent_id})">${sent.sent_to}</td>
-                          <td onclick="selectMSG(${sent.sent_id})">${sent.sent_title}</td>
+                          <td class="sent_to" onclick="selectMSG(${sent.sent_id})">${sent.sent_to}</td>
+                          <td class="sent_title" onclick="selectMSG(${sent.sent_id})">${sent.sent_title}</td>
                           <td onclick="selectMSG(${sent.sent_id})" style="text-align: left;">${sent.sent_contents}</td>
                           <td onclick="selectMSG(${sent.sent_id})">${sent.sent_date}</td>
                         </tr>                      
@@ -622,12 +628,10 @@
   var pageCount = 3
   var currentPage = 1;
 
-  var tableEl = $('#sentMSGlist');
-  var tr = tableEl.find('tbody tr');
-  var trtotal = tr.length;
-
   function page(pagenumber, pageCount, currentPage) {
-
+	let tableEl = $('#sentMSGlist');
+	let tr = tableEl.find('tbody tr');
+    let trtotal = tr.length;
 
     if (trtotal == 0) return;
     var pagetotal = Math.ceil(trtotal / pagenumber);

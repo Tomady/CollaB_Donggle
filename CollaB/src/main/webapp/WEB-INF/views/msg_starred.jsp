@@ -159,6 +159,10 @@
       background: #6553C1;
       color: #fff;
     }  
+    .remove_starred{
+	    opacity: 0.0;
+		display: none;
+    }
 </style>
 <script type="text/javascript">
 //즐겨찾기
@@ -291,16 +295,18 @@ function unread(){
           <div class="row form-group d-flex justify-content-between">
             <input type="text" class="form-control" style="visibility: hidden;">
             <div class="col">
+            <label>Your workspaces</label>
               <ul id="workspaces" class="list-group">
               <c:forEach items="${workspaceList}" var="workspace">
                 <li class="list-group-item" onclick="show_joinMembers(${workspace.workspace_id})">${workspace.workspace_title}</li>              
               </c:forEach>
               </ul>
             </div>
-            <div class="col form-group">
+            <div class="col">
+            <label>Your partner</label>
               <select id="members" class="form-control" multiple data-height="300px">
-              	<option>Click on the workspace<option>
-              	<option>to select a member😉<option>
+              	<option>Click on the workspace</option>
+              	<option>to select a member😉</option>
               </select>
             </div>
           </div>
@@ -606,8 +612,8 @@ function unread(){
 	                            <i style="color:gray;" class="star fas fa-star" onclick="starFnc(${star.inbox_id})"></i>
 	                          </c:if>
                           </td>
-                          <td onclick="selectMSG(${star.inbox_id})">${star.receive_from}</td>
-                          <td onclick="selectMSG(${star.inbox_id})">${star.receive_title}</td>
+                          <td class="starred_writer" onclick="selectMSG(${star.inbox_id})">${star.receive_from}</td>
+                          <td class="starred_title" onclick="selectMSG(${star.inbox_id})">${star.receive_title}</td>
                           <td onclick="selectMSG(${star.inbox_id})" style="text-align: left;">${star.receive_contents}</td>
                           <td onclick="selectMSG(${star.inbox_id})">${star.receive_date}</td>
                         </tr>  
@@ -749,13 +755,12 @@ function unread(){
   var pagenumber = 10 //한페이지에 보여줄 메시지 수
   var pageCount = 3
   var currentPage = 1;
-
-  var tableEl = $('#starredMSGlist');
-  var tr = tableEl.find('tbody tr');
-  var trtotal = tr.length;
   
   function page(pagenumber, pageCount, currentPage) {
-
+	let tableEl = $('#starredMSGlist');
+	let tr = tableEl.find('tbody tr');
+	let trtotal = tr.length;
+	  
     if (trtotal == 0) return;
     var pagetotal = Math.ceil(trtotal / pagenumber);
     var pageGroup = Math.ceil(currentPage / pageCount);

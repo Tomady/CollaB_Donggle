@@ -11,8 +11,6 @@ document.querySelector("#inboxSearch").onclick = function(){
 		 searchvalue = $(".inbox_from");
 	}
 	
-	console.log(jogun);
-	console.log(searchvalue);
 	for(let i of searchvalue){
 		$(i).parent().removeClass("remove_inbox")
 	}

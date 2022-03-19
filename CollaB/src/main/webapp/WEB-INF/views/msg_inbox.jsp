@@ -301,13 +301,15 @@ function unread(){
           <div class="row form-group d-flex justify-content-between">
             <input type="text" class="form-control" style="visibility: hidden;">
             <div class="col">
+             <label>Your workspaces</label>
               <ul id="workspaces" class="list-group">
               <c:forEach items="${workspaceList}" var="workspace">
                 <li class="list-group-item" onclick="show_joinMembers(${workspace.workspace_id})">${workspace.workspace_title}</li>              
               </c:forEach>
               </ul>
             </div>
-            <div class="col form-group">
+            <div class="col">
+            <label>Your partner</label>
               <select id="members" class="form-control" multiple data-height="300px">
               	<option>Click on the workspace</option>
               	<option>to select a member😉</option>
