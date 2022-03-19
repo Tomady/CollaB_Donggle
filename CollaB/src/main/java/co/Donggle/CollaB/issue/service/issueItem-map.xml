@@ -29,6 +29,6 @@
 	</select>
 	
 	<delete id="deleteItem" parameterType="co.Donggle.CollaB.issue.service.IssueItemVO">
-		DELETE FROM ITEM_INFO WHERE ITEM_ID = #{item_id}
+		DELETE FROM ITEM_INFO WHERE CHECKLIST_ID = #{checklist_id}
 	</delete>
 </mapper>

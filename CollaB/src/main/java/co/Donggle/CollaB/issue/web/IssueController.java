@@ -1,8 +1,6 @@
 package co.Donggle.CollaB.issue.web;
 
-
-
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -193,7 +191,7 @@ public class IssueController {
 		System.out.println("이슈 컨텐츠: " + vo.getIssueContent());
 		
 		model.addAttribute("issues", edit);
-		// 값 넘어오는 거부터 확인하고 수정해보아라
+	
 		if (edit > 0) {
 			System.out.println("수정 완");
 		} else {
@@ -322,30 +320,24 @@ public class IssueController {
 	@RequestMapping("/issueDelete.do")
 	public String issueDelete(HttpServletRequest request) {
 		int isid = Integer.parseInt(request.getParameter("issueid"));
-		//int chkid = Integer.parseInt(request.getParameter("checklist_id"));
-		/*
-		String[] itemid = request.getParameterValues("item_id");
-		System.out.println("허ㅣㅏㄴ러어래냐ㅓ리" + itemid);
-		for(int i=0; i<itemid.length; i++) {
-			IssueItemVO ivo = new IssueItemVO();
-			ivo.setChecklist_id(chkid);
-			ivo.setItem_id(Integer.parseInt(itemid[i]));
-			System.out.println("흐긓긓긓긓그흑흑흐긓긓ㄱ"+ivo.getItem_id());
-			itemDao.deleteItem(ivo);
-		}
+		int chkid = Integer.parseInt(request.getParameter("checklist_id"));
+			
+		IssueItemVO ivo = new IssueItemVO();
+		ivo.setChecklist_id(chkid);
+		itemDao.deleteItem(ivo);		
 		
 		// 체크리스트vo 세팅
-				IssueCheckListVO cvo = new IssueCheckListVO();
-				cvo.setIssue_id(isid);
-				cvo.setChecklist_id(chkid);
-				System.out.println("체크리스트아이디이이이이이" + cvo.getChecklist_id());
-				chkListDao.deleteChkLi(cvo);
-		*/
+		IssueCheckListVO cvo = new IssueCheckListVO();
+		cvo.setIssue_id(isid);
+		cvo.setChecklist_id(chkid);
+		System.out.println("체크리스트아이디이이이이이" + cvo.getChecklist_id());
+		chkListDao.deleteChkLi(cvo);
+
 		String result = "false";
 		IssueVO vo = new IssueVO();
 		vo.setIssueId(isid);
 		int n = issueDao.deleteIssue(vo);
-
+				
 		if (n > 0) {
 			result = "true";
 		}
