@@ -85,14 +85,15 @@ public class CommentController {
 		
 	}
 	
-	@RequestMapping("/ajaxGetSessionUserNickname.do")
+	@RequestMapping(value = "/ajaxGetSessionUserNickname.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxGetSessionUserNickname(HttpSession session) {
 		String nickname = (String) session.getAttribute("nickname");
+		System.out.println(nickname);
 		return nickname;
 	}
 	
-	@RequestMapping("/ajaxGetSessionUserId.do")
+	@RequestMapping(value = "/ajaxGetSessionUserId.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxGetSessionUserId(HttpSession session) {
 		String userId = (String) session.getAttribute("id");
@@ -109,7 +110,7 @@ public class CommentController {
 		pfileName = pfileName + fileName.substring(fileName.lastIndexOf("."));
 		File target = new File(commentRelativeSaveDirectory, pfileName);
 		vo.setFile_name(fileName);
-		vo.setPfile_name(pfileName);
+		vo.setPfile_name(commentRelativeSaveDirectory + pfileName);
 		vo.setFile_date(vo.getComment_date());
 		System.out.println("setFile_date : "+vo.getFile_date());
 		
@@ -136,7 +137,7 @@ public class CommentController {
 		pfileName = pfileName + fileName.substring(fileName.lastIndexOf("."));
 		File target = new File(commentRelativeSaveDirectory, pfileName);
 		vo.setFile_name(fileName);
-		vo.setPfile_name(pfileName);
+		vo.setPfile_name(commentRelativeSaveDirectory+ pfileName);
 		vo.setFile_date(vo.getComment_date());
 		
 		if(!new File(commentRelativeSaveDirectory).exists()) {
@@ -164,7 +165,7 @@ public class CommentController {
 		pfileName = pfileName + fileName.substring(fileName.lastIndexOf("."));
 		File target = new File(commentRelativeSaveDirectory, pfileName);
 		vo.setFile_name(fileName);
-		vo.setPfile_name(pfileName);
+		vo.setPfile_name(commentRelativeSaveDirectory+pfileName);
 		
 		if(!new File(commentRelativeSaveDirectory).exists()) {
 			new File(commentRelativeSaveDirectory).mkdir();
@@ -217,7 +218,7 @@ public class CommentController {
 		System.out.println("pfile_name : "+ pfile_name);
 		
 		try {
-	        	String path = "C:\\Collab\\CollaB_Donggle\\CollaB\\src\\main\\webapp\\resources\\commentFile\\" + pfile_name; //
+	        	String path = commentRelativeSaveDirectory + pfile_name; //
 	        	
 	        	File file = new File(path);
 	        	response.setHeader("Content-Disposition", "attachment;filename=" + file_name); 

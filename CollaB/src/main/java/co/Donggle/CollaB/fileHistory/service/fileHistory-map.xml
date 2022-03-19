@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.Donggle.CollaB.fileHistory.service.FileHistoryMapper">
-	<select id="fileHistoryList" resultType="co.Donggle.CollaB.fileHistory.service.FileHIstoryVO">
-		select * from file_history
+	<select id="fileInfoList" parameterType="int" resultType="co.Donggle.CollaB.fileHistory.service.VuFileInfo">
+		select * from v_fileinfo
+		where workspace_id = #{workspaceid}
 	</select>
 
 	<select id="fileCardList" parameterType="int" resultType="co.Donggle.CollaB.fileHistory.service.VuFilehistory">

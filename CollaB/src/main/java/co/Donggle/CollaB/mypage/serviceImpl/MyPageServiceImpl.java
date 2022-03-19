@@ -38,4 +38,14 @@ public class MyPageServiceImpl implements MyPageService {
 		return MyPageMapper.deleteUser(vo);
 	}
 
+	@Override
+	public MyPageVO pwCheck(MyPageVO vo) {
+		return MyPageMapper.pwCheck(vo);
+	}
+
+	@Override
+	public MyPageVO matchPw(MyPageVO vo) {
+		return MyPageMapper.matchPw(vo);
+	}
+
 }

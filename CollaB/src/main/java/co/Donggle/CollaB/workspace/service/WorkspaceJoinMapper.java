@@ -21,4 +21,5 @@ public interface WorkspaceJoinMapper {
 	List<WorkspaceVO> workspaceListMeAdmin(String id);
 	//워크스페이스 가입내역 전부 삭제
 	int workspaceJoinAllDelete(int workspaceId);
+	
 }	

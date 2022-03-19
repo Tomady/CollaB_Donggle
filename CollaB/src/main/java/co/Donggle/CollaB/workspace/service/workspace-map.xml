@@ -49,4 +49,13 @@
 		WHERE WORKSPACE_ID = #{workspace_id}
 	</delete>
 	
+	<select id="workspaceListSearch" 
+	parameterType="co.Donggle.CollaB.workspace.service.WorkspaceVO"
+	resultType="co.Donggle.CollaB.workspace.service.WorkspaceVO">
+		SELECT W.* 
+		FROM WORKSPACE W, WORKSPACE_JOIN J
+		WHERE  W.WORKSPACE_ID = J.WORKSPACE_ID
+		AND W.ID = #{id}
+		AND W.WORKSPACE_TITLE LIKE '%'||#{workspace_title}||'%'
+	</select>
 </mapper>

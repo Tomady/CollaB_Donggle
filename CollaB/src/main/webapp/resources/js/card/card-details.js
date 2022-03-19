@@ -48,9 +48,50 @@ function boardColorFnc(color){
 
 //카드라벨선택
 //클릭한 값으로 input에다 넣어주기
-function selectLabel(color){
+function selectLabel(color,cardId){
 	document.querySelector(".selectedLabel").value="";
 	document.querySelector(".selectedLabel").value=color;
+	
+	let label = document.querySelector(".selectedLabel").value;
+	if(label == "None"){
+		label = "light";
+	}else if(label == "Red"){
+		label = "danger";
+	}else if(label == "Orange"){
+		label = "warning";
+	}else if(label == "Green"){
+		label = "success";
+	}else if(label == "SkyBlue"){
+		label = "info";
+	}else if(label == "Blue"){
+		label = "primary";
+	}else if(label == "Gray"){
+		label = "secondary";
+	}else if(label == "Black"){
+		label = "dark";
+	}
+	
+	$.ajax({
+		url : "AjaxCardLabelUpdate",
+		type : "POST",
+		data : {
+			card_id : cardId,
+			card_label : label
+		},
+		dataType : "json",
+		success : function(data){
+			console.log(data);
+			//방금 수정한 카드 가져와서 화면에 수정하여 그려주기
+			document.querySelector("#card"+data.card_id).setAttribute("class","cards card card-"+data.card_label+" ml-2 mr-2");
+			$('.test123').addClass('test1234');
+      		setTimeout(function() {
+        		$('.test123').removeClass('test1234');
+       		}, 1000)
+		},
+		error : function(){
+			console.log("AjaxCardLabelUpdate 카드라벨변경 실패");
+		}
+	})
 }
 
 //선택한라벨 저장, DB랑 화면수정
@@ -400,6 +441,7 @@ function cardCheckListSet(id,cardid){
 					let chart = document.createElement("div");
 					chart.setAttribute("class","progress mb-2");
 					let span = document.createElement("span");
+					span.innerHTML = "&nbsp;&nbsp;0%";
 					span.setAttribute("class","checkChart"+data.checklist_id);
 					let button = document.createElement("button");
 					button.setAttribute("class","btn btn-secondary fa fa-plus ml-4 mb-5 additem"+data.checklist_id);

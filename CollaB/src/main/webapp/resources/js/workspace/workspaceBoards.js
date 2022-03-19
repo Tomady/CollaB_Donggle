@@ -121,7 +121,7 @@ function changeWKIMG(newWKname){
 document.getElementById("WsName").onclick=function(){ workspaceRename() };
 function workspaceRename(){
     let appendTarget = event.target.parentElement;
-	let wkid = event.target.getAttribute("data-wkid");
+	let wkid = document.querySelector("#workspace_id").value;
 	let originName = event.target.innerHTML; //원래이름
     event.target.remove();
     let WsRename = document.createElement("input");
@@ -131,6 +131,8 @@ function workspaceRename(){
     WsRename.style.position="relative";
     WsRename.style.top="13px";
     WsRename.setAttribute("type","text");
+    WsRename.size="10";
+    WsRename.setAttribute("maxlength","10");
     WsRename.setAttribute("id","WsRename");
     WsRename.setAttribute("name","WsRename");
     WsRename.addEventListener("keyup",function(){
@@ -151,7 +153,6 @@ function workspaceRename(){
 					type : "POST",
 					dataType : "text",
 					success : function(data){
-						console.log("이름변경성공?"+data);
 						document.querySelector("#WsRename").remove();
 						changeWKIMG(newWSName);
 		                let newName = document.createElement("h3");
@@ -164,6 +165,7 @@ function workspaceRename(){
 		                document.querySelector(".workspaceNAME").append(newName);
 						document.querySelector("#workspaceName").textContent=newWSName;
 						document.querySelector("#sidebar_workspace"+wkid).innerHTML="&nbsp;&nbsp;"+newWSName;
+						document.querySelector("body").removeEventListener("click",workspace_renameCancel);
 					},
 					error: function(){
 						console.log("AjaxWorkspaceRename 아작스 실패");
@@ -185,6 +187,36 @@ function workspaceRename(){
 			return ;
 		if(event.target == event.currentTarget.querySelector("#WsRename"))
 			return ;
+		if(WsRename.value != ""){
+			let newWSName = document.querySelector("#WsRename").value;
+		 	$.ajax({
+				url : "AjaxWorkspaceRename",
+				data : {
+					newWSName : newWSName,
+					wkid : wkid
+				},
+				type : "POST",
+				dataType : "text",
+				success : function(data){
+					document.querySelector("#WsRename").remove();
+					changeWKIMG(newWSName);
+	                let newName = document.createElement("h3");
+	                newName.setAttribute("class","mt-4");
+	                newName.setAttribute("id","WsName");
+	                newName.onclick=function(){
+	                    workspaceRename();
+	                }
+	                newName.innerHTML=newWSName;
+	                document.querySelector(".workspaceNAME").append(newName);
+					document.querySelector("#workspaceName").textContent=newWSName;
+					document.querySelector("#sidebar_workspace"+wkid).innerHTML="&nbsp;&nbsp;"+newWSName;
+					document.querySelector("body").removeEventListener("click",workspace_renameCancel);
+				},
+				error: function(){
+					console.log("AjaxWorkspaceRename 아작스 실패");
+				}
+			})
+		}
 		if(WsRename.value == "" && clickCnt > 1){
 			document.querySelector("#WsRename").remove();
 			let origin = document.createElement("h3");
@@ -202,24 +234,42 @@ function workspaceRename(){
 }
 
 //보드검색기능
-function searchBoard(){
+function searchBoard(workspace_id){
     let searchVal = searchBOARDNAME.value; //사용자 입력값
 	searchBOARDNAME.value="";
 	
-	if(searchVal == ""){
-		searchBOARDNAME.focus();
-		searchBOARDNAME.style.border = "1px solid red";
-		searchBOARDNAME.placeholder = "required";
-	}else {
+	if(searchVal == ""){ //값이 없을경우 전체목록 출력
 		const boards = document.querySelectorAll(".boardDIV");
 		boards.forEach((board) => {
 			board.style.display = "block";
 		})
-		boards.forEach((board) => {
-			if(board.getAttribute("data-name") != searchVal){
-				board.style.display = "none";
+	}else {
+		$.ajax({
+			url : "AjaxBoardListSearch",
+			type : "POST",
+			data : {
+				board_Title : searchVal,
+				workspace_id : workspace_id
+			},
+			dataType : "json",
+			success : function(datas){
+				boardSearchResult(datas);
+			},
+			error : function(){
+				alert("검색결과를 불러오는데 실패하였습니다.")
 			}
 		})
+	}
+}
+
+//보드검색 콜백함수
+function boardSearchResult(list){
+	const boards = document.querySelectorAll(".boardDIV");
+	boards.forEach((board) => {
+		board.style.display = "none";
+	})
+	for(var board of list){
+		document.querySelector(".board"+board.board_id).style.display = "block";
 	}
 }
 

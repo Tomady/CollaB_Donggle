@@ -218,11 +218,11 @@ document.addEventListener("DOMContentLoaded", function(){
 							let front = document.createElement("div");
 							front.style.backgroundColor = "rgb(255,90,40)";
 							front.style.height = "30px";
-							front.style.width = yes/totalCnt*200+"px";
+							front.style.width = Math.ceil(yes/totalCnt*200)+"px";
 							front.style.color="white";
 							front.style.lineHeight="2.3";
 							if(String(yes/totalCnt*100) != 0){
-								front.innerText = yes/totalCnt*100+"%";
+								front.innerText = Math.ceil(yes/totalCnt*100)+"%";
 							}
 							
 							//만든거 조립하기
@@ -445,8 +445,12 @@ document.addEventListener("DOMContentLoaded", function(){
 		nodata=100;
 	}
 	let state = Math.ceil(yesItem/itemTotalCnt*100); //현재 진척도
-	percentage.innerHTML = "("+state+"%)";
-	if(state < 25){
+	if(state >= 1 && state <= 100){
+		percentage.innerHTML = "("+state+"%)";		
+	}else{
+		percentage.innerHTML = "(0%)";
+	}
+	if(state > 0 && state < 25){
 		project_state.style.backgroundColor="red";
 	}else if(state < 50){
 		project_state.style.backgroundColor="orange";

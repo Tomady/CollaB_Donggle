@@ -106,7 +106,7 @@ label {
 				<div class="card-body">
 					<div class="row form-group mt-3">
 						<label>Workspace Name<span style="color: red;"> *</span></label> <input
-							id="modal-workspace-title" type="text" class="form-control">
+							maxlength="10" id="modal-workspace-title" type="text" class="form-control">
 					</div>
 					<div class="row buttons mt-3">
 						<button class="mt-5 btn btn-icon icon-left btn-secondary"
@@ -164,7 +164,7 @@ label {
 					</div>
 					<div class="row form-group mt-3">
 						<label>Board Title<span style="color: red;"> *</span></label> <input
-							id="modal-board-title" type="text" class="form-control">
+							maxlength="20" id="modal-board-title" type="text" class="form-control">
 					</div>
 					<div class="row form-group mt-3">
 						<label>Workspace</label> <select class="form-control"
@@ -211,9 +211,15 @@ label {
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recent</button>
 						<div class="dropdown-menu">
 							<div class="dropdown-title">History 🎡</div>
-							<a class="dropdown-item" href="#">board_2</a> <a
-								class="dropdown-item" href="#">board_1</a> <a
-								class="dropdown-item" href="#">board_4</a>
+							<c:forEach items="${recents}" var="recent">
+			        	  	  <c:if test="${recent.board_id ne boardid}">
+			        	  	  	<c:set var="count" value="${count + 1}"/>
+			        	  	  	<c:if test="${count < 6}">
+					              	<a class="dropdown-item" onclick="location.href='boardDetail?boardID=${recent.board_id}'">${recent.board_title}</a>        	  
+			        	  	  	</c:if>
+				        	  </c:if>
+				        	  <c:set var="boardid" value="${recent.board_id}"></c:set>
+			        	  </c:forEach>
 						</div>
 					</div>
 					<div class="btn-group">
@@ -234,7 +240,7 @@ label {
 				<ul class="navbar-nav navbar-right mr-5">
 					<li class="dropdown"><a href="#" data-toggle="dropdown"
 						class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img
-							alt="image" src="resources/assets/img/avatar/avatar-1.png"
+							alt="image" src="${prof_pic }"
 							class="rounded-circle mr-1">
 							<div class="d-sm-none d-lg-inline-block">Hi, ${nickname}</div></a>
 						<div class="dropdown-menu dropdown-menu-right">
@@ -286,9 +292,13 @@ label {
 								<br>
 								<ul style="color:tomato; font-weight: bold;">
 									<li>탈퇴한 아이디는 복구가 불가능합니다.</li>
+									<li>탈퇴한 아이디로 다시 가입이 불가능합니다.</li>
 									<li>탈퇴 후에는 데이터를 복구할 수 없습니다.</li>
 								</ul>
 								<br>
+								<p>회원 탈퇴를 원하시면 비밀번호를 입력해주세요.</p>
+                				<input type="password" class="form-control" name="password" id="password" style="width: 300px;">
+								<input type="hidden" name="id" id="id">
 								<hr>
 								<br>
 								<div class="form-check form-check-inline">
@@ -309,34 +319,160 @@ label {
 		</div>
 	</div>
 
+	<script src="resources/js/jay/confirmForm.js"></script>
 	<script>
 		// 탈퇴
 		$('#withdrawBtn').on('click', function() {
+			var pwVal = document.getElementById('password').value;
+			var pwInput = document.getElementById('password');
+			
 			if (!$('#inlineCheckbox1').is(':checked')) {
 				window.alert('탈퇴정책에 동의해주시기 바랍니다.');
 				return;
-			} else {
-				if (confirm("정말 탈퇴하시겠습니까?")) {
-					//탈퇴
-					$.ajax({
-						url : '/CollaB/userDelete',
-						type : 'get',
-						success : function(data) {
-							console.log(data);
-							if (data.trim() === 'Y') {
-								alert("탈퇴가 완료되었습니다.")
-								location.href = "/CollaB/";
-							} else if (data.trim() === 'F') {
-								alert("에러가 발생하였습니다.")
+			} else if ($('#password').val().length == 0) {
+				window.alert('비밀번호를 입력해주세요.')	
+			} else if ($('#password').val().length != 0) {
+				// 비밀번호 체크
+				$.ajax({
+					url : '/CollaB/pwCheck',
+					type : 'post',
+					data : {
+						id : $('#id').val(),
+						password : pwVal
+					},
+					success : function(data) {
+						if(data.trim() === 'Y'){ // 비밀번호 맞을 때
+                        	// 탈퇴
+							if (confirm("정말 탈퇴하시겠습니까?")) {
+								$.ajax({
+									url : '/CollaB/userDelete',
+									type : 'get',
+									success : function(data) {
+												console.log(data);
+											if (data.trim() === 'Y') {
+												alert("탈퇴가 완료되었습니다.")
+												location.href = "/CollaB/";
+											} else if (data.trim() === 'F') {
+												alert("에러가 발생하였습니다.")
+										}
+									},
+									error : function(data) {
+											console.log(data);
+									}
+								})
 							}
-						},
-						error : function(data) {
-							console.log(data);
+						}else if(data.trim() === 'N'){ // 비밀번호 틀릴 때
+							alert('잘못된 비밀번호를 입력하셨습니다.\n다시 입력해주세요');
+							pwVal = '';
+							pwInput.focus();
 						}
-					})
-				}
-			}
+					},
+					error : function(error) {
+						console.log(error)
+					}
+				})
+			} 
 		})
+
+		// 로그아웃
+		 function logout(){
+		      swal({
+		         title: "정말 로그아웃을 하시겠습니까?",
+		         icon : "warning",
+		         buttons : ["취소", "확인"]
+		      })
+		      .then(function(value) {
+		         if(value) {
+		      
+		            ajaxCompanyChk();
+		         }
+		      })
+		   }
+		
+		   function ajaxCompanyChk() {
+		      $.ajax({
+		         url : 'ajaxTokenChk.do',
+		         dataType : 'text',
+		         success : function(data) {
+		            if(data == "No") {
+		               location.href="logout.do";
+		            } else {
+		               logoutSwitchFn(data);
+		            }
+		         }
+		      })
+		   }
+		   
+		   function logoutSwitchFn(data){
+		      switch(data) {
+		         case "카카오": 
+		            kakaoLogoutFn();   
+		            break;
+		            
+		         case "네이버":
+		            
+		            naverLogoutFn();
+		            break;
+		            
+		         case "구글": 
+		         
+		            googleLogoutFn();
+		            break;
+		            
+		         case "페이스북":
+		         
+		            location.href="facebookLogout.do";
+		            break;
+		      }
+		   }
+		   
+		   function kakaoLogoutFn(){
+		      $.ajax({
+		         url : 'kakaoLogoutUrl.do',
+		         dataType : 'text',
+		         type : 'post',
+		         success : function(data){
+		            location.href=data;
+		         
+		         }
+		      })
+		   }
+		      
+		   function googleLogoutFn(){
+		      $.ajax({
+		         url : 'googleLogout.do',
+		         type : 'post',
+		         dataType : 'text',
+		         success : function(data){
+		            popupFn(data);
+		         }
+		      })
+		   }
+		   
+		   function naverLogoutFn(){
+		      
+		      $.ajax({
+		         url : 'naverLogout.do',
+		         type : 'post',
+		         dataType : 'text',
+		         success : function(data){
+		            
+		            popupFn(data);
+		         }
+		      })
+		   }
+		   
+		   function popupFn(url){
+		      var popupWidth = 1000;
+		      var popupHeight = 700;
+		      
+		      var popupX = (window.screen.width / 2) - (popupWidth /2);
+		      var popupY = (window.screen.height / 2) - (popupHeight /2);
+		      
+		      window.open(url, 'popup', 'z-lock=yes, width='+popupWidth+', height='+popupHeight+', top='+popupY+', left='+popupX);
+		      location.href='login.do'
+		   }
+		
 	</script>
 
 	<!-- General JS Scripts -->

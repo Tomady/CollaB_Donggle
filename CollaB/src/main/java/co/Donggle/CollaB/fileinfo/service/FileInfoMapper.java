@@ -16,5 +16,7 @@ public interface FileInfoMapper {
 	int cardFileHistoryInsertExistPrev(FileInfoVO vo);
 	//파일-파일수정
 	int cardFileEdit(FileInfoVO vo);
+	//파일-해당카드에 파일 1개인지 0개인지 판단
+	int cardFileCount(FileInfoVO vo);
 	
 }

@@ -194,4 +194,15 @@
 		DELETE BOARD
 		WHERE BOARD_ID = #{board_id}
 	</delete>
+	
+	<select id="boardNameSearch"
+	parameterType="co.Donggle.CollaB.board.service.BoardVO"
+	resultType="co.Donggle.CollaB.board.service.BoardVO">
+		SELECT *
+		FROM board b, BOARD_JOIN j
+		WHERE b.board_id = j.board_id
+		and j.WORKSPACE_ID = #{workspace_id}
+		AND j.ID = #{id}
+		AND b.BOARD_TITLE LIKE '%'||#{board_Title}||'%'
+	</select>
 </mapper>

@@ -27,6 +27,8 @@ import co.Donggle.CollaB.invite.service.InviteService;
 import co.Donggle.CollaB.invite.service.InviteVO;
 import co.Donggle.CollaB.memberPage.service.MemWorkspaceJoinService;
 import co.Donggle.CollaB.memberPage.service.MemberPageUserService;
+import co.Donggle.CollaB.recent.service.RecentService;
+import co.Donggle.CollaB.recent.service.RecentVO;
 import co.Donggle.CollaB.user.service.UserVO;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinVO;
@@ -56,6 +58,9 @@ public class MemberPageController {
 
 	@Autowired
 	private InviteService inviteDao;
+	
+	@Autowired
+	private RecentService RecentDao;
 
 	@RequestMapping("/memberPage.do")
 	public String memberPage(Model model, HttpSession session, WorkspaceVO vo, WorkspaceJoinVO jvo) {
@@ -66,11 +71,18 @@ public class MemberPageController {
 		boardvo.setWorkspace_id(wkid);
 		boardvo.setId(userId);
 		
+		// recent
+		RecentVO recentvo = new RecentVO();
+		recentvo.setId(userId);
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
+		
 		model.addAttribute("workspace", workspaceDao.searchWorkspace(vo));
 		model.addAttribute("workspaceList", workspaceJoinDao.workspaceJoinList(userId)); // 사용자가 가지고 있는 모든 워크스페이스
 		model.addAttribute("boardList", workspaceDao.boardListinWorkspace(vo)); // 해당워크스페이스가 가지고 있는 모든 보드 - admin은 다 볼
 		model.addAttribute("boardStar", boardDao.selectBoardStar(boardvo));
 		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(boardvo));
+		model.addAttribute("recents", recents);
 		
 //		model.addAttribute("user_infoList", workspaceJoinDao.workspaceTotalMember(jvo)); // 워크스페이스의 유저 총 수
 //		model.addAttribute("workspaceUserList", memWorkspaceJoinDao.workspaceJoinIdselect(jvo)); // 워크스페이스 권한
@@ -182,7 +194,7 @@ public class MemberPageController {
 		}
 	}
 
-	@RequestMapping("/ajaxSessionId.do")
+	@RequestMapping(value = "/ajaxSessionId.do", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String ajaxSessionId(HttpSession session) {
 
@@ -283,10 +295,10 @@ public class MemberPageController {
 				+ inviteCode + "</span>\r\n"
 				+ "            <hr style=\"width: 250px; font-size: 0; height: 2px; background-color: orangered; border: none;\">\r\n"
 				+ "            <br><br>\r\n"
-				+ "            <a href=\"http://localhost/CollaB/workspaceInviteYesChk.do?result=yes&email="
+				+ "            <a href=\"http://3.38.225.18:8080/CollaB/workspaceInviteYesChk.do?result=yes&email="
 				+ user_emailconfirm
 				+ "\"><span style=\"width: 80px; height: 30px; background-color:#1c87e5; display: inline-block; border-radius: 5px; line-height: 30px; color: white; font-weight: bold;\">초대 수락</span></a>\r\n"
-				+ "            <a href=\"http://localhost/CollaB/workspaceInviteNoChk.do?result=no&email="
+				+ "            <a href=\"http://3.38.225.18:8080/CollaB/workspaceInviteNoChk.do?result=no&email="
 				+ user_emailconfirm
 				+ "\"><span style=\"width: 80px; height: 30px; background-color:black; display: inline-block; border-radius: 5px; line-height: 30px; color: white; font-weight: bold;\">초대 거절</span></a>\r\n"
 				+ "\r\n" + "        </div>\r\n" + "    </div>\r\n"
