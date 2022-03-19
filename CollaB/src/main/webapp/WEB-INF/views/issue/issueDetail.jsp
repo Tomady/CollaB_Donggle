@@ -364,13 +364,17 @@ img{
 		function issueDelete(issueId) {
 			let checklist_id = $("#checklist_id").val();
 			let items = $('.items').find('li');
-			let item_id;
+			let item_id=[];
+			
 	        for(let i=0; i< items.length; i++) {
-	            item_id = $(items[i]).data('itemid');
-	            console.log(item_id)
+	        	hh = $(items[i]).data('itemid');
+	        	item_id.push(hh);
+	           
 	        }
+	        console.log("희희", item_id);
 	        if(confirm("글을 삭제하시겠습니까?") == true){
-				$.ajax({
+				
+	        	$.ajax({
 					url : "issueDelete.do",
 					type : "post",
 					data : {
@@ -388,7 +392,7 @@ img{
 					error : function() {
 						alert("⁉ 삭제 실패");
 					}
-				})
+				}) 
 	        }else{
 	        	return;
 	        }
@@ -513,6 +517,9 @@ img{
 			} else if (name == '9') {
 				img.setAttribute("src", "resources/img/9.jpg");
 				img2.setAttribute("src", "resources/img/9.jpg");
+			}else{
+			      img.setAttribute("src","resources/img/workspace_default_profile.png");
+			      img2.setAttribute("src","resources/img/workspace_default_profile.png");
 			}
 		}
 	</script>

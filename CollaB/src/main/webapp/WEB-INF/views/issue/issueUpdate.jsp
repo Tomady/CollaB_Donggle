@@ -372,6 +372,9 @@ textarea {
     	} else if (name == '9') {
     		img.setAttribute("src", "resources/img/9.jpg");
     		img2.setAttribute("src", "resources/img/9.jpg");
+    	}else{
+    	      img.setAttribute("src","resources/img/workspace_default_profile.png");
+    	      img2.setAttribute("src","resources/img/workspace_default_profile.png");
     	}
     }
 </script>
