@@ -1,5 +1,32 @@
 //검색버튼
 document.querySelector("#sentSearch").onclick = function(){
+	let jogun = $("#sent_search_jogun").val(); //검색조건
+	let searchVal = $("#sentSearchVal").val(); //검색값
+	
+	let searchvalue;
+	if(jogun == "to"){
+		 searchvalue = $(".sent_to");
+		
+	}else if(jogun == "title"){
+		 searchvalue = $(".sent_title");
+	}
+	
+	for(let i of searchvalue){
+		$(i).parent().removeClass("remove_sent")
+	}
+	for(let i of searchvalue){
+		if($(i).html().includes(searchVal)){
+			console.log($(i).html());
+			
+			continue;
+		}
+		$(i).parent().addClass("remove_sent")
+	}	
+	$("#sentSearchVal").val("");
+	page(pagenumber, pageCount, currentPage);
+}
+
+function ffff(){
 	let jogun = document.querySelector("#sent_search_jogun").value; //검색조건
 	let searchVal = document.querySelector("#sentSearchVal").value; //검색값
 	console.log("ff");

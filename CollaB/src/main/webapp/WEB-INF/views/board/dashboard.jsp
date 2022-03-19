@@ -133,8 +133,8 @@ document.addEventListener("DOMContentLoaded", function(){
 					endDay = "0"+(end.getDate());
 				}
 				//시작일, 종료일 년-월-일 붙이기
-				var startDate = (start.getFullYear())+"-"+startMonth+"-"+startDay;
-				var endDate = (end.getFullYear())+"-"+endMonth+"-"+endDay;
+				const startDate = (start.getFullYear())+"-"+startMonth+"-"+startDay;
+				const endDate = (end.getFullYear())+"-"+endMonth+"-"+endDay;
 				//[Ajax]해당 카드가 가지고 있는 아이템 전부 조회
 				$.ajax({
 					url : "AjaxCardItemsAll",
@@ -450,6 +450,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	}else{
 		percentage.innerHTML = "(0%)";
 	}
+	console.log("project total state : "+state);
 	if(state > 0 && state < 25){
 		project_state.style.backgroundColor="red";
 	}else if(state < 50){
@@ -458,7 +459,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		project_state.style.backgroundColor="rgb(2, 192, 18)";
 	}else if(state <= 100){
 		project_state.style.backgroundColor="rgb(95, 218, 255)";
-	}
+	}else if(state == 0)
 	
 	
     new Chart(document.getElementById("stateChart"), {
