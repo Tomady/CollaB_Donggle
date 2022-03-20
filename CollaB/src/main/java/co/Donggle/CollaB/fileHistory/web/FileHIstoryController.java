@@ -74,8 +74,6 @@ public class FileHIstoryController {
 		response.setContentType("application/octet-stream; charset=UTF-8");
 		response.setCharacterEncoding("utf-8");
 
-		System.out.println("파일 이름: " + vo.getFile_name());
-
 		try {
 			String path = cardSaveDirectory + vo.getPfile_name();
 
