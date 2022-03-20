@@ -97,26 +97,28 @@
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach items="${fileInfoList }" var="item">												
-												<tr class="" data-cardid="${item.card_id }">
-													<td class="filehistory__title">${item.file_name }</td>
-													<td>${item.card_title }</td>
-													<td>${item.file_upload_date }</td>
-													<td>${item.file_hits }</td>
+											<c:forEach items="${fileInfoList }" var="fileInfo">												
+												<tr class="" data-cardid="${fileInfo.card_id }">
+													<td class="filehistory__title">${fileInfo.file_name }</td>
+													<td>${fileInfo.card_title }</td>
+													<td>${fileInfo.file_upload_date }</td>
+													<td>${fileInfo.file_hits }</td>
 													<td><button class="btn btn-dark" type="button" onclick="location.href='fileDownLoad?file_name=${item.file_name}&pfile_name=${item.pfile_name}'">Download</button></td>
 												</tr>
-											</c:forEach>
-
-											<c:forEach items="${filehistory }" var="item">
-												<tr class="tr_off" data="${item.card_id }">
-													<td>${item.pre_file }</td>
-													<td>${item.card_title }</td>
-													<td>${item.upload_date }</td>
-													<td>${item.file_hits }</td>
-													<td><button class="btn btn-secondary" type="button" onclick="location.href='fileDownLoad?file_name=${item.file_name}&pfile_name=${item.pfile_name}'">Download</button>
-													</td>
-												</tr>											
-											</c:forEach>
+												
+												<c:forEach items="${filehistory }" var="fileHi">
+													<c:if test="${fileInfo.card_id eq fileHi.card_id }">
+														<tr class="tr_off" data="${fileHi.card_id }">
+															<td style="text-align: right;">${fileHi.pre_file }</td>
+															<td>${fileHi.card_title }</td>
+															<td>${fileHi.upload_date }</td>
+															<td>${fileHi.file_hits }</td>
+															<td><button class="btn btn-secondary" type="button" onclick="location.href='fileDownLoad?file_name=${item.file_name}&pfile_name=${item.pfile_name}'">Download</button>
+															</td>
+														</tr>
+													</c:if>									
+												</c:forEach>
+											</c:forEach>											
 										</tbody>
 									</table>
 								</div>
@@ -131,6 +133,7 @@
 <input type="hidden" id="hWorkspace_id" value="${workspace.workspace_id}">
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
+
 	$('.filehistory__title').on("click", function (e) {
 		let trTitle = $(event.target).parent().attr("data-cardid")
 		let all = $('[data="' + trTitle + '"').toggle();
