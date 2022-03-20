@@ -43,7 +43,7 @@
 .tableTopMenu__left {
 	display: flex;
 	width: 300px;
-	border: 1px solid #6553C1;
+	border: 2px solid rgb(199, 174, 247);
 	height: 45px;
 	background-color: #FFFFFF;
 	border-radius: 5px;
@@ -64,10 +64,10 @@
 .tableTopMenu__left button {
 	padding: 0;
 	margin: 0;
-	
+	height: 100%;
 	width: 100px;
 	border: none;
-	background-color: #6553C1;
+	background-color: rgb(199, 174, 247);
 	color: white;
 	font-weight: bold;
 	font-size: 16px;
@@ -87,12 +87,13 @@ margin: 0;
 	margin: 0;
 	height: 50px;
 	width: 400px;
-	border: 1px solid black;
+	border: 1px solid rgb(199, 174, 247);
 	border-radius: 5px;
-	background-color: black;
+	background-color: rgb(199, 174, 247);
 	color: #FFFFFF;
 	font-weight: bold;
 	font-size: 18px;
+	outline: none;
 }
 
 .off-screen {
@@ -451,7 +452,7 @@ margin: 0;
 .bodyRow-content {
 	border: 1px dotted rgba(109, 108, 108, 0.8);
 	border-radius: 5px;
-	min-height: 100px;
+	min-height: 150px;
 	max-height: 150px;
 	overflow-y: scroll;
 }
@@ -466,7 +467,7 @@ margin: 0;
 }
 
 .member-img {
-	width: 9%;
+	width: 30px;
 	border-radius: 200%;
 	height: 90%;
 	text-align: center;
@@ -480,8 +481,7 @@ margin: 0;
 }
 
 .member-id {
-	width: calc(91% -80px);
-	margin-right: 100px;
+	width: 200px;
 	color: #fff;
 }
 
@@ -514,7 +514,7 @@ margin: 0;
 }
 
 .footerRow-content {
-	min-height: 100px;
+	min-height: 150px;
 	max-height: 150px;
 	overflow-y: scroll;
 	margin: 0 5px;
@@ -530,7 +530,7 @@ margin: 0;
 }
 
 .result-member-img {
-	width: 8.5%;
+	width: 30px;
 	border-radius: 200%;
 	height: 85%;
 	text-align: center;
@@ -544,7 +544,8 @@ margin: 0;
 }
 
 .result-member-id {
-	margin-right: 150px;
+	width: 250px;
+
 	color: #fff;
 }
 
@@ -1026,6 +1027,9 @@ input[id^="modal"]:checked+.modal-wrapper>.modalbox2 {
 	opacity: 0.0;
 	display: none;
 }
+.main-sidebar{
+	z-index: 200;
+}
 </style>
 </head>
 
@@ -1335,7 +1339,7 @@ const boardBg = {
 				workspace_id : workspaceId
 			},
 			success : function(data){
-				console.log(data)
+			
 				let userList = data.userList;
 				let usersAuthor = data.userAuthor;
 				
@@ -1394,11 +1398,12 @@ const boardBg = {
 	
 		userTrTemplate.find('.tabletdRow').attr('data', user.id);
 		userTrTemplate.find('.user__img>img').attr('src', "/profilePic/" + user.prof_pic);
+// 		userTrTemplate.find('.user__img>img').attr('src', "resources/assets/img/avatar/" + user.prof_pic);//수정쓰 
 		userTrTemplate.find('.user__name').text(user.nickname);
 		userTrTemplate.find('.userAuthor').text(userAuthorVal)
 		userTrTemplate.find('.boardsNum>span').text(boardsNub);
 		if(user.id == sessionId){
-			userRemoveBtnText = "Leave";
+			userRemoveBtnText = "Leave...";
 		
 		}
 		userTrTemplate.find('.userRemoveBtn').text(userRemoveBtnText);
@@ -1596,7 +1601,7 @@ const boardBg = {
 		Workspace__boards__body__boardsList.find('.Workspace__boards__body__boardsList__row').remove();
 
 		for(let board of data){
-				console.log(board)
+				
 			if(board.workspace_id == workspaceId){
 				let boardsListRowTemplate = $('.boardsListRowTemplate')
 			
@@ -1931,7 +1936,7 @@ const boardBg = {
 	}
 	
 	function boardRemoveFn(targetBoardId, targetRowEl){
-		console.log("oK")
+		
 		let removeResult = ajaxMemPageBoardRemove(targetBoardId, currentWorkspaceId)
 		if(removeResult){
 			targetRowEl.remove();
@@ -2027,7 +2032,7 @@ const boardBg = {
 				if(bodyFlag && footerFlag){
 					let workspaceInviteUserTemplate = $('#memMinusTemplate');
 					workspaceInviteUserTemplate.find('.bodyRow-member').attr('data', user.id)
-					workspaceInviteUserTemplate.find('.member-img>img').attr('src', user.prof_pic)
+					workspaceInviteUserTemplate.find('.member-img>img').attr('src', "/profilePic/" + user.prof_pic);
 					workspaceInviteUserTemplate.find('.member-id').text(user.email)
 					bodyRow.append(workspaceInviteUserTemplate.html());
 					
@@ -2103,8 +2108,12 @@ const boardBg = {
 		                title:'Workspace가 탈퇴 되었습니다.',
 		                text: '',
 		            })
-		            
-		            // return 어디로 시켜야할지 정해야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		            .then(function(value) {
+			if(value) {
+				
+				location.href="index.do"
+			}
+		})
 				}else{
 					swal({
 		                icon: 'error',
@@ -2116,7 +2125,7 @@ const boardBg = {
 		})
 	}
 	function ajaxWorkspaceTargetUserRemove(targetId, targetNickName){
-		console.log(targetId)
+		
 		$.ajax({
 			url : 'ajaxWorkspaceTargetUserRemove.do',
 			dataType : 'text',
@@ -2134,7 +2143,6 @@ const boardBg = {
 		                text: '',
 		            })
 		            
-		            // return 어디로 시켜야할지 정해야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				}else{
 					swal({
 		                icon: 'error',
@@ -2206,7 +2214,7 @@ const boardBg = {
 		let targetParentEl = $(event.target).closest('.bodyRow-member');
 		let memberimg = targetParentEl.find('.member-img>img').attr('src')
 		
-		console.log(memberimg)
+		
 		let memberEmail = targetParentEl.find('.member-id').text()
 	
 		let memberId = targetParentEl.attr('data')
@@ -2223,12 +2231,12 @@ const boardBg = {
 	}
 
 	function minusBtnHandle() {
-		console.log("minus")
+		
 		let targetParentEl = $(event.target).closest('.footerRow-member');
-		console.log(targetParentEl)
+		
 		
 		let memberimg = targetParentEl.find('.result-member-img>img').attr('src');
-		console.log(memberimg)
+	
 		
 		
 		let memberEmail = targetParentEl.find('.result-member-id').text();
@@ -2249,8 +2257,7 @@ const boardBg = {
 		let flag = false;
 		let inviteUserId = $(userInfo).attr('data');
 		let inviteUserEmail = $(userInfo).find('.result-member-id').text()
-		console.log(inviteUserId)
-		console.log(inviteUserEmail)
+	
 		$.ajax({
 			
 			url : 'ajaxWorkspaceMemberInvite.do',
@@ -2263,7 +2270,7 @@ const boardBg = {
 				workspace_id : currentWorkspaceId
 			},
 			success : function(data){
-				console.log("data : "+ data)
+				
 				flag = (data =="true") ? true : false;
 				
 			}
@@ -2279,7 +2286,7 @@ const boardBg = {
 		let flagChk = ajaxWorkspaceMemberInvite(userInfo);
 		if(flagChk) chk++;
 		}
-		console.log("chk : "+ chk)
+		
 		
 		if(chk != 0){
 			swal({
@@ -2442,12 +2449,11 @@ App = {
 			let name = $("#hWorkspace_title").val();
 			let testtete = $("#hWorkspace_id").val();
 			
-			console.log(testtete)
-			console.log(name)
+			
 			changeWKIMG(name);
 			
 			let workspaceId = $('#hWorkspace_id').val();
-			console.log(workspaceId)
+			
 
 			let flag = ajaxMemPageUserList(workspaceId)
 			if(flag){

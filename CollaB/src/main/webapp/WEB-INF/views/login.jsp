@@ -14,7 +14,7 @@
 <style type="text/css">
 .logincontainer {
 	position: absolute;
-	top: 50%;
+	top: 55%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width: 540px;
@@ -201,7 +201,7 @@
 	height: 500px;
 	background-color: #ECE9FE;
 	position: absolute;
-	top: 50%;
+	top: 55%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	box-shadow: 1px 1px 10px gray;
@@ -312,7 +312,7 @@
 	</div>
 	<div class="loginbackcontainer">
 		<h1 class="homeLogo">
-			<a href=""><img src="resources/img/logo222.png" width="300px;"></a>
+			<a href="index.do"><img src="resources/img/logo222.png" width="300px;"></a>
 		</h1>
 		<ul class="loginUltag">
 			<li>

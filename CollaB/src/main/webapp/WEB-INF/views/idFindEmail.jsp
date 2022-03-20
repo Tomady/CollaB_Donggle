@@ -680,7 +680,7 @@ to {
 				email : email
 			},
 			success : function(data){
-				console.log(data)
+			
 				$('#resultId').text(data);
 				modalPopupFn();
 			}
@@ -749,8 +749,7 @@ to {
     
     
     function ajaxNameEmailChk(name, email){
-    	console.log(name)
-    	console.log(email)
+    	
     	
     	$.ajax({
     		url : 'ajaxNameEmailChk.do',
@@ -859,7 +858,8 @@ to {
             setTimeout(function () {
                 idFindModal_body.classList.remove('bounceOut')
                 modal.classList.toggle('show');
-            }, 600)
+                location.href='login.do'
+            }, 400)
 
 
    

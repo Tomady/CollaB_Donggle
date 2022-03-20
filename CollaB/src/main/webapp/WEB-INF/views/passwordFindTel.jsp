@@ -596,7 +596,7 @@
                             <li>
                                 <div></div>
                                 <button type="button" class="submitBtn btn-open-popup disabled"
-                                id="passwordFindBtn" disabled="disabled" onclick="passwordFind()">바밀번호 찾기</button>
+                                id="passwordFindBtn" disabled="disabled" onclick="passwordFind()">비밀번호 찾기</button>
                                 <div></div>
                             </li>
 
@@ -622,11 +622,11 @@
                 <div class="modal__body__content">
                     <div class="password__inputBox">
                         <div class="inputText">비밀번호</div>
-                        <div class="password_input"><input type="text" id="changePassword" placeholder="새 비밀번호를 입력해주세요."></div>
+                        <div class="password_input"><input type="password" id="changePassword" placeholder="새 비밀번호를 입력해주세요."></div>
                     </div>
                     <div class="password__inputBox">
                         <div class="inputText">비밀번호 확인</div>
-                        <div class="password_input"><input type="text" id="changePasswordChk" placeholder="새 비밀번호를 입력해주세요."></div>
+                        <div class="password_input"><input type="password" id="changePasswordChk" placeholder="새 비밀번호를 입력해주세요."></div>
                     </div>
                 </div>
             </div>
@@ -645,6 +645,7 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 
+const pwReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{10,20}$/;
 
 $('.footer__passwordChange').on('click', function(){
 	let changePassword = $('#changePassword').val()
@@ -674,6 +675,16 @@ $('.footer__passwordChange').on('click', function(){
         })
         return;
 	}
+	
+	if(!pwReg.test(changePassword)){
+		swal({
+            icon: 'warning',
+            title: '비밀번호 형식이 올바르지 않습니다.',
+            text: '',
+        })
+        return;
+	}
+	
 	
 	ajaxPasswordChange(changePassword)
 
@@ -725,6 +736,10 @@ function passwordFind(){
 	let name = $('#name').val()
 	let tel = $('#tel').val()
 	
+	if(!tel.includes("-")){
+		
+		tel = tel.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
+	}
 	
 	$.ajax({
 		url : 'ajaxPasswordTelFind.do',
@@ -808,6 +823,11 @@ function nameTelChkFn(){
             text: '',
         })
         return;
+	}
+	
+	if(!tel.includes("-")){
+	
+		tel = tel.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
 	}
 	
 	ajaxNameTelChk(name, tel);

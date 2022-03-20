@@ -596,7 +596,7 @@
                             <li>
                                 <div></div>
                                 <button type="button" class="submitBtn btn-open-popup disabled"
-                                id="passwordFindBtn" disabled="disabled" onclick="passwordFind()">바밀번호 찾기</button>
+                                id="passwordFindBtn" disabled="disabled" onclick="passwordFind()">비밀번호 찾기</button>
                                 <div></div>
                             </li>
 
@@ -622,11 +622,11 @@
                 <div class="modal__body__content">
                     <div class="password__inputBox">
                         <div class="inputText">비밀번호</div>
-                        <div class="password_input"><input type="text" id="changePassword" placeholder="새 비밀번호를 입력해주세요."></div>
+                        <div class="password_input"><input type="password" id="changePassword" placeholder="새 비밀번호를 입력해주세요."></div>
                     </div>
                     <div class="password__inputBox">
                         <div class="inputText">비밀번호 확인</div>
-                        <div class="password_input"><input type="text" id="changePasswordChk" placeholder="새 비밀번호를 입력해주세요."></div>
+                        <div class="password_input"><input type="password" id="changePasswordChk" placeholder="새 비밀번호를 입력해주세요."></div>
                     </div>
                 </div>
             </div>
@@ -645,7 +645,7 @@
 <script src="resources/js/jay/confirmForm.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
-
+const pwReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{10,20}$/;
 $('.footer__passwordChange').on('click', function(){
 	let changePassword = $('#changePassword').val()
 	let changePasswordChk = $('#changePasswordChk').val()
@@ -670,6 +670,15 @@ $('.footer__passwordChange').on('click', function(){
 		swal({
             icon: 'warning',
             title: '비밀번호가 일치하지 않습니다.',
+            text: '',
+        })
+        return;
+	}
+	
+	if(!pwReg.test(changePassword)){
+		swal({
+            icon: 'warning',
+            title: '비밀번호 형식이 올바르지 않습니다.',
             text: '',
         })
         return;

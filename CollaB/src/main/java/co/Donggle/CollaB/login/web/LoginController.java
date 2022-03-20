@@ -194,7 +194,7 @@ public class LoginController {
 		String name = (String) response_obj.get("name");
 		String profile_image = (String) response_obj.get("profile_image");
 		String tel = (String) response_obj.get("mobile");
-		System.out.println("dfdfdfd : " + email);
+	
 		vo.setEmail(email);
 		vo.setName(name);
 		vo = LoginUserDao.idFindNameEmailChk(vo);
@@ -239,7 +239,7 @@ public class LoginController {
 
 		int responseCode = con.getResponseCode();
 		BufferedReader br;
-		System.out.println("responseCode=" + responseCode);
+
 		if (responseCode == 200) {
 			br = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		} else {
@@ -251,7 +251,7 @@ public class LoginController {
 			res.append(inputLine);
 		}
 		br.close();
-		System.out.println(res);
+	
 		if (responseCode == 200) {
 			String new_res = res.toString().replaceAll("&#39;", "");
 			return new_res;
@@ -341,8 +341,7 @@ public class LoginController {
 	@ResponseBody
 	public String facebookLoginUrl() {
 		String facebookUrl = facebookLoginBO.getAuthorizationUrl();
-		System.out.println("facebookUrl : " + facebookUrl);
-		System.out.println("dd?D??");
+	
 		return facebookUrl;
 	}
 
@@ -352,7 +351,6 @@ public class LoginController {
 		String accessToken = facebookLoginBO.requestFaceBooktAccesToken(session, code);
 		String facebookResult = facebookLoginBO.facebookUserDataLoadAndSave(accessToken, session);
 
-		System.out.println(facebookResult);
 		return "ok";
 	}
 
@@ -440,7 +438,7 @@ public class LoginController {
 	@ResponseBody
 	public String ajaxIdFind(UserVO vo) {
 		vo = LoginUserDao.idFindNameEmailChk(vo);
-		System.out.println(vo.getId());
+	
 		return vo.getId();
 	}
 
@@ -464,7 +462,7 @@ public class LoginController {
 	@ResponseBody
 	public String ajaxTelConfirm(int randomnum, UserVO vo) {
 		String result = sendBO.smsSend(vo.getTel(), randomnum);
-		System.out.println(result);
+	
 		if (result.equals("Yes")) {
 			return "Yes";
 		} else {
@@ -538,8 +536,7 @@ public class LoginController {
 		}
 
 		String emailResult = "( " + arrEmail[0].substring(0, 2) + arr + "@" + arrEmail[1] + " )";
-		System.out.println("telResult : " + telResult);
-		System.out.println("emailResult : " + emailResult);
+
 
 		model.addAttribute("name", vo.getName());
 		model.addAttribute("tel", telResult);

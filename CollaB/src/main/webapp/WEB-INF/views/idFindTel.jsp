@@ -637,6 +637,11 @@
 		let name = $('#name').val()
 		let tel = $('#tel').val()
 		
+		if(!tel.includes("-")){
+			
+			tel = tel.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
+		}
+		
 		$.ajax({
 			url : 'ajaxIdTelFind.do',
 			type : 'post',
@@ -646,7 +651,7 @@
 				tel : tel
 			},
 			success : function(data){
-				console.log(data)
+			
 				$('#resultId').text(data);
 				modalPopupFn();
 			}
@@ -693,6 +698,13 @@
     function nameTelChkFn(){
     	let name = $('#name').val()
     	let tel = $('#tel').val()
+    	
+    	if(!tel.includes("-")){
+    		
+    		tel = tel.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3");
+    	}
+    	
+    	
     	if(name == ''){
     		swal({
                 icon: 'warning',
@@ -708,15 +720,14 @@
             })
             return;
     	}
-    	
+    
     	ajaxNameTelChk(name, tel);
     	
     }
     
     
     function ajaxNameTelChk(name, tel){
-    	console.log(name)
-    	console.log(tel)
+    	
     	
     	$.ajax({
     		url : 'ajaxNameTelChk.do',
@@ -826,7 +837,8 @@
             setTimeout(function () {
                 idFindModal_body.classList.remove('bounceOut')
                 modal.classList.toggle('show');
-            }, 600)
+                location.href='login.do'
+            }, 300)
 
 
    

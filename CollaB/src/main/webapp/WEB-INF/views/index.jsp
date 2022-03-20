@@ -8,8 +8,10 @@
 <title>CollaB</title>
 <link rel="shortcut icon" href="/favicon2.ico" type="image/x-icon">
 <!-- General CSS Files -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
 
 <!-- Template CSS -->
 <link rel="stylesheet" href="resources/assets/css/style.css">
@@ -24,9 +26,8 @@ html, body {
 	margin: 0;
 	padding: 0;
 	height: 100%;
-
 }
-
+	
 a {
 	text-decoration: none;
 	color: black;
@@ -82,8 +83,8 @@ ul {
 	transition: .4s;
 }
 
-.nav_b ul li{
-transition-duration: 0.2s;
+.nav_b ul li {
+	transition-duration: 0.2s;
 }
 
 .nav_Bgafter .nav_b ul li:first-child {
@@ -98,11 +99,10 @@ transition-duration: 0.2s;
 	transition: .4s;
 }
 
-.nav_b ul li:first-child:hover,
-.nav_b ul li:last-child:hover{
+.nav_b ul li:first-child:hover, .nav_b ul li:last-child:hover {
 	box-shadow: 0 20px 38px rgba(0, 0, 0, 0.10);
-    transform: translateY(-3px);
-    transition-duration: 0.2s;
+	transform: translateY(-3px);
+	transition-duration: 0.2s;
 }
 
 .nav_b {
@@ -202,7 +202,7 @@ body .options {
 	align-items: stretch;
 	overflow: hidden;
 	min-width: 600px;
-	max-width: 900px;
+	max-width: 1000px;
 	width: calc(100% - 100px);
 	height: 400px;
 }
@@ -248,13 +248,10 @@ body .options .option {
 	overflow: hidden;
 	min-width: 60px;
 	margin: 10px;
-/*  	background-size: auto 120%;  */
- 	background-size: cover; 
-	background-position: center; 
-
+ 	background-size: auto 120%;  
+	background-position: center;
 	cursor: pointer;
 	transition: 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
-	
 }
 
 .options .option:nth-child(1) .label .icon {
@@ -284,15 +281,15 @@ body .options .option {
 .options .option.active {
 	flex-grow: 10000;
 	transform: scale(1);
- 	max-width: 600px; 
+	max-width: 700px;
 	margin: 0px;
 	border-radius: 40px;
-	background-size: auto 100%; 
+/* 	background-size: auto 100%; */
+background-size: 670px 400px;
+}
 
-	/*&:active {
-     transform:scale(0.9);
-  }*/
-  
+.options .option:active {
+	transform: scale(0.95);
 }
 
 body .options .option.active .shadow {
@@ -303,6 +300,7 @@ body .options .option.active .shadow {
 body .options .option.active .label {
 	bottom: 20px;
 	left: 20px;
+	width: 100%;
 }
 
 body .options .option.active .label .info>div {
@@ -346,6 +344,7 @@ body .options .option .label {
 	right: 0px;
 	height: 40px;
 	transition: 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+	width: 100%;
 }
 
 body .options .option .label .icon {
@@ -362,12 +361,13 @@ body .options .option .label .icon {
 }
 
 body .options .option .label .info {
+	width:100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	margin-left: 10px;
 	color: white;
-	white-space: pre;
+	white-space: nowrap;
 }
 
 body .options .option .label .info>div {
@@ -377,49 +377,51 @@ body .options .option .label .info>div {
 }
 
 body .options .option .label .info .main {
-	font-weight: bold;
-	font-size: 1.2rem;
+	width: 100%;
+	background-color: #fffff;
+	width: 100%;
+	text-align: center;
 }
-
-body .main{
-	color : black;
-	background-color : #f8f9fa;
+.option .label .info .main > h1{
+	font-size: 22px;
+	font-weight: 2000;
+	color: #383636;;
 }
 
 body .options .option .label .info .sub {
 	transition-delay: 0.1s;
 }
-      .swal-modal {
-            border-radius: 10px;
 
-        }
+.swal-modal {
+	border-radius: 10px;
+}
 
-        .swal-title {
-           
-        }
-
-        .swal-text {
-          
-        }
-        
-        .swal-button{
+.swal-title {
 	
 }
-.swal-button--confirm{
-	background-color : #9F90D9;
+
+.swal-text {
+	
 }
 
+.swal-button {
+	
+}
+
+.swal-button--confirm {
+	background-color: #9F90D9;
+}
 </style>
-	<script src="resources/js/jay/confirmForm.js"></script>
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="resources/js/jay/confirmForm.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 	<nav class="nav_Bg">
-		<div class="nav_t" style="height: 30px;">
-			
-		</div>
+		<div class="nav_t" style="height: 30px;"></div>
 		<div class="nav_b">
-			<div class="logo"><img src="resources/img/logo3334.png" width="200px;"></div>
+			<div class="logo">
+				<img src="resources/img/logo3334.png" width="200px;">
+			</div>
 			<ul>
 				<c:if test="${empty id }">
 					<li><a href="login.do">Sign in</a></li>
@@ -436,66 +438,75 @@ body .options .option .label .info .sub {
 			</ul>
 		</div>
 	</nav>
-	
+
 	<div class="container-scroller">
 		<div class="container_content mt-3">
-			<h1 style="font-size:80px;">CollaB</h1>
+			<h1 style="font-size: 80px;">CollaB</h1>
 			<h5>Super-connected business platform</h5>
 			<c:if test="${empty id }">
-				<button class="mb-3 mt-3 btn btn-secondary" onclick="location.href='joinForm.do'">Join us!</button>
+				<button class="mb-3 mt-3 btn btn-secondary"
+					onclick="location.href='joinForm.do'">Join us!</button>
 			</c:if>
 			<c:if test="${not empty id }">
-				<button class="mb-3 mt-3 btn btn-secondary" onclick="location.href='WorkspaceList'">Let's get started !</button>
+				<button class="mb-3 mt-3 btn btn-secondary"
+					onclick="location.href='WorkspaceList'">Let's get started
+					!</button>
 			</c:if>
 		</div>
-		
+
 		<!-- 슬라이드 -->
 		<div class="options">
-			<div class="option active" style="background-image:url(resources/img/index_1.png);">
+			<div class="option active"
+				style="background-image: url(resources/img/index_1.png);">
 				<div class="label">
 					<div class="info">
-						<div class="main">&nbsp;Manage your work efficiently with lists and cards !&nbsp;</div>
+						<div class="main"><h1>&nbsp;Manage your work efficiently with
+							lists and cards !&nbsp;</h1></div>
 					</div>
 				</div>
 				<div class="shadow"></div>
 			</div>
-			
+
 			<div class="option"
-				style="background-image:url(resources/img/index_5.png);">
+				style="background-image: url(resources/img/index_5.png);">
 				<div class="shadow"></div>
 				<div class="label">
 					<div class="info">
-						<div class="main">&nbsp;You can manage all your schedules with just one card.&nbsp;</div>
+						<div class="main"><h1>&nbsp;You can manage all your schedules
+							with just one card.&nbsp;</h1></div>
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="option"
-				style="background-image:url(resources/img/index_2.png);">
+				style="background-image: url(resources/img/index_2.png);">
 				<div class="shadow"></div>
 				<div class="label">
 					<div class="info">
-						<div class="main">&nbsp;Check out the progress of the project on the dashboard !&nbsp;</div>
+						<div class="main"><h1>&nbsp;Check out the progress of the
+							project on the dashboard !&nbsp;</h1></div>
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="option"
-				style="background-image:url(resources/img/index_3.png);">
+				style="background-image: url(resources/img/index_3.png);">
 				<div class="shadow"></div>
 				<div class="label">
 					<div class="info">
-						<div class="main">&nbsp;You can exchange messages with your colleagues.&nbsp;</div>
+						<div class="main"><h1>&nbsp;You can exchange messages with your
+							colleagues.&nbsp;</h1></div>
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="option"
-				style="background-image:url(resources/img/index_4.png);">
+				style="background-image: url(resources/img/index_4.png);">
 				<div class="shadow"></div>
 				<div class="label">
 					<div class="info">
-						<div class="main">&nbsp;The calendar makes it easy to check the schedule ! &nbsp;</div>
+						<div class="main"><h1>&nbsp;The calendar makes it easy to check
+							the schedule ! &nbsp;</h1></div>
 					</div>
 				</div>
 			</div>
