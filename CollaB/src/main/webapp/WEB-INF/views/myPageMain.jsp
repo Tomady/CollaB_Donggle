@@ -418,7 +418,7 @@
     	profileimg.setAttribute("src", "${prof_pic}");
     } else {
     	img.setAttribute("src", "/profilePic/" + "${prof_pic}");
-    	profileimg.setAttribute("src", "${prof_pic}");
+    	profileimg.setAttribute("src", "/profilePic/" + "${prof_pic}");
     }
 	
 		// 로그아웃
