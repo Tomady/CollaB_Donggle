@@ -316,12 +316,15 @@ public class LoginController {
 			session.setAttribute("nickname", vo.getNickname());
 			session.setAttribute("name", vo.getName());
 			session.setAttribute("email", vo.getEmail());
+			session.setAttribute("prof_pic", vo.getProf_pic());
+			
 			return "redirect:index.do";
 		} else {
 			model.addAttribute("email", email);
 			model.addAttribute("name", name);
 			model.addAttribute("profile_image", picture);
 			model.addAttribute("token", "구글");
+			
 			return "apiJoinForm";
 		}
 

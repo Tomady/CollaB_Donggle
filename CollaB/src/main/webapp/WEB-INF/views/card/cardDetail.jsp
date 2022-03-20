@@ -1071,7 +1071,7 @@ document.addEventListener("DOMContentLoaded", function(){
 									<div class="card-body comment__card__body">
 										<div class="comment__input__row">
 											<img class="mr-3 rounded-circle" width="40" height="40px"
-												src="${prof_pic}" alt="avatar">
+												src="" alt="avatar">
 											<div class="comment__input__Box">
 												<div class="textarea__Box">
 													<textarea name="" id=""
@@ -1178,7 +1178,7 @@ document.addEventListener("DOMContentLoaded", function(){
 					</div>
 					<div class="comment__input__row">
 						<img class="mr-3 rounded-circle" width="40" height="40px"
-							src="${prof_pic}" alt="avatar">
+							src="" alt="avatar">
 						<div class="comment__input__Box">
 							<div class="textarea__Box">
 								<textarea name="" id="" class="textareaEl textareaEl__class2"></textarea>
@@ -1311,8 +1311,22 @@ document.addEventListener("DOMContentLoaded", function(){
 	</div>
 	<input type="hidden" id="currentUserProfPic" value="${prof_pic }">
 	<input type="hidden" id="currentCardId" value="${cardinfo.card_id}">
-	<script
-		src="https://cdn.jsdelivr.net/npm/emoji-button@0.6.0/dist/index.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/emoji-button@0.6.0/dist/index.min.js"></script>
+	<script type="text/javascript">
+		let imgTag = document.querySelectorAll('.rounded-circle');
+		console.log(imgTag);
+		let prof_picTag = "${prof_pic}";
+		let imgSrc = "/profilePic/" + prof_picTag;
+		
+		imgTag.forEach(function(val, ind) {
+	        console.log(val);
+	        if(prof_picTag.substring(0, 4) == 'http') {
+	            val.setAttribute("src", prof_picTag);
+	        } else {
+	            val.setAttribute("src", imgSrc);
+	        }
+	    }) 
+	</script>
 	<script type="text/javascript">
 //카드 파일업로드
 $("#input-file").on("change", function(){
@@ -1516,7 +1530,18 @@ CommentApp = {
 		for(let comment of data){
 		
 			let template;
-			let src = comment.prof_pic;
+			
+			
+			console.log("asdfasdfasdf:" + comment.prof_pic);
+			
+			let src;
+			
+			if(comment.prof_pic.substring(0, 4) == 'http') {
+				src = comment.prof_pic;	
+			} else {
+				src = "/profilePic/" + comment.prof_pic;
+			}
+			
 			let nickname = comment.nickname;
 			let id = comment.id;
 			let commentId = comment.comment_id;
@@ -1528,6 +1553,7 @@ CommentApp = {
 			
 			let cdate = getDateStr(sdate)
 			let comment_order = comment.comment_order;
+			
 			if(prevComment_group == group && comment_order != 0){
 				recommentNum++ 
 				template = $('#recommentTemplate')
@@ -1761,6 +1787,7 @@ CommentApp = {
 }
 
 
+<<<<<<< HEAD
  $(function(){
 	 CommentApp.init();
 	 setTimeout(function() {
@@ -1770,6 +1797,17 @@ CommentApp = {
 			
 			
  })
+=======
+  $(function(){
+ 	 CommentApp.init();
+ 	 setTimeout(function() {
+ 		 let testetes = $('.comment__box>li');
+ 			console.log(testetes)
+     	 }, 1000);  	
+			
+		
+  })
+>>>>>>> ceaad7fb6cc653a45f3ad48d1ffb8707d7fb74d6
 
 
 
