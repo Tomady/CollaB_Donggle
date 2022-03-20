@@ -307,7 +307,7 @@
 															alt="" class="profileimg">
 													</c:when>
 													<c:when test="${not empty user_info.prof_pic }">
-														<img src="${user_info.prof_pic }" alt=""
+														<img src="/profilePic/${user_info.prof_pic }" alt=""
 															class="profileimg">
 													</c:when>
 												</c:choose>

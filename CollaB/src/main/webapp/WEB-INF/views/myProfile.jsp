@@ -312,7 +312,7 @@ th {
 																alt="" class="profileImg my-2 mr-2">
 														</c:when>
 														<c:when test="${not empty user_info.prof_pic }">
-															<img src="${user_info.prof_pic }" alt=""
+															<img src="/profilePic/${user_info.prof_pic }" alt=""
 																class="profileImg my-2 mr-2">
 														</c:when>
 													</c:choose> <input type="file" name="file" id="file"></td>

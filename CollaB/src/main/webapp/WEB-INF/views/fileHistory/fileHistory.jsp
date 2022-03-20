@@ -103,7 +103,7 @@
 													<td>${item.card_title }</td>
 													<td>${item.file_upload_date }</td>
 													<td>${item.file_hits }</td>
-													<td><button class="btn btn-dark" type="button">Download</button></td>
+													<td><button class="btn btn-dark" type="button" onclick="location.href='fileDownLoad?file_name=${item.file_name}&pfile_name=${item.pfile_name}'">Download</button></td>
 												</tr>
 											</c:forEach>
 
@@ -113,7 +113,7 @@
 													<td>${item.card_title }</td>
 													<td>${item.upload_date }</td>
 													<td>${item.file_hits }</td>
-													<td><button class="btn btn-secondary" type="button">Download</button>
+													<td><button class="btn btn-secondary" type="button" onclick="location.href='fileDownLoad?file_name=${item.file_name}&pfile_name=${item.pfile_name}'">Download</button>
 													</td>
 												</tr>											
 											</c:forEach>
@@ -132,7 +132,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 	$('.filehistory__title').on("click", function (e) {
-		let trTitle = $(event.target).parent().attr("data-title")
+		let trTitle = $(event.target).parent().attr("data-cardid")
 		let all = $('[data="' + trTitle + '"').toggle();
 	})
 

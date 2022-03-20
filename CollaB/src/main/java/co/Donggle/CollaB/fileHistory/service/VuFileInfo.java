@@ -14,4 +14,5 @@ public class VuFileInfo {
 	private String file_name;
 	private int workspace_id;
 	private int card_id;
+	private String pfile_name;
 }
