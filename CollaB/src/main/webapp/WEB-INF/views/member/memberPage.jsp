@@ -71,7 +71,7 @@
 	color: white;
 	font-weight: bold;
 	font-size: 16px;
-	border-radius 5px;
+	border-radius: 5px;
 	outline: none;
 	 
 }
@@ -1393,7 +1393,13 @@ const boardBg = {
 		}
 	
 		userTrTemplate.find('.tabletdRow').attr('data', user.id);
-		userTrTemplate.find('.user__img>img').attr('src', "/profilePic/" + user.prof_pic);
+
+		if(user.prof_pic.substring(0, 4) == 'http') {
+			userTrTemplate.find('.user__img>img').attr('src', user.prof_pic);
+		} else {
+			userTrTemplate.find('.user__img>img').attr('src', "/profilePic/" + user.prof_pic);
+		}
+
 		userTrTemplate.find('.user__name').text(user.nickname);
 		userTrTemplate.find('.userAuthor').text(userAuthorVal)
 		userTrTemplate.find('.boardsNum>span').text(boardsNub);
