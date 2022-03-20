@@ -71,11 +71,16 @@ public class FileHIstoryController {
 	// 카드 첨부파일 다운로드
 	@RequestMapping("/fileDownLoad")
 	public void historyFileDownload(VuFilehistory vo, HttpServletResponse response) throws Exception {
+		response.setContentType("application/octet-stream; charset=UTF-8");
+		response.setCharacterEncoding("utf-8");
+
+		System.out.println("파일 이름: " + vo.getFile_name());
+
 		try {
 			String path = cardSaveDirectory + vo.getPfile_name();
 
-			// File file = new File(path);
-			response.setHeader("Content-Disposition", "attachment;filename=" + vo.getFile_name());
+			String fileName = new String(vo.getFile_name().getBytes("UTF-8"), "8859_1");
+			response.setHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\";");
 
 			FileInputStream fileInputStream = new FileInputStream(path);
 			OutputStream out = response.getOutputStream();
