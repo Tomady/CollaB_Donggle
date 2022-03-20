@@ -1245,7 +1245,7 @@ document.addEventListener("DOMContentLoaded", function(){
 			</div>
 			<div class="recomment__right">
 				<img class="mr-3 rounded-circle" width="40" height="40px"
-					src="resources/assets/img/avatar/avatar-1.png" alt="avatar">
+					src="" alt="avatar">
 				<div class="recomment__content">
 					<div class="comment__writer__box">
 						<div class="comment__writer"></div>
@@ -1574,7 +1574,7 @@ CommentApp = {
 					
 					template.find('.comment__context__file__prev').addClass('classFileTarget')
 					template.find('.comment__context__file__prev').attr('data-commentId', commentId)
-					template.find('.context__file__prev__imgBox>img').attr("src", pfile_name)
+					template.find('.context__file__prev__imgBox>img').attr("src", "/commentFile/"+pfile_name)
 					template.find('.fileContent').text(filename)
 					template.find('.fileContent').attr("href", "commentDownload.do?pfile_name="+pfile_name+"&file_name="+filename)
 				}else{
@@ -1686,7 +1686,8 @@ CommentApp = {
 		$(document).on('keydown keyup', '.textareaEl', textareaHeightFn)
 		$(document).on('focus', '.textareaEl__class1', textareaFocusFn)
 		$(document).on('focus', '.textareaEl__class2', textarea2FocusFn)
-		$(document).on('change', '.input_file', inputFileFn)
+		$(document).on('change', '#input_file', inputFileFn)
+		$(document).on('change', '#input_file__re', inputFileFn)
 		$(document).on('click', '.context__file__prev__removeBtn', modifyFileDeleteBtnFn)
 		$(document).on('click', '.comment__input__filetext', fileClickFn)
 		$(document).on('click', '.fas__fa__menu', menuShowFn)
@@ -1760,15 +1761,15 @@ CommentApp = {
 }
 
 
- $(function(){
-	 CommentApp.init();
-	 setTimeout(function() {
-		 let testetes = $('.comment__box>li');
-			console.log(testetes)
-    	 }, 1000);  	
+//  $(function(){
+// 	 CommentApp.init();
+// 	 setTimeout(function() {
+// 		 let testetes = $('.comment__box>li');
+// 			console.log(testetes)
+//     	 }, 1000);  	
 			
 		
- })
+//  })
 
 
 
@@ -1779,7 +1780,7 @@ function commentCreate() {
 
   textareaElVal = textareaElVal.replace(/(?:\r\n|\r|\n)/g, '<br/>');
   let commentMaxGroup = ajaxCommentMaxGroup();
-	  let dateTypedate = today;
+  let dateTypedate = today;
   let comment_date = getDateStr(today)
   let currentUserNickname = ajaxGetSessionUserNickname();
 
@@ -1796,7 +1797,8 @@ function commentCreate() {
   }else{
 		 let result = ajaxCommentInsert(textareaElVal, commentMaxGroup, currentUserId, dateTypedate)
 	  if(result){
-		 commentCreateRow(textareaElVal, commentMaxGroup, currentUserId, currentUserNickname, comment_date)
+		 
+		 commentCreateRow(textareaElVal, commentMaxGroup, currentUserId, currentUserNickname, comment_date, result)
 	  }
   }
   
@@ -1851,7 +1853,7 @@ function recommentFileCreateRow(textareaElVal, targetGroup, currentUserId, comme
 	
 	let nickname = ajaxGetSessionUserNickname();
 	let fileName = result.file_name;
-	
+	template.find('.comment__info').attr("data-commentid", result.comment_id)
 	template.find('.recomment__row').attr('data-id', result.id)
 	template.find('.recomment__row').attr('data-group', result.comment_group)
 	template.find('.recomment__row').attr('data-order', result.comment_order)
@@ -1944,6 +1946,8 @@ function ajaxRecommentFileInsert(form){
 
 function recommentCreateRow(result, nickname, textareaElVal, comment_date, targetappend, target){
 	let template = $('#recommentTemplate')
+	template.find('.comment__info').attr("data-commentid", result.comment_id)
+	console.log(template.find('.comment__info'))
 	template.find('.recomment__row').attr('data-id', result.id)
 	template.find('.recomment__row').attr('data-group', result.comment_group)
 	template.find('.recomment__row').attr('data-order', result.comment_order)
@@ -2015,7 +2019,7 @@ function commentFileCreateRow(textareaElVal, commentMaxGroup, currentUserId, com
 	
 	let nickname = ajaxGetSessionUserNickname();
 	let fileName = result.file_name;
-	
+	template.find('.comment__info').attr("data-commentid", result.comment_id)
 	template.find('.comment__writer').text(nickname)
 	template.find('.comment__context').html(textareaElVal)
 		
@@ -2182,11 +2186,12 @@ function ajaxGetSessionUserId(){
 	return currentUserId;
 }
 
-function commentCreateRow(textareaElVal, commentMaxGroup, currentUserId, currentUserNickname, comment_date){
+function commentCreateRow(textareaElVal, commentMaxGroup, currentUserId, currentUserNickname, comment_date, result){
 	
 	let comment__box = $('.comment__box')
 	
 	let template = $('#commentPlusTemplate');
+	template.find('.comment__info').attr("data-commentid", result.comment_id)
 	template.find('.comment__row').attr("data-id", currentUserId);
 	template.find('.comment__row').attr("data-group", commentMaxGroup);
 	template.find('.comment__row__left>img').attr("src", currentUserProfPic);
@@ -2218,11 +2223,11 @@ function ajaxCommentMaxGroup(){
 }
 function ajaxCommentInsert(textareaElVal, commentMaxGroup, currentUserId, comment_date){
 
-	let flag = false;
+	let flag;
 	$.ajax({
 		url : 'ajaxCommentInsert.do',
 		type : 'post',
-		dataType : 'text',
+		dataType : 'json',
 		async : false,
 		data : {
 			id : currentUserId,
@@ -2232,7 +2237,8 @@ function ajaxCommentInsert(textareaElVal, commentMaxGroup, currentUserId, commen
 			comment_date : comment_date
 		},
 		success : function(data){
-			flag = (data == "true") ? true : false;
+			
+			flag = (data != null) ? data : null;
 		}
 	})
 	
@@ -2364,7 +2370,7 @@ function readText(input) {
 
 
 	function fileClickFn(e){
-  let input = e.target.parentNode.querySelector('.input_file');
+  let input = e.target.parentNode.querySelector('#input_file');
   
   if (!input.files[0].type.match(/image\//)) {
     return;
@@ -2675,7 +2681,7 @@ function menuDeleteBtnFn(event){
 		   
 
 		   let result = formCommentFileUpdate(textareaVal, input, commentId)
-
+	
 			if(checkFile(result.file_name)){
 			
 				template = $('.filePrevTemplate')
