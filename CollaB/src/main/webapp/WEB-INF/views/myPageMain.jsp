@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>MyPage</title>
+<link rel="shortcut icon" href="/favicon2.ico" type="image/x-icon">
 <!-- General CSS Files -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -306,7 +307,7 @@
 															alt="" class="profileimg">
 													</c:when>
 													<c:when test="${not empty user_info.prof_pic }">
-														<img src="${user_info.prof_pic }" alt=""
+														<img src="/profilePic/${user_info.prof_pic }" alt=""
 															class="profileimg">
 													</c:when>
 												</c:choose>

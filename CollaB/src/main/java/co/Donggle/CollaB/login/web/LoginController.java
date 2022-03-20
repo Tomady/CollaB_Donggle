@@ -89,7 +89,6 @@ public class LoginController {
 			return nickname;
 			
 		}else {
-		
 			return "No";
 		}
 	}

@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="shortcut icon" href="/favicon2.ico" type="image/x-icon">
 <!-- General CSS Files -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
@@ -176,7 +177,7 @@
       </div>
       <ul class="navbar-nav navbar-right mr-5">
         <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-          <img alt="image" src="${prof_pic}" class="rounded-circle mr-1">
+          <img alt="image" src="/profilePic/${prof_pic}" class="rounded-circle mr-1">
           <div class="d-sm-none d-lg-inline-block">Hi, ${nickname}</div></a>
           <div class="dropdown-menu dropdown-menu-right">
             <!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
