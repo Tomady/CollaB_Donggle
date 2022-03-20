@@ -19,11 +19,11 @@
 	</bean>
 
 	<bean class="java.lang.String" id="commentRelativeSaveDirectory">
-		<constructor-arg value="/home/ubuntu/resources/commentFile/" />
+		<constructor-arg value="/home/ubuntu/apache-tomcat-9.0.59/webapps/commentFile/" />
 	</bean>
 	
 <!-- 	<bean class="java.lang.String" id="commentRelativeSaveDirectory"> -->
-<!-- 		<constructor-arg value="C:/CollaB/CollaB_Donggle/CollaB/src/main/webapp/resources/commentFile/" /> -->
+<!-- 		<constructor-arg value="C:\Collab\CollaB_Donggle\CollaB\src\main\webapp\resources\commentFile/" /> -->
 <!-- 	</bean> -->
 	
 	<bean class="java.lang.String" id="cardSaveDirectory">
