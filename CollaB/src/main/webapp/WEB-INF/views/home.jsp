@@ -3,6 +3,7 @@
 <html>
 <head>
 <title>Home</title>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body>
 	<jsp:forward page="/index.do"></jsp:forward>

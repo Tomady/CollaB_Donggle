@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>CollaB</title>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <!-- General CSS Files -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
