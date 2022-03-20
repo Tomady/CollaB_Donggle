@@ -1314,14 +1314,16 @@ document.addEventListener("DOMContentLoaded", function(){
 	<script src="https://cdn.jsdelivr.net/npm/emoji-button@0.6.0/dist/index.min.js"></script>
 	<script type="text/javascript">
 		let imgTag = document.querySelectorAll('.rounded-circle');
+		console.log(imgTag);
 		let prof_picTag = "${prof_pic}";
+		let imgSrc = "/profilePic/" + prof_picTag;
 		
 		imgTag.forEach(function(val, ind) {
 	        console.log(val);
 	        if(prof_picTag.substring(0, 4) == 'http') {
 	            val.setAttribute("src", prof_picTag);
 	        } else {
-	            val.setAttribute("src", "/profilePic/" + prof_picTag);
+	            val.setAttribute("src", imgSrc);
 	        }
 	    }) 
 	</script>
@@ -1528,7 +1530,18 @@ CommentApp = {
 		for(let comment of data){
 		
 			let template;
-			let src = comment.prof_pic;
+			
+			
+			console.log("asdfasdfasdf:" + comment.prof_pic);
+			
+			let src;
+			
+			if(comment.prof_pic.substring(0, 4) == 'http') {
+				src = comment.prof_pic;	
+			} else {
+				src = "/profilePic/" + comment.prof_pic;
+			}
+			
 			let nickname = comment.nickname;
 			let id = comment.id;
 			let commentId = comment.comment_id;
@@ -1540,6 +1553,7 @@ CommentApp = {
 			
 			let cdate = getDateStr(sdate)
 			let comment_order = comment.comment_order;
+			
 			if(prevComment_group == group && comment_order != 0){
 				recommentNum++ 
 				template = $('#recommentTemplate')
@@ -1773,15 +1787,15 @@ CommentApp = {
 }
 
 
-//  $(function(){
-// 	 CommentApp.init();
-// 	 setTimeout(function() {
-// 		 let testetes = $('.comment__box>li');
-// 			console.log(testetes)
-//     	 }, 1000);  	
+  $(function(){
+ 	 CommentApp.init();
+ 	 setTimeout(function() {
+ 		 let testetes = $('.comment__box>li');
+ 			console.log(testetes)
+     	 }, 1000);  	
 			
 		
-//  })
+  })
 
 
 

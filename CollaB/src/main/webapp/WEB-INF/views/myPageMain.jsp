@@ -300,8 +300,7 @@
 									<div class="card-body">
 										<div class="row">
 											<div class="col-md-3 ml-3 mt-3">
-												<!-- 표시 -->
-												<img src="/profilePic/${user_info.prof_pic }" alt=""
+												<img src="" alt=""
 													class="profileimg">
 											</div>
 											<div class="col-md-8 mt-3">

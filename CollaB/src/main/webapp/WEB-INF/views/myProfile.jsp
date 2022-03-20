@@ -305,17 +305,10 @@ th {
 										<tbody>
 											<tr>
 												<th>Profile</th>
-												<td><c:choose>
-														<c:when test="${user_info.prof_pic == null }">
-															<img
-																src="/CollaB/resources/assets/img/avatar/avatar-1.png"
-																alt="" class="profileImg my-2 mr-2">
-														</c:when>
-														<c:when test="${not empty user_info.prof_pic }">
-															<img src="/profilePic/${user_info.prof_pic }" alt=""
+												<td>
+													<img src="/profilePic/${user_info.prof_pic }" alt=""
 																class="profileImg my-2 mr-2">
-														</c:when>
-													</c:choose> <input type="file" name="file" id="file"></td>
+													<input type="file" name="file" id="file"></td>
 											</tr>
 											<tr>
 												<th>Name</th>
@@ -347,14 +340,17 @@ th {
 
 	<script src="resources/js/jay/confirmForm.js"></script>
 	<script>
-	let img = document.querySelector('.rounded-circle');
-	let prof_pic = "${prof_pic}";
-
-        if(prof_pic.substring(0, 4) == 'http') {
-            img.setAttribute("src", "${prof_pic}");
-        } else {
-            img.setAttribute("src", "/profilePic/" + "${prof_pic}");
-        }
+		let img = document.querySelector('.rounded-circle');
+		let profileimg = document.querySelector('.profileImg');
+		let prof_pic = "${prof_pic}";
+		
+	    if(prof_pic.substring(0, 4) == 'http') {
+	    	img.setAttribute("src", "${prof_pic}");
+	    	profileimg.setAttribute("src", "${prof_pic}");
+	    } else {
+	    	img.setAttribute("src", "/profilePic/" + "${prof_pic}");
+	    	profileimg.setAttribute("src", "${prof_pic}");
+	    }
 	
 		function updateProfile() {
 			if ($('#name').val().length == 0) {
