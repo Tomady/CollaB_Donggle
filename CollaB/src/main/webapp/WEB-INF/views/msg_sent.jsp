@@ -323,7 +323,7 @@
         
         <ul class="navbar-nav navbar-right">
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="${prof_pic}" class="rounded-circle mr-1">
+            <img alt="image" src="" class="rounded-circle mr-1">
             <div class="d-sm-none d-lg-inline-block">Hi,${nickname}</div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
@@ -527,6 +527,15 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="resources/js/jay/confirmForm.js"></script>
   <script type="text/javascript">
+  let img = document.querySelector('.rounded-circle');
+	let prof_pic = "${prof_pic}";
+
+      if(prof_pic.substring(0, 4) == 'http') {
+          img.setAttribute("src", "${prof_pic}");
+      } else {
+          img.setAttribute("src", "/profilePic/" + "${prof_pic}");
+      }
+  
    function logout(){
       swal({
          title: "정말 로그아웃을 하시겠습니까?",

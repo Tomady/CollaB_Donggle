@@ -252,7 +252,7 @@
 				<ul class="navbar-nav navbar-right mr-5">
 					<li class="dropdown"><a href="#" data-toggle="dropdown"
 						class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img
-							alt="image" src="resources/assets/img/avatar/avatar-1.png"
+							alt="image" src=""
 							class="rounded-circle mr-1">
 							<div class="d-sm-none d-lg-inline-block">Hi, ${nickname}</div></a>
 						<div class="dropdown-menu dropdown-menu-right">
@@ -300,17 +300,9 @@
 									<div class="card-body">
 										<div class="row">
 											<div class="col-md-3 ml-3 mt-3">
-												<c:choose>
-													<c:when test="${user_info.prof_pic == null }">
-														<img
-															src="/CollaB/resources/assets/img/avatar/avatar-1.png"
-															alt="" class="profileimg">
-													</c:when>
-													<c:when test="${not empty user_info.prof_pic }">
-														<img src="/profilePic/${user_info.prof_pic }" alt=""
-															class="profileimg">
-													</c:when>
-												</c:choose>
+												<!-- 표시 -->
+												<img src="/profilePic/${user_info.prof_pic }" alt=""
+													class="profileimg">
 											</div>
 											<div class="col-md-8 mt-3">
 												<span class="card-text" style="font-size:17px;"><b>Name</b>&nbsp;&nbsp; ${user_info.name }</span><br> 
@@ -418,6 +410,18 @@
 	
 	<script src="resources/js/jay/confirmForm.js"></script>
 	<script type="text/javascript">
+	let img = document.querySelector('.rounded-circle');
+	let profileimg = document.querySelector('.profileimg');
+	let prof_pic = "${prof_pic}";
+	
+    if(prof_pic.substring(0, 4) == 'http') {
+    	img.setAttribute("src", "${prof_pic}");
+    	profileimg.setAttribute("src", "${prof_pic}");
+    } else {
+    	img.setAttribute("src", "/profilePic/" + "${prof_pic}");
+    	profileimg.setAttribute("src", "${prof_pic}");
+    }
+	
 		// 로그아웃
 		 function logout(){
 		      swal({

@@ -663,6 +663,15 @@ function unread(){
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="resources/js/jay/confirmForm.js"></script>
   <script type="text/javascript">
+		let img = document.querySelector('.rounded-circle');
+		let prof_pic = "${prof_pic}";
+		
+		if(prof_pic.substring(0, 4) == 'http') {
+		    img.setAttribute("src", "${prof_pic}");
+		} else {
+		    img.setAttribute("src", "/profilePic/" + "${prof_pic}");
+		}
+  
    function logout(){
       swal({
          title: "정말 로그아웃을 하시겠습니까?",
