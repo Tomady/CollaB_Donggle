@@ -437,20 +437,24 @@ document.addEventListener("DOMContentLoaded", function(){
     </div>
   </div>
   <script>
-	let itemTotalCnt = parseInt("${itemsCnt}"); //전체 아이템 개수
-	let yesItem = parseInt("${YesItemCnt}"); //상태가 yes인 아이템 개수
-	let noItem =  itemTotalCnt-yesItem//상태가 no인 아이템 개수
-	let nodata = 0;
+  	var itemTotalCnt = parseInt("${itemsCnt}"); //전체 아이템 개수
+	var yesItem = parseInt("${YesItemCnt}"); //상태가 yes인 아이템 개수
+	var noItem =  itemTotalCnt-yesItem//상태가 no인 아이템 개수
+	var nodata = 0;
+	console.log("값 전부 들어오나? itemTotalCnt : "+itemTotalCnt);
+	console.log("값 전부 들어오나? yesItem : "+yesItem);
+	console.log("값 전부 들어오나? noItem : "+noItem);
 	if(itemTotalCnt==0){
 		nodata=100;
 	}
 	let state = Math.ceil(yesItem/itemTotalCnt*100); //현재 진척도
+	
 	if(state >= 1 && state <= 100){
 		percentage.innerHTML = "("+state+"%)";		
 	}else{
 		percentage.innerHTML = "(0%)";
 	}
-	console.log("project total state : "+state);
+	
 	if(state > 0 && state < 25){
 		project_state.style.backgroundColor="red";
 	}else if(state < 50){
@@ -462,23 +466,42 @@ document.addEventListener("DOMContentLoaded", function(){
 	}else if(state == 0)
 	
 	
-    new Chart(document.getElementById("stateChart"), {
-    type: 'pie',
-    data: {
-      labels: ["Done","Remaining Work","No Work"],
-      datasets: [{
-        label: "Population (millions)",
-        backgroundColor: ["#a6fbab","#ffb7b7","#dee2e6"],
-        data: [yesItem,noItem,nodata]
-      }]
-    },
-       options: {
-        title: {
-        display: false,
-        text: 'The overall progress'
-        }
-      }
+    new Chart(document.getElementById("stateChart1"), {
+    	type: 'pie',
+	    data: {
+	      labels: ["Done","Remaining Work","No Work"],
+	      datasets: [{
+	        label: "Population (millions)",
+	        backgroundColor: ["#a6fbab","#ffb7b7","#dee2e6"],
+	        data: [yesItem,noItem,nodata]
+	      }]
+	    },
+	    options: {
+	      title: {
+	        display: true,
+	        text: 'The overall progress'
+	        }
+	      }
     });
+	
+	new Chart(document.getElementById("stateChart"), {
+	    type: 'pie',
+	    data: {
+	      labels: ["Done", "Remaining Work", "No Work"],
+	      datasets: [{
+	        label: "Population (millions)",
+	        backgroundColor: ["#a6fbab", "#ffb7b7","#dee2e6"],
+	        data: [yesItem,noItem,nodata]
+	      }]
+	    },
+	    options: {
+	      title: {
+	        display: false,
+	        text: 'The overall progress'
+	      }
+	    }
+	});
+	
   </script>
   
 <!-- 은지 코드 -->
