@@ -17,7 +17,7 @@ public class GoogleLoginBO {
 	
 	private String googleAuthUrl = "https://oauth2.googleapis.com";
 	private String googleLoginUrl = "https://accounts.google.com";
-	private String googleRedirectUrl = "http://3.38.225.18:8080/CollaB/googlelogin.do";
+	private String googleRedirectUrl = "http://localhost/CollaB/googlelogin.do";
 	private String googleClientId = "28495026940-9nijn232vdbdkku31d3f62pv5hbmo4ga.apps.googleusercontent.com";
 	private String googleSecret = "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";
 	private String scopes = "profile,email,openid";

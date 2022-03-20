@@ -52,13 +52,13 @@ public class CommentController {
 	
 	@RequestMapping("/ajaxCommentInsert.do")
 	@ResponseBody
-	public String ajaxCommentInsert(CommentVO vo) {
+	public CommentVO ajaxCommentInsert(CommentVO vo) {
 		
 		int chk = commentDao.commentInsert(vo);
 		if(chk == 0) {
-			return "false";
+			return null;
 		}else {
-			return "true";
+			return vo;
 		}
 	}
 	
@@ -110,9 +110,8 @@ public class CommentController {
 		pfileName = pfileName + fileName.substring(fileName.lastIndexOf("."));
 		File target = new File(commentRelativeSaveDirectory, pfileName);
 		vo.setFile_name(fileName);
-		vo.setPfile_name(commentRelativeSaveDirectory + pfileName);
+		vo.setPfile_name(pfileName);
 		vo.setFile_date(vo.getComment_date());
-		System.out.println("setFile_date : "+vo.getFile_date());
 		
 		if(!new File(commentRelativeSaveDirectory).exists()) {
 			new File(commentRelativeSaveDirectory).mkdir();
@@ -137,7 +136,7 @@ public class CommentController {
 		pfileName = pfileName + fileName.substring(fileName.lastIndexOf("."));
 		File target = new File(commentRelativeSaveDirectory, pfileName);
 		vo.setFile_name(fileName);
-		vo.setPfile_name(commentRelativeSaveDirectory+ pfileName);
+		vo.setPfile_name(pfileName);
 		vo.setFile_date(vo.getComment_date());
 		
 		if(!new File(commentRelativeSaveDirectory).exists()) {
@@ -165,7 +164,7 @@ public class CommentController {
 		pfileName = pfileName + fileName.substring(fileName.lastIndexOf("."));
 		File target = new File(commentRelativeSaveDirectory, pfileName);
 		vo.setFile_name(fileName);
-		vo.setPfile_name(commentRelativeSaveDirectory+pfileName);
+		vo.setPfile_name(pfileName);
 		
 		if(!new File(commentRelativeSaveDirectory).exists()) {
 			new File(commentRelativeSaveDirectory).mkdir();
