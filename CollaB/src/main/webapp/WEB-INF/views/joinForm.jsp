@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon2.ico" type="image/x-icon">
     <!-- 웹 타이틀 이미지 -->
 	<link rel="shortcut icon" href="/resources/img/web_title.ico">
     <style>

@@ -17,7 +17,7 @@
 	href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@800&display=swap"
 	rel="stylesheet">
 <title>회원가입</title>
-<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="/favicon2.ico" type="image/x-icon">
 <style>
 html, body {
 	margin: 0;
