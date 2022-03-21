@@ -10,7 +10,7 @@
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 <link rel="stylesheet" href="resources/assets/css/style.css">
-	
+
 <style type="text/css">
 .logincontainer {
 	position: absolute;
@@ -44,8 +44,8 @@
 	text-align: center;
 	height: 100%;
 	line-height: 180px;
-	font-family: "Nunito", "Segoe UI", arial;	
-	    font-weight: 800;
+	font-family: "Nunito", "Segoe UI", arial;
+	font-weight: 800;
 }
 
 .loginbody {
@@ -63,25 +63,25 @@
 	width: 400px;
 	height: 130px;
 }
-      .swal-modal {
-            border-radius: 10px;
 
-        }
-
-        .swal-title {
-           
-        }
-
-        .swal-text {
-          
-        }
-        
-        .swal-button{
-		background-color : #9F90D9;
+.swal-modal {
+	border-radius: 10px;
 }
 
-.swal-button:hover{
-		background-color : #8873da;
+.swal-title {
+	
+}
+
+.swal-text {
+	
+}
+
+.swal-button {
+	background-color: #9F90D9;
+}
+
+.swal-button:hover {
+	background-color: #8873da;
 }
 
 .loginInputLabel {
@@ -96,9 +96,8 @@
 	top: 1.2rem;
 }
 
-.loginInputLabel>#icons~.loginInput,
-.loginInputLabel>#icons~.label,
-.loginInputLabel>#icons~.underline {
+.loginInputLabel>#icons ~.loginInput, .loginInputLabel>#icons ~.label,
+	.loginInputLabel>#icons ~.underline {
 	margin-left: 2.25rem;
 	width: calc(100% - 2.25rem);
 }
@@ -134,22 +133,22 @@
 	left: 0;
 }
 
-.loginInputLabel>.loginInput:hover~.underline,
-.loginInputLabel>.loginInput:focus~.underline {
+.loginInputLabel>.loginInput:hover ~.underline, .loginInputLabel>.loginInput:focus
+	~.underline {
 	background-color: #9F90D9;
 }
 
-.loginInputLabel>.loginInput:hover ~,
-.loginInputLabel>.loginInput:focus~ {
+.loginInputLabel>.loginInput:hover ~, .loginInputLabel>.loginInput:focus
+	~ {
 	color: #9F90D9;
 }
 
-.loginInputLabel>.loginInput:focus~.underline {
+.loginInputLabel>.loginInput:focus ~.underline {
 	height: 3px;
 }
 
-.loginInputLabel>.loginInput:focus~.label, 
-.loginInputLabel>.loginInput:valid~.label {
+.loginInputLabel>.loginInput:focus ~.label, .loginInputLabel>.loginInput:valid
+	~.label {
 	top: 0;
 	font-size: 0.75rem;
 }
@@ -168,8 +167,8 @@
 	color: white;
 	transition: 0.3s;
 	cursor: pointer;
-	font-family: "Nunito", "Segoe UI", arial;	
-	    font-weight: 700;
+	font-family: "Nunito", "Segoe UI", arial;
+	font-weight: 700;
 }
 
 .loginBtn:hover, .globalLoginBtn:hover {
@@ -192,8 +191,8 @@
 	color: white;
 	transition: 0.3s;
 	cursor: pointer;
-	font-family: "Nunito", "Segoe UI", arial;	
-	    font-weight: 700;
+	font-family: "Nunito", "Segoe UI", arial;
+	font-weight: 700;
 }
 
 .loginbackcontainer {
@@ -235,14 +234,13 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	font-size: 58px;
-	
 }
 
 .homeLogo a {
 	text-decoration: none;
 	color: #9F90D9;
-	font-family: "Nunito", "Segoe UI", arial;	
-	    font-weight: 900;
+	font-family: "Nunito", "Segoe UI", arial;
+	font-weight: 900;
 }
 
 .find_wrap {
@@ -276,7 +274,6 @@
 	color: #868e96;
 	font-size: .9rem;
 }
-
 </style>
 </head>
 <body>
@@ -286,18 +283,14 @@
 		</div>
 		<div class="loginbody">
 			<form action="" id="form">
-				<label class="loginInputLabel">
-					<i id="icons" class="fas fa-user-tie"></i>
-					<input id="loginId" class="loginInput" type="text" autofocus="true" required>
-					<span class="label">User ID</span>
-					<span class="underline"></span>
-				</label>
-				
-				<label class="loginInputLabel">
-					<i id="icons" class="fas fa-unlock-alt"></i>
-					<input id="loginPassword" class="loginInput" type="password" required>
-					<span class="label">Password</span> 
-					<span class="underline"></span>
+				<label class="loginInputLabel"> <i id="icons"
+					class="fas fa-user-tie"></i> <input id="loginId" class="loginInput"
+					type="text" autofocus="true" required> <span class="label">User
+						ID</span> <span class="underline"></span>
+				</label> <label class="loginInputLabel"> <i id="icons"
+					class="fas fa-unlock-alt"></i> <input id="loginPassword"
+					class="loginInput" type="password" required> <span
+					class="label">Password</span> <span class="underline"></span>
 				</label>
 
 				<ul class="find_wrap">
@@ -312,29 +305,24 @@
 	</div>
 	<div class="loginbackcontainer">
 		<h1 class="homeLogo">
-      <a href="index.do"><img src="resources/img/logo222.png" width="300px;"></a>
+			<a href="index.do"><img src="resources/img/logologo.png"
+				width="300px;"></a>
 		</h1>
 		<ul class="loginUltag">
-			<li>
-				<a href="javascript:naverlogin()">
-					<img class="loginIcons" src="resources/img/naver.ico" alt="">
-				</a>
-			</li>
-			<li>
-				<a href="javascript:kakaoLogin()">
-					<img class="loginIcons" src="resources/img/kakao.png" alt="">
-				</a>
-			</li>
-			<li>
-				<a href="javascript:googleLogin()">
-					<img class="loginIcons" src="resources/img/google.png" alt="">
-				</a>
-			</li>
-<!-- 			<li> -->
-<!-- 				<a href="javascript:facebookLogin()"> -->
-<!-- 					<img class="loginIcons" src="resources/img/facebook.png" alt=""> -->
-<!-- 				</a> -->
-<!-- 			</li> -->
+			<li><a href="javascript:naverlogin()"> <img
+					class="loginIcons" src="resources/img/naver.ico" alt="">
+			</a></li>
+			<li><a href="javascript:kakaoLogin()"> <img
+					class="loginIcons" src="resources/img/kakao.png" alt="">
+			</a></li>
+			<li><a href="javascript:googleLogin()"> <img
+					class="loginIcons" src="resources/img/google.png" alt="">
+			</a></li>
+			<!-- 			<li> -->
+			<!-- 				<a href="javascript:facebookLogin()"> -->
+			<!-- 					<img class="loginIcons" src="resources/img/facebook.png" alt=""> -->
+			<!-- 				</a> -->
+			<!-- 			</li> -->
 		</ul>
 	</div>
 </body>
