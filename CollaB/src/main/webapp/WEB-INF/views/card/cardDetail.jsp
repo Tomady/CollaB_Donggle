@@ -666,7 +666,7 @@ document.addEventListener("DOMContentLoaded", function(){
 			dataType : "json",
 			success : function(data){
 				if(data.managerImg != null){
-					document.querySelector(".profimg"+cardId).setAttribute("src",data.managerImg);					
+					document.querySelector(".profimg"+cardId).setAttribute("src","/profilePic/"+data.managerImg);					
 				}
 				if(data.file == "YES"){
 					document.querySelector(".files"+cardId).style.color="tomato";
