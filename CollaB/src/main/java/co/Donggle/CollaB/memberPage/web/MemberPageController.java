@@ -302,20 +302,16 @@ public class MemberPageController {
 				+ user_emailconfirm
 				+ "\"><span style=\"width: 80px; height: 30px; background-color:black; display: inline-block; border-radius: 5px; line-height: 30px; color: white; font-weight: bold;\">초대 거절</span></a>\r\n"
 				+ "\r\n" + "        </div>\r\n" + "    </div>\r\n"
-				+ "    <ul style=\"display: inline-block; margin-left: -30px\">\r\n"
+				+ "    <ul style=\"display: block; margin-left: -30px\">\r\n"
 				+ "        <li>초대코드를 이용하여 Workspace 가입이 가능합니다.\r\n"
 				+ "            <br>입력방법 : 회원가입 시 초대코드 입력, 마이페이지 > 초대코드 입력 클릭\r\n" + "        </li>\r\n"
 				+ "    </ul>\r\n" + "   \r\n" + "</body>\r\n" + "\r\n" + "</html>";
 		messageHelper.setText(sb, true);
 
 		mail.send(message);
-		System.out.println("ivo : "+ivo.getInvite_code());
-		System.out.println("ivo : "+ivo.getInvite_confirm());
-		System.out.println("ivo : "+ivo.getUser_email());
-		System.out.println("ivo : "+ivo.getUser_emailconfirm());
-		System.out.println("ivo : "+ivo.getWorkspace_id());
+	
 		int inviteChk = inviteDao.inviteInsert(ivo);
-		System.out.println("inviteChk : "+ inviteChk);
+	
 		if (inviteChk == 0) {
 			return "false";
 		} else {
@@ -345,7 +341,7 @@ public class MemberPageController {
 		vo.setUser_emailconfirm(email);
 		vo = inviteDao.inviteEmailConfirmSelect(vo);
 		String confirmChk = vo.getInvite_confirm();
-		System.out.println(confirmChk);
+		
 		if(confirmChk.contains("O")) {
 			out.println("<script>alert('이미 workspace에 가입되셨습니다.');</script>");
 			out.flush();

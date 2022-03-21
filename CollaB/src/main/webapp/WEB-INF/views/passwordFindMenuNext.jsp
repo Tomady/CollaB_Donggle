@@ -229,7 +229,7 @@
 <body>
  <nav class="nav">
         <div class="navbar">
-            <div class="navbar__Left"><a href="">CollaB</div></a>
+            <div class="navbar__Left"><a href="index.do">CollaB</div></a>
             <ul class="navbar__right">
                 <li><a href=""><i class="fas fa-user"></i>Sign Up</a></li>
                 <li><a href=""><i class="fas fa-unlock-alt"></i>Login</a></li>

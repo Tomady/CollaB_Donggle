@@ -1787,15 +1787,13 @@ CommentApp = {
 }
 
 
-  $(function(){
- 	 CommentApp.init();
- 	 setTimeout(function() {
- 		 let testetes = $('.comment__box>li');
- 			console.log(testetes)
-     	 }, 1000);  	
-			
-		
-  })
+
+ $(function(){
+	 CommentApp.init();	
+					
+ })
+
+
 
 
 

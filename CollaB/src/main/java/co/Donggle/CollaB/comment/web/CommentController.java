@@ -89,7 +89,7 @@ public class CommentController {
 	@ResponseBody
 	public String ajaxGetSessionUserNickname(HttpSession session) {
 		String nickname = (String) session.getAttribute("nickname");
-		System.out.println(nickname);
+		
 		return nickname;
 	}
 	
@@ -214,7 +214,7 @@ public class CommentController {
 	
 	@RequestMapping("/commentDownload.do")
 	public void commentDownload(String pfile_name,String file_name, HttpServletResponse response) throws Exception  {
-		System.out.println("pfile_name : "+ pfile_name);
+		
 		
 		try {
 	        	String path = commentRelativeSaveDirectory + pfile_name; //
@@ -249,7 +249,7 @@ public class CommentController {
 		@ResponseBody
 		public String ajaxGoodBtnChk(CommentVO vo) {
 			vo = commentDao.commentGoodSelect(vo);
-			System.out.println("vo : "+vo);
+		
 			if(vo== null) {
 				return "No";
 			}else {
