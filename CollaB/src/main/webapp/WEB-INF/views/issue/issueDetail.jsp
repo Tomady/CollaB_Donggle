@@ -386,7 +386,7 @@ img{
 				}) 
 	        }else{
 	        	return;
-	        }1
+	        }
 
 		}
 
