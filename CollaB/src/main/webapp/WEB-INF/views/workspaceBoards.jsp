@@ -575,7 +575,7 @@
               </a>
             </li>
             <li>
-              <a class="nav-link" href="filehistory">
+              <a class="nav-link" href="filehistory?workspace_id=${workspace.workspace_id}">
                 <i class="fas fa-th"></i>
                 <span>Files</span>
               </a>

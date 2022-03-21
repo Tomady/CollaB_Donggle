@@ -34,10 +34,10 @@
 	</insert>
 		
 	<select id="timeCardSelect" resultType="co.Donggle.CollaB.timeline.service.TimelineCardVO">
-		select CARD_ID, CARD_TITLE, CARD_START_DATE, list_id, CARD_END_DATE + 1 AS CARD_END_DATE
-		from card
-		where list_id = #{list_id}
-		and card_start_date is not null
+		SELECT CARD_ID, CARD_TITLE, CARD_START_DATE, LIST_ID, CARD_END_DATE + 1 AS CARD_END_DATE
+		FROM CARD
+		WHERE LIST_ID = #{list_id}
+		AND CARD_START_DATE IS NOT NULL
 	</select>
 
 </mapper>

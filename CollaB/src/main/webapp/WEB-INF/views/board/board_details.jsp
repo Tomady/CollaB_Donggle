@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function(){
 					dataType : "text", //프로필 이미지 경로 가져오기
 					success : function(data){
 						if(data != ""){
-							document.querySelector(".profimg"+cardId).setAttribute("src",data);
+							document.querySelector(".profimg"+cardId).setAttribute("src","/profilePic/"+data);
 						}else{
 							console.log(cardId+"번 카드의 매니저 프로필 사진주소는 없음");
 						}

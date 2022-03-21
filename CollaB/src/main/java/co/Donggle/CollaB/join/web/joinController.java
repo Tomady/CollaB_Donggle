@@ -5,7 +5,7 @@ package co.Donggle.CollaB.join.web;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.Donggle.CollaB.join.service.JoinMapper;
 import co.Donggle.CollaB.join.service.JoinVO;
-import co.Donggle.CollaB.user.service.UserVO;
+
 
 @Controller
 public class joinController {

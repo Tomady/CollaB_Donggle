@@ -16,6 +16,4 @@ public class TimelineCardVO {
 	
 	private String card_label;
 	private String manager;
-	
-	
 }
