@@ -103,7 +103,7 @@
 													<td>${fileInfo.card_title }</td>
 													<td>${fileInfo.file_upload_date }</td>
 													<td>${fileInfo.file_hits }</td>
-													<td><button class="btn btn-dark" type="button" onclick="location.href='fileDownLoad?file_name=${item.file_name}&pfile_name=${item.pfile_name}'">Download</button></td>
+													<td><button class="btn btn-dark" type="button" onclick="location.href='fileDownLoad?file_name=${fileInfo.file_name}&pfile_name=${fileInfo.pfile_name}'">Download</button></td>
 												</tr>
 												
 												<c:forEach items="${filehistory }" var="fileHi">
@@ -113,7 +113,7 @@
 															<td>${fileHi.card_title }</td>
 															<td>${fileHi.upload_date }</td>
 															<td>${fileHi.file_hits }</td>
-															<td><button class="btn btn-secondary" type="button" onclick="location.href='fileDownLoad?file_name=${item.file_name}&pfile_name=${item.pfile_name}'">Download</button>
+															<td><button class="btn btn-secondary" type="button" onclick="location.href='fileDownLoad?file_name=${fileHi.pre_file}&pfile_name=${fileHi.pfile_name}'">Download</button>
 															</td>
 														</tr>
 													</c:if>									

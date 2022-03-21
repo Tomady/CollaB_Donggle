@@ -90,6 +90,7 @@ public class FileHIstoryController {
 			}
 
 		} catch (Exception e) {
+			e.getMessage();
 			throw new Exception("download error");
 		}
 	}
