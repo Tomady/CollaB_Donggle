@@ -1,5 +1,32 @@
 //검색버튼
 document.querySelector("#starredSearch").onclick = function(){
+	let jogun = $("#starred_search_jogun").val(); //검색조건
+	let searchVal = $("#starredSearchVal").val(); //검색값
+	
+	let searchvalue;
+	if(jogun == "writer"){
+		 searchvalue = $(".starred_writer");
+		
+	}else if(jogun == "title"){
+		 searchvalue = $(".starred_title");
+	}
+	
+	for(let i of searchvalue){
+		$(i).parent().removeClass("remove_starred")
+	}
+	for(let i of searchvalue){
+		if($(i).html().includes(searchVal)){
+			console.log($(i).html());
+			
+			continue;
+		}
+		$(i).parent().addClass("remove_starred")
+	}	
+	$("#starredSearchVal").val("");
+	page(pagenumber, pageCount, currentPage);
+}
+
+function ffff(){
 	let jogun = document.querySelector("#starred_search_jogun").value; //검색조건
 	let searchVal = document.querySelector("#starredSearchVal").value; //검색값
 	

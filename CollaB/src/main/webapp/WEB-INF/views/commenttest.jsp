@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 
 <title>Bootstrap Components &rsaquo; Card &mdash; Stisla</title>
-
+<link rel="shortcut icon" href="/favicon2.ico" type="image/x-icon">
 <!-- General CSS Files -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -1209,7 +1209,17 @@ display:flex;
 		src="https://cdn.jsdelivr.net/npm/emoji-button@0.6.0/dist/index.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script id="script">
+	let img = document.querySelectorAll('.rounded-circle');
+	let prof_pic = "${prof_pic}";
 	
+	img.forEach(function(val, ind) {
+        console.log(val);
+        if(prof_pic.substring(0, 4) == 'http') {
+            val.setAttribute("src", "${prof_pic}");
+        } else {
+            val.setAttribute("src", "/profilePic/" + "${prof_pic}");
+        }
+    }) 
 	
 	const currentCardId = $('#currentCardId').val();
 	const currentUserProfPic = $('#currentUserProfPic').val();

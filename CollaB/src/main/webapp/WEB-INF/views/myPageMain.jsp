@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>MyPage</title>
+<link rel="shortcut icon" href="/favicon2.ico" type="image/x-icon">
 <!-- General CSS Files -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -15,6 +16,9 @@
 <!-- Template CSS -->
 <link rel="stylesheet" href="resources/assets/css/style.css">
 <link rel="stylesheet" href="resources/assets/css/components.css">
+
+<!-- 웹 타이틀 이미지 -->
+<link rel="shortcut icon" href="/resources/img/web_title.ico">
 <style>
 #addListBtn:hover {
 	background-color: rgb(224, 224, 224);
@@ -112,7 +116,8 @@
 				</div>
 				<div class="card-body">
 					<div class="row form-group mt-3">
-						<label>Workspace Name<span style="color: red;"> *</span></label> <input
+						<label>Workspace Name<span style="color: red;"> *</span></label> 
+						<input maxlength="10"
 							id="modal-workspace-title" type="text" class="form-control">
 					</div>
 					<div class="row buttons mt-3">
@@ -166,12 +171,12 @@
 									style="width: 3%; height: 50px; background-color: rgb(12, 12, 12); margin-left: 5%;"></span>
 							</div>
 						</div>
-						<input id="modal-board-background" type="text"
+						<input id="modal-board-background" type="text" 
 							class="form-control" readonly>
 					</div>
 					<div class="row form-group mt-3">
 						<label>Board Title<span style="color: red;"> *</span></label> <input
-							id="modal-board-title" type="text" class="form-control">
+							maxlength="20" id="modal-board-title" type="text" class="form-control">
 					</div>
 					<div class="row form-group mt-3">
 						<label>Workspace</label> <select class="form-control"
@@ -218,9 +223,15 @@
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recent</button>
 						<div class="dropdown-menu">
 							<div class="dropdown-title">History 🎡</div>
-							<a class="dropdown-item" href="#">board_2</a> <a
-								class="dropdown-item" href="#">board_1</a> <a
-								class="dropdown-item" href="#">board_4</a>
+							<c:forEach items="${recents}" var="recent">
+			        	  	  <c:if test="${recent.board_id ne boardid}">
+			        	  	  	<c:set var="count" value="${count + 1}"/>
+			        	  	  	<c:if test="${count < 6}">
+					              	<a class="dropdown-item" onclick="location.href='boardDetail?boardID=${recent.board_id}'">${recent.board_title}</a>        	  
+			        	  	  	</c:if>
+				        	  </c:if>
+				        	  <c:set var="boardid" value="${recent.board_id}"></c:set>
+			        	  </c:forEach>
 						</div>
 					</div>
 					<div class="btn-group">
@@ -241,7 +252,7 @@
 				<ul class="navbar-nav navbar-right mr-5">
 					<li class="dropdown"><a href="#" data-toggle="dropdown"
 						class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img
-							alt="image" src="resources/assets/img/avatar/avatar-1.png"
+							alt="image" src=""
 							class="rounded-circle mr-1">
 							<div class="d-sm-none d-lg-inline-block">Hi, ${nickname}</div></a>
 						<div class="dropdown-menu dropdown-menu-right">
@@ -289,17 +300,8 @@
 									<div class="card-body">
 										<div class="row">
 											<div class="col-md-3 ml-3 mt-3">
-												<c:choose>
-													<c:when test="${user_info.prof_pic == null }">
-														<img
-															src="/CollaB/resources/assets/img/avatar/avatar-1.png"
-															alt="" class="profileimg">
-													</c:when>
-													<c:when test="${not empty user_info.prof_pic }">
-														<img src="${user_info.prof_pic }" alt=""
-															class="profileimg">
-													</c:when>
-												</c:choose>
+												<img src="" alt=""
+													class="profileimg">
 											</div>
 											<div class="col-md-8 mt-3">
 												<span class="card-text" style="font-size:17px;"><b>Name</b>&nbsp;&nbsp; ${user_info.name }</span><br> 
@@ -386,23 +388,139 @@
 		</div>
 	</div>
 
-<!-- General JS Scripts -->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script src="resources/assets/js/stisla.js"></script>
+	<!-- General JS Scripts -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+	<script src="resources/assets/js/stisla.js"></script>
+	
+	<!-- Template JS File -->
+	<script src="resources/assets/js/scripts.js"></script>
+	<script src="resources/assets/js/custom.js"></script>
+	
+	<!-- mypage header -->
+	<script src="resources/js/mypage/mypage_header.js"></script>
+	
+	<script src="resources/js/jay/confirmForm.js"></script>
+	<script type="text/javascript">
+	let img = document.querySelector('.rounded-circle');
+	let profileimg = document.querySelector('.profileimg');
+	let prof_pic = "${prof_pic}";
+	
+    if(prof_pic.substring(0, 4) == 'http') {
+    	img.setAttribute("src", "${prof_pic}");
+    	profileimg.setAttribute("src", "${prof_pic}");
+    } else {
+    	img.setAttribute("src", "/profilePic/" + "${prof_pic}");
+    	profileimg.setAttribute("src", "/profilePic/" + "${prof_pic}");
+    }
+	
+		// 로그아웃
+		 function logout(){
+		      swal({
+		         title: "정말 로그아웃을 하시겠습니까?",
+		         icon : "warning",
+		         buttons : ["취소", "확인"]
+		      })
+		      .then(function(value) {
+		         if(value) {
+		      
+		            ajaxCompanyChk();
+		         }
+		      })
+		   }
+		
+		   function ajaxCompanyChk() {
+		      $.ajax({
+		         url : 'ajaxTokenChk.do',
+		         dataType : 'text',
+		         success : function(data) {
+		            if(data == "No") {
+		               location.href="logout.do";
+		            } else {
+		               logoutSwitchFn(data);
+		            }
+		         }
+		      })
+		   }
+		   
+		   function logoutSwitchFn(data){
+		      switch(data) {
+		         case "카카오": 
+		            kakaoLogoutFn();   
+		            break;
+		            
+		         case "네이버":
+		            
+		            naverLogoutFn();
+		            break;
+		            
+		         case "구글": 
+		         
+		            googleLogoutFn();
+		            break;
+		            
+		         case "페이스북":
+		         
+		            location.href="facebookLogout.do";
+		            break;
+		      }
+		   }
+		   
+		   function kakaoLogoutFn(){
+		      $.ajax({
+		         url : 'kakaoLogoutUrl.do',
+		         dataType : 'text',
+		         type : 'post',
+		         success : function(data){
+		            location.href=data;
+		         
+		         }
+		      })
+		   }
+		      
+		   function googleLogoutFn(){
+		      $.ajax({
+		         url : 'googleLogout.do',
+		         type : 'post',
+		         dataType : 'text',
+		         success : function(data){
+		            popupFn(data);
+		         }
+		      })
+		   }
+		   
+		   function naverLogoutFn(){
+		      
+		      $.ajax({
+		         url : 'naverLogout.do',
+		         type : 'post',
+		         dataType : 'text',
+		         success : function(data){
+		            
+		            popupFn(data);
+		         }
+		      })
+		   }
+		   
+		   function popupFn(url){
+		      var popupWidth = 1000;
+		      var popupHeight = 700;
+		      
+		      var popupX = (window.screen.width / 2) - (popupWidth /2);
+		      var popupY = (window.screen.height / 2) - (popupHeight /2);
+		      
+		      window.open(url, 'popup', 'z-lock=yes, width='+popupWidth+', height='+popupHeight+', top='+popupY+', left='+popupX);
+		      location.href='login.do'
+		   }
 
-<!-- Template JS File -->
-<script src="resources/assets/js/scripts.js"></script>
-<script src="resources/assets/js/custom.js"></script>
+	</script>
 
-<!-- mypage header -->
-<script src="resources/js/mypage/mypage_header.js"></script>
 </body>
 </html>

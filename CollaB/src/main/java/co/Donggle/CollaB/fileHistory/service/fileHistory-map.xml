@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.Donggle.CollaB.fileHistory.service.FileHistoryMapper">
-	<select id="fileHistoryList" resultType="co.Donggle.CollaB.fileHistory.service.FileHIstoryVO">
-		select * from file_history
+	<select id="fileInfoList" parameterType="int" resultType="co.Donggle.CollaB.fileHistory.service.VuFileInfo">
+		select * from v_fileinfo
+		where workspace_id = #{workspaceid}
+		order by file_upload_date desc
 	</select>
 
 	<select id="fileCardList" parameterType="int" resultType="co.Donggle.CollaB.fileHistory.service.VuFilehistory">
-		select fi.file_name, c.card_title, fi.file_upload_date, fi.file_hits, fh.pfile_name, fh.upload_date
-		from board b, list l, card c, file_info fi, file_history fh
-		where b.board_id = l.board_id
-		and l.list_id = c.list_id
-		and c.card_id = fi.card_id
-		and fi.file_id = fh.file_id
-		and b.workspace_id = #{workspaceid}
+		select * from v_filehistory
+		where workspace_id = #{workspaceid}
+		order by upload_date desc
 	</select>
 </mapper>

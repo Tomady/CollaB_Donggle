@@ -9,9 +9,7 @@
 
 
 <link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
-	crossorigin="anonymous">
+	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 <script type="module"
 	src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule
@@ -49,6 +47,7 @@
 	height: 45px;
 	background-color: #FFFFFF;
 	border-radius: 5px;
+
 }
 
 .tableTopMenu__left input {
@@ -65,12 +64,16 @@
 .tableTopMenu__left button {
 	padding: 0;
 	margin: 0;
+	
 	width: 100px;
 	border: none;
 	background-color: #6553C1;
 	color: white;
 	font-weight: bold;
 	font-size: 16px;
+	border-radius: 5px;
+	outline: none;
+	 
 }
 
 .tableTopMenu__right {
@@ -1332,6 +1335,7 @@ const boardBg = {
 				workspace_id : workspaceId
 			},
 			success : function(data){
+				console.log(data)
 				let userList = data.userList;
 				let usersAuthor = data.userAuthor;
 				
@@ -1389,7 +1393,13 @@ const boardBg = {
 		}
 	
 		userTrTemplate.find('.tabletdRow').attr('data', user.id);
-		userTrTemplate.find('.user__img>img').attr('src', user.prof_pic);
+
+		if(user.prof_pic.substring(0, 4) == 'http') {
+			userTrTemplate.find('.user__img>img').attr('src', user.prof_pic);
+		} else {
+			userTrTemplate.find('.user__img>img').attr('src', "/profilePic/" + user.prof_pic);
+		}
+
 		userTrTemplate.find('.user__name').text(user.nickname);
 		userTrTemplate.find('.userAuthor').text(userAuthorVal)
 		userTrTemplate.find('.boardsNum>span').text(boardsNub);
@@ -1962,6 +1972,12 @@ const boardBg = {
 				if(value) {
 					let targetBoardId = targetEl.closest('.Workspace__boards__body__boardsList__row').find('.boardsList__row__name').attr('data');
 					boardRemoveFn(targetBoardId , targetRowEl)
+					let num = $('.target>span').text()
+					
+						
+					$('.target>span').text(Number(num)-1)
+					
+					a_tagcancelFn()
 				}
 			})
 		
@@ -2165,7 +2181,9 @@ const boardBg = {
             .then(function(value) {
 			if(value) {
 				ajaxWorkspaceLeave(targetId)
-				
+
+				a_tagcancelFn();
+				location.href="index.do"
 			}
 		})
 		
@@ -2175,7 +2193,7 @@ const boardBg = {
 		if(currentUserPermission){
 			
 			targetUserWorkspaceRemove(targetId, targetNickName)
-			
+			a_tagcancelFn();
 		}else{
 			swal({
                 icon: 'error',
@@ -2186,7 +2204,7 @@ const boardBg = {
 		
 		
 		let targetEl = $(event.target);
-		console.log(targetEl)
+	
 	}
 	//workSpaceUserOutFn end
 	
@@ -2435,7 +2453,7 @@ App = {
 			changeWKIMG(name);
 			
 			let workspaceId = $('#hWorkspace_id').val();
-
+			console.log(workspaceId)
 
 			let flag = ajaxMemPageUserList(workspaceId)
 			if(flag){

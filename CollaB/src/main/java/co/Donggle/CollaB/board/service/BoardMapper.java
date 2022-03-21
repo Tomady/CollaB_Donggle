@@ -42,6 +42,8 @@ public interface BoardMapper {
 	int addBoardJoinMember(BoardVO vo);
 	//해당 리스트가 있는 보드 아이디
 	int selectBoardId(ListVO vo);
+	//보드 검색
+	List<BoardVO> boardNameSearch(BoardVO vo);
 	
 	//해당 보드가 가지고 있는 리스트 아이디들
 	List<ListVO> listIdInBoard(BoardVO vo);

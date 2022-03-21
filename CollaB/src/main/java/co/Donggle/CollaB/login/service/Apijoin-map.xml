@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.Donggle.CollaB.login.service.ApiJoinMapper">
-	
-	<insert id="ApiUserJoin">
-		insert into user_info
-		values (#{id}, #{name}, #{nickname}, #{password}, #{email}, #{prof_pic}, #{tel}, #{company}, #{token})
-	</insert>
 
+
+	<insert id="ApiUserJoin" parameterType="co.Donggle.CollaB.user.service.UserVO">
+		INSERT INTO USER_INFO (ID
+		, PASSWORD
+		, NAME
+		<if test="nickname!=null and nickname != ''">, NICKNAME</if>
+		<if test="company!=null and company != ''"> , COMPANY</if>
+		<if test="tel !=null and tel != ''">, TEL</if>
+		<if test="prof_pic !=null and tel != ''">, PROF_PIC</if>
+		<if test="token !=null and tel != ''">, TOKEN</if>
+		, EMAIL
+		)
+		VALUES (#{id}
+		, #{password}
+		, #{name}
+		<if test="nickname!=null and nickname != ''">, #{nickname}</if>
+		<if test="company!=null and company != ''"> , #{company}</if>
+		<if test="tel !=null and tel != ''">, #{tel}</if>
+		<if test="prof_pic !=null and tel != ''">, #{prof_pic}</if>
+		<if test="token !=null and tel != ''">, #{token}</if>
+		, #{email}
+		)
+
+	</insert>
 </mapper>

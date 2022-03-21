@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 <title>Insert title here</title>
+<link rel="shortcut icon" href="/favicon2.ico" type="image/x-icon">
 <!-- General CSS Files -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
@@ -159,6 +160,10 @@
       background: #6553C1;
       color: #fff;
     }  
+    .remove_starred{
+	    opacity: 0.0;
+		display: none;
+    }
 </style>
 <script type="text/javascript">
 //즐겨찾기
@@ -291,16 +296,18 @@ function unread(){
           <div class="row form-group d-flex justify-content-between">
             <input type="text" class="form-control" style="visibility: hidden;">
             <div class="col">
+            <label>Your workspaces</label>
               <ul id="workspaces" class="list-group">
               <c:forEach items="${workspaceList}" var="workspace">
                 <li class="list-group-item" onclick="show_joinMembers(${workspace.workspace_id})">${workspace.workspace_title}</li>              
               </c:forEach>
               </ul>
             </div>
-            <div class="col form-group">
+            <div class="col">
+            <label>Your partner</label>
               <select id="members" class="form-control" multiple data-height="300px">
-              	<option>Click on the workspace<option>
-              	<option>to select a member😉<option>
+              	<option>Click on the workspace</option>
+              	<option>to select a member😉</option>
               </select>
             </div>
           </div>
@@ -385,9 +392,15 @@ function unread(){
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recent</button>
             <div class="dropdown-menu">
               <div class="dropdown-title">History 🎡</div>
-              <a class="dropdown-item" href="#">board_2</a>
-              <a class="dropdown-item" href="#">board_1</a>
-              <a class="dropdown-item" href="#">board_4</a>
+              <c:forEach items="${recents}" var="recent">
+        	  	  <c:if test="${recent.board_id ne boardid}">
+        	  	  	<c:set var="count" value="${count + 1}"/>
+        	  	  	<c:if test="${count < 6}">
+		              	<a class="dropdown-item" onclick="location.href='boardDetail?boardID=${recent.board_id}'">${recent.board_title}</a>        	  
+        	  	  	</c:if>
+	        	  </c:if>
+	        	  <c:set var="boardid" value="${recent.board_id}"></c:set>
+        	  </c:forEach>
             </div>
           </div>
           <div class="btn-group">
@@ -403,7 +416,7 @@ function unread(){
         
         <ul class="navbar-nav navbar-right">
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="resources/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+            <img alt="image" src="" class="rounded-circle mr-1">
             <div class="d-sm-none d-lg-inline-block">Hi,${nickname}</div></a>
             <div class="dropdown-menu dropdown-menu-right">
               <!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
@@ -429,7 +442,7 @@ function unread(){
           <div class="card-body">
             <div class="row form-group mt-3">
               <label>Workspace Name<span style="color: red;"> *</span></label>
-              <input id="modal-workspace-title" type="text" class="form-control">
+              <input id="modal-workspace-title" type="text" maxlength="10" class="form-control">
             </div>
             <div class="row buttons mt-3">
               <button class="mt-5 btn btn-icon icon-left btn-secondary" id="createWK"
@@ -474,7 +487,7 @@ function unread(){
         </div>
         <div class="row form-group mt-3">
           <label>Board Title<span style="color: red;"> *</span></label>
-          <input id="modal-board-title" type="text" class="form-control">
+          <input id="modal-board-title" type="text" maxlength="20" class="form-control">
         </div>
         <div class="row form-group mt-3">
           <label>Workspace</label>
@@ -557,7 +570,7 @@ function unread(){
                       </div>
                     </div>
                   </div>
-                  <div class="card-body" style="height: 95vh;">
+                  <div class="card-body" style="height: 100vh;">
                     <!--메시지 삭제-->
                     <button id="starredMsgDelete" class="btn mb-2" type="button">
                       <a href="#" title="delete"><i class="fas fa-trash"></i></a>
@@ -600,8 +613,8 @@ function unread(){
 	                            <i style="color:gray;" class="star fas fa-star" onclick="starFnc(${star.inbox_id})"></i>
 	                          </c:if>
                           </td>
-                          <td onclick="selectMSG(${star.inbox_id})">${star.receive_from}</td>
-                          <td onclick="selectMSG(${star.inbox_id})">${star.receive_title}</td>
+                          <td class="starred_writer" onclick="selectMSG(${star.inbox_id})">${star.receive_from}</td>
+                          <td class="starred_title" onclick="selectMSG(${star.inbox_id})">${star.receive_title}</td>
                           <td onclick="selectMSG(${star.inbox_id})" style="text-align: left;">${star.receive_contents}</td>
                           <td onclick="selectMSG(${star.inbox_id})">${star.receive_date}</td>
                         </tr>  
@@ -640,17 +653,124 @@ function unread(){
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="resources/js/jay/confirmForm.js"></script>
   <script type="text/javascript">
+  let img = document.querySelector('.rounded-circle');
+	let prof_pic = "${prof_pic}";
+
+      if(prof_pic.substring(0, 4) == 'http') {
+          img.setAttribute("src", "${prof_pic}");
+      } else {
+          img.setAttribute("src", "/profilePic/" + "${prof_pic}");
+      }
+  
+   function logout(){
+      swal({
+         title: "정말 로그아웃을 하시겠습니까?",
+         icon : "warning",
+         buttons : ["취소", "확인"]
+      })
+      .then(function(value) {
+         if(value) {
+      
+            ajaxCompanyChk();
+         }
+      })
+   }
+
+   function ajaxCompanyChk() {
+      $.ajax({
+         url : 'ajaxTokenChk.do',
+         dataType : 'text',
+         success : function(data) {
+            if(data == "No") {
+               location.href="logout.do";
+            } else {
+               logoutSwitchFn(data);
+            }
+         }
+      })
+   }
+   
+   function logoutSwitchFn(data){
+      switch(data) {
+         case "카카오": 
+            kakaoLogoutFn();   
+            break;
+            
+         case "네이버":
+            
+            naverLogoutFn();
+            break;
+            
+         case "구글": 
+         
+            googleLogoutFn();
+            break;
+            
+         case "페이스북":
+         
+            location.href="facebookLogout.do";
+            break;
+      }
+   }
+   
+   function kakaoLogoutFn(){
+      $.ajax({
+         url : 'kakaoLogoutUrl.do',
+         dataType : 'text',
+         type : 'post',
+         success : function(data){
+            location.href=data;
+         
+         }
+      })
+   }
+      
+   function googleLogoutFn(){
+      $.ajax({
+         url : 'googleLogout.do',
+         type : 'post',
+         dataType : 'text',
+         success : function(data){
+            popupFn(data);
+         }
+      })
+   }
+   
+   function naverLogoutFn(){
+      
+      $.ajax({
+         url : 'naverLogout.do',
+         type : 'post',
+         dataType : 'text',
+         success : function(data){
+            
+            popupFn(data);
+         }
+      })
+   }
+   
+   function popupFn(url){
+      var popupWidth = 1000;
+      var popupHeight = 700;
+      
+      var popupX = (window.screen.width / 2) - (popupWidth /2);
+      var popupY = (window.screen.height / 2) - (popupHeight /2);
+      
+      window.open(url, 'popup', 'z-lock=yes, width='+popupWidth+', height='+popupHeight+', top='+popupY+', left='+popupX);
+      location.href='login.do'
+   }
+  
   var pagenumber = 10 //한페이지에 보여줄 메시지 수
   var pageCount = 3
   var currentPage = 1;
-
-  var tableEl = $('#starredMSGlist');
-  var tr = tableEl.find('tbody tr');
-  var trtotal = tr.length;
   
   function page(pagenumber, pageCount, currentPage) {
-
+	let tableEl = $('#starredMSGlist');
+	let tr = tableEl.find('tbody tr');
+	let trtotal = tr.length;
+	  
     if (trtotal == 0) return;
     var pagetotal = Math.ceil(trtotal / pagenumber);
     var pageGroup = Math.ceil(currentPage / pageCount);

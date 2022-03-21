@@ -10,7 +10,7 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"
 	name="viewport">
 <title></title>
-
+<link rel="shortcut icon" href="/favicon2.ico" type="image/x-icon">
 <!-- General CSS Files -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -21,7 +21,6 @@
 	href='<c:url value="/resources/assets/css/style.css"></c:url>'>
 <link rel="stylesheet"
 	href='<c:url value="/resources/assets/css/components.css"></c:url>'>
-
 </head>
 
 <body>

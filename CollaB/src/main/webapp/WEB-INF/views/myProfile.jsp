@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Profile Modify</title>
+<link rel="shortcut icon" href="/favicon2.ico" type="image/x-icon">
 <!-- General CSS Files -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -15,6 +16,9 @@
 <!-- Template CSS -->
 <link rel="stylesheet" href="resources/assets/css/style.css">
 <link rel="stylesheet" href="resources/assets/css/components.css">
+
+<!-- 웹 타이틀 이미지 -->
+<link rel="shortcut icon" href="/resources/img/web_title.ico">
 <style>
 #addListBtn:hover {
 	background-color: rgb(224, 224, 224);
@@ -115,7 +119,7 @@ th {
 				<div class="card-body">
 					<div class="row form-group mt-3">
 						<label>Workspace Name<span style="color: red;"> *</span></label> <input
-							id="modal-workspace-title" type="text" class="form-control">
+							maxlength="10" id="modal-workspace-title" type="text" class="form-control">
 					</div>
 					<div class="row buttons mt-3">
 						<button class="mt-5 btn btn-icon icon-left btn-secondary"
@@ -173,7 +177,7 @@ th {
 					</div>
 					<div class="row form-group mt-3">
 						<label>Board Title<span style="color: red;"> *</span></label> <input
-							id="modal-board-title" type="text" class="form-control">
+							maxlength="20" id="modal-board-title" type="text" class="form-control">
 					</div>
 					<div class="row form-group mt-3">
 						<label>Workspace</label> <select class="form-control"
@@ -220,9 +224,15 @@ th {
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recent</button>
 						<div class="dropdown-menu">
 							<div class="dropdown-title">History 🎡</div>
-							<a class="dropdown-item" href="#">board_2</a> <a
-								class="dropdown-item" href="#">board_1</a> <a
-								class="dropdown-item" href="#">board_4</a>
+							<c:forEach items="${recents}" var="recent">
+			        	  	  <c:if test="${recent.board_id ne boardid}">
+			        	  	  	<c:set var="count" value="${count + 1}"/>
+			        	  	  	<c:if test="${count < 6}">
+					              	<a class="dropdown-item" onclick="location.href='boardDetail?boardID=${recent.board_id}'">${recent.board_title}</a>        	  
+			        	  	  	</c:if>
+				        	  </c:if>
+				        	  <c:set var="boardid" value="${recent.board_id}"></c:set>
+			        	  </c:forEach>
 						</div>
 					</div>
 					<div class="btn-group">
@@ -243,7 +253,7 @@ th {
 				<ul class="navbar-nav navbar-right mr-5">
 					<li class="dropdown"><a href="#" data-toggle="dropdown"
 						class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img
-							alt="image" src="resources/assets/img/avatar/avatar-1.png"
+							alt="image" src=""
 							class="rounded-circle mr-1">
 							<div class="d-sm-none d-lg-inline-block">Hi, ${nickname}</div></a>
 						<div class="dropdown-menu dropdown-menu-right">
@@ -295,17 +305,10 @@ th {
 										<tbody>
 											<tr>
 												<th>Profile</th>
-												<td><c:choose>
-														<c:when test="${user_info.prof_pic == null }">
-															<img
-																src="/CollaB/resources/assets/img/avatar/avatar-1.png"
-																alt="" class="profileImg my-2 mr-2">
-														</c:when>
-														<c:when test="${not empty user_info.prof_pic }">
-															<img src="${user_info.prof_pic }" alt=""
+												<td>
+													<img src="/profilePic/${user_info.prof_pic }" alt=""
 																class="profileImg my-2 mr-2">
-														</c:when>
-													</c:choose> <input type="file" name="file" id="file"></td>
+													<input type="file" name="file" id="file"></td>
 											</tr>
 											<tr>
 												<th>Name</th>
@@ -335,7 +338,20 @@ th {
 		</div>
 	</div>
 
+	<script src="resources/js/jay/confirmForm.js"></script>
 	<script>
+		let img = document.querySelector('.rounded-circle');
+		let profileimg = document.querySelector('.profileImg');
+		let prof_pic = "${prof_pic}";
+		
+	    if(prof_pic.substring(0, 4) == 'http') {
+	    	img.setAttribute("src", "${prof_pic}");
+	    	profileimg.setAttribute("src", "${prof_pic}");
+	    } else {
+	    	img.setAttribute("src", "/profilePic/" + "${prof_pic}");
+	    	profileimg.setAttribute("src", "/profilePic/" + "${prof_pic}");
+	    }
+	
 		function updateProfile() {
 			if ($('#name').val().length == 0) {
 				alert("이름을 입력하세요.");
@@ -351,6 +367,107 @@ th {
 			window.alert("수정이 완료되었습니다.");
 			proffrm.submit();
 		}
+		
+		
+		// 로그아웃
+	    function logout(){
+	      swal({
+	         title: "정말 로그아웃을 하시겠습니까?",
+	         icon : "warning",
+	         buttons : ["취소", "확인"]
+	      })
+	      .then(function(value) {
+	         if(value) {
+	      
+	            ajaxCompanyChk();
+	         }
+	      })
+	   }
+	
+	   function ajaxCompanyChk() {
+	      $.ajax({
+	         url : 'ajaxTokenChk.do',
+	         dataType : 'text',
+	         success : function(data) {
+	            if(data == "No") {
+	               location.href="logout.do";
+	            } else {
+	               logoutSwitchFn(data);
+	            }
+	         }
+	      })
+	   }
+	   
+	   function logoutSwitchFn(data){
+	      switch(data) {
+	         case "카카오": 
+	            kakaoLogoutFn();   
+	            break;
+	            
+	         case "네이버":
+	            
+	            naverLogoutFn();
+	            break;
+	            
+	         case "구글": 
+	         
+	            googleLogoutFn();
+	            break;
+	            
+	         case "페이스북":
+	         
+	            location.href="facebookLogout.do";
+	            break;
+	      }
+	   }
+	   
+	   function kakaoLogoutFn(){
+	      $.ajax({
+	         url : 'kakaoLogoutUrl.do',
+	         dataType : 'text',
+	         type : 'post',
+	         success : function(data){
+	            location.href=data;
+	         
+	         }
+	      })
+	   }
+	      
+	   function googleLogoutFn(){
+	      $.ajax({
+	         url : 'googleLogout.do',
+	         type : 'post',
+	         dataType : 'text',
+	         success : function(data){
+	            popupFn(data);
+	         }
+	      })
+	   }
+	   
+	   function naverLogoutFn(){
+	      
+	      $.ajax({
+	         url : 'naverLogout.do',
+	         type : 'post',
+	         dataType : 'text',
+	         success : function(data){
+	            
+	            popupFn(data);
+	         }
+	      })
+	   }
+	   
+	   function popupFn(url){
+	      var popupWidth = 1000;
+	      var popupHeight = 700;
+	      
+	      var popupX = (window.screen.width / 2) - (popupWidth /2);
+	      var popupY = (window.screen.height / 2) - (popupHeight /2);
+	      
+	      window.open(url, 'popup', 'z-lock=yes, width='+popupWidth+', height='+popupHeight+', top='+popupY+', left='+popupX);
+	      location.href='login.do'
+	   }
+
 	</script>
 
 	<!-- General JS Scripts -->
