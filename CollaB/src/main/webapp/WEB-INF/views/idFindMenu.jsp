@@ -5,10 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+<link rel="shortcut icon" href="/favicon2.ico" type="image/x-icon">
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@800&display=swap" rel="stylesheet">
     
     <style type="text/css">
@@ -251,12 +251,12 @@
 
                     </ul>
                     <ul class="container__mid__body">
-                        <li class="" name="method_1"><span><input type="radio" name="find__radio">내 명의(이름)로 가입된 휴대폰
-                                인증</span>
-                            <div>내 명의(이름)로 가입한 아이디와, 이름/휴대폰 번호가 일치한 아이디를 찾습니다.
-                                <button type="button">다음단계</button>
-                            </div>
-                        </li>
+<!--                         <li class="" name="method_1"><span><input type="radio" name="find__radio">내 명의(이름)로 가입된 휴대폰 -->
+<!--                                 인증</span> -->
+<!--                             <div>내 명의(이름)로 가입한 아이디와, 이름/휴대폰 번호가 일치한 아이디를 찾습니다. -->
+<!--                                 <button type="button">다음단계</button> -->
+<!--                             </div> -->
+<!--                         </li> -->
                         <li class="" name="method_2"><span><input type="radio" name="find__radio">내 정보에 등록된 휴대폰으로
                                 찾기</span>
                             <div>가입 시 등록하신 전화번호와 일치한 아이디를 찾습니다.

@@ -88,8 +88,14 @@
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recent</button>
             <div class="dropdown-menu">
               <div class="dropdown-title">History 🎡</div>
-        	  <c:forEach items="${recent }" var="recent">
-              	<a class="dropdown-item" onclick="location.href='boardDetail?boardID=${recent.board_id}'">${recent.board_title }</a>
+        	  <c:forEach items="${recents}" var="recent">
+        	  	  <c:if test="${recent.board_id ne boardid}">
+        	  	  	<c:set var="count" value="${count + 1}"/>
+        	  	  	<c:if test="${count < 6}">
+		              	<a class="dropdown-item" onclick="location.href='boardDetail?boardID=${recent.board_id}'">${recent.board_title}</a>        	  
+        	  	  	</c:if>
+	        	  </c:if>
+	        	  <c:set var="boardid" value="${recent.board_id}"></c:set>
         	  </c:forEach>
             </div>
           </div>
@@ -105,9 +111,11 @@
         </div>
         
         <ul class="navbar-nav navbar-right">
-          <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="${prof_pic}" class="rounded-circle mr-1">
-            <div class="d-sm-none d-lg-inline-block">Hi, ${nickname}</div></a>
+          <li class="dropdown">
+          	<a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+          		<img alt="image" class="rounded-circle mr-1">
+            	<div class="d-sm-none d-lg-inline-block">Hi, ${nickname}</div>
+            </a>
             <div class="dropdown-menu dropdown-menu-right">
               <!--소연걸 : 마이페이지 메인 으로 주소걸어주기-->
               <a class="dropdown-item has-icon" href="/CollaB/myPageMain">
@@ -132,7 +140,7 @@
           <div class="card-body">
             <div class="row form-group mt-3">
               <label>Workspace Name<span style="color: red;"> *</span></label>
-              <input id="modal-workspace-title" type="text" class="form-control">
+              <input id="modal-workspace-title" type="text" class="form-control" maxlength="10">
             </div>
             <div class="row buttons mt-3">
               <button class="mt-5 btn btn-icon icon-left btn-secondary" id="createWK"
@@ -177,7 +185,7 @@
         </div>
         <div class="row form-group mt-3">
           <label>Board Title<span style="color: red;"> *</span></label>
-          <input id="modal-board-title" type="text" class="form-control">
+          <input id="modal-board-title" type="text" class="form-control" maxlength="20">
         </div>
         <div class="row form-group mt-3">
           <label>Workspace</label>
@@ -200,5 +208,17 @@
   <!-- 보드생성 모달창 of end -->
     </div>
   </div>
+  
+  <script type="text/javascript">
+  	let img = document.querySelector('.rounded-circle');
+	let prof_pic = "${prof_pic}";
+	
+  	if(prof_pic.substring(0, 4) == 'http') {
+  		img.setAttribute("src", "${prof_pic}");
+  	} else {
+  		img.setAttribute("src", "/profilePic/" + "${prof_pic}");
+  	}
+    
+  </script>
 </body>
 </html>

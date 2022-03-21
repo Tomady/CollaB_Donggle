@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 
 <title>Bootstrap Components &rsaquo; Card &mdash; Stisla</title>
-
+<link rel="shortcut icon" href="/favicon2.ico" type="image/x-icon">
 <!-- General CSS Files -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -911,7 +911,7 @@
 									<div class="card-body comment__card__body">
 										<div class="comment__input__row">
 											<img class="mr-3 rounded-circle" width="40" height="40px"
-												src="${prof_pic}" alt="avatar">
+												src="" alt="avatar">
 											<div class="comment__input__Box">
 												<div class="textarea__Box">
 													<textarea name="" id=""
@@ -1023,7 +1023,7 @@
 					</div>
 					<div class="comment__input__row">
 						<img class="mr-3 rounded-circle" width="40" height="40px"
-							src="${prof_pic}" alt="avatar">
+							src="" alt="avatar">
 						<div class="comment__input__Box">
 							<div class="textarea__Box">
 								<textarea name="" id="" class="textareaEl textareaEl__class2"></textarea>
@@ -1160,9 +1160,18 @@
 		src="https://cdn.jsdelivr.net/npm/emoji-button@0.6.0/dist/index.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script id="script">
-	
-
-	
+	  	let img = document.querySelectorAll('.rounded-circle');
+		let prof_pic = "${prof_pic}";
+		
+		img.forEach(function(val, ind) {
+	        console.log(val);
+	        if(prof_pic.substring(0, 4) == 'http') {
+	            val.setAttribute("src", "${prof_pic}");
+	        } else {
+	            val.setAttribute("src", "/profilePic/" + "${prof_pic}");
+	        }
+	    }) 
+    	
 	const currentCardId = $('#currentCardId').val();
 	const currentUserProfPic = $('#currentUserProfPic').val();
 	CommentApp = {

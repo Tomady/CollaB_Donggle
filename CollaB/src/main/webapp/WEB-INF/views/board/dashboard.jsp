@@ -133,8 +133,8 @@ document.addEventListener("DOMContentLoaded", function(){
 					endDay = "0"+(end.getDate());
 				}
 				//시작일, 종료일 년-월-일 붙이기
-				var startDate = (start.getFullYear())+"-"+startMonth+"-"+startDay;
-				var endDate = (end.getFullYear())+"-"+endMonth+"-"+endDay;
+				const startDate = (start.getFullYear())+"-"+startMonth+"-"+startDay;
+				const endDate = (end.getFullYear())+"-"+endMonth+"-"+endDay;
 				//[Ajax]해당 카드가 가지고 있는 아이템 전부 조회
 				$.ajax({
 					url : "AjaxCardItemsAll",
@@ -218,11 +218,11 @@ document.addEventListener("DOMContentLoaded", function(){
 							let front = document.createElement("div");
 							front.style.backgroundColor = "rgb(255,90,40)";
 							front.style.height = "30px";
-							front.style.width = yes/totalCnt*200+"px";
+							front.style.width = Math.ceil(yes/totalCnt*200)+"px";
 							front.style.color="white";
 							front.style.lineHeight="2.3";
 							if(String(yes/totalCnt*100) != 0){
-								front.innerText = yes/totalCnt*100+"%";
+								front.innerText = Math.ceil(yes/totalCnt*100)+"%";
 							}
 							
 							//만든거 조립하기
@@ -437,16 +437,25 @@ document.addEventListener("DOMContentLoaded", function(){
     </div>
   </div>
   <script>
-	let itemTotalCnt = parseInt("${itemsCnt}"); //전체 아이템 개수
-	let yesItem = parseInt("${YesItemCnt}"); //상태가 yes인 아이템 개수
-	let noItem =  itemTotalCnt-yesItem//상태가 no인 아이템 개수
-	let nodata = 0;
+  	var itemTotalCnt = parseInt("${itemsCnt}"); //전체 아이템 개수
+	var yesItem = parseInt("${YesItemCnt}"); //상태가 yes인 아이템 개수
+	var noItem =  itemTotalCnt-yesItem//상태가 no인 아이템 개수
+	var nodata = 0;
+	console.log("값 전부 들어오나? itemTotalCnt : "+itemTotalCnt);
+	console.log("값 전부 들어오나? yesItem : "+yesItem);
+	console.log("값 전부 들어오나? noItem : "+noItem);
 	if(itemTotalCnt==0){
 		nodata=100;
 	}
 	let state = Math.ceil(yesItem/itemTotalCnt*100); //현재 진척도
-	percentage.innerHTML = "("+state+"%)";
-	if(state < 25){
+	
+	if(state >= 1 && state <= 100){
+		percentage.innerHTML = "("+state+"%)";		
+	}else{
+		percentage.innerHTML = "(0%)";
+	}
+	
+	if(state > 0 && state < 25){
 		project_state.style.backgroundColor="red";
 	}else if(state < 50){
 		project_state.style.backgroundColor="orange";
@@ -454,26 +463,45 @@ document.addEventListener("DOMContentLoaded", function(){
 		project_state.style.backgroundColor="rgb(2, 192, 18)";
 	}else if(state <= 100){
 		project_state.style.backgroundColor="rgb(95, 218, 255)";
-	}
+	}else if(state == 0)
 	
 	
-    new Chart(document.getElementById("stateChart"), {
-    type: 'pie',
-    data: {
-      labels: ["Done","Remaining Work","No Work"],
-      datasets: [{
-        label: "Population (millions)",
-        backgroundColor: ["#a6fbab","#ffb7b7","#dee2e6"],
-        data: [yesItem,noItem,nodata]
-      }]
-    },
-       options: {
-        title: {
-        display: false,
-        text: 'The overall progress'
-        }
-      }
+    new Chart(document.getElementById("stateChart1"), {
+    	type: 'pie',
+	    data: {
+	      labels: ["Done","Remaining Work","No Work"],
+	      datasets: [{
+	        label: "Population (millions)",
+	        backgroundColor: ["#a6fbab","#ffb7b7","#dee2e6"],
+	        data: [yesItem,noItem,nodata]
+	      }]
+	    },
+	    options: {
+	      title: {
+	        display: true,
+	        text: 'The overall progress'
+	        }
+	      }
     });
+	
+	new Chart(document.getElementById("stateChart"), {
+	    type: 'pie',
+	    data: {
+	      labels: ["Done", "Remaining Work", "No Work"],
+	      datasets: [{
+	        label: "Population (millions)",
+	        backgroundColor: ["#a6fbab", "#ffb7b7","#dee2e6"],
+	        data: [yesItem,noItem,nodata]
+	      }]
+	    },
+	    options: {
+	      title: {
+	        display: false,
+	        text: 'The overall progress'
+	      }
+	    }
+	});
+	
   </script>
   
 <!-- 은지 코드 -->

@@ -51,12 +51,19 @@ public class BoardController {
 		vo.setWorkspace_id(wkid);
 		vo.setId(userId);
 		
+		// recent
+		RecentVO recentvo = new RecentVO();
+		recentvo.setId(userId);
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
+		
 		session.setAttribute("enterWorkspaceId", wkid); //세션에다 워크스페이스 아이디 저장해주기
 		model.addAttribute("workspace", workspaceDao.searchWorkspace(wvo)); // 워크스페이스ID,생성자아이디,생성일자,워크스페이스이름
 		model.addAttribute("workspaceList", workspaceJoinDao.workspaceJoinList(userId)); // 사용자가 가지고 있는 모든 워크스페이스
 		model.addAttribute("boardList", workspaceDao.boardListinWorkspace(wvo)); // 해당워크스페이스가 가지고 있는 모든 보드 - admin은 다 볼
 		model.addAttribute("boardStar", boardDao.selectBoardStar(vo));
 		model.addAttribute("unStarBoards",boardDao.selectBoardNonStar(vo));
+		model.addAttribute("recents", recents);
 		
 		return "workspaceBoards";
 	}
@@ -196,6 +203,10 @@ public class BoardController {
 		recentvo.setId(userId);
 		RecentDao.insertRecent(recentvo);
 		
+		// recent
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
+		
 		session.setAttribute("enterWorkspaceId", workspaceId); //세션에다 워크스페이스 아이디 저장해주기
 		// 해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID - 사이드
 		model.addAttribute("workspace", boardDao.selectBoard(vo));
@@ -225,6 +236,8 @@ public class BoardController {
 		model.addAttribute("totalCard", listDao.selectTotalCard(listvo));
 		// 해당 보드에 포함된 첨부파일 전부
 		model.addAttribute("totalFileList",fileInfoDao.totalFileListInBoard(bId));
+		// recent
+		model.addAttribute("recents", recents);
 		
 		return "board/board_details";
 	}
@@ -344,6 +357,12 @@ public class BoardController {
 		boardvo.setWorkspace_id(workspace_id);
 		cardvo.setBoard_id(board_id);
 		
+		// recent
+		RecentVO recentvo = new RecentVO();
+		recentvo.setId(userId);
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
+		
 		//해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID - 사이드
 		model.addAttribute("workspace", boardDao.selectBoard(boardvo));
 		//사용자가 가지고 있는 모든 워크스페이스-워크스페이스ID,워크스페이스이름 - 사이드
@@ -368,7 +387,9 @@ public class BoardController {
 		model.addAttribute("YesItemCnt",itemInfoDao.itemInfoYesState(board_id));
 		// 해당 보드가 포함된 워크스페이스 아이디 - 보드헤더
 		model.addAttribute("workspaceID", workspace_id);
-
+		// recent
+		model.addAttribute("recents", recents);
+		
 		return "board/dashboard";
 	}
 
@@ -386,6 +407,16 @@ public class BoardController {
 	public List<itemInfoVO> AjaxCardItemsAll(@RequestParam("card_id") int card_id) {
 		
 		return itemInfoDao.cardItemsAll(card_id);
+	}
+	
+	//보드 검색
+	@ResponseBody
+	@RequestMapping("/AjaxBoardListSearch")
+	public List<BoardVO> AjaxBoardListSearch(BoardVO vo, HttpSession session){
+		String userId = (String)session.getAttribute("id");
+		vo.setId(userId);
+		
+		return boardDao.boardNameSearch(vo);
 	}
 //workspaceList페이지에서 사용자가 워크스페이스 클릭시 해당 워크스페이스의 boards페이지로 이동
 //	@RequestMapping("/goBoards")

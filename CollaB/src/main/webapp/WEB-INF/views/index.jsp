@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>CollaB</title>
+<link rel="shortcut icon" href="/favicon2.ico" type="image/x-icon">
 <!-- General CSS Files -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
@@ -241,16 +242,19 @@ body .options {
 		display: none;
 	}
 }
-
+/* fdafdf */
 body .options .option {
 	position: relative;
 	overflow: hidden;
 	min-width: 60px;
 	margin: 10px;
-	background-size: auto 120%;
-	background-position: center;
+/*  	background-size: auto 120%;  */
+ 	background-size: cover; 
+	background-position: center; 
+
 	cursor: pointer;
 	transition: 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+	
 }
 
 .options .option:nth-child(1) .label .icon {
@@ -280,13 +284,15 @@ body .options .option {
 .options .option.active {
 	flex-grow: 10000;
 	transform: scale(1);
-	max-width: 600px;
+ 	max-width: 600px; 
 	margin: 0px;
 	border-radius: 40px;
-	background-size: auto 100%;
+	background-size: auto 100%; 
+
 	/*&:active {
      transform:scale(0.9);
   }*/
+  
 }
 
 body .options .option.active .shadow {
@@ -508,7 +514,7 @@ body .options .option .label .info .sub {
 
 <script type="text/javascript">
 
-	// 로그아웃
+
 	function logout(){
 		swal({
 			title: "정말 로그아웃을 하시겠습니까?",
@@ -517,13 +523,12 @@ body .options .option .label .info .sub {
 		})
 		.then(function(value) {
 			if(value) {
-				console.log("value : " + value);
+		
 				ajaxCompanyChk();
 			}
 		})
 	}
 
-	// 로그아웃 AJAX
 	function ajaxCompanyChk() {
 		$.ajax({
 			url : 'ajaxTokenChk.do',
@@ -541,8 +546,7 @@ body .options .option .label .info .sub {
 	function logoutSwitchFn(data){
 		switch(data) {
 			case "카카오": 
-			
-				location.href="kakaoLogout.do";
+				kakaoLogoutFn();	
 				break;
 				
 			case "네이버":
@@ -562,6 +566,18 @@ body .options .option .label .info .sub {
 		}
 	}
 	
+	function kakaoLogoutFn(){
+		$.ajax({
+			url : 'kakaoLogoutUrl.do',
+			dataType : 'text',
+			type : 'post',
+			success : function(data){
+				location.href=data;
+			
+			}
+		})
+	}
+		
 	function googleLogoutFn(){
 		$.ajax({
 			url : 'googleLogout.do',
@@ -596,6 +612,8 @@ body .options .option .label .info .sub {
 		window.open(url, 'popup', 'z-lock=yes, width='+popupWidth+', height='+popupHeight+', top='+popupY+', left='+popupX);
 		location.href='login.do'
 	}
+	
+	
 	
 	$(".option").click(function() {
 		$(".option").removeClass("active");

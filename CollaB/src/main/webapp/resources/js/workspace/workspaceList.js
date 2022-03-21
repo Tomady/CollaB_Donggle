@@ -10,23 +10,40 @@ function showBoards(){
 //워크스페이스 검색
 function searchWorkspace(){
     let searchVal = document.querySelector("#searchWKNAME").value; //검색값
-    console.log(searchVal);
-    
-    if(searchVal == ""){
-    	document.querySelector("#searchWKNAME").focus();
-    	document.querySelector("#searchWKNAME").style.border = "1px solid red";
-    	document.querySelector("#searchWKNAME").placeholder = "required";
-    }else{
+    document.querySelector("#searchWKNAME").value=""; 
+
+    if(searchVal == ""){ //값이 없을 경우 전체목록 출력
     	const workspaces = document.querySelectorAll(".workspace");
 		workspaces.forEach((workspace) => {
 			workspace.style.display = "block";
 		})
-		workspaces.forEach((workspace) => {
-			if(workspace.getAttribute("data-name") != searchVal){
-				workspace.style.display = "none";
+    }else{
+    	$.ajax({
+			url : "AjaxWorkspaceListSearch",
+			type : "POST",
+			data : {
+				workspace_title : searchVal
+			},
+			dataType : "json",
+			success : function(datas){
+				workspaceSearchResult(datas);
+			},
+			error : function(){
+				alert("검색결과를 불러오는데 실패하였습니다.");
 			}
 		})
     }
+}
+
+//워크스페이스 검색 콜백함수
+function workspaceSearchResult(list){
+	const workspaces = document.querySelectorAll(".workspace");
+	workspaces.forEach((workspace) => {
+		workspace.style.display = "none";
+	})
+	for(var workspace of list){
+		document.querySelector(".workspace"+workspace.workspace_id).style.display="block";
+	}
 }
 
 //워크스페이스 탈퇴, 해당 워크스페이스의 보드에서도 탈퇴되도록

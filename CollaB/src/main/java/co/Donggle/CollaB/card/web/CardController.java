@@ -3,6 +3,7 @@ package co.Donggle.CollaB.card.web;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -30,6 +32,8 @@ import co.Donggle.CollaB.fileinfo.service.FileInfoService;
 import co.Donggle.CollaB.fileinfo.service.FileInfoVO;
 import co.Donggle.CollaB.list.service.ListService;
 import co.Donggle.CollaB.list.service.ListVO;
+import co.Donggle.CollaB.recent.service.RecentService;
+import co.Donggle.CollaB.recent.service.RecentVO;
 import co.Donggle.CollaB.user.service.UserService;
 import co.Donggle.CollaB.workspace.service.WorkspaceJoinService;
 
@@ -44,7 +48,10 @@ public class CardController {
 	@Autowired UserService userDao;
 	@Autowired FileInfoService fileInfoDao;
 	@Autowired String cardSaveDirectory;
-	
+	@Autowired RecentService RecentDao;
+	@Value("#{upload['upload']}")
+    private String upload;
+
 	//카드 생성
 	@ResponseBody
 	@RequestMapping("/AjaxAddCard")
@@ -118,6 +125,12 @@ public class CardController {
 		cardvo.setCard_id(cardId);
 		cardvo.setList_id(listId);
 		
+		// recent
+		RecentVO recentvo = new RecentVO();
+		recentvo.setId(userId);
+		List<RecentVO> recents = new ArrayList<RecentVO>();
+		recents = RecentDao.recentBoard(recentvo);
+		
 		//해당 보드의 상세정보-워크스페이스ID,워크스페이스이름,보드이름,보드테마,보드ID - 사이드
 		model.addAttribute("workspace",boardDao.selectBoard(vo)); 
 		//사용자가 가지고 있는 모든 워크스페이스-워크스페이스ID,워크스페이스이름 - 사이드
@@ -143,6 +156,8 @@ public class CardController {
 		model.addAttribute("fileinfoList",fileInfoDao.cardFileSelectList(cardId));
 		//해당 카드의 매니저
 		model.addAttribute("manager",userDao.cardManagerSelect(cardId));
+		// recent
+		model.addAttribute("recents", recents);
 		
 		return "card/cardDetail";
 	}
@@ -239,7 +254,7 @@ public class CardController {
 		return n > 0 ? "YES" : "NO";
 	}
 	
-	//카드 파일업로드
+	//카드 파일업로드 fileinfo에 담기는 값은 card_id뿐
 	@ResponseBody
 	@RequestMapping("/AjaxCardFileUpload")
 	public FileInfoVO AjaxCardFileUpload(FileInfoVO vo, MultipartFile file, HttpSession session) {
@@ -247,7 +262,7 @@ public class CardController {
 		String pfilename = getRandomIntString(16);
 		String userId = (String)session.getAttribute("id");
 		pfilename = pfilename+filename.substring(filename.lastIndexOf("."));
-		File target = new File(cardSaveDirectory,pfilename);
+		File target = new File(upload,pfilename);
 		int n = 0;
 		
 		vo.setFile_name(filename);
@@ -258,8 +273,14 @@ public class CardController {
 		}
 		try {
 			FileCopyUtils.copy(file.getBytes(), target);
-			n = fileInfoDao.cardFileUpload(vo);
-			n += fileInfoDao.cardFileHistoryInsert(vo);
+			if(fileInfoDao.cardFileCount(vo) == 0) { //카드에 첨부파일이 없다면
+				n += fileInfoDao.cardFileUpload(vo);
+				n += fileInfoDao.cardFileHistoryInsert(vo);				
+			}else if(fileInfoDao.cardFileCount(vo) > 0) { //카드에 첨부파일이 있다면 -> 카드 파일 수정
+				//file_info 수정, file_history 추가
+				n += fileInfoDao.cardFileEdit(vo);
+				n += fileInfoDao.cardFileHistoryInsertExistPrev(vo);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -328,11 +349,15 @@ public class CardController {
 	//카드 첨부파일 다운로드
 	@RequestMapping("/cardFileDownload")
 	public void AjaxCardFileDownload(FileInfoVO vo, HttpServletResponse response) throws Exception {
+		response.setContentType("application/octet-stream; charset=UTF-8");
+		response.setCharacterEncoding("utf-8");
+		
 		try {
-			String path = cardSaveDirectory+"\\"+vo.getPfile_name();
+			String path = cardSaveDirectory+vo.getPfile_name();
 			
 			//File file = new File(path);
-			response.setHeader("Content-Disposition", "attachment;filename=" + vo.getFile_name());
+			String fileName = new String(vo.getFile_name().getBytes("UTF-8"), "8859_1");
+			response.setHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\";");
 			
 			FileInputStream fileInputStream = new FileInputStream(path);
 			OutputStream out = response.getOutputStream();

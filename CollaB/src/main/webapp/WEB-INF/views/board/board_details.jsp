@@ -322,7 +322,7 @@ document.addEventListener("DOMContentLoaded", function(){
                  <!-- 한 리스트 내 카드목록 -->
 	                 <c:forEach items="${totalCard}" var="card">
 	                 <c:if test="${card.list_id eq list.list_id}">
-	                 	<div id="card${card.card_id}" style="cursor:pointer;" data-manager="${card.manager}"
+	                 	<div id="card${card.card_id}" style="cursor:pointer; " data-manager="${card.manager}"
 	                 	onclick="location.href='cardDetail?list=${list.list_id}&card=${card.card_id}'"
 	                 	class="caaard card card-${card.card_label} ml-2 mr-2" > <!--라벨표시-->
 	                     <div class="card-header d-flex justify-content-between">
@@ -334,7 +334,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	                     	<c:forEach items="${totalFileList}" var="file">
 	                     		<c:if test="${file.file_id eq card.card_thema}">
 	                     			<c:if test="${file.pfile_name ne null}">
-					                     <img src="resources/cardFile/${file.pfile_name}" class="thema${card.card_thema}" 
+					                     <img src="/cardFile/${file.pfile_name}" class="thema${card.card_thema}" 
 					                     style="width:100%; height:150px;">
 	                     			</c:if>
 	                     		</c:if>
