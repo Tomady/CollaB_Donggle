@@ -363,15 +363,6 @@ img{
 		// 삭제 ajax function
 		function issueDelete(issueId) {
 			let checklist_id = $("#checklist_id").val();
-			let items = $('.items').find('li');
-			let item_id=[];
-			
-	        for(let i=0; i< items.length; i++) {
-	        	hh = $(items[i]).data('itemid');
-	        	item_id.push(hh);
-	           
-	        }
-	        console.log("희희", item_id);
 	        if(confirm("글을 삭제하시겠습니까?") == true){
 				
 	        	$.ajax({
@@ -380,7 +371,6 @@ img{
 					data : {
 						  issueid : issueId
 						, checklist_id : checklist_id
-						, item_id : item_id
 					},
 					dataType : "text",
 					success : function(data) {
@@ -396,7 +386,6 @@ img{
 	        }else{
 	        	return;
 	        }
-
 		}
 
 		$(function() {
