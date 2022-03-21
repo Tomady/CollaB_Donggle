@@ -318,9 +318,7 @@ input[type=text], input[type=password], input[type=email], input[type=tel]
                                         	<input type="hidden" id="idChkVal" value="">
                                         </button>  
 									</div>
-									<input type="text" name="id" id="id" style="width: 50%;"
-										required="required">&nbsp;
-									<button type="button" id="idCheck" onclick="fn_idChk()">중복확인</button>
+						
 								</div>
 
 								<div class="formBox">
@@ -378,8 +376,7 @@ input[type=text], input[type=password], input[type=email], input[type=tel]
 										required="required">
 								</div>
 
-							
-								
+		
 								<br> <input type="hidden" id="apiProfile_image"
 									name="prof_pic" value="${profile_image }"> <input
 									type="hidden" id="apiToken" name="token" value="${token }">

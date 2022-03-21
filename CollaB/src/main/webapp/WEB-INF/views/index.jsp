@@ -529,6 +529,7 @@ body .options .option .label .info .sub {
 
 
 	function logout(){
+		
 		swal({
 			title: "정말 로그아웃을 하시겠습니까?",
 			icon : "warning",
