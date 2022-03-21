@@ -304,7 +304,7 @@
 	</div>
 	<div class="loginbackcontainer">
 		<h1 class="homeLogo">
-			<a href=""><img src="resources/img/logo222.png" width="300px;"></a>
+			<a href=""><img src="resources/img/logologo.png" width="300px;"></a>
 		</h1>
 		<ul class="loginUltag">
 			<li>
