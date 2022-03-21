@@ -1881,7 +1881,7 @@ function recommentFileCreateRow(textareaElVal, targetGroup, currentUserId, comme
 	template.find('.recomment__row').attr('data-id', result.id)
 	template.find('.recomment__row').attr('data-group', result.comment_group)
 	template.find('.recomment__row').attr('data-order', result.comment_order)
-	template.find('.recomment__right>img').attr('src', "/commentFile/"+currentUserProfPic)
+	template.find('.recomment__right>img').attr('src', "/profilePic/"+currentUserProfPic)
 	
 	template.find('.comment__writer').text(nickname)
 	template.find('.comment__context').html(textareaElVal)
@@ -1975,7 +1975,7 @@ function recommentCreateRow(result, nickname, textareaElVal, comment_date, targe
 	template.find('.recomment__row').attr('data-id', result.id)
 	template.find('.recomment__row').attr('data-group', result.comment_group)
 	template.find('.recomment__row').attr('data-order', result.comment_order)
-	template.find('.recomment__right>img').attr('src', "/commentFile/"+currentUserProfPic)
+	template.find('.recomment__right>img').attr('src', "/profilePic/"+currentUserProfPic)
 	
 	template.find('.comment__writer').text(nickname)
 	template.find('.comment__context').html(textareaElVal)
@@ -2049,7 +2049,7 @@ function commentFileCreateRow(textareaElVal, commentMaxGroup, currentUserId, com
 		
 	template.find('.comment__row').attr('data-id', result.id)
 	template.find('.comment__row').attr('data-group', result.comment_group)
-	template.find('.comment__row__left>img').attr("src", "/commentFile/"+currentUserProfPic)
+	template.find('.comment__row__left>img').attr("src", "/profilePic/"+currentUserProfPic)
 				
 	template.find('.comment__date').text(comment_date)
 	template.find('.file__icon').attr('for', 'fileInput'+result.comment_group)
@@ -2218,7 +2218,7 @@ function commentCreateRow(textareaElVal, commentMaxGroup, currentUserId, current
 	template.find('.comment__info').attr("data-commentid", result.comment_id)
 	template.find('.comment__row').attr("data-id", currentUserId);
 	template.find('.comment__row').attr("data-group", commentMaxGroup);
-	template.find('.comment__row__left>img').attr("src", "/commentFile/"+currentUserProfPic);//<
+	template.find('.comment__row__left>img').attr("src", "/profilePic/"+currentUserProfPic);
 	template.find('.comment__writer').text(currentUserNickname);
 	template.find('.comment__context').text(textareaElVal);
 	template.find('.comment__date').text(comment_date);
@@ -2394,7 +2394,7 @@ function readText(input) {
 
 
 	function fileClickFn(e){
-  let input = e.target.parentNode.querySelector('#input_file');
+  let input = e.target.parentNode.querySelector('input');
   
   if (!input.files[0].type.match(/image\//)) {
     return;

@@ -318,7 +318,9 @@ input[type=text], input[type=password], input[type=email], input[type=tel]
                                         	<input type="hidden" id="idChkVal" value="">
                                         </button>  
 									</div>
-						
+									<input type="text" name="id" id="id" style="width: 50%;"
+										required="required">&nbsp;
+									<button type="button" id="idCheck" onclick="fn_idChk()">중복확인</button>
 								</div>
 
 								<div class="formBox">
