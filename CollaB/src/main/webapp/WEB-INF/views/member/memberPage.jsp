@@ -1397,10 +1397,10 @@ const boardBg = {
 		}
 	
 		userTrTemplate.find('.tabletdRow').attr('data', user.id);
-<<<<<<< HEAD
-		userTrTemplate.find('.user__img>img').attr('src', "/profilePic/" + user.prof_pic);
+
+// 		userTrTemplate.find('.user__img>img').attr('src', "/profilePic/" + user.prof_pic);
 // 		userTrTemplate.find('.user__img>img').attr('src', "resources/assets/img/avatar/" + user.prof_pic);//수정쓰 
-=======
+
 
 		if(user.prof_pic.substring(0, 4) == 'http') {
 			userTrTemplate.find('.user__img>img').attr('src', user.prof_pic);
@@ -1408,7 +1408,7 @@ const boardBg = {
 			userTrTemplate.find('.user__img>img').attr('src', "/profilePic/" + user.prof_pic);
 		}
 
->>>>>>> ceaad7fb6cc653a45f3ad48d1ffb8707d7fb74d6
+
 		userTrTemplate.find('.user__name').text(user.nickname);
 		userTrTemplate.find('.userAuthor').text(userAuthorVal)
 		userTrTemplate.find('.boardsNum>span').text(boardsNub);
@@ -2042,7 +2042,14 @@ const boardBg = {
 				if(bodyFlag && footerFlag){
 					let workspaceInviteUserTemplate = $('#memMinusTemplate');
 					workspaceInviteUserTemplate.find('.bodyRow-member').attr('data', user.id)
-					workspaceInviteUserTemplate.find('.member-img>img').attr('src', "/profilePic/" + user.prof_pic);
+// 					workspaceInviteUserTemplate.find('.member-img>img').attr('src', "/profilePic/" + user.prof_pic);
+					
+
+					if(user.prof_pic.substring(0, 4) == 'http') {
+						workspaceInviteUserTemplate.find('.member-img>img').attr('src', user.prof_pic);
+					} else {
+						workspaceInviteUserTemplate.find('.member-img>img').attr('src', "/profilePic/" + user.prof_pic);
+					}
 					workspaceInviteUserTemplate.find('.member-id').text(user.email)
 					bodyRow.append(workspaceInviteUserTemplate.html());
 					

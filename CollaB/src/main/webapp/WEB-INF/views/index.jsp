@@ -385,7 +385,9 @@ body .options .option .label .info .main {
 .option .label .info .main > h1{
 	font-size: 22px;
 	font-weight: 2000;
-	color: #383636;;
+	color: #383636;
+	text-shadow: 2px 1px 2px #383636;
+	
 }
 
 body .options .option .label .info .sub {
