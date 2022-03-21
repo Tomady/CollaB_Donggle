@@ -289,7 +289,7 @@
                             <form id="joinForm" name="joinForm" method="post" onsubmit="formCheck()" action="userInsert.do"> 
                                     <div class="formBox">
                                         <div>
-                                            <span class="label">*아이디</span>&nbsp;<span class="msgGrp" id="idMsg" style="font-size: 11px;"> </span>                               
+                                            <span class="label">*아이디</span>                              
                                         </div>
                                         <input type="text" name="id" id="id" style="width: 50%;" required="required" >&nbsp;
                                         <button type="button" id="idCheck" onclick="fn_idChk()" required="required">중복확인
@@ -509,7 +509,7 @@ function formCheck(){
 	}
 
 }
-
+/*
 // 아이디(이메일) 정규식 검사
 userid.onkeyup = () => {
     if(!emailReg.test(event.target.value)){
@@ -520,7 +520,7 @@ userid.onkeyup = () => {
         document.getElementById('idMsg').innerText = "좋아요! 😊";
         document.getElementById('idMsg').style.color = 'blue';
     }
-}
+}*/
 
 // 비밀번호 정규식 검사
 pw.onkeyup = () => {
